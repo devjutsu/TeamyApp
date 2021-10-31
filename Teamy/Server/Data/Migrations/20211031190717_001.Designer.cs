@@ -12,7 +12,7 @@ using Teamy.Server.Data;
 namespace Teamy.Server.Data.Migrations
 {
     [DbContext(typeof(TeamyDbContext))]
-    [Migration("20211031185512_001")]
+    [Migration("20211031190717_001")]
     partial class _001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -194,15 +194,15 @@ namespace Teamy.Server.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fa852bf1-c12b-41e1-b7f6-40ca997a3ad6",
-                            ConcurrencyStamp = "1ce1613d-4328-4269-95ad-52037488c6c4",
+                            Id = "5caa96a3-4fab-487b-ac31-e4ae36ba59f1",
+                            ConcurrencyStamp = "dbd33f20-9d72-4a52-9fb6-e7e7e3c6994f",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "79ac2367-30df-4a02-b4a8-53a5107064fd",
-                            ConcurrencyStamp = "ca52a9b4-d610-4d65-a7e3-7347e73e3a8d",
+                            Id = "b6f6888a-f16a-419f-a089-7bfba843f93e",
+                            ConcurrencyStamp = "f079ee41-bb10-49ae-a214-a1d3c35d1ecd",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

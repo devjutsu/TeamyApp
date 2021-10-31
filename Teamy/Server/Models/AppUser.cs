@@ -6,7 +6,7 @@ namespace Teamy.Server.Models
 {
     public class AppUser : IdentityUser
     {
-        public string DisplayName { get; set; } = "";
+        public string DisplayName { get; set; }
     }
 
     public class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
