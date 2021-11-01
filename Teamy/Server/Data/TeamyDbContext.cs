@@ -21,6 +21,7 @@ namespace Teamy.Server.Data
 
         public DbSet<Invite> Invites { get; set; }
         public DbSet<Participation> Participation { get; set; }
+        public DbSet<ImageModel> Images { get; set; }
 
         public TeamyDbContext(
             DbContextOptions options,
@@ -52,6 +53,7 @@ namespace Teamy.Server.Data
 
             builder.ApplyConfiguration(new InviteConfiguration());
             builder.ApplyConfiguration(new ParticipationConfiguration());
+            builder.ApplyConfiguration(new ImageModelConfiguration());
         }
     }
 }

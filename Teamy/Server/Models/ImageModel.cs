@@ -14,7 +14,7 @@ namespace Teamy.Server.Models
         public void Configure(EntityTypeBuilder<ImageModel> builder)
         {
             builder.HasKey(o => o.Id);
-            builder.Property(o => o.Url).HasMaxLength(1024);
+            builder.Property(o => o.Url).HasMaxLength(512);
         }
     }
 }

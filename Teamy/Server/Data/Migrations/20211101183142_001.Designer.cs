@@ -12,7 +12,7 @@ using Teamy.Server.Data;
 namespace Teamy.Server.Data.Migrations
 {
     [DbContext(typeof(TeamyDbContext))]
-    [Migration("20211101125352_001")]
+    [Migration("20211101183142_001")]
     partial class _001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -194,15 +194,15 @@ namespace Teamy.Server.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2f2edfb9-1c26-479d-902f-1bf76586bfff",
-                            ConcurrencyStamp = "2b98affb-5f33-4031-b894-3e502958b474",
+                            Id = "5ebf6a3a-4d52-476a-bbcb-206cc94a25ae",
+                            ConcurrencyStamp = "5f9e8313-4b07-41c1-b66a-5abd6e9a9477",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "f64def55-aa7f-427a-ad9d-efa6262c3a54",
-                            ConcurrencyStamp = "760c9aea-0cb3-4049-8c62-b27acc14819e",
+                            Id = "de222109-52b9-4f34-867f-fe8565ffa5d4",
+                            ConcurrencyStamp = "c7546850-bd70-4ae7-a01c-b5459476abb2",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -394,11 +394,15 @@ namespace Teamy.Server.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CoverImageId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("CreatedById")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasMaxLength(1024)
                         .HasColumnType("nvarchar(1024)");
 
@@ -416,6 +420,8 @@ namespace Teamy.Server.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CoverImageId");
+
                     b.HasIndex("CreatedById");
 
                     b.ToTable("Events");
@@ -429,12 +435,12 @@ namespace Teamy.Server.Data.Migrations
 
                     b.Property<string>("Url")
                         .IsRequired()
-                        .HasMaxLength(1024)
-                        .HasColumnType("nvarchar(1024)");
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("ImageModel");
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("Teamy.Server.Models.Invite", b =>
@@ -467,7 +473,7 @@ namespace Teamy.Server.Data.Migrations
                     b.HasIndex("InviteCode")
                         .IsUnique();
 
-                    b.ToTable("Invite");
+                    b.ToTable("Invites");
                 });
 
             modelBuilder.Entity("Teamy.Server.Models.Participation", b =>
@@ -735,11 +741,19 @@ namespace Teamy.Server.Data.Migrations
 
             modelBuilder.Entity("Teamy.Server.Models.Event", b =>
                 {
+                    b.HasOne("Teamy.Server.Models.ImageModel", "CoverImage")
+                        .WithMany()
+                        .HasForeignKey("CoverImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Teamy.Server.Models.AppUser", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("CoverImage");
 
                     b.Navigation("CreatedBy");
                 });

@@ -69,15 +69,15 @@ namespace Teamy.Server.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ImageModel",
+                name: "Images",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: false)
+                    Url = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ImageModel", x => x.Id);
+                    table.PrimaryKey("PK_Images", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -242,10 +242,11 @@ namespace Teamy.Server.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: false),
                     When = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Where = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    CreatedById = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    CreatedById = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CoverImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -254,6 +255,12 @@ namespace Teamy.Server.Data.Migrations
                         name: "FK_Events_AspNetUsers_CreatedById",
                         column: x => x.CreatedById,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Events_Images_CoverImageId",
+                        column: x => x.CoverImageId,
+                        principalTable: "Images",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -281,7 +288,7 @@ namespace Teamy.Server.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Invite",
+                name: "Invites",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -292,9 +299,9 @@ namespace Teamy.Server.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Invite", x => x.Id);
+                    table.PrimaryKey("PK_Invites", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Invite_Events_EventId",
+                        name: "FK_Invites_Events_EventId",
                         column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "Id",
@@ -425,12 +432,12 @@ namespace Teamy.Server.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "2f2edfb9-1c26-479d-902f-1bf76586bfff", "2b98affb-5f33-4031-b894-3e502958b474", "User", "USER" });
+                values: new object[] { "5ebf6a3a-4d52-476a-bbcb-206cc94a25ae", "5f9e8313-4b07-41c1-b66a-5abd6e9a9477", "User", "USER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "f64def55-aa7f-427a-ad9d-efa6262c3a54", "760c9aea-0cb3-4049-8c62-b27acc14819e", "Admin", "ADMIN" });
+                values: new object[] { "de222109-52b9-4f34-867f-fe8565ffa5d4", "c7546850-bd70-4ae7-a01c-b5459476abb2", "Admin", "ADMIN" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -483,18 +490,23 @@ namespace Teamy.Server.Data.Migrations
                 column: "Expiration");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Events_CoverImageId",
+                table: "Events",
+                column: "CoverImageId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Events_CreatedById",
                 table: "Events",
                 column: "CreatedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Invite_EventId",
-                table: "Invite",
+                name: "IX_Invites_EventId",
+                table: "Invites",
                 column: "EventId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Invite_InviteCode",
-                table: "Invite",
+                name: "IX_Invites_InviteCode",
+                table: "Invites",
                 column: "InviteCode",
                 unique: true);
 
@@ -620,10 +632,7 @@ namespace Teamy.Server.Data.Migrations
                 name: "DeviceCodes");
 
             migrationBuilder.DropTable(
-                name: "ImageModel");
-
-            migrationBuilder.DropTable(
-                name: "Invite");
+                name: "Invites");
 
             migrationBuilder.DropTable(
                 name: "Keys");
@@ -663,6 +672,9 @@ namespace Teamy.Server.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Images");
         }
     }
 }
