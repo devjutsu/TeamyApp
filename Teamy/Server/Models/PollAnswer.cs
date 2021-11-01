@@ -11,7 +11,7 @@ namespace Teamy.Server.Models
         public Guid PollOptionId { get; set; }
     }
 
-    public class VoteConfiguration : IEntityTypeConfiguration<PollAnswer>
+    public class PollAnswerConfiguration : IEntityTypeConfiguration<PollAnswer>
     {
         public void Configure(EntityTypeBuilder<PollAnswer> builder)
         {

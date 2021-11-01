@@ -9,9 +9,15 @@ namespace Teamy.Server.Data
     public class TeamyDbContext : ApiAuthorizationDbContext<AppUser>
     {
         public DbSet<Event> Events { get; set; }
+
         public DbSet<Poll> Polls { get; set; }
-        public DbSet<PollChoice> PollsOptions { get; set; }
-        public DbSet<PollAnswer> PollsAnswers { get; set; }
+        public DbSet<PollChoice> PollChoices { get; set; }
+        public DbSet<PollAnswer> PollAnswers { get; set; }
+
+        public DbSet<TemplateCategory> TemplateCategories { get; set; }
+        public DbSet<Template> Templates { get; set; }
+        public DbSet<TemplatePoll> TemplatePolls { get; set; }
+        public DbSet<TemplatePollChoice> TemplatePollChoices { get; set; }
 
         public TeamyDbContext(
             DbContextOptions options,
@@ -28,7 +34,13 @@ namespace Teamy.Server.Data
 
             builder.ApplyConfiguration(new EventConfiguration());
             builder.ApplyConfiguration(new PollConfiguration());
-            
+            builder.ApplyConfiguration(new PollChoiceConfiguration());
+            builder.ApplyConfiguration(new PollAnswerConfiguration());
+
+            builder.ApplyConfiguration(new TemplateCategoryConfiguration());
+            builder.ApplyConfiguration(new TemplateConfiguration());
+            builder.ApplyConfiguration(new TemplatePollConfiguration());
+            builder.ApplyConfiguration(new TemplatePollChoiceConfiguration());
         }
     }
 }
