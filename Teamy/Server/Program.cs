@@ -52,6 +52,14 @@ builder.Services.AddResponseCompression(options =>
     options.Providers.Add<GzipCompressionProvider>();
 });
 
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+//builder.Services.AddTransient<IEmailSender, EmailSender>();
+//builder.Services.AddSingleton<IStorageService, AzureBlobStorageService>();
+//builder.Services.AddSignalR();
+//builder.Services.AddSingleton<IEventHub, EventHub>();
+//builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
@@ -81,9 +89,17 @@ app.UseIdentityServer();
 app.UseAuthentication();
 app.UseAuthorization();
 
+var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+using (var scope = scopeFactory.CreateScope())
+{
+    var dbInitializer = scope.ServiceProvider.GetService<IDbInitializer>();
+    dbInitializer.Initialize();
+    dbInitializer.SeedData();
+}
 
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
+//app.MapHub<EventHub>("/eventhub");
 
 app.Run();

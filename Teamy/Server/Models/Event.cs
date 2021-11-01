@@ -7,7 +7,7 @@ namespace Teamy.Server.Models
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
-        public string? Description { get; set; }
+        public string Description { get; set; }
         public DateTime When { get; set; }
         public string? Where { get; set; }
         public List<Poll> Polls { get; set; }
@@ -15,7 +15,8 @@ namespace Teamy.Server.Models
         public List<Invite> Invites { get; set; }
         public string CreatedById { get; set; }
         public AppUser CreatedBy { get; set; }
-        //public string? ImageUrl { get; set; }
+        public Guid CoverImageId { get; set; }
+        public ImageModel CoverImage { get; set; }
     }
 
     public class EventConfiguration : IEntityTypeConfiguration<Event>
