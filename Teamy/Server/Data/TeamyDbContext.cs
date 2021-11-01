@@ -19,6 +19,9 @@ namespace Teamy.Server.Data
         public DbSet<TemplatePoll> TemplatePolls { get; set; }
         public DbSet<TemplatePollChoice> TemplatePollChoices { get; set; }
 
+        public DbSet<Invite> Invites { get; set; }
+        public DbSet<Participation> Participation { get; set; }
+
         public TeamyDbContext(
             DbContextOptions options,
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
@@ -46,6 +49,9 @@ namespace Teamy.Server.Data
             builder.ApplyConfiguration(new ParticipationConfiguration());
 
             builder.ApplyConfiguration(new ImageModelConfiguration());
+
+            builder.ApplyConfiguration(new InviteConfiguration());
+            builder.ApplyConfiguration(new ParticipationConfiguration());
         }
     }
 }
