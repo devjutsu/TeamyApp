@@ -17,10 +17,8 @@ namespace Teamy.Server.Models
         {
             builder.HasIndex(o => o.Id);
             builder.HasIndex(o => o.VoteOptionId);
-
-            builder.HasMany(o => o.Answers)
-                    .WithOne(o => o.PollOption)
-                    .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(o => o.Answers).WithOne(o => o.PollOption).OnDelete(DeleteBehavior.Cascade);
+            builder.Property(o => o.Choice).HasMaxLength(256);
         }
     }
 }

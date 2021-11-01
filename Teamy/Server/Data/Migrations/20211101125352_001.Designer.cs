@@ -12,7 +12,7 @@ using Teamy.Server.Data;
 namespace Teamy.Server.Data.Migrations
 {
     [DbContext(typeof(TeamyDbContext))]
-    [Migration("20211031190717_001")]
+    [Migration("20211101125352_001")]
     partial class _001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -194,15 +194,15 @@ namespace Teamy.Server.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5caa96a3-4fab-487b-ac31-e4ae36ba59f1",
-                            ConcurrencyStamp = "dbd33f20-9d72-4a52-9fb6-e7e7e3c6994f",
+                            Id = "2f2edfb9-1c26-479d-902f-1bf76586bfff",
+                            ConcurrencyStamp = "2b98affb-5f33-4031-b894-3e502958b474",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "b6f6888a-f16a-419f-a089-7bfba843f93e",
-                            ConcurrencyStamp = "f079ee41-bb10-49ae-a214-a1d3c35d1ecd",
+                            Id = "f64def55-aa7f-427a-ad9d-efa6262c3a54",
+                            ConcurrencyStamp = "760c9aea-0cb3-4049-8c62-b27acc14819e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -388,6 +388,300 @@ namespace Teamy.Server.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Teamy.Server.Models.Event", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreatedById")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<DateTime>("When")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Where")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.ImageModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ImageModel");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Invite", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("EventId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("InviteCode")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("nchar(8)")
+                        .IsFixedLength();
+
+                    b.Property<string>("InvitedById")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Public")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("InviteCode")
+                        .IsUnique();
+
+                    b.ToTable("Invite");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Participation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("EventId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("InviteId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Participation");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Poll", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("FreeTextOption")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("MultiChoice")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("Id");
+
+                    b.ToTable("Polls");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.PollAnswer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PollOptionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("PollOptionId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PollAnswers");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.PollChoice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Choice")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<Guid>("PollId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("VoteOptionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("PollId");
+
+                    b.HasIndex("VoteOptionId");
+
+                    b.ToTable("PollChoices");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Template", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<DateTime>("When")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Where")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Templates");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.TemplateCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TemplateCategories");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.TemplatePoll", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("FreeTextOption")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("MultiChoice")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<Guid>("TemplateId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("TemplateId");
+
+                    b.ToTable("TemplatePolls");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.TemplatePollChoice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Choice")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<Guid>("TemplatePollId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("TemplatePollId");
+
+                    b.ToTable("TemplatePollChoices");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -437,6 +731,139 @@ namespace Teamy.Server.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Event", b =>
+                {
+                    b.HasOne("Teamy.Server.Models.AppUser", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CreatedBy");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Invite", b =>
+                {
+                    b.HasOne("Teamy.Server.Models.Event", "Event")
+                        .WithMany("Invites")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Participation", b =>
+                {
+                    b.HasOne("Teamy.Server.Models.Event", "Event")
+                        .WithMany("Participants")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Poll", b =>
+                {
+                    b.HasOne("Teamy.Server.Models.Event", "Event")
+                        .WithMany("Polls")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.PollAnswer", b =>
+                {
+                    b.HasOne("Teamy.Server.Models.PollChoice", "PollOption")
+                        .WithMany("Answers")
+                        .HasForeignKey("PollOptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PollOption");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.PollChoice", b =>
+                {
+                    b.HasOne("Teamy.Server.Models.Poll", "Poll")
+                        .WithMany("Choices")
+                        .HasForeignKey("PollId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Poll");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Template", b =>
+                {
+                    b.HasOne("Teamy.Server.Models.TemplateCategory", "Category")
+                        .WithMany("Templates")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.TemplatePoll", b =>
+                {
+                    b.HasOne("Teamy.Server.Models.Template", "Template")
+                        .WithMany("Polls")
+                        .HasForeignKey("TemplateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Template");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.TemplatePollChoice", b =>
+                {
+                    b.HasOne("Teamy.Server.Models.TemplatePoll", "Poll")
+                        .WithMany("Choices")
+                        .HasForeignKey("TemplatePollId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Poll");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Event", b =>
+                {
+                    b.Navigation("Invites");
+
+                    b.Navigation("Participants");
+
+                    b.Navigation("Polls");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Poll", b =>
+                {
+                    b.Navigation("Choices");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.PollChoice", b =>
+                {
+                    b.Navigation("Answers");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Template", b =>
+                {
+                    b.Navigation("Polls");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.TemplateCategory", b =>
+                {
+                    b.Navigation("Templates");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.TemplatePoll", b =>
+                {
+                    b.Navigation("Choices");
                 });
 #pragma warning restore 612, 618
         }

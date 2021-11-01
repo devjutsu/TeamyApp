@@ -16,9 +16,8 @@ namespace Teamy.Server.Models
         public void Configure(EntityTypeBuilder<TemplateCategory> builder)
         {
             builder.HasKey(o => o.Id);
-            builder.HasMany(o => o.Templates)
-                    .WithOne(o => o.Category)
-                    .OnDelete(DeleteBehavior.Cascade);
+            builder.Property(o => o.Title).HasMaxLength(128);
+            builder.HasMany(o => o.Templates).WithOne(o => o.Category).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
