@@ -10,12 +10,12 @@ namespace Teamy.Server.Models
         public string? Description { get; set; }
         public DateTime When { get; set; }
         public string? Where { get; set; }
-        //public List<InviteResponse> EventResponses { get; set; }
-        //public string InviteCode { get; set; }
-        public string CreatedByUserId { get; set; }
-        public virtual AppUser CreatedByUser { get; set; }
         public List<Poll> Polls { get; set; }
-        public string? ImageUrl { get; set; }
+        public List<Participation> Participants { get; set; }
+        public List<Invite> Invites { get; set; }
+        public string CreatedById { get; set; }
+        public AppUser CreatedBy { get; set; }
+        //public string? ImageUrl { get; set; }
     }
 
     public class EventConfiguration : IEntityTypeConfiguration<Event>
@@ -23,12 +23,15 @@ namespace Teamy.Server.Models
         public void Configure(EntityTypeBuilder<Event> builder)
         {
             builder.HasKey(o => o.Id);
-            //builder.HasIndex(o => o.InviteCode).IsUnique();
-            //builder.Property(o => o.InviteCode).HasMaxLength(8);
-            builder.HasIndex(o => o.CreatedByUserId);
+            builder.HasIndex(o => o.CreatedById);
+            builder.Property(o => o.Title).HasMaxLength(128);
+            builder.Property(o => o.Description).HasMaxLength(1024);
+            builder.Property(o => o.Where).HasMaxLength(256);
 
-            //builder.HasMany(o => o.EventResponses).WithOne(o => o.Event).OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(o => o.Invites).WithOne(o => o.Event).OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(o => o.Polls).WithOne(o => o.Event).OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(o => o.Participants).WithOne(o => o.Event).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
+

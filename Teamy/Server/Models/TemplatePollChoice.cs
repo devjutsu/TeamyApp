@@ -17,6 +17,7 @@ namespace Teamy.Server.Models
         {
             builder.HasIndex(o => o.Id);
             builder.HasIndex(o => o.TemplatePollId);
+            builder.Property(o => o.Choice).HasMaxLength(256);
         }
     }
 }

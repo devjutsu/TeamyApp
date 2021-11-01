@@ -22,6 +22,10 @@ namespace Teamy.Server.Models
         {
             builder.HasKey(o => o.Id);
             builder.HasIndex(o => o.CategoryId);
+            builder.Property(o => o.Title).HasMaxLength(128);
+            builder.Property(o => o.Description).HasMaxLength(1024);
+            builder.Property(o => o.Where).HasMaxLength(256);
+            builder.HasMany(o => o.Polls).WithOne(o => o.Template).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

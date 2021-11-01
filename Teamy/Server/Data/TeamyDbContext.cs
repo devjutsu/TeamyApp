@@ -41,6 +41,11 @@ namespace Teamy.Server.Data
             builder.ApplyConfiguration(new TemplateConfiguration());
             builder.ApplyConfiguration(new TemplatePollConfiguration());
             builder.ApplyConfiguration(new TemplatePollChoiceConfiguration());
+
+            builder.ApplyConfiguration(new InviteConfiguration());
+            builder.ApplyConfiguration(new ParticipationConfiguration());
+
+            builder.ApplyConfiguration(new ImageModelConfiguration());
         }
     }
 }
