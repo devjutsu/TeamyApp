@@ -272,13 +272,19 @@ namespace Teamy.Server.Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: false),
-                    When = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Where = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Where = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CoverImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Templates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Templates_Images_CoverImageId",
+                        column: x => x.CoverImageId,
+                        principalTable: "Images",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Templates_TemplateCategories_CategoryId",
                         column: x => x.CategoryId,
@@ -313,7 +319,7 @@ namespace Teamy.Server.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     InviteId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false)
@@ -322,11 +328,16 @@ namespace Teamy.Server.Data.Migrations
                 {
                     table.PrimaryKey("PK_Participation", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Participation_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Participation_Events_EventId",
                         column: x => x.EventId,
                         principalTable: "Events",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -432,12 +443,12 @@ namespace Teamy.Server.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "5ebf6a3a-4d52-476a-bbcb-206cc94a25ae", "5f9e8313-4b07-41c1-b66a-5abd6e9a9477", "User", "USER" });
+                values: new object[] { "27c06bec-0b38-4293-b8e0-4e88e3215473", "8ce69280-fb43-4577-bc43-3765690fec35", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "de222109-52b9-4f34-867f-fe8565ffa5d4", "c7546850-bd70-4ae7-a01c-b5459476abb2", "Admin", "ADMIN" });
+                values: new object[] { "c0647899-07c1-458f-bce5-fc41a3d82092", "5e7389e8-6dec-4cd0-8d20-f9c845ee7734", "User", "USER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -498,6 +509,11 @@ namespace Teamy.Server.Data.Migrations
                 name: "IX_Events_CreatedById",
                 table: "Events",
                 column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Images_Id",
+                table: "Images",
+                column: "Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invites_EventId",
@@ -609,6 +625,11 @@ namespace Teamy.Server.Data.Migrations
                 name: "IX_Templates_CategoryId",
                 table: "Templates",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Templates_CoverImageId",
+                table: "Templates",
+                column: "CoverImageId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

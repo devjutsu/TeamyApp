@@ -8,7 +8,6 @@ namespace Teamy.Server.Models
     {
         public Guid Id { get; set; }
         public Guid? EventId { get; set; }
-        public Event Event { get; set; }
         public string UserId { get; set; }
         public AppUser User { get; set; }
         public Guid InviteId { get; set; }

@@ -8,12 +8,13 @@ namespace Teamy.Server.Models
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTime When { get; set; }
-        public string Where { get; set; }
+        public string? Where { get; set; }
         public List<TemplatePoll> Polls { get; set; }
         //public string ImageUrl { get; set; }
         public Guid CategoryId { get; set; }
         public TemplateCategory Category { get; set; }
+        public Guid CoverImageId { get; set; }
+        public ImageModel CoverImage { get; set; }
     }
 
     public class TemplateConfiguration : IEntityTypeConfiguration<Template>
