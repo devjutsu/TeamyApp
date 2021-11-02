@@ -53,7 +53,7 @@ builder.Services.AddResponseCompression(options =>
 });
 
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
-//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 //builder.Services.AddTransient<IEmailSender, EmailSender>();
 //builder.Services.AddSingleton<IStorageService, AzureBlobStorageService>();
 //builder.Services.AddSignalR();

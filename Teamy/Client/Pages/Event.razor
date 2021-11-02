@@ -6,12 +6,30 @@
 {
     <div class="d-flex justify-content-between">
         <div>
-            <div style="font-weight:bold;">@Evt.Title</div>
+            <h4>@Evt.Title</h4>
             <div>@Evt.When.ToLongDateString()</div>
             <div>@Evt.Description</div>
         </div>
         <div><img src=@Evt.ImageUrl width="400" /></div>
     </div>
+
+    <p>&nbsp;</p>
+    <h5>Polls:</h5>
+    @if (Evt.Polls != null)
+    {
+        @foreach(var poll in Evt.Polls)
+        {
+            <div>@poll.Question</div>
+        }
+    }
+
+    <p>&nbsp;</p>
+    <h5>Participation:</h5>
+    <div>@Evt.CreatedByName - Creator</div>
+    @foreach(var participant in Evt.Participants)
+    {
+        <div>@participant.Name - @participant.Status.ToString()</div>
+    }
 }
 
 @code {
@@ -23,7 +41,6 @@
     {
         Evt = AppState.StoredEvents?.SingleOrDefault(o => o.Id == Id)
                     ?? await EventService.Get(Id);
-
     }
 
 }

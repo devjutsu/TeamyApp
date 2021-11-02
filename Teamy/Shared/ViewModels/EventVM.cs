@@ -16,6 +16,7 @@ namespace Teamy.Shared.ViewModels
         public List<PollVM> Polls { get; set; }
         public List<ParticipationVM> Participants { get; set; }
         public string CreatedById { get; set; }
+        public string CreatedByName { get; set; }
         public string ImageUrl { get; set; }
     }
 }

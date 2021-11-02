@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -17,14 +18,16 @@ namespace Teamy.Server.Controllers
         UserManager<AppUser> _userManager { get; set; }
         //IStorageService _storage { get; set; }
         //IEventHub _hub;
-        //private readonly IMapper _mapper;
+        private readonly IMapper _mapper;
         public EventsController(ILogger<EventsController> logger,
                                     TeamyDbContext db,
-                                    UserManager<AppUser> userManager)
+                                    UserManager<AppUser> userManager,
+                                    IMapper mapper)
         {
             _logger = logger;
             _db = db;
             _userManager = userManager;
+            _mapper = mapper;
         }
 
         [HttpGet("Upcoming/{count}")]
@@ -34,15 +37,17 @@ namespace Teamy.Server.Controllers
 
             var events = _db.Events
                             .Include(_ => _.Participants)
+                            .ThenInclude(z => z.User)
                             .Include(_ => _.Polls)
                             .Include(_ => _.Invites)
                             .Include(_ => _.CoverImage)
+                            .Include(_ => _.CreatedBy)
                             .Where(_ => _.CreatedById == currentUserId || _.Participants.Any(p => p.UserId == currentUserId))
                             .OrderBy(_ => _.When)
                             .Take(count)
                             .ToList();
 
-            return events.Select(e => e.ToVM()).ToList();
+            return _mapper.Map<List<Event>, List<EventVM>>(events);
         }
 
         [HttpGet("Get/{id}")]
@@ -52,27 +57,15 @@ namespace Teamy.Server.Controllers
 
             var evt = await _db.Events
                             .Include(_ => _.Participants)
+                            .ThenInclude(z => z.User)
                             .Include(_ => _.Polls)
                             .Include(_ => _.Invites)
                             .Include(_ => _.CoverImage)
+                            .Include(_ => _.CreatedBy)
                             .Where(_ => _.CreatedById == currentUserId || _.Participants.Any(p => p.UserId == currentUserId))
                             .FirstAsync(o => o.Id == id);
 
-            return evt.ToVM();
+            return _mapper.Map<EventVM>(evt);
         }
-    }
-
-    public static class SomeExtensions
-    {
-        public static EventVM ToVM(this Event evt)
-            => new EventVM()
-            {
-                CreatedById = evt.CreatedById,
-                Description = evt.Description,
-                Id = evt.Id,
-                When = evt.When,
-                Title = evt.Title,
-                ImageUrl = evt.CoverImage.Url
-            };
     }
 }
