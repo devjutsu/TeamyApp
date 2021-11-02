@@ -7,15 +7,19 @@
 
 <div>Hello, @AppState.UserDisplayName</div>
 
-@if(AppState.StoredEvents != null)
+@if (AppState.StoredEvents != null)
 {
-    foreach(var evt in AppState.StoredEvents)
-    {
-        <EventCard Evt=evt></EventCard>
-    }
+    <div class="d-flex flex-wrap">
+        @foreach(var evt in AppState.StoredEvents)
+        {
+            <div @onclick="() => GoEvent(evt)">
+                <EventCard Evt="@evt"></EventCard>
+            </div>
+        }
+    </div>
 }
 
-@code{
+@code {
     protected override void OnInitialized()
     {
         EventService.LoadUpcoming();
@@ -30,5 +34,11 @@
     void IDisposable.Dispose()
     {
         AppState.Statechanged -= async (Source, Property) => await AppState_StateChanged(Source, Property);
+    }
+
+    void GoEvent(EventVM e)
+    {
+        Console.WriteLine(e.Id);
+        Nav.NavigateTo($"/event/{e.Id}");
     }
 }

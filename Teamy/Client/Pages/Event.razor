@@ -1,0 +1,29 @@
+﻿@page "/event/{Id:guid}"
+@inject AppState AppState
+@inject IManageEvents EventService
+
+@if (Evt != null)
+{
+    <div class="d-flex justify-content-between">
+        <div>
+            <div style="font-weight:bold;">@Evt.Title</div>
+            <div>@Evt.When.ToLongDateString()</div>
+            <div>@Evt.Description</div>
+        </div>
+        <div><img src=@Evt.ImageUrl width="400" /></div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+    EventVM Evt { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Evt = AppState.StoredEvents?.SingleOrDefault(o => o.Id == Id)
+                    ?? await EventService.Get(Id);
+
+    }
+
+}

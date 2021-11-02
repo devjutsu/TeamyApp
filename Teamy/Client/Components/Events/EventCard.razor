@@ -1,14 +1,13 @@
-﻿<h3>EventCard</h3>
-
-<div>
-    <div>@Evt.Title</div>
-    <div>@Evt.When.ToLongDateString()</div>
-    <div>@Evt.Description</div>
+﻿<div class="d-flex" style="border:1px dashed black; margin:1rem 1rem 0 0; padding: .5rem; width:33rem; height:7rem;">
+    <div><img src=@Evt.ImageUrl width="150" style="margin:0 1rem 0 0;"/></div>
+    <div>
+        <div style="font-weight:bold;">@Evt.Title</div>
+        <div style="color: darkcyan;">@Evt.When.ToLongDateString()</div>
+        <div>@Evt.Description</div>
+    </div>
 </div>
-
 
 @code {
     [Parameter]
     public EventVM Evt { get; set; }
-
 }

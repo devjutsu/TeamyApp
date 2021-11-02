@@ -44,6 +44,22 @@ namespace Teamy.Server.Controllers
 
             return events.Select(e => e.ToVM()).ToList();
         }
+
+        [HttpGet("Get/{id}")]
+        public async Task<EventVM> Get(Guid id)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var evt = await _db.Events
+                            .Include(_ => _.Participants)
+                            .Include(_ => _.Polls)
+                            .Include(_ => _.Invites)
+                            .Include(_ => _.CoverImage)
+                            .Where(_ => _.CreatedById == currentUserId || _.Participants.Any(p => p.UserId == currentUserId))
+                            .FirstAsync(o => o.Id == id);
+
+            return evt.ToVM();
+        }
     }
 
     public static class SomeExtensions
