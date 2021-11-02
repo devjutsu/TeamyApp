@@ -10,7 +10,7 @@ namespace Teamy.Server.Models
         public Guid? EventId { get; set; }
         public Event Event { get; set; }
         public string UserId { get; set; }
-        //public AppUser User { get; set; }
+        public AppUser User { get; set; }
         public Guid InviteId { get; set; }
         //public Invite Invite { get; set; }
         public ParticipationStatus Status { get; set; }
