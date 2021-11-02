@@ -1,0 +1,14 @@
+﻿<h3>EventCard</h3>
+
+<div>
+    <div>@Evt.Title</div>
+    <div>@Evt.When.ToLongDateString()</div>
+    <div>@Evt.Description</div>
+</div>
+
+
+@code {
+    [Parameter]
+    public EventVM Evt { get; set; }
+
+}
