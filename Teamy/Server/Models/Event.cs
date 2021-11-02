@@ -31,7 +31,7 @@ namespace Teamy.Server.Models
 
             builder.HasMany(o => o.Invites).WithOne(o => o.Event).OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(o => o.Polls).WithOne(o => o.Event).OnDelete(DeleteBehavior.Cascade);
-            builder.HasMany(o => o.Participants).WithOne(o => o.Event).OnDelete(DeleteBehavior.Cascade);
+            //builder.HasMany(o => o.Participants).WithOne(o => o.Event).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

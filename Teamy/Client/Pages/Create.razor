@@ -1,0 +1,56 @@
+﻿@page "/create"
+@inject IManageTemplates TemplateService
+<h3>Create new event</h3>
+<h4>Call your friends to ...</h4>
+<p></p>
+<h5>(select template)</h5>
+<div class="d-flex flex-wrap">
+    @if (Recommended != null)
+    {
+        @foreach (var item in Recommended)
+        {
+            @*<div class="template-card d-flex justify-content-between" @onclick="(() => GoTemplate(item))">
+                <div>@item.Title</div>
+                <img src=@item.ImageUrl width="400" />
+            </div>*@
+
+            <div class="d-flex justify-content-between" @onclick="(() => GoTemplate(item))" style="border:1px dashed black; margin:1rem 1rem 0 0; padding: .5rem; width:33rem; height:7rem;">
+                <div><img src=@item.ImageUrl width="150" style="margin:0 1rem 0 0;"/></div>
+                <div>
+                    <div style="font-weight:bold;">@item.Title</div>
+                    <div>@item.Description</div>
+                </div>
+            </div>
+        }
+
+        <div class="d-flex justify-content-between" @onclick="(() => GoNew())" style="border:1px dashed black; margin:1rem 1rem 0 0; padding: .5rem; width:33rem; height:7rem;">
+                <div><img src="https://miro.medium.com/max/1200/1*deNLDT12xC4buYqv0r7ZCg.jpeg" width="150" /></div>
+                <div>
+                    <div style="font-weight:bold;">Empty</div>
+                </div>
+            </div>
+    }
+</div>
+
+@code {
+    ElementReference titleRef { get; set; }
+
+    List<EventVM> Recommended { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Recommended = await TemplateService.Recommended();
+    }
+
+    public void GoTemplate(EventVM tpl)
+    {
+        Nav.NavigateTo($"/createfrom/{tpl.Id}");
+    }
+
+    public void GoNew()
+    {
+        Nav.NavigateTo($"/createnew");
+    }
+}
+
+

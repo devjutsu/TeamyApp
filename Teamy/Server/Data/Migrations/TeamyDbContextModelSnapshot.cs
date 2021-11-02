@@ -192,15 +192,15 @@ namespace Teamy.Server.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5ebf6a3a-4d52-476a-bbcb-206cc94a25ae",
-                            ConcurrencyStamp = "5f9e8313-4b07-41c1-b66a-5abd6e9a9477",
+                            Id = "c0647899-07c1-458f-bce5-fc41a3d82092",
+                            ConcurrencyStamp = "5e7389e8-6dec-4cd0-8d20-f9c845ee7734",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "de222109-52b9-4f34-867f-fe8565ffa5d4",
-                            ConcurrencyStamp = "c7546850-bd70-4ae7-a01c-b5459476abb2",
+                            Id = "27c06bec-0b38-4293-b8e0-4e88e3215473",
+                            ConcurrencyStamp = "8ce69280-fb43-4577-bc43-3765690fec35",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -438,6 +438,8 @@ namespace Teamy.Server.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id");
+
                     b.ToTable("Images");
                 });
 
@@ -481,7 +483,6 @@ namespace Teamy.Server.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("EventId")
-                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("InviteId")
@@ -593,6 +594,9 @@ namespace Teamy.Server.Data.Migrations
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CoverImageId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(1024)
@@ -603,17 +607,15 @@ namespace Teamy.Server.Data.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<DateTime>("When")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Where")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("CoverImageId");
 
                     b.ToTable("Templates");
                 });
@@ -769,13 +771,17 @@ namespace Teamy.Server.Data.Migrations
 
             modelBuilder.Entity("Teamy.Server.Models.Participation", b =>
                 {
-                    b.HasOne("Teamy.Server.Models.Event", "Event")
+                    b.HasOne("Teamy.Server.Models.Event", null)
                         .WithMany("Participants")
-                        .HasForeignKey("EventId")
+                        .HasForeignKey("EventId");
+
+                    b.HasOne("Teamy.Server.Models.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Event");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Teamy.Server.Models.Poll", b =>
@@ -819,7 +825,15 @@ namespace Teamy.Server.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Teamy.Server.Models.ImageModel", "CoverImage")
+                        .WithMany()
+                        .HasForeignKey("CoverImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("CoverImage");
                 });
 
             modelBuilder.Entity("Teamy.Server.Models.TemplatePoll", b =>
