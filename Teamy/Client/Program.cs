@@ -1,3 +1,4 @@
+using Blazored.Modal;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -28,5 +29,7 @@ builder.Services.AddScoped<IManageUploads, UploadService>();
 //builder.Services.AddBlazoredModal();
 
 builder.Services.AddApiAuthorization();
+
+builder.Services.AddBlazoredModal();
 
 await builder.Build().RunAsync();

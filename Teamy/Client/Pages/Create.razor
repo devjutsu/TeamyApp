@@ -1,4 +1,6 @@
 ﻿@page "/create"
+@using Blazored.Modal.Services
+
 @inject IManageTemplates TemplateService
 <h3>Create new event</h3>
 <h4>Call your friends to ...</h4>
@@ -33,6 +35,9 @@
 </div>
 
 @code {
+    [CascadingParameter]
+    public IModalService Modal { get; set; }
+
     ElementReference titleRef { get; set; }
 
     List<EventVM> Recommended { get; set; }
@@ -42,9 +47,17 @@
         Recommended = await TemplateService.Recommended();
     }
 
-    public void GoTemplate(EventVM tpl)
+    public async Task GoTemplate(EventVM tpl)
     {
-        Nav.NavigateTo($"/createfrom/{tpl.Id}");
+        var options = new ModalOptions() { Class = "teamy-modal" };
+        var parameters = new ModalParameters();
+        parameters.Add("Message", "Creating from Template!");
+
+        var messageModal = Modal.Show<Notify>("Information", parameters, options);
+
+        Console.WriteLine(messageModal.Result);
+
+        //Nav.NavigateTo($"/createfrom/{tpl.Id}");
     }
 
     public void GoNew()
