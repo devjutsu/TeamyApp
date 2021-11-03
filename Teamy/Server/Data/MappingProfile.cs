@@ -32,6 +32,7 @@ namespace Teamy.Server.Data
                 .ReverseMap();
 
             CreateMap<TemplatePollChoice, PollChoiceVM>()
+                .ForMember(dest => dest.Choice, opt => opt.MapFrom(src => src.Choice))
                 .ReverseMap();
 
             CreateMap<TemplatePoll, PollVM>()
@@ -45,6 +46,19 @@ namespace Teamy.Server.Data
                 .ForMember(dest => dest.Polls, opt => opt.MapFrom(src => src.Polls))
                 .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.CoverImage.Url))
                 .ReverseMap();
+
+            CreateMap<TemplatePoll, Poll>()
+                .ForMember(dest => dest.Choices, opt => opt.MapFrom(src => src.Choices))
+                .ReverseMap();
+
+            CreateMap<TemplatePollChoice, PollChoice>()
+                .ForMember(dest => dest.Choice, opt => opt.MapFrom(src => src.Choice))
+                .ReverseMap();
+
+            CreateMap<Template, Event>()
+                .ForMember(dest => dest.Polls, opt => opt.MapFrom(src => src.Polls))
+                .ReverseMap();
+                
         }
     }
 }
