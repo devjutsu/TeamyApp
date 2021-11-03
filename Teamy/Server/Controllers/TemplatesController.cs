@@ -33,12 +33,14 @@ namespace Teamy.Server.Controllers
         {
             var tpls = await _db.Templates
                                 .Include(_ => _.Polls)
+                                .ThenInclude(p => p.Choices)
                                 .Include(_ => _.CoverImage)
                                 .ToListAsync();
 
-            var vms = tpls.Select(_ => _mapper.Map<Template, EventVM>(_)).ToList();
-            
-            // @! should fix mapping of List<TemplatePollChoice> => List<EventPollChoiceVM> !@
+            var events = tpls.Select(_ => _mapper.Map<Event>(_)).ToList();
+            var vms = _mapper.Map<List<Event>, List<EventVM>>(events);//  tpls.Select(_ => _mapper.Map<EventVM>(_)).ToList();
+
+            // @! only this weird mapping works: List<TemplatePollChoice> => List<EventPollChoiceVM> !@
             return vms;
         }
 

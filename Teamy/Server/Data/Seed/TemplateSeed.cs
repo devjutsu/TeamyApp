@@ -89,6 +89,7 @@ namespace Teamy.Server.Data.Seed
                         Choices = new List<TemplatePollChoice>()
                         {
                             new TemplatePollChoice() { Choice = "Cinema" },
+                            new TemplatePollChoice() { Choice = "Concert" },
                             new TemplatePollChoice() { Choice = "Theatre" },
                             new TemplatePollChoice() { Choice = "Exhibition" },
                             new TemplatePollChoice() { Choice = "Museum" },
