@@ -1,17 +1,96 @@
-﻿<h3>EventEdit</h3>
-<input @bind-value="EditedEvent.Title" />
-<div>Initial: @InitialEvent.Title</div>
-<div>Edited: @EditedEvent.Title</div>
+﻿
+
+<div>
+    <div class="d-flex flex-wrap justify-content-around">
+        <div>
+            <label>What</label>
+            <input class="form-control" @bind-value="@EditedEvent.Title" @ref="titleRef" />
+            <label>When</label>
+            <input type="date" @bind="@EditedEvent.When" @bind:format="yyyy-MM-dd" class="form-control event-text-input event-input-date">
+            <label>Details</label>
+            <textarea rows=2 @bind="@EditedEvent.Description" class="form-control" />
+            <label>Where</label>
+            <input class="form-control" @bind-value="@EditedEvent.Where" />
+        </div>
+        <div>
+            <EditImg DeleteConfirmation=true ImgUrl=@EditedEvent.ImageUrl OnChange=@ImageChange />
+        </div>
+    </div>
+    <p>&nbsp;</p>
+    <div>
+        <h5>Voting</h5>
+        @if (EditedEvent?.Polls != null && EditedEvent.Polls.Count > 0)
+        {
+            @foreach (var opt in EditedEvent.Polls)
+            {
+                <div class="vote-options-block">
+                    <div class="row align-items-center">
+                        <div class="col-10">
+                            <div class="vote-options-question">@opt.Question</div>
+                            <ul>
+                                @foreach (var ans in opt.Choices)
+                                {
+                                    <li class="vote-options-answer">@ans.Choice</li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="col-2 text-center">
+                            <button class="btn btn-link" @onclick="(() => EditEventVote(opt))">
+                                <span class="oi oi-pencil" />
+                            </button>
+                            <button class="btn btn-link" @onclick="(() => DeleteEventVote(opt))">
+                                <span class="oi oi-trash" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+        <button class="btn btn-info inputbutton" @onclick="AddPoll">&nbsp;+&nbsp;</button>
+    </div>
+    <p>&nbsp;</p>
+</div>
+
 
 
 @code {
+    [CascadingParameter] IModalService Modal { get; set; }
     [Parameter]
     public EventVM InitialEvent { get; set; }
     public EventVM EditedEvent { get; set; }
+
+    ElementReference titleRef;
 
     protected override void OnInitialized()
     {
         EditedEvent = (EventVM)InitialEvent.Clone();
     }
 
+    void ImageChange(string ImgUrl)
+    {
+        EditedEvent.ImageUrl = ImgUrl;
+    }
+
+    async Task DeleteEventVote(PollVM poll)
+    {
+        var options = new ModalOptions() { Class = "default-modal" };
+        var messageModal = Modal.Show<ConfirmModal>("Delete poll", options);
+        var result = await messageModal.Result;
+        if (!result.Cancelled)
+        {
+            EditedEvent.Polls.Remove(poll);
+        }
+    }
+
+    async Task EditEventVote(PollVM opt)
+    {
+        
+    }
+
+    void AddPoll()
+    {
+        
+
+    }
 }
