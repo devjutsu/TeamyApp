@@ -49,15 +49,12 @@
 
     public async Task GoTemplate(EventVM tpl)
     {
-        var options = new ModalOptions() { Class = "teamy-modal" };
+        var options = new ModalOptions() { Class = "event-edit-modal" };
         var parameters = new ModalParameters();
-        parameters.Add("Message", "Creating from Template!");
+        parameters.Add("Evt", tpl);
+        parameters.Add("Message", "Creating event from template");
 
-        var messageModal = Modal.Show<Notify>("Information", parameters, options);
-
-        Console.WriteLine(messageModal.Result);
-
-        //Nav.NavigateTo($"/createfrom/{tpl.Id}");
+        var messageModal = Modal.Show<EventEditModal>("Create event", parameters, options);
     }
 
     public void GoNew()

@@ -1,9 +1,17 @@
-﻿.teamy-modal {
-  background-color: silver !important;
+﻿.notify-modal {
+  background-color: #fafafa !important;
   padding: 1.5rem 2.5rem 1.5rem 2rem;
   border: 1px groove black;
   z-index: 102;
   min-width: 300px;
   max-width: 1000px;
+  text-align: center;
+}
+.event-edit-modal {
+  background-color: #fafafa !important;
+  padding: 1.5rem 2.5rem 1.5rem 2rem;
+  min-width: 95%;
+  min-height: 95%;
+  z-index: 102;
   text-align: center;
 }
