@@ -18,22 +18,22 @@ namespace Teamy.Server.Services
 
     public class AzureBlobStorageService : IStorageService
     {
-        BlobStorageOptions _options;
+        BlobStorageOptions Options;
         public AzureBlobStorageService(IOptions<BlobStorageOptions> options)
         {
-            _options = options.Value;
+            Options = options.Value;
         }
 
         public async Task<Uri> Upload(Stream fileStream, string fileName)
         {
-            BlobServiceClient blobServiceClient = new(_options.ConnectionString);
-            BlobContainerClient container = blobServiceClient.GetBlobContainerClient(_options.ImagesContainer); 
+            BlobServiceClient blobServiceClient = new(Options.ConnectionString);
+            BlobContainerClient container = blobServiceClient.GetBlobContainerClient(Options.ImagesContainer); 
             if(!container.Exists())
             {
-                await blobServiceClient.CreateBlobContainerAsync(_options.ImagesContainer, PublicAccessType.BlobContainer);
+                await blobServiceClient.CreateBlobContainerAsync(Options.ImagesContainer, PublicAccessType.BlobContainer);
             }
 
-            BlobClient blobClient = new(_options.ConnectionString, _options.ImagesContainer, fileName);
+            BlobClient blobClient = new(Options.ConnectionString, Options.ImagesContainer, fileName);
 
             await blobClient.UploadAsync(fileStream);
             return await Task.FromResult(blobClient.Uri);
@@ -41,7 +41,7 @@ namespace Teamy.Server.Services
 
         public async Task<bool> Delete(string fileName)
         {
-            BlobClient blobClient = new(_options.ConnectionString, _options.ImagesContainer, fileName);
+            BlobClient blobClient = new(Options.ConnectionString, Options.ImagesContainer, fileName);
             await blobClient.DeleteAsync(DeleteSnapshotsOption.IncludeSnapshots);
             return true;
         }
