@@ -38,7 +38,7 @@ namespace Teamy.Server.Services
 
             // Disable click tracking.
             // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
-            msg.SetClickTracking(false, false);
+            msg.SetClickTracking(true, true);
 
             return client.SendEmailAsync(msg);
         }
