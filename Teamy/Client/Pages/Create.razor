@@ -1,4 +1,5 @@
 ﻿@page "/create"
+@inject IJSRuntime JS
 @using Blazored.Modal.Services
 
 @inject IManageTemplates TemplateService
@@ -45,6 +46,7 @@
     protected override async Task OnInitializedAsync()
     {
         Recommended = await TemplateService.Recommended();
+        //await JS.InvokeVoidAsync("showAlert", "test alert from js");
     }
 
     public async Task GoTemplate(EventVM tpl)
