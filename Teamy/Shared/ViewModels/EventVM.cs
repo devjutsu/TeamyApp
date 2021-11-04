@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Teamy.Shared.ViewModels
 {
-    public class EventVM
+    public class EventVM : ICloneable
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
@@ -18,5 +18,10 @@ namespace Teamy.Shared.ViewModels
         public string CreatedById { get; set; }
         public string CreatedByName { get; set; }
         public string ImageUrl { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

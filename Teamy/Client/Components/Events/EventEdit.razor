@@ -1,0 +1,17 @@
+﻿<h3>EventEdit</h3>
+<input @bind-value="EditedEvent.Title" />
+<div>Initial: @InitialEvent.Title</div>
+<div>Edited: @EditedEvent.Title</div>
+
+
+@code {
+    [Parameter]
+    public EventVM InitialEvent { get; set; }
+    public EventVM EditedEvent { get; set; }
+
+    protected override void OnInitialized()
+    {
+        EditedEvent = (EventVM)InitialEvent.Clone();
+    }
+
+}
