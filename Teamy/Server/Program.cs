@@ -6,6 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.IO.Compression;
 using Teamy.Server.Data;
 using Teamy.Server.Models;
+using Teamy.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,8 +55,8 @@ builder.Services.AddResponseCompression(options =>
 
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddSingleton<IStorageService, AzureBlobStorageService>();
 //builder.Services.AddTransient<IEmailSender, EmailSender>();
-//builder.Services.AddSingleton<IStorageService, AzureBlobStorageService>();
 //builder.Services.AddSignalR();
 //builder.Services.AddSingleton<IEventHub, EventHub>();
 //builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
