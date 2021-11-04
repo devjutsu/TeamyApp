@@ -1,7 +1,6 @@
-﻿.notify-modal {
+﻿.default-modal {
   background-color: #fafafa !important;
   padding: 1.5rem 2.5rem 1.5rem 2rem;
-  border: 1px groove black;
   z-index: 102;
   min-width: 300px;
   max-width: 1000px;
@@ -12,6 +11,11 @@
   padding: 1.5rem 2.5rem 1.5rem 2rem;
   min-width: 95%;
   min-height: 95%;
+  max-height: 95%;
   z-index: 102;
-  text-align: center;
+}
+.blazored-modal-content {
+  background-color: rgba(0, 0, 30, 0.3) !important;
+  max-height: 80vh;
+  overflow-y: auto;
 }

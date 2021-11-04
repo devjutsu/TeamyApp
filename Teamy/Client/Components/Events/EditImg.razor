@@ -1,0 +1,76 @@
+﻿@using System.Net.Http.Headers
+@inject IManageEvents EventService
+@inject IManageUploads UploadService
+
+<div>
+    @*<input type="file" @ref="_input" @onchange="HandleSelected" accept=".jpg, .jpeg, .png" />*@
+
+    @if (string.IsNullOrEmpty(ImgUrl))
+    {
+        <div class="">
+            <h5 class="" style="padding-left:1rem;">Image</h5>
+            <InputFile OnChange="@HandleSelected" class="" />
+        </div>
+    }
+    else
+    {
+        <div class="">
+            <img src="@ImgUrl" class="" width="300">
+            <button @onclick="RemoveImage" class=""><span class="oi oi-x"></span></button>
+        </div>
+    }
+
+</div>
+
+@code {
+    [Parameter]
+    public string ImgUrl { get; set; } = "";
+    [Parameter]
+    public EventCallback<string> OnChange { get; set; }
+    [Parameter]
+    public bool DeleteConfirmation { get; set; } = true;
+    [CascadingParameter] IModalService Modal { get; set; }
+
+
+    async Task HandleSelected(InputFileChangeEventArgs e)
+    {
+        var imageFiles = e.GetMultipleFiles();
+        foreach (var imageFile in imageFiles)
+        {
+            if (imageFile != null)
+            {
+                var resizedFile = await imageFile.RequestImageFileAsync("image/png", 1024, 800);
+
+                using (var ms = resizedFile.OpenReadStream(resizedFile.Size))
+                {
+                    var content = new MultipartFormDataContent();
+                    content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
+                    content.Add(new StreamContent(ms, Convert.ToInt32(resizedFile.Size)), "image", imageFile.Name);
+                    ImgUrl = (await UploadService.AddImage(content));
+
+                    await OnChange.InvokeAsync(ImgUrl);
+                }
+            }
+        }
+    }
+
+    async void RemoveImage()
+    {
+        if (DeleteConfirmation)
+        {
+            var modal = Modal.Show<ConfirmModal>("Delete image", new ModalOptions { Class = "default-modal" });
+            var result = await modal.Result;
+
+            if (!result.Cancelled)
+            {
+                ImgUrl = "";
+                await OnChange.InvokeAsync("");
+            }
+        }
+        else
+        {
+            ImgUrl = "";
+            await OnChange.InvokeAsync("");
+        }
+    }
+}
