@@ -8,7 +8,7 @@
     }
 </style>
 
-<EventEdit InitialEvent=Evt></EventEdit>
+<EventEdit InitialEvent=Evt DoneEditing=@Finished></EventEdit>
 
 
 <div @onkeydown="(e => KeyPressed(e))">
@@ -26,12 +26,21 @@
     [Parameter] public EventVM Evt { get; set; }
     [Parameter] public string Message { get; set; }
 
-    async Task Close() => await BlazoredModal.CloseAsync(ModalResult.Ok(Evt));
+    async Task Finished(EventVM editedVM)
+    {
+        await BlazoredModal.CloseAsync(ModalResult.Ok(editedVM));
+    }
+
+    async Task Close()
+    {
+        
+        await BlazoredModal.CloseAsync(ModalResult.Ok(Evt));
+    }
     async Task Cancel() => await BlazoredModal.CancelAsync();
 
     async Task KeyPressed(KeyboardEventArgs e)
     {
-        if (e.Key == "Escape")
-            await Cancel();
+    if (e.Key == "Escape")
+        await Cancel();
     }
 }
