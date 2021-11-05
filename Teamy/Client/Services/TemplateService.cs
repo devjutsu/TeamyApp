@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -10,26 +11,25 @@ namespace Teamy.Client.Services
     public interface IManageTemplates
     {
         Task<List<EventVM>> Recommended();
-        Task<EventVM> Get(Guid id);
     }
 
     public class TemplateService : IManageTemplates
     {
-        HttpClient AnonymousHttp;
         HttpClient Http;
         AppState AppState;
+        NavigationManager Nav { get; set; }
 
-        public TemplateService(IHttpClientFactory httpClientFactory, HttpClient http, AppState appState)
+        public TemplateService(IHttpClientFactory httpClientFactory, 
+                            HttpClient http, 
+                            AppState appState, 
+                            NavigationManager nav)
         {
-            AnonymousHttp = httpClientFactory.CreateClient("Teamy1.AnonymousAPI");
-            Http = http;
             AppState = appState;
+            Http = AppState.IsLoggedIn ? http : httpClientFactory.CreateClient("Teamy1.AnonymousAPI");
+            Nav = nav;
         }
 
         public async Task<List<EventVM>> Recommended()
-            => await Http.GetFromJsonAsync<List<EventVM>>("Templates");
-
-        public async Task<EventVM> Get(Guid id)
-            => await Http.GetFromJsonAsync<EventVM>($"Templates/{id}");
+            => await Http.GetFromJsonAsync<List<EventVM>>(Nav.BaseUri.ToString() + "Templates");
     }
 }

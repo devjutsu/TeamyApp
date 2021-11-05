@@ -16,6 +16,8 @@ builder.Services.AddHttpClient("Teamy.AnonymousAPI", client => client.BaseAddres
 // Supply HttpClient instances that include access tokens when making requests to the server project
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("Teamy.ServerAPI"));
 
+builder.Services.AddApiAuthorization()
+                    .AddAccountClaimsPrincipalFactory<CustomUserFactory>();
 
 builder.Services.AddScoped<AppState>();
 builder.Services.AddScoped<IManageEvents, EventService>();
@@ -24,9 +26,6 @@ builder.Services.AddScoped<IManagePolls, PollService>();
 builder.Services.AddScoped<IManageTemplates, TemplateService>();
 builder.Services.AddScoped<IManageUploads, UploadService>();
 
-//builder.Services.AddApiAuthorization()
-//                    .AddAccountClaimsPrincipalFactory<CustomUserFactory>();
-//builder.Services.AddBlazoredModal();
 
 builder.Services.AddApiAuthorization();
 

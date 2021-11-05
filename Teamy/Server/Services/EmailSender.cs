@@ -29,7 +29,7 @@ namespace Teamy.Server.Services
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("noreply@teamy.one", "Teamy.1"),
+                From = new EmailAddress("noreply@teamy.one", "Teamy.one"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message
@@ -38,7 +38,7 @@ namespace Teamy.Server.Services
 
             // Disable click tracking.
             // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
-            msg.SetClickTracking(false, false);
+            msg.SetClickTracking(true, true);
 
             return client.SendEmailAsync(msg);
         }

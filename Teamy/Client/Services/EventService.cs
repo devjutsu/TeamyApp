@@ -11,19 +11,19 @@ namespace Teamy.Client.Services
     {
         Task LoadUpcoming();
         Task<EventVM> Get(Guid id);
+        Task<string> Create(EventVM eventVM);
     }
 
     public class EventService : IManageEvents
     {
-        HttpClient AnonymousHttp;
-        HttpClient Http;
-        AppState AppState;
+        HttpClient Http { get; set; }
+        AppState AppState { get; set; }
 
         public EventService(IHttpClientFactory httpClientFactory, HttpClient http, AppState appState)
         {
-            AnonymousHttp = httpClientFactory.CreateClient("Teamy1.AnonymousAPI");
-            Http = http;
             AppState = appState;
+            //Http = AppState.IsLoggedIn ? http : httpClientFactory.CreateClient("Teamy.AnonymousAPI");
+            Http = http;
         }
 
         public async Task<EventVM> Get(Guid id)
@@ -38,6 +38,22 @@ namespace Teamy.Client.Services
                 var events = await Http.GetFromJsonAsync<List<EventVM>>("Events/Upcoming/9");
                 AppState.UpdateEvents(null, events);
             }
+        }
+
+        public async Task<string> Create(EventVM eventVM)
+        {
+            var test = new EventVM()
+            {
+                Title = "sampl test",
+                Description = "blah blah",
+                ImageUrl = "",
+                When = DateTime.Now,
+                Where = "",
+            };
+            var result = await Http.PostAsJsonAsync<EventVM>("Events/Create", test);
+            if (result.IsSuccessStatusCode)
+                return await result.Content.ReadAsStringAsync();
+            else return string.Empty;
         }
     }
 }
