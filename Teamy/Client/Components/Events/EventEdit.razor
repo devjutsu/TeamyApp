@@ -47,9 +47,10 @@
             }
         }
 
-        <button class="btn btn-info inputbutton" @onclick="AddPoll">&nbsp;+&nbsp;</button>
+        <button class="btn" @onclick="AddPoll">&nbsp;+&nbsp;</button>
     </div>
     <p>&nbsp;</p>
+        <button class="btn btn-primary" @onclick="() => DoneEdit()" >Save and Proceed <span class="oi oi-arrow-right" /></button>
 </div>
 
 
@@ -58,6 +59,8 @@
     [CascadingParameter] IModalService Modal { get; set; }
     [Parameter]
     public EventVM InitialEvent { get; set; }
+    [Parameter]
+    public EventCallback<EventVM> DoneEditing { get; set; }
     public EventVM EditedEvent { get; set; }
 
     ElementReference titleRef;
@@ -85,12 +88,17 @@
 
     async Task EditEventVote(PollVM opt)
     {
-        
+
     }
 
     void AddPoll()
     {
-        
 
+
+    }
+
+    async Task DoneEdit()
+    {
+        await DoneEditing.InvokeAsync(EditedEvent);
     }
 }
