@@ -1,5 +1,6 @@
 ﻿@page "/create"
 @inject IJSRuntime JS
+@inject IManageEvents EventService
 @using Blazored.Modal.Services
 
 @inject IManageTemplates TemplateService
@@ -53,11 +54,25 @@
         parameters.Add("Message", "Creating event from template");
 
         var messageModal = Modal.Show<EventEditModal>("Create event", parameters, options);
+        var modalResult = await messageModal.Result;
+
+        if(!modalResult.Cancelled)
+        {
+            var evt = (EventVM)modalResult.Data;
+            var result = await EventService.Create(evt);
+            if (!string.IsNullOrEmpty(result))
+                Nav.NavigateTo($"/event/{result}");
+        }
     }
 
     public void GoNew()
     {
-        Nav.NavigateTo($"/createnew");
+        var options = new ModalOptions() { Class = "event-edit-modal" };
+        var parameters = new ModalParameters();
+        parameters.Add("Evt", new EventVM());
+        parameters.Add("Message", "Creating event from template");
+
+        var messageModal = Modal.Show<EventEditModal>("Create event", parameters, options);
     }
 }
 

@@ -38,24 +38,9 @@ namespace Teamy.Server.Controllers
                                 .ToListAsync();
 
             var events = tpls.Select(_ => _mapper.Map<Event>(_)).ToList();
-            var vms = _mapper.Map<List<Event>, List<EventVM>>(events);//  tpls.Select(_ => _mapper.Map<EventVM>(_)).ToList();
-
+            var vms = _mapper.Map<List<Event>, List<EventVM>>(events);
             // @! only this weird mapping works: List<TemplatePollChoice> => List<EventPollChoiceVM> !@
             return vms;
-        }
-
-        [AllowAnonymous]
-        [HttpGet]
-        [Route("{id}")]
-        public async Task<EventVM> Get(Guid id)
-        {
-            var tpl = await _db.Templates
-                                .Include(_ => _.Polls)
-                                .Include(_ => _.CoverImage)
-                                .Where(_ => _.Id == id)
-                                .SingleAsync();
-
-            return _mapper.Map<Template, EventVM>(tpl);
         }
     }
 }

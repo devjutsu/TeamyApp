@@ -1,0 +1,41 @@
+﻿<div>
+    <div class="d-flex justify-content-between">
+        <div>
+            <h4>@Evt.Title</h4>
+            <div>@Evt.When.ToLongDateString()</div>
+            <div>@Evt.Description</div>
+        </div>
+        <div><img src=@Evt.ImageUrl width="400" /></div>
+    </div>
+
+    <h5>Polls</h5>
+    @if (Evt.Polls != null)
+    {
+        @foreach (var poll in Evt.Polls)
+        {
+            <div style="margin:1rem;">
+                <div>@poll.Question</div>
+
+                <ul>
+                @foreach (var choice in poll.Choices)
+                {
+                    <li>@choice.Choice</li>
+                }
+                </ul>
+            </div>
+        }
+    }
+
+    <p>&nbsp;</p>
+    <h5>Participation</h5>
+    <div>@Evt.CreatedByName - Creator</div>
+    @foreach (var participant in Evt.Participants)
+    {
+        <div>@participant.Name - @participant.Status.ToString()</div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public EventVM Evt { get; set; }
+}

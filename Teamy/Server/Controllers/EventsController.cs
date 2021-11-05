@@ -30,6 +30,16 @@ namespace Teamy.Server.Controllers
             _mapper = mapper;
         }
 
+        [HttpPost("Create")]
+        public async Task<IActionResult> Create([FromBody] EventVM evt)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var displayName = (await _userManager.FindByIdAsync(currentUserId)).DisplayName;
+
+
+            return Ok($"{1}");
+        }
+
         [HttpGet("Upcoming/{count}")]
         public List<EventVM> Upcoming(int count = 9)
         {
@@ -39,6 +49,8 @@ namespace Teamy.Server.Controllers
                             .Include(_ => _.Participants)
                             .ThenInclude(z => z.User)
                             .Include(_ => _.Polls)
+                            .ThenInclude(_ => _.Choices)
+                            .ThenInclude(_ => _.Answers)
                             .Include(_ => _.Invites)
                             .Include(_ => _.CoverImage)
                             .Include(_ => _.CreatedBy)
@@ -47,7 +59,8 @@ namespace Teamy.Server.Controllers
                             .Take(count)
                             .ToList();
 
-            return _mapper.Map<List<Event>, List<EventVM>>(events);
+            var vms = _mapper.Map<List<Event>, List<EventVM>>(events);
+            return vms;
         }
 
         [HttpGet("Get/{id}")]
@@ -59,13 +72,16 @@ namespace Teamy.Server.Controllers
                             .Include(_ => _.Participants)
                             .ThenInclude(z => z.User)
                             .Include(_ => _.Polls)
+                            .ThenInclude(_ => _.Choices)
+                            .ThenInclude(_ => _.Answers)
                             .Include(_ => _.Invites)
                             .Include(_ => _.CoverImage)
                             .Include(_ => _.CreatedBy)
                             .Where(_ => _.CreatedById == currentUserId || _.Participants.Any(p => p.UserId == currentUserId))
                             .FirstAsync(o => o.Id == id);
 
-            return _mapper.Map<EventVM>(evt);
+            var vm = _mapper.Map<EventVM>(evt);
+            return vm;
         }
     }
 }
