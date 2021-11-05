@@ -42,15 +42,13 @@ namespace Teamy.Client.Services
 
         public async Task<string> Create(EventVM eventVM)
         {
-            var test = new EventVM()
-            {
-                Title = "sampl test",
-                Description = "blah blah",
-                ImageUrl = "",
-                When = DateTime.Now,
-                Where = "",
-            };
-            var result = await Http.PostAsJsonAsync<EventVM>("Events/Create", test);
+            //    Title = "sampl test",
+            //    Description = "blah blah",
+            //    ImageUrl = "",
+            //    When = DateTime.Now,
+            //    Where = "",
+
+            var result = await Http.PostAsJsonAsync<EventVM>("Events/Create", eventVM);
             if (result.IsSuccessStatusCode)
                 return await result.Content.ReadAsStringAsync();
             else return string.Empty;

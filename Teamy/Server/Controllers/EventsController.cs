@@ -31,13 +31,23 @@ namespace Teamy.Server.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromBody] EventVM evt)
+        public async Task<IActionResult> Create([FromBody] EventVM eventVM)
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var displayName = (await _userManager.FindByIdAsync(currentUserId)).DisplayName;
 
+            var evt = _mapper.Map<Event>(eventVM);
+            evt.CreatedById = currentUserId;
+            evt.CreatedBy = await _db.Users.FindAsync(currentUserId);
 
-            return Ok($"{1}");
+            try
+            {
+                var addedEvt = _db.Events.Add(evt);
+                await _db.SaveChangesAsync();
+                return Ok($"{addedEvt.Entity.Id}");
+            }
+            catch (Exception ex) 
+            { throw; }
         }
 
         [HttpGet("Upcoming/{count}")]

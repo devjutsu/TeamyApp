@@ -32,32 +32,25 @@ namespace Teamy.Server.Data
                 .ReverseMap();
 
             CreateMap<TemplatePollChoice, PollChoiceVM>()
-                .ForMember(dest => dest.Choice, opt => opt.MapFrom(src => src.Choice))
-                .ReverseMap();
+                .ForMember(dest => dest.Choice, opt => opt.MapFrom(src => src.Choice));
 
             CreateMap<TemplatePoll, PollVM>()
-                .ForMember(dest => dest.Choices, opt => opt.MapFrom(src => src.Choices))
-                .ReverseMap();
+                .ForMember(dest => dest.Choices, opt => opt.MapFrom(src => src.Choices));
 
-            CreateMap<List<TemplatePollChoice>, List<PollChoiceVM>>()
-                .ReverseMap();
+            CreateMap<List<TemplatePollChoice>, List<PollChoiceVM>>();
 
             CreateMap<Template, EventVM>()
                 .ForMember(dest => dest.Polls, opt => opt.MapFrom(src => src.Polls))
-                .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.CoverImage.Url))
-                .ReverseMap();
+                .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.CoverImage.Url));
 
             CreateMap<TemplatePoll, Poll>()
-                .ForMember(dest => dest.Choices, opt => opt.MapFrom(src => src.Choices))
-                .ReverseMap();
+                .ForMember(dest => dest.Choices, opt => opt.MapFrom(src => src.Choices));
 
             CreateMap<TemplatePollChoice, PollChoice>()
-                .ForMember(dest => dest.Choice, opt => opt.MapFrom(src => src.Choice))
-                .ReverseMap();
+                .ForMember(dest => dest.Choice, opt => opt.MapFrom(src => src.Choice));
 
             CreateMap<Template, Event>()
-                .ForMember(dest => dest.Polls, opt => opt.MapFrom(src => src.Polls))
-                .ReverseMap();
+                .ForMember(dest => dest.Polls, opt => opt.MapFrom(src => src.Polls));
                 
         }
     }

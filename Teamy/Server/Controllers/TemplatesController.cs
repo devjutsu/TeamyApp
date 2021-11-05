@@ -37,8 +37,20 @@ namespace Teamy.Server.Controllers
                                 .Include(_ => _.CoverImage)
                                 .ToListAsync();
 
+            //var vms = _mapper.Map<List<Template>, List<EventVM>>(tpls).ToList();
+
             var events = tpls.Select(_ => _mapper.Map<Event>(_)).ToList();
             var vms = _mapper.Map<List<Event>, List<EventVM>>(events);
+            vms.ForEach(v => 
+            { 
+                v.Id = null; 
+                v.When = DateTime.Today.AddDays(1).AddHours(12);
+                v.Polls.ForEach(p =>
+                {
+                    p.Id = null;
+                    p.Choices.ForEach(c => c.Id = null);
+                });
+            });
             // @! only this weird mapping works: List<TemplatePollChoice> => List<EventPollChoiceVM> !@
             return vms;
         }
