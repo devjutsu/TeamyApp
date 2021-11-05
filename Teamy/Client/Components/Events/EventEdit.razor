@@ -24,8 +24,8 @@
             @foreach (var opt in EditedEvent.Polls)
             {
                 <div class="vote-options-block">
-                    <div class="row align-items-center">
-                        <div class="col-10">
+                    <div class="d-flex justify-content-between">
+                        <div>
                             <div class="vote-options-question">@opt.Question</div>
                             <ul>
                                 @foreach (var ans in opt.Choices)
@@ -34,7 +34,7 @@
                                 }
                             </ul>
                         </div>
-                        <div class="col-2 text-center">
+                        <div>
                             <button class="btn btn-link" @onclick="(() => EditEventVote(opt))">
                                 <span class="oi oi-pencil" />
                             </button>
