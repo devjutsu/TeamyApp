@@ -1,4 +1,4 @@
-﻿
+﻿@inject IManagePolls PollService
 
 <div>
     <div class="d-flex flex-wrap justify-content-around">
@@ -47,7 +47,7 @@
             }
         }
 
-        <button class="btn" @onclick="AddPoll">&nbsp;+&nbsp;</button>
+        <button class="btn btn-warning" @onclick="AddPoll">&nbsp;+&nbsp;</button>
     </div>
     <p>&nbsp;</p>
         <button class="btn btn-primary" @onclick="() => DoneEdit()" >Save and Proceed <span class="oi oi-arrow-right" /></button>
@@ -93,8 +93,7 @@
 
     void AddPoll()
     {
-
-
+        EditedEvent.Polls.Add(PollService.NewPoll());
     }
 
     async Task DoneEdit()
