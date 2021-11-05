@@ -13,7 +13,7 @@
     {
         @foreach (var item in Recommended)
         {
-            <div class="d-flex" @onclick="(() => GoTemplate(item))" style="border:1px dashed black; margin:1rem 1rem 0 0; padding: .5rem; width:33rem; height:7rem;">
+            <div class="d-flex" @onclick="(() => DoCreateFromTemplate(item))" style="border:1px dashed black; margin:1rem 1rem 0 0; padding: .5rem; width:33rem; height:7rem;">
                 <div><img src=@item.ImageUrl width="150" style="margin:0 1rem 0 0;" /></div>
                 <div>
                     <div style="font-weight:bold;">@item.Title</div>
@@ -22,7 +22,7 @@
             </div>
         }
 
-        <div class="d-flex" @onclick="(() => GoNew())" style="border:1px dashed black; margin:1rem 1rem 0 0; padding: .5rem; width:33rem; height:7rem;">
+        <div class="d-flex" @onclick="(() => DoCreateNew())" style="border:1px dashed black; margin:1rem 1rem 0 0; padding: .5rem; width:33rem; height:7rem;">
             <div><img src="https://miro.medium.com/max/1200/1*deNLDT12xC4buYqv0r7ZCg.jpeg" width="150" style="margin:0 1rem 0 0;" /></div>
             <div>
                 <div style="font-weight:bold;">Custom event</div>
@@ -46,7 +46,7 @@
         //await JS.InvokeVoidAsync("showAlert", "test alert from js");
     }
 
-    public async Task GoTemplate(EventVM tpl)
+    public async Task DoCreateFromTemplate(EventVM tpl)
     {
         var options = new ModalOptions() { Class = "event-edit-modal" };
         var parameters = new ModalParameters();
@@ -64,11 +64,11 @@
         }
     }
 
-    public async Task GoNew()
+    public async Task DoCreateNew()
     {
         var options = new ModalOptions() { Class = "event-edit-modal" };
         var parameters = new ModalParameters();
-        parameters.Add("Evt", new EventVM());
+        parameters.Add("Evt", new EventVM() { When = DateTime.Today.AddDays(1).AddHours(12)});
         parameters.Add("Message", "Creating event from template");
 
         var messageModal = Modal.Show<EventEditModal>("Create event", parameters, options);
