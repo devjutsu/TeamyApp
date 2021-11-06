@@ -51,7 +51,6 @@
         var options = new ModalOptions() { Class = "event-edit-modal" };
         var parameters = new ModalParameters();
         parameters.Add("Evt", tpl);
-        parameters.Add("Message", "Creating event from template");
 
         var messageModal = Modal.Show<EventEditModal>("Create event", parameters, options);
         var modalResult = await messageModal.Result;
@@ -69,7 +68,6 @@
         var options = new ModalOptions() { Class = "event-edit-modal" };
         var parameters = new ModalParameters();
         parameters.Add("Evt", new EventVM() { When = DateTime.Today.AddDays(1).AddHours(12)});
-        parameters.Add("Message", "Creating event from template");
 
         var messageModal = Modal.Show<EventEditModal>("Create event", parameters, options);
         var modalResult = await messageModal.Result;

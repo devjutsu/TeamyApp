@@ -16,29 +16,32 @@
             <EditImg DeleteConfirmation=true ImgUrl=@EditedEvent.ImageUrl OnChange=@ImageChange />
         </div>
     </div>
-    <p>&nbsp;</p>
+
     <div>
         <h5>Voting</h5>
         @if (EditedEvent?.Polls != null && EditedEvent.Polls.Count > 0)
         {
-            @foreach (var opt in EditedEvent.Polls)
+            @foreach (var poll in EditedEvent.Polls)
             {
-                <div class="vote-options-block">
+                <div>
                     <div class="d-flex justify-content-between">
                         <div>
-                            <div class="vote-options-question">@opt.Question</div>
+                            <input @bind-value="@poll.Question" class="form-control" />
                             <ul>
-                                @foreach (var ans in opt.Choices)
+                                @foreach (var ans in poll.Choices)
                                 {
-                                    <li class="vote-options-answer">@ans.Choice</li>
+                                    <li>
+                                        <input @bind-value="@ans.Choice" class="form-control" />
+                                    </li>
                                 }
                             </ul>
+                            <button class="btn btn-sm btn-info" @onclick="() => AddChoice(poll)">&nbsp;+&nbsp;</button>
                         </div>
                         <div>
-                            <button class="btn btn-link" @onclick="(() => EditEventVote(opt))">
+                            <button class="btn btn-link" @onclick="(() => EditEventVote(poll))">
                                 <span class="oi oi-pencil" />
                             </button>
-                            <button class="btn btn-link" @onclick="(() => DeleteEventVote(opt))">
+                            <button class="btn btn-link" @onclick="(() => DeleteEventVote(poll))">
                                 <span class="oi oi-trash" />
                             </button>
                         </div>
@@ -47,7 +50,7 @@
             }
         }
 
-        <button class="btn btn-warning" @onclick="AddPoll">&nbsp;+&nbsp;</button>
+        <button class="btn btn-success" @onclick="AddPoll">Add question</button>
     </div>
     <p>&nbsp;</p>
         <button class="btn btn-primary" @onclick="() => DoneEdit()" >Save and Proceed <span class="oi oi-arrow-right" /></button>
@@ -94,6 +97,11 @@
     void AddPoll()
     {
         EditedEvent.Polls.Add(PollService.NewPoll());
+    }
+
+    void AddChoice(PollVM poll)
+    {
+        poll.Choices.Add(new PollChoiceVM() { Answers = new List<PollAnswerVM>() });
     }
 
     async Task DoneEdit()
