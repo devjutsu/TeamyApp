@@ -39,6 +39,8 @@ namespace Teamy.Server.Controllers
             var evt = _mapper.Map<Event>(eventVM);
             evt.CreatedById = currentUserId;
             evt.CreatedBy = await _db.Users.FindAsync(currentUserId);
+            if (string.IsNullOrEmpty(eventVM.ImageUrl))
+                evt.CoverImage = null;
 
             try
             {

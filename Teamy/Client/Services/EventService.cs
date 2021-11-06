@@ -48,6 +48,11 @@ namespace Teamy.Client.Services
             //    When = DateTime.Now,
             //    Where = "",
 
+            foreach(var poll in eventVM.Polls)
+            {
+                poll.Choices = poll.Choices.Where(o => !string.IsNullOrEmpty(o.Choice)).ToList();
+            }
+
             var result = await Http.PostAsJsonAsync<EventVM>("Events/Create", eventVM);
             if (result.IsSuccessStatusCode)
                 return await result.Content.ReadAsStringAsync();

@@ -26,21 +26,35 @@
                 <div>
                     <div class="d-flex justify-content-between">
                         <div>
-                            <input @bind-value="@poll.Question" class="form-control" />
+                            <div class="input-group mb-3">
+                                <input type="text" @bind-value="@poll.Question" class="form-control" />
+                                <div>
+                                    <button class="btn btn-outline-danger" @onclick="() => RemovePoll(poll)" type="button">
+                                        <span class="oi oi-minus" />
+                                    </button>
+                                </div>
+                            </div>
+
                             <ul>
                                 @foreach (var ans in poll.Choices)
                                 {
                                     <li>
-                                        <input @bind-value="@ans.Choice" class="form-control" />
+                                        <div class="input-group">
+                                            <input type="text" @bind-value="@ans.Choice" class="form-control">
+                                            <div class="">
+                                                <button class="btn btn-outline-secondary" type="button" @onclick="() => RemoveChoice(poll, ans)">
+                                                    <span class="oi oi-minus" />
+                                                </button>
+                                            </div>
+                                        </div>
                                     </li>
                                 }
                             </ul>
-                            <button class="btn btn-sm btn-info" @onclick="() => AddChoice(poll)">&nbsp;+&nbsp;</button>
+                            <button class="btn btn-outline-success" @onclick="() => AddChoice(poll)">
+                                <span class="oi oi-plus" />
+                            </button>
                         </div>
                         <div>
-                            <button class="btn btn-link" @onclick="(() => EditEventVote(poll))">
-                                <span class="oi oi-pencil" />
-                            </button>
                             <button class="btn btn-link" @onclick="(() => DeleteEventVote(poll))">
                                 <span class="oi oi-trash" />
                             </button>
@@ -53,7 +67,7 @@
         <button class="btn btn-success" @onclick="AddPoll">Add question</button>
     </div>
     <p>&nbsp;</p>
-        <button class="btn btn-primary" @onclick="() => DoneEdit()" >Save and Proceed <span class="oi oi-arrow-right" /></button>
+    <button class="btn btn-primary" @onclick="() => DoneEdit()">Save and Proceed <span class="oi oi-arrow-right" /></button>
 </div>
 
 
@@ -89,19 +103,27 @@
         }
     }
 
-    async Task EditEventVote(PollVM opt)
-    {
-
-    }
-
     void AddPoll()
     {
+        if(EditedEvent.Polls == null)
+            EditedEvent.Polls = new List<PollVM>();
+        
         EditedEvent.Polls.Add(PollService.NewPoll());
     }
 
     void AddChoice(PollVM poll)
     {
         poll.Choices.Add(new PollChoiceVM() { Answers = new List<PollAnswerVM>() });
+    }
+
+    void RemoveChoice(PollVM poll, PollChoiceVM choice)
+    {
+        poll.Choices.Remove(choice);
+    }
+
+    void RemovePoll(PollVM poll)
+    {
+        EditedEvent.Polls.Remove(poll);
     }
 
     async Task DoneEdit()
