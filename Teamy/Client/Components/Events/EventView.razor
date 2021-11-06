@@ -1,4 +1,7 @@
-﻿@inject IManagePolls PollService
+﻿@inject AppState AppState
+@inject IManagePolls PollService
+@inject IManageEvents EventService
+@implements IDisposable
 
 <div>
     <div class="d-flex justify-content-between">
@@ -78,6 +81,7 @@
         if (await PollService.Vote(poll, choice))
         {
             // @! reload state
+            Evt = await EventService.Get(Evt.Id.Value);
         }
         else
         {
@@ -87,18 +91,27 @@
 
     int Percent(PollVM poll, PollChoiceVM choice)
     {
-
         var voted = poll.Choices.Sum(o => o.Answers?.Count()) ?? 0;
-        var result = voted > 0
-            ? (choice.Answers?.Count() ?? 0) * (100 / voted) 
-            : 0;
-
-        Console.WriteLine($"percent for {choice.Choice} : {choice.Answers?.Count()} : {result}%");
-        return result;
+        return voted > 0 ? (choice.Answers?.Count() ?? 0) * (100 / voted)  : 0;;
     }
 
     void RemoveFreeChoice(PollVM poll)
     {
 
+    }
+
+    protected override void OnInitialized()
+    {
+        AppState.Statechanged += async (Source, Property) => await AppState_StateChanged(Source, Property);
+    }
+
+    private async Task AppState_StateChanged(ComponentBase source, string Property)
+    {
+        if (source != this) await InvokeAsync(StateHasChanged);
+    }
+
+    void IDisposable.Dispose()
+    {
+        AppState.Statechanged -= async (Source, Property) => await AppState_StateChanged(Source, Property);
     }
 }
