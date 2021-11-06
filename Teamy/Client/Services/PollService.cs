@@ -42,9 +42,10 @@ namespace Teamy.Client.Services
 
         public async Task<bool> Vote(PollVM poll, PollChoiceVM choice)
         {
-            choice.PollId = poll.Id;
-            // @! choice.Answers = null;
-            var result = await Http.PostAsJsonAsync<PollChoiceVM>("Polls/Vote", choice);
+            var voteRequest = (PollChoiceVM)choice.Clone();
+            voteRequest.Answers = null;
+
+            var result = await Http.PostAsJsonAsync<PollChoiceVM>("Polls/Vote", voteRequest);
             return result.IsSuccessStatusCode;
         }
     }
