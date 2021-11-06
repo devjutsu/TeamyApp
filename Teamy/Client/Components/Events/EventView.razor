@@ -13,15 +13,47 @@
     {
         @foreach (var poll in Evt.Polls)
         {
-            <div style="margin:1rem;">
-                <div>@poll.Question</div>
+            <div style="margin:1rem 0 1rem 0; padding: 1rem; border: 1px dotted black; max-width: 30rem;">
+                <div style="font-weight:bold;">@poll.Question</div>
 
-                <ul>
                 @foreach (var choice in poll.Choices)
                 {
-                    <li>@choice.Choice</li>
+                    @if (poll.MultiChoice)
+                    {
+                        <input type="checkbox" class="form-check-input" style="margin-top:.6rem;" />
+                    }
+                    else
+                    {
+                        <input type="radio" name=@poll.Question class="form-check-input" id=@choice.Id style="margin-top:.6rem;" />
+                    }
+                    <button class="btn btn-link" @onclick="(() => Vote(poll, choice))">@choice.Choice</button>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: @Percent(poll, choice)%" aria-valuenow="@Percent(poll, choice)" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
                 }
-                </ul>
+                @if (poll.FreeTextOption)
+                {
+                    <div class="input-group" style="margin-top:1rem;">
+                        @if (poll.MultiChoice)
+                        {
+                            <div class="form-check form-check-inline" style="margin-top:.3rem; margin-right:0;">
+                                <input class="form-check-input" type="checkbox" value="option1">
+                            </div>
+                        }
+                        else
+                        {
+                            <input type="radio" class="form-check-input" style="margin-top:.6rem;" />
+                        }
+
+                        <input type="text" class="form-control" style="border-radius:5px; ">
+                        <div class="">
+                            <button class="btn btn-outline-secondary" type="button">
+                                <span class="oi oi-minus" />
+                            </button>
+                        </div>
+                    </div>
+                }
+
             </div>
         }
     }
@@ -38,4 +70,19 @@
 @code {
     [Parameter]
     public EventVM Evt { get; set; }
+
+    void Vote(PollVM poll, PollChoiceVM choice)
+    {
+        Console.WriteLine($"{poll.Question} : {choice.Choice}");
+    }
+
+    float Percent(PollVM poll, PollChoiceVM choice)
+    {
+        return 73f;
+    }
+
+    void RemoveFreeChoice(PollVM poll)
+    {
+
+    }
 }
