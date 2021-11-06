@@ -17,6 +17,9 @@ namespace Teamy.Server.Data
                 .ForMember(dest => dest.Answers, opt => opt.MapFrom(src => src.Answers))
                 .ReverseMap();
 
+            CreateMap<PollAnswer, PollAnswerVM>()
+                .ReverseMap();
+
             CreateMap<ImageModel, UploadVM>()
                 .ReverseMap();
 

@@ -12,7 +12,7 @@ using Teamy.Server.Data;
 namespace Teamy.Server.Data.Migrations
 {
     [DbContext(typeof(TeamyDbContext))]
-    [Migration("20211106123816_001")]
+    [Migration("20211106151329_001")]
     partial class _001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -194,15 +194,15 @@ namespace Teamy.Server.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c62b893b-9783-4f45-9716-d722a1b8353e",
-                            ConcurrencyStamp = "bbb736bf-acf7-4948-9ffa-75f3146a7b32",
+                            Id = "7a080053-4f33-49a0-baec-abf109f99dcc",
+                            ConcurrencyStamp = "6aa25d00-7f0a-47c6-9101-1488aa51d19f",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "5534a213-1d6b-45af-b69c-d75e7de8cd82",
-                            ConcurrencyStamp = "8e27a7f7-fb1c-4a31-87c5-40e54330cd43",
+                            Id = "9939e473-4fb1-44b9-83a0-1a600b55c2d9",
+                            ConcurrencyStamp = "ca660826-1495-4d6e-ba01-6f0683898475",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -541,7 +541,7 @@ namespace Teamy.Server.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("PollOptionId")
+                    b.Property<Guid>("PollChoiceId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserId")
@@ -552,7 +552,7 @@ namespace Teamy.Server.Data.Migrations
 
                     b.HasIndex("Id");
 
-                    b.HasIndex("PollOptionId");
+                    b.HasIndex("PollChoiceId");
 
                     b.HasIndex("UserId");
 
@@ -573,16 +573,11 @@ namespace Teamy.Server.Data.Migrations
                     b.Property<Guid>("PollId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("VoteOptionId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Id");
 
                     b.HasIndex("PollId");
-
-                    b.HasIndex("VoteOptionId");
 
                     b.ToTable("PollChoices");
                 });
@@ -797,13 +792,13 @@ namespace Teamy.Server.Data.Migrations
 
             modelBuilder.Entity("Teamy.Server.Models.PollAnswer", b =>
                 {
-                    b.HasOne("Teamy.Server.Models.PollChoice", "PollOption")
+                    b.HasOne("Teamy.Server.Models.PollChoice", "PollChoice")
                         .WithMany("Answers")
-                        .HasForeignKey("PollOptionId")
+                        .HasForeignKey("PollChoiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("PollOption");
+                    b.Navigation("PollChoice");
                 });
 
             modelBuilder.Entity("Teamy.Server.Models.PollChoice", b =>

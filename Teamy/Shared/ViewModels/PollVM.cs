@@ -20,7 +20,8 @@ namespace Teamy.Shared.ViewModels
     {
         public Guid? Id { get; set; }
         public string Choice { get; set; }
-        public List<PollAnswerVM> Answers { get; set; }
+        public Guid? PollId { get; set; }
+        public List<PollAnswerVM>? Answers { get; set; }
     }
 
     public class PollAnswerVM
