@@ -16,7 +16,6 @@ namespace Teamy.Server.Controllers
         ILogger<EventsController> _logger { get; set; }
         TeamyDbContext _db { get; set; }
         UserManager<AppUser> _userManager { get; set; }
-        //IStorageService _storage { get; set; }
         //IEventHub _hub;
         private readonly IMapper _mapper;
         public EventsController(ILogger<EventsController> logger,
@@ -55,24 +54,31 @@ namespace Teamy.Server.Controllers
         [HttpGet("Upcoming/{count}")]
         public List<EventVM> Upcoming(int count = 9)
         {
-            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            try
+            {
+                var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var events = _db.Events
-                            .Include(_ => _.Participants)
-                            .ThenInclude(z => z.User)
-                            .Include(_ => _.Polls)
-                            .ThenInclude(_ => _.Choices)
-                            .ThenInclude(_ => _.Answers)
-                            .Include(_ => _.Invites)
-                            .Include(_ => _.CoverImage)
-                            .Include(_ => _.CreatedBy)
-                            .Where(_ => _.CreatedById == currentUserId || _.Participants.Any(p => p.UserId == currentUserId))
-                            .OrderBy(_ => _.When)
-                            .Take(count)
-                            .ToList();
+                var events = _db.Events
+                                .Include(_ => _.Participants)
+                                .ThenInclude(z => z.User)
+                                .Include(_ => _.Polls)
+                                .ThenInclude(_ => _.Choices)
+                                .ThenInclude(_ => _.Answers)
+                                .Include(_ => _.Invites)
+                                .Include(_ => _.CoverImage)
+                                .Include(_ => _.CreatedBy)
+                                .Where(_ => _.CreatedById == currentUserId || _.Participants.Any(p => p.UserId == currentUserId))
+                                .OrderBy(_ => _.When)
+                                .Take(count)
+                                .ToList();
 
-            var vms = _mapper.Map<List<Event>, List<EventVM>>(events);
-            return vms;
+                var vms = _mapper.Map<List<Event>, List<EventVM>>(events);
+                return vms;
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
         }
 
         [HttpGet("Get/{id}")]

@@ -386,7 +386,6 @@ namespace Teamy.Server.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    VoteOptionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PollId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Choice = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false)
                 },
@@ -426,14 +425,14 @@ namespace Teamy.Server.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PollOptionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    PollChoiceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PollAnswers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PollAnswers_PollChoices_PollOptionId",
-                        column: x => x.PollOptionId,
+                        name: "FK_PollAnswers_PollChoices_PollChoiceId",
+                        column: x => x.PollChoiceId,
                         principalTable: "PollChoices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -442,12 +441,12 @@ namespace Teamy.Server.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "5534a213-1d6b-45af-b69c-d75e7de8cd82", "8e27a7f7-fb1c-4a31-87c5-40e54330cd43", "Admin", "ADMIN" });
+                values: new object[] { "7a080053-4f33-49a0-baec-abf109f99dcc", "6aa25d00-7f0a-47c6-9101-1488aa51d19f", "User", "USER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "c62b893b-9783-4f45-9716-d722a1b8353e", "bbb736bf-acf7-4948-9ffa-75f3146a7b32", "User", "USER" });
+                values: new object[] { "9939e473-4fb1-44b9-83a0-1a600b55c2d9", "ca660826-1495-4d6e-ba01-6f0683898475", "Admin", "ADMIN" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -566,9 +565,9 @@ namespace Teamy.Server.Data.Migrations
                 column: "Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PollAnswers_PollOptionId",
+                name: "IX_PollAnswers_PollChoiceId",
                 table: "PollAnswers",
-                column: "PollOptionId");
+                column: "PollChoiceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PollAnswers_UserId",
@@ -584,11 +583,6 @@ namespace Teamy.Server.Data.Migrations
                 name: "IX_PollChoices_PollId",
                 table: "PollChoices",
                 column: "PollId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PollChoices_VoteOptionId",
-                table: "PollChoices",
-                column: "VoteOptionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Polls_EventId",
