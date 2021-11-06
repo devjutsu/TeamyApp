@@ -8,39 +8,23 @@
     }
 </style>
 
+@*<div @onkeydown="(e => KeyPressed(e))"></div>*@
 <EventEdit InitialEvent=Evt DoneEditing=@Finished></EventEdit>
 
-
-<div @onkeydown="(e => KeyPressed(e))">
-    <div class="notification-text">@Message</div>
-    <div class="d-flex justify-content-center">
-        <button @onclick="Close" class="btn btn-primary confirm-btn">
-            Next
-            <span class="oi oi-arrow-right" />
-        </button>
-    </div>
-</div>
-
-    @code {
+@code {
     [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
     [Parameter] public EventVM Evt { get; set; }
-    [Parameter] public string Message { get; set; }
 
     async Task Finished(EventVM editedVM)
     {
         await BlazoredModal.CloseAsync(ModalResult.Ok(editedVM));
     }
+    
+    //async Task KeyPressed(KeyboardEventArgs e)
+    //{
+    //if (e.Key == "Escape")
+    //    await Cancel();
+    //}
 
-    async Task Close()
-    {
-        
-        await BlazoredModal.CloseAsync(ModalResult.Ok(Evt));
-    }
-    async Task Cancel() => await BlazoredModal.CancelAsync();
-
-    async Task KeyPressed(KeyboardEventArgs e)
-    {
-    if (e.Key == "Escape")
-        await Cancel();
-    }
+    //async Task Cancel() => await BlazoredModal.CancelAsync();
 }
