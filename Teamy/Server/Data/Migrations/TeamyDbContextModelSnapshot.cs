@@ -192,15 +192,15 @@ namespace Teamy.Server.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c0647899-07c1-458f-bce5-fc41a3d82092",
-                            ConcurrencyStamp = "5e7389e8-6dec-4cd0-8d20-f9c845ee7734",
+                            Id = "c62b893b-9783-4f45-9716-d722a1b8353e",
+                            ConcurrencyStamp = "bbb736bf-acf7-4948-9ffa-75f3146a7b32",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "27c06bec-0b38-4293-b8e0-4e88e3215473",
-                            ConcurrencyStamp = "8ce69280-fb43-4577-bc43-3765690fec35",
+                            Id = "5534a213-1d6b-45af-b69c-d75e7de8cd82",
+                            ConcurrencyStamp = "8e27a7f7-fb1c-4a31-87c5-40e54330cd43",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -392,7 +392,7 @@ namespace Teamy.Server.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CoverImageId")
+                    b.Property<Guid?>("CoverImageId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CreatedById")
@@ -743,9 +743,7 @@ namespace Teamy.Server.Data.Migrations
                 {
                     b.HasOne("Teamy.Server.Models.ImageModel", "CoverImage")
                         .WithMany()
-                        .HasForeignKey("CoverImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CoverImageId");
 
                     b.HasOne("Teamy.Server.Models.AppUser", "CreatedBy")
                         .WithMany()

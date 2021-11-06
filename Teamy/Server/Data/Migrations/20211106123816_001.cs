@@ -246,7 +246,7 @@ namespace Teamy.Server.Data.Migrations
                     When = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Where = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     CreatedById = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CoverImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    CoverImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -261,8 +261,7 @@ namespace Teamy.Server.Data.Migrations
                         name: "FK_Events_Images_CoverImageId",
                         column: x => x.CoverImageId,
                         principalTable: "Images",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -443,12 +442,12 @@ namespace Teamy.Server.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "27c06bec-0b38-4293-b8e0-4e88e3215473", "8ce69280-fb43-4577-bc43-3765690fec35", "Admin", "ADMIN" });
+                values: new object[] { "5534a213-1d6b-45af-b69c-d75e7de8cd82", "8e27a7f7-fb1c-4a31-87c5-40e54330cd43", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "c0647899-07c1-458f-bce5-fc41a3d82092", "5e7389e8-6dec-4cd0-8d20-f9c845ee7734", "User", "USER" });
+                values: new object[] { "c62b893b-9783-4f45-9716-d722a1b8353e", "bbb736bf-acf7-4948-9ffa-75f3146a7b32", "User", "USER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

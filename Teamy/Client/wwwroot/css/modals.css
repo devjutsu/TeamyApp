@@ -15,7 +15,7 @@
   z-index: 102;
 }
 .blazored-modal-content {
-  background-color: rgba(0, 0, 30, 0.3) !important;
+  background-color: rgba(5, 0, 50, 0.2) !important;
   max-height: 80vh;
   overflow-y: auto;
 }

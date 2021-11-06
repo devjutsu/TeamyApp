@@ -15,8 +15,8 @@ namespace Teamy.Server.Models
         public List<Invite> Invites { get; set; }
         public string CreatedById { get; set; }
         public AppUser CreatedBy { get; set; }
-        public Guid CoverImageId { get; set; }
-        public ImageModel CoverImage { get; set; }
+        public Guid? CoverImageId { get; set; }
+        public ImageModel? CoverImage { get; set; }
     }
 
     public class EventConfiguration : IEntityTypeConfiguration<Event>
