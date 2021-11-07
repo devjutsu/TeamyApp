@@ -11,6 +11,7 @@ namespace Teamy.Client.Services
     {
         PollVM NewPoll();
         Task<bool> Vote(PollVM poll, PollChoiceVM choice);
+        Task ResetAnswers(PollVM poll);
     }
 
     public class PollService : IManagePolls
@@ -47,6 +48,13 @@ namespace Teamy.Client.Services
 
             var result = await Http.PostAsJsonAsync<PollChoiceVM>("Polls/Vote", voteRequest);
             return result.IsSuccessStatusCode;
+        }
+
+        public async Task ResetAnswers(PollVM poll)
+        {
+            var resetRequest = (PollVM)poll.Clone();
+            resetRequest.Choices = new List<PollChoiceVM>();
+            await Http.PostAsJsonAsync<PollVM>("Polls/Reset", resetRequest);
         }
     }
 }

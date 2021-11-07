@@ -14,6 +14,11 @@ namespace Teamy.Shared.ViewModels
         public List<PollChoiceVM> Choices { get; set; }
         public bool MultiChoice { get; set; }
         public bool FreeTextOption { get; set; }
+        
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 
     public class PollChoiceVM
@@ -32,7 +37,7 @@ namespace Teamy.Shared.ViewModels
     public class PollAnswerVM
     {
         public Guid Id { get; set; }
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         public string UserName { get; set; }
     }
 }

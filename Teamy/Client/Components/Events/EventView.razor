@@ -21,20 +21,30 @@
         {
             <div style="margin:1rem 0 1rem 0; padding: 1rem; border: 1px dotted black; max-width: 30rem;">
                 <div style="font-weight:bold;">@poll.Question</div>
+                @if (AlreadyVotedPoll(poll))
+                {
+                    <button class="btn btn-link float-end" @onclick=@(() => ResetAnswers(poll))>Reset answer</button>
+                }
 
                 @foreach (var choice in poll.Choices)
                 {
-                    @if (poll.MultiChoice)
-                    {
-                        <input type="checkbox" class="form-check-input" style="margin-top:.7rem;" />
-                    }
-                    else
-                    {
+                    @*@if (poll.MultiChoice)
+                        {
+                        <input type="checkbox" class="form-check-input" style="margin-top:.7rem;" @bind="() => hz(poll, choice)" />
+                        }
+                        else
+                        {
                         <input type="radio" name=@poll.Question class="form-check-input" id=@choice.Id style="margin-top:.7rem;" />
-                    }
-                    <button class="btn btn-link" @onclick="(() => Vote(poll, choice))">@choice.Choice</button>
+                        }*@
+                    <button class="btn btn-link" @onclick="(() => Vote(poll, choice))" disabled=@AlreadyVotedChoice(poll, choice)>@choice.Choice</button>
+
                     <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: @Percent(poll, choice)%;" aria-valuenow="@Percent(poll, choice)" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar" role="progressbar" style="width: @Percent(poll, choice)%;" aria-valuenow="@Percent(poll, choice)" aria-valuemin="0" aria-valuemax="100">
+                            @if (ChoiceTotalVotes(choice) > 0)
+                            {
+                                <span>@Percent(poll, choice)% (@ChoiceTotalVotes(choice))</span>
+                            }
+                        </div>
                     </div>
                 }
                 @*@if (poll.FreeTextOption)
@@ -59,7 +69,6 @@
                     </div>
                     </div>
                     }*@
-
             </div>
         }
     }
@@ -77,6 +86,7 @@
     [CascadingParameter] public IModalService Modal { get; set; }
     [Parameter] public EventVM Evt { get; set; }
     HubConnection _hub;
+    bool hz(PollVM poll, PollChoiceVM choice) => true;
 
     protected override async Task OnInitializedAsync()
     {
@@ -115,16 +125,30 @@
         await PollService.Vote(poll, choice);
     }
 
+    async Task ResetAnswers(PollVM poll)
+        => await PollService.ResetAnswers(poll);
+
     int Percent(PollVM poll, PollChoiceVM choice)
     {
-        var voted = poll.Choices.Sum(o => o.Answers?.Count()) ?? 0;
-        return voted > 0 ? (choice.Answers?.Count() ?? 0) * (100 / voted)  : 0;;
+        var totalVotes = PollTotalVotes(poll);
+        return totalVotes > 0
+                ? ChoiceTotalVotes(choice) * (100 / totalVotes)
+                : 0;
     }
 
-    void RemoveFreeChoice(PollVM poll)
-    {
+    int PollTotalVotes(PollVM poll)
+        => poll.Choices.Sum(o => o.Answers?.Count()) ?? 0;
 
-    }
+    int ChoiceTotalVotes(PollChoiceVM choice)
+        => choice.Answers?.Count() ?? 0;
+
+    bool AlreadyVotedChoice(PollVM poll, PollChoiceVM choice)
+        => poll.MultiChoice
+                ? choice.Answers.Any(a => a.UserId == AppState.UserId)
+                : AlreadyVotedPoll(poll);
+
+    bool AlreadyVotedPoll(PollVM poll)
+        => poll.Choices.Any(c => c.Answers.Any(a => a.UserId == AppState.UserId));
 
     protected override void OnInitialized()
     {
