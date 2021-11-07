@@ -73,23 +73,19 @@
         }
     }
 
-    <p>&nbsp;</p>
-    <h5>Participation</h5>
-    <div>@Evt.CreatedByName - Creator</div>
-    @foreach (var participant in Evt.Participants)
-    {
-        <div>@participant.Name - @participant.Status.ToString()</div>
-    }
+    <EventParticipants CurrentEvent=@Evt />
+    <EventRespond CurrentEvent=@Evt UserId=@AppState.UserId />
 </div>
 
 @code {
     [CascadingParameter] public IModalService Modal { get; set; }
     [Parameter] public EventVM Evt { get; set; }
     HubConnection _hub;
-    bool hz(PollVM poll, PollChoiceVM choice) => true;
 
     protected override async Task OnInitializedAsync()
     {
+        Console.WriteLine(string.Join(", ", Evt.Participants.Where(o => o.Status == ParticipationStatus.Accept).Select(o => o.Name)));
+
         _hub = new HubConnectionBuilder()
                 .WithUrl(Nav.BaseUri + "votehub")
                 .WithAutomaticReconnect()
@@ -107,17 +103,17 @@
         });
 
         _hub.On<Guid>("EventDeleted", async (changedEventId) =>
+        {
+            if (changedEventId == Evt.Id)
             {
-                if (changedEventId == Evt.Id)
-                {
-                    var options = new ModalOptions() { Class = "default-modal" };
-                    var parameters = new ModalParameters();
-                    parameters.Add("Message", "This event was deleted!");
-                    var messageModal = Modal.Show<NotifyModal>("Information", parameters, options);
-                    var result = await messageModal.Result;
-                    Nav.NavigateTo("");
-                }
-            });
+                var options = new ModalOptions() { Class = "default-modal" };
+                var parameters = new ModalParameters();
+                parameters.Add("Message", "This event was deleted!");
+                var messageModal = Modal.Show<NotifyModal>("Information", parameters, options);
+                var result = await messageModal.Result;
+                Nav.NavigateTo("");
+            }
+        });
     }
 
     async Task Vote(PollVM poll, PollChoiceVM choice)

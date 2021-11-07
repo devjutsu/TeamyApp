@@ -1,0 +1,16 @@
+﻿<h5>Participation</h5>
+
+<div>Creator: @CurrentEvent.CreatedByName</div>
+@if (CurrentEvent.Participants.Any(o => o.Status == ParticipationStatus.Accept))
+{
+    <div>Accepted: @string.Join(", ", CurrentEvent.Participants.Where(o => o.Status == ParticipationStatus.Accept).Select(o => o.Name))</div>
+}
+@if (CurrentEvent.Participants.Any(o => o.Status == ParticipationStatus.Reject))
+{
+    <div>Rejected: @string.Join(", ", CurrentEvent.Participants.Where(o => o.Status == ParticipationStatus.Reject).Select(o => o.Name))</div>
+}
+
+@code {
+    [Parameter]
+    public EventVM CurrentEvent { get; set; }
+}
