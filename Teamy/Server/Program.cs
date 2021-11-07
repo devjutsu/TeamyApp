@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO.Compression;
@@ -60,8 +62,8 @@ builder.Services.AddSingleton<IStorageService, AzureBlobStorageService>();
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 builder.Services.Configure<BlobStorageOptions>(builder.Configuration.GetSection("Storage"));
 builder.Services.AddTransient<IEmailSender, EmailSender>();
-//builder.Services.AddSignalR();
-//builder.Services.AddSingleton<IEventHub, EventHub>();
+builder.Services.AddSignalR();
+builder.Services.AddSingleton<IVoteHub, VoteHub>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -103,6 +105,6 @@ using (var scope = scopeFactory.CreateScope())
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
-//app.MapHub<EventHub>("/eventhub");
+app.MapHub<VoteHub>("/votehub");
 
 app.Run();
