@@ -39,7 +39,7 @@ namespace Teamy.Server.Data.Seed
             {
                 Email = "slim@teamy.one",
                 DisplayName = "Slim Shady",
-                UserName = "enemy@teamy.one",
+                UserName = "slim@teamy.one",
                 PasswordHash = "AQAAAAEAACcQAAAAEInNniuMwdacNlHRWsJTXVyfp3MqZcTzl/DeDGGCICWKk+ZNKF/1HVdx2oh/UujC+g==",
                 EmailConfirmed = true,
                 NormalizedEmail = "slim@teamy.one".ToUpper(),

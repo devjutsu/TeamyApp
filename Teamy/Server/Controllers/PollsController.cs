@@ -37,7 +37,6 @@ namespace Teamy.Server.Controllers
         public async Task<IActionResult> Vote([FromBody] PollChoiceVM choice)
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var displayName = (await _userManager.FindByIdAsync(currentUserId)).DisplayName;
 
             var poll = await _db.Polls.FindAsync(choice.PollId);
             var answer = new PollAnswer() { PollChoiceId = choice.Id.Value, UserId = currentUserId };
@@ -57,6 +56,20 @@ namespace Teamy.Server.Controllers
             await _hub.EventUpdated(poll.EventId);
 
             return Ok();
+        }
+
+        [HttpPost("Reset")]
+        public async Task Reset([FromBody] PollVM pollVM)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var answers = _db.PollChoices.Include(_ => _.Answers)
+                            .Where(_ => _.PollId == pollVM.Id)
+                            .SelectMany(c => c.Answers.Where(a => a.UserId == currentUserId));
+
+            _db.PollAnswers.RemoveRange(answers);
+            await _db.SaveChangesAsync();
+            _hub.EventUpdated(pollVM.EventId.Value);
         }
     }
 }
