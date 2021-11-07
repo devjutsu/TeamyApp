@@ -1,4 +1,5 @@
-﻿@inject AppState AppState
+﻿@using Microsoft.AspNetCore.SignalR.Client
+@inject AppState AppState
 @inject IManagePolls PollService
 @inject IManageEvents EventService
 @implements IDisposable
@@ -25,15 +26,15 @@
                 {
                     @if (poll.MultiChoice)
                     {
-                        <input type="checkbox" class="form-check-input" style="margin-top:.6rem;" />
+                        <input type="checkbox" class="form-check-input" style="margin-top:.7rem;" />
                     }
                     else
                     {
-                        <input type="radio" name=@poll.Question class="form-check-input" id=@choice.Id style="margin-top:.6rem;" />
+                        <input type="radio" name=@poll.Question class="form-check-input" id=@choice.Id style="margin-top:.7rem;" />
                     }
                     <button class="btn btn-link" @onclick="(() => Vote(poll, choice))">@choice.Choice</button>
                     <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: @Percent(poll, choice)%" aria-valuenow="@Percent(poll, choice)" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar" role="progressbar" style="width: @Percent(poll, choice)%;" aria-valuenow="@Percent(poll, choice)" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 }
                 @*@if (poll.FreeTextOption)
@@ -73,20 +74,45 @@
 </div>
 
 @code {
-    [Parameter]
-    public EventVM Evt { get; set; }
+    [CascadingParameter] public IModalService Modal { get; set; }
+    [Parameter] public EventVM Evt { get; set; }
+    HubConnection _hub;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _hub = new HubConnectionBuilder()
+                .WithUrl(Nav.BaseUri + "votehub")
+                .WithAutomaticReconnect()
+                .Build();
+
+        await _hub.StartAsync();
+
+        _hub.On<Guid>("EventUpdated", async (changedEventId) =>
+        {
+            if (changedEventId == Evt.Id)
+            {
+                Evt = await EventService.Get(Evt.Id.Value);
+                StateHasChanged();
+            }
+        });
+
+        _hub.On<Guid>("EventDeleted", async (changedEventId) =>
+            {
+                if (changedEventId == Evt.Id)
+                {
+                    var options = new ModalOptions() { Class = "default-modal" };
+                    var parameters = new ModalParameters();
+                    parameters.Add("Message", "This event was deleted!");
+                    var messageModal = Modal.Show<NotifyModal>("Information", parameters, options);
+                    var result = await messageModal.Result;
+                    Nav.NavigateTo("");
+                }
+            });
+    }
 
     async Task Vote(PollVM poll, PollChoiceVM choice)
     {
-        if (await PollService.Vote(poll, choice))
-        {
-            // @! reload state
-            Evt = await EventService.Get(Evt.Id.Value);
-        }
-        else
-        {
-            // @! tiny error notify
-        }
+        await PollService.Vote(poll, choice);
     }
 
     int Percent(PollVM poll, PollChoiceVM choice)

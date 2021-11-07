@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Teamy.Server.Data;
 using Teamy.Server.Models;
+using Teamy.Server.Services;
 using Teamy.Shared.ViewModels;
 
 namespace Teamy.Server.Controllers
@@ -17,16 +18,19 @@ namespace Teamy.Server.Controllers
         ILogger<EventsController> _logger { get; set; }
         TeamyDbContext _db { get; set; }
         UserManager<AppUser> _userManager { get; set; }
-        private readonly IMapper _mapper;
+        readonly IMapper _mapper;
+        IVoteHub _hub;
         public PollsController(ILogger<EventsController> logger,
                                     TeamyDbContext db,
                                     UserManager<AppUser> userManager,
-                                    IMapper mapper)
+                                    IMapper mapper,
+                                    IVoteHub hub)
         {
             _logger = logger;
             _db = db;
             _mapper = mapper;
             _userManager = userManager;
+            _hub = hub;
         }
 
         [HttpPost("Vote")]
@@ -50,6 +54,7 @@ namespace Teamy.Server.Controllers
                 _db.PollAnswers.Add(answer);
             }
             await _db.SaveChangesAsync();
+            await _hub.EventUpdated(poll.EventId);
 
             return Ok();
         }

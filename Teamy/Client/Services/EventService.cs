@@ -42,14 +42,9 @@ namespace Teamy.Client.Services
 
         public async Task<string> Create(EventVM eventVM)
         {
-            //    Title = "sampl test",
-            //    Description = "blah blah",
-            //    ImageUrl = "",
-            //    When = DateTime.Now,
-            //    Where = "",
-
             foreach(var poll in eventVM.Polls)
             {
+                // Cleaning empty choices
                 poll.Choices = poll.Choices.Where(o => !string.IsNullOrEmpty(o.Choice)).ToList();
             }
 
