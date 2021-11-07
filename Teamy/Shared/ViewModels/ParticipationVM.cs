@@ -9,10 +9,10 @@ namespace Teamy.Shared.ViewModels
 {
     public class ParticipationVM
     {
-        public Guid Id { get; set; }
-        public Guid? EventId { get; set; }
-        public string UserId { get; set; }
+        public Guid? Id { get; set; }
+        public Guid EventId { get; set; }
+        public string? UserId { get; set; }
         public ParticipationStatus Status { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 }
