@@ -441,12 +441,12 @@ namespace Teamy.Server.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "7a080053-4f33-49a0-baec-abf109f99dcc", "6aa25d00-7f0a-47c6-9101-1488aa51d19f", "User", "USER" });
+                values: new object[] { "cbf8dac4-235e-4733-b5a4-938728a7eb02", "77fed298-057e-43f3-a308-ded08c8f2d4d", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "9939e473-4fb1-44b9-83a0-1a600b55c2d9", "ca660826-1495-4d6e-ba01-6f0683898475", "Admin", "ADMIN" });
+                values: new object[] { "ef5e2594-6808-4750-aeda-d3a1d01b7b46", "eedea390-a77e-4a08-a22b-d3f2541634e0", "User", "USER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

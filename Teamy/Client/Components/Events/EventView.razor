@@ -75,6 +75,11 @@
 
     <EventParticipants CurrentEvent=@Evt />
     <EventRespond CurrentEvent=@Evt UserId=@AppState.UserId />
+
+    @if(UserCanModifyEvent())
+    {
+        <div>invites</div>
+    }
 </div>
 
 @code {
@@ -145,6 +150,9 @@
 
     bool AlreadyVotedPoll(PollVM poll)
         => poll.Choices.Any(c => c.Answers.Any(a => a.UserId == AppState.UserId));
+
+    bool UserCanModifyEvent()
+        => (Evt.CreatedById == AppState.UserId);
 
     bool CanNotVote(PollVM poll, PollChoiceVM choice)
     {
