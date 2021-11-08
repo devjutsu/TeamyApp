@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -12,18 +13,22 @@ namespace Teamy.Client.Services
         Task LoadUpcoming();
         Task<EventVM> Get(Guid id);
         Task<string> Create(EventVM eventVM);
+        Task<EventVM> Invited(string inviteCode);
     }
 
     public class EventService : IManageEvents
     {
         HttpClient Http { get; set; }
         AppState AppState { get; set; }
-
-        public EventService(IHttpClientFactory httpClientFactory, HttpClient http, AppState appState)
+        NavigationManager Nav { get; set; }
+        IHttpClientFactory HttpClientFactory { get; set; }
+        public EventService(IHttpClientFactory httpClientFactory, HttpClient http, AppState appState, NavigationManager nav)
         {
             AppState = appState;
-            //Http = AppState.IsLoggedIn ? http : httpClientFactory.CreateClient("Teamy.AnonymousAPI");
+            Http = appState.IsLoggedIn ? http : httpClientFactory.CreateClient("Teamy.AnonymousAPI");
             Http = http;
+            Nav = nav;
+            HttpClientFactory = httpClientFactory;
         }
 
         public async Task<EventVM> Get(Guid id)
@@ -42,7 +47,7 @@ namespace Teamy.Client.Services
 
         public async Task<string> Create(EventVM eventVM)
         {
-            foreach(var poll in eventVM.Polls)
+            foreach (var poll in eventVM.Polls)
             {
                 // Cleaning empty choices
                 poll.Choices = poll.Choices.Where(o => !string.IsNullOrEmpty(o.Choice)).ToList();
@@ -52,6 +57,29 @@ namespace Teamy.Client.Services
             if (result.IsSuccessStatusCode)
                 return await result.Content.ReadAsStringAsync();
             else return string.Empty;
+        }
+
+        public async Task<EventVM> Invited(string inviteCode)
+        {
+            if (AppState.IsLoggedIn)
+            {
+                Console.WriteLine("----< logged in >----");
+                var uri = Nav.BaseUri + $"Events/Invited/{inviteCode}";
+                var result = await Http.PostAsJsonAsync<string>(uri, inviteCode);
+                return await result.Content.ReadFromJsonAsync<EventVM>();
+            }
+            else
+            {
+                Console.WriteLine("((((( public )))))");
+                //var http = HttpClientFactory.CreateClient("Teamy.AnonymousAPI");
+                //Evt = await http.GetFromJsonAsync<EventVM>($"Invite/{InviteCode}");
+
+                var http = HttpClientFactory.CreateClient("public");
+                var hz = http.GetFromJsonAsync<int>("Events/Test");
+                Console.WriteLine(hz);
+
+                throw new NotImplementedException();
+            }
         }
     }
 }

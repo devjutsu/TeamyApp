@@ -163,7 +163,6 @@
         }
 
         var currentUserParticipation = Evt.Participants.FirstOrDefault(o => o.UserId == currentUserId)?.Status;
-        Console.WriteLine(currentUserParticipation.ToString());
         if(currentUserParticipation == ParticipationStatus.Accept)
         {
             return AlreadyVotedChoice(poll, choice);
