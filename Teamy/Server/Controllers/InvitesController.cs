@@ -39,6 +39,17 @@ namespace Teamy.Server.Controllers
             var currentParticipations = _db.Participation.Where(o => o.UserId == currentUserId && o.EventId == participation.EventId);
             _db.Participation.RemoveRange(currentParticipations);
             _db.Participation.Add(new Participation() { UserId = currentUserId, EventId = participation.EventId, Status = participation.Status });
+
+            if(participation.Status == ParticipationStatus.Reject)
+            {
+                var pollAnswers = _db.PollAnswers
+                    .Include(_ => _.PollChoice)
+                    .ThenInclude(_ => _.Poll)
+                    .Where(_ => _.PollChoice.Poll.EventId == participation.EventId && _.UserId == currentUserId);
+
+                _db.PollAnswers.RemoveRange(pollAnswers);
+            }
+
             await _db.SaveChangesAsync();
             await _hub.EventUpdated(participation.EventId);
         }
