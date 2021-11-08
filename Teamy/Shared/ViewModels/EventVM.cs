@@ -18,6 +18,7 @@ namespace Teamy.Shared.ViewModels
         public string? CreatedById { get; set; }
         public string? CreatedByName { get; set; }
         public string? ImageUrl { get; set; }
+        public string? InviteCode { get; set; }
 
         public object Clone()
         {

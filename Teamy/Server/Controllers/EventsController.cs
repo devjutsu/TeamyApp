@@ -16,7 +16,6 @@ namespace Teamy.Server.Controllers
         ILogger<EventsController> _logger { get; set; }
         TeamyDbContext _db { get; set; }
         UserManager<AppUser> _userManager { get; set; }
-        //IEventHub _hub;
         private readonly IMapper _mapper;
         public EventsController(ILogger<EventsController> logger,
                                     TeamyDbContext db,
@@ -38,6 +37,7 @@ namespace Teamy.Server.Controllers
             var evt = _mapper.Map<Event>(eventVM);
             evt.CreatedById = currentUserId;
             evt.CreatedBy = await _db.Users.FindAsync(currentUserId);
+            evt.Invites = new List<Invite>() { new Invite() { InviteCode = GenerateInvite(), InvitedById = currentUserId, Public = true } };
             if (string.IsNullOrEmpty(eventVM.ImageUrl))
                 evt.CoverImage = null;
 
@@ -76,9 +76,7 @@ namespace Teamy.Server.Controllers
                 return vms;
             }
             catch(Exception ex)
-            {
-                throw;
-            }
+            { throw; }
         }
 
         [HttpGet("Get/{id}")]
@@ -86,20 +84,37 @@ namespace Teamy.Server.Controllers
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var evt = await _db.Events
-                            .Include(_ => _.Participants)
-                            .ThenInclude(z => z.User)
-                            .Include(_ => _.Polls)
-                            .ThenInclude(_ => _.Choices)
-                            .ThenInclude(_ => _.Answers)
-                            .Include(_ => _.Invites)
-                            .Include(_ => _.CoverImage)
-                            .Include(_ => _.CreatedBy)
-                            .Where(_ => _.CreatedById == currentUserId || _.Participants.Any(p => p.UserId == currentUserId))
-                            .FirstAsync(o => o.Id == id);
+            try
+            {
+                var evt = await _db.Events
+                                .Include(_ => _.Participants)
+                                .ThenInclude(z => z.User)
+                                .Include(_ => _.Polls)
+                                .ThenInclude(_ => _.Choices)
+                                .ThenInclude(_ => _.Answers)
+                                .Include(_ => _.Invites)
+                                .Include(_ => _.CoverImage)
+                                .Include(_ => _.CreatedBy)
+                                .Where(_ => _.CreatedById == currentUserId || _.Participants.Any(p => p.UserId == currentUserId))
+                                .FirstAsync(o => o.Id == id);
 
-            var vm = _mapper.Map<EventVM>(evt);
-            return vm;
+                var vm = _mapper.Map<EventVM>(evt);
+                return vm;
+            }
+            catch (Exception ex)
+            { throw; }
+        }
+
+        private string GenerateInvite()
+        {
+            // use MlkPwgen
+            // PasswordGenerator.Generate(length: 10, allowed: Sets.Alphanumerics);
+            var newInvite = Guid.NewGuid().ToString().Substring(0, 8);
+            while (_db.Invites.Any(o => o.InviteCode == newInvite))
+            {
+                newInvite = Guid.NewGuid().ToString().Substring(0, 8);
+            }
+            return newInvite;
         }
     }
 }

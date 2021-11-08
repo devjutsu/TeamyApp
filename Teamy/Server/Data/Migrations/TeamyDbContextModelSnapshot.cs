@@ -192,15 +192,15 @@ namespace Teamy.Server.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7a080053-4f33-49a0-baec-abf109f99dcc",
-                            ConcurrencyStamp = "6aa25d00-7f0a-47c6-9101-1488aa51d19f",
+                            Id = "ef5e2594-6808-4750-aeda-d3a1d01b7b46",
+                            ConcurrencyStamp = "eedea390-a77e-4a08-a22b-d3f2541634e0",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "9939e473-4fb1-44b9-83a0-1a600b55c2d9",
-                            ConcurrencyStamp = "ca660826-1495-4d6e-ba01-6f0683898475",
+                            Id = "cbf8dac4-235e-4733-b5a4-938728a7eb02",
+                            ConcurrencyStamp = "77fed298-057e-43f3-a308-ded08c8f2d4d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

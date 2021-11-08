@@ -24,7 +24,7 @@ namespace Teamy.Server.Data.Seed
                 EmailConfirmed = true,
                 NormalizedEmail = "algarud@gmail.com".ToUpper(),
                 NormalizedUserName = "algarud@gmail.com".ToUpper(),
-            });;
+            });
             var enemy = db.Users.Add(new AppUser
             {
                 Email = "enemy@teamy.one",
