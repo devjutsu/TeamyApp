@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -103,6 +104,38 @@ namespace Teamy.Server.Controllers
             }
             catch (Exception ex)
             { throw; }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("Invited/{inviteCode}")]
+        public async Task<EventVM> Invited(string inviteCode)
+        {
+            try
+            {
+                var evt = await _db.Events
+                                .Include(_ => _.Participants)
+                                .ThenInclude(z => z.User)
+                                .Include(_ => _.Polls)
+                                .ThenInclude(_ => _.Choices)
+                                .ThenInclude(_ => _.Answers)
+                                .Include(_ => _.Invites)
+                                .Include(_ => _.CoverImage)
+                                .Include(_ => _.CreatedBy)
+                                .Include(_ => _.Participants)
+                                .FirstAsync(o => o.Invites.Any(o => o.InviteCode == inviteCode));
+
+                var vm = _mapper.Map<EventVM>(evt);
+                return vm;
+            }
+            catch (Exception ex)
+            { throw; }
+        }
+
+        [AllowAnonymous]
+        [HttpGet("Test")]
+        public async Task<int> Test()
+        {
+            return 69;
         }
 
         private string GenerateInvite()

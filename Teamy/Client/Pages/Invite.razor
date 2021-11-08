@@ -1,0 +1,42 @@
+﻿@page "/i/{InviteCode}"
+@using Microsoft.AspNetCore.Authorization
+@attribute [AllowAnonymous]
+@inject IManageEvents EventService
+@inject IHttpClientFactory HttpClientFactory
+@inject HttpClient HTTP
+<h3>Invite</h3>
+
+<div>@InviteCode</div>
+@if(CurrentEvent != null)
+{
+    <div>@CurrentEvent.Title</div>
+}
+
+@code {
+    [Parameter]
+    public string InviteCode { get; set; }
+
+    EventVM CurrentEvent { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //CurrentEvent = await EventService.Invited(InviteCode);
+
+        var uri = Nav.BaseUri + "Events/Test";
+        Console.WriteLine("=== > go go go < ===");
+        var http = HttpClientFactory.CreateClient("it");
+        var test = HTTP.GetStringAsync("https://bzzbzzzz.free.beeceptor.com");
+        Console.WriteLine(test);
+
+
+        //var uri = Nav.BaseUri + $"Events/Invited/{InviteCode}";
+        //var result = await http.PostAsJsonAsync<string>(uri, InviteCode);
+        //Console.WriteLine(result.Content);
+
+        //var hz = http.GetFromJsonAsync<int>(uri);
+        //Console.WriteLine(hz);
+
+        //var http = HttpClientFactory.CreateClient("Teamy1.AnonymousAPI");
+        //Evt = await http.GetFromJsonAsync<EventVM>($"Invite/{InviteCode}");
+    }
+}
