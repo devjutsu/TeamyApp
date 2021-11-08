@@ -36,7 +36,7 @@
                         {
                         <input type="radio" name=@poll.Question class="form-check-input" id=@choice.Id style="margin-top:.7rem;" />
                         }*@
-                    <button class="btn btn-link" @onclick="(() => Vote(poll, choice))" disabled=@AlreadyVotedChoice(poll, choice)>@choice.Choice</button>
+                    <button class="btn btn-link" @onclick="(() => Vote(poll, choice))" disabled=@CanNotVote(poll, choice)>@choice.Choice</button>
 
                     <div class="progress">
                         <div class="progress-bar" role="progressbar" style="width: @Percent(poll, choice)%;" aria-valuenow="@Percent(poll, choice)" aria-valuemin="0" aria-valuemax="100">
@@ -145,6 +145,24 @@
 
     bool AlreadyVotedPoll(PollVM poll)
         => poll.Choices.Any(c => c.Answers.Any(a => a.UserId == AppState.UserId));
+
+    bool CanNotVote(PollVM poll, PollChoiceVM choice)
+    {
+        var currentUserId = AppState.UserId;
+        if(Evt.CreatedById == currentUserId)
+        {
+            return AlreadyVotedChoice(poll, choice);
+        }
+
+        var currentUserParticipation = Evt.Participants.FirstOrDefault(o => o.UserId == currentUserId)?.Status;
+        Console.WriteLine(currentUserParticipation.ToString());
+        if(currentUserParticipation == ParticipationStatus.Accept)
+        {
+            return AlreadyVotedChoice(poll, choice);
+        }
+        
+        return true;
+    }
 
     protected override void OnInitialized()
     {
