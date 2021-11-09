@@ -1,13 +1,31 @@
 ﻿@page "/i/{InviteCode}"
 @using Microsoft.AspNetCore.Authorization
+@inject AppState AppState
 @inject IManageEvents EventService
 @inject IHttpClientFactory HttpClientFactory
-<h3>Invite</h3>
+@implements IDisposable
 
-<div>@InviteCode</div>
 @if(CurrentEvent != null)
 {
-    <div>@CurrentEvent.Title</div>
+    <div class="d-flex justify-content-between">
+        <div>
+            <h4>@CurrentEvent.Title</h4>
+            <div>@CurrentEvent.When.ToLongDateString()</div>
+            <div>@CurrentEvent.Description</div>
+        </div>
+        <div><img src=@CurrentEvent.ImageUrl width="400" /></div>
+    </div>
+
+    <AuthorizeView>
+        <Authorized>
+            <EventRespond CurrentEvent=@CurrentEvent UserId=@AppState.UserId />
+        </Authorized>
+        <NotAuthorized>
+            <EventRespondAnon CurrentEvent=@CurrentEvent InviteCode=@InviteCode Responded=@OnResponded />
+        </NotAuthorized>
+    </AuthorizeView>
+
+        
 }
 
 @code {
@@ -19,5 +37,25 @@
     protected override async Task OnInitializedAsync()
     {
         CurrentEvent = await EventService.Invited(InviteCode);
+    }
+
+    protected override void OnInitialized()
+    {
+        AppState.Statechanged += async (Source, Property) => await AppState_StateChanged(Source, Property);
+    }
+
+    private async Task AppState_StateChanged(ComponentBase source, string Property)
+    {
+        if (source != this) await InvokeAsync(StateHasChanged);
+    }
+
+    void IDisposable.Dispose()
+    {
+        AppState.Statechanged -= async (Source, Property) => await AppState_StateChanged(Source, Property);
+    }
+
+    void OnResponded(ParticipationVM participation)
+    {
+        Console.WriteLine($"Responded: {participation.InviteCode} {participation.Name} {participation.Status.ToString()}");
     }
 }
