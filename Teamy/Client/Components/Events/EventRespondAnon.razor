@@ -1,6 +1,6 @@
 ﻿@inject IManageInvites InviteService
 
-@if (Participation == ParticipationStatus.NotSet)
+@if (Participation() == ParticipationStatus.NotSet)
 {
     <div class="dummy-block">
         <label>Your name:</label>
@@ -14,14 +14,14 @@
 }
 else
 {
-    @if (Participation == ParticipationStatus.Accept)
+    @if (Participation() == ParticipationStatus.Accept)
     {
         <div class="dummy-block">
             <div>You're in!</div>
             <button class="btn btn-link" @onclick="ChangeResponse">Change my response</button>
         </div>
     }
-    else if (Participation == ParticipationStatus.Reject)
+    else if (Participation() == ParticipationStatus.Reject)
     {
         <div class="dummy-block">
             <div>You're not going :(</div>
@@ -38,18 +38,22 @@ else
     public string InviteCode {get; set;}
     [Parameter]
     public EventCallback<ParticipationVM> Responded { get; set; }
+    [Parameter]
+    public ParticipationVM? LatestParticipation { get; set; }
 
     public string ParticipantName {get; set;} = "";
 
     bool DisableRespond => string.IsNullOrEmpty(ParticipantName);
 
-    ParticipationStatus Participation = ParticipationStatus.NotSet;
-
-    //ParticipationStatus Participation
-    //    => CurrentEvent.CreatedById == UserId
-    //                ? ParticipationStatus.Creator
-    //                : CurrentEvent.Participants?.FirstOrDefault(o => o.UserId == UserId)?.Status
-    //                    ?? ParticipationStatus.NotSet;
+    ParticipationStatus Participation()
+    {
+        if (LatestParticipation == null)
+            return ParticipationStatus.NotSet;
+        else if (LatestParticipation.EventId != CurrentEvent.Id)
+            return ParticipationStatus.NotSet;
+        else
+            return LatestParticipation.Status;
+    }
 
     async Task Respond(bool accept)
     { 

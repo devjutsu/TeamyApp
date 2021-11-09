@@ -15,6 +15,7 @@ namespace Teamy.Client.Services
         public string UserDisplayName { get; private set; }
         public bool IsLoggedIn => User?.Identity.IsAuthenticated ?? false;
         public List<EventVM> StoredEvents { get; private set; }
+        public ParticipationVM? LatestParticipation { get; private set; }
 
         public AppState(AuthenticationStateProvider authStateProvider)
         {
@@ -27,6 +28,12 @@ namespace Teamy.Client.Services
         {
             this.StoredEvents = events;
             NotifyStateChanged(source, "Events");
+        }
+
+        public void SetParticipation(ComponentBase source, ParticipationVM participation)
+        {
+            this.LatestParticipation = participation;
+            NotifyStateChanged(source, "LatestParticipation");
         }
 
 
