@@ -48,7 +48,7 @@ namespace Teamy.Server.Controllers
                 await _db.SaveChangesAsync();
                 return Ok($"{addedEvt.Entity.Id}");
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             { throw; }
         }
 
@@ -76,7 +76,7 @@ namespace Teamy.Server.Controllers
                 var vms = _mapper.Map<List<Event>, List<EventVM>>(events);
                 return vms;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             { throw; }
         }
 
@@ -107,8 +107,34 @@ namespace Teamy.Server.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("Invited/{inviteCode}")]
-        public async Task<EventVM> Invited(string inviteCode)
+        [HttpGet("Invited")]
+        public async Task<EventVM> Invited()
+        {
+            try
+            {
+                var inviteCode = "d8e1f7b0";
+                var evt = await _db.Events
+                                .Include(_ => _.Participants)
+                                .ThenInclude(z => z.User)
+                                .Include(_ => _.Polls)
+                                .ThenInclude(_ => _.Choices)
+                                .ThenInclude(_ => _.Answers)
+                                .Include(_ => _.Invites)
+                                .Include(_ => _.CoverImage)
+                                .Include(_ => _.CreatedBy)
+                                .Include(_ => _.Participants)
+                                .FirstAsync(o => o.Invites.Any(o => o.InviteCode == inviteCode));
+
+                var vm = _mapper.Map<EventVM>(evt);
+                return vm;
+            }
+            catch (Exception ex)
+            { throw; }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("AnonInvited")]
+        public async Task<EventVM> AnonInvited([FromBody] string inviteCode)
         {
             try
             {
@@ -131,12 +157,13 @@ namespace Teamy.Server.Controllers
             { throw; }
         }
 
-        [AllowAnonymous]
-        [HttpGet("Test")]
-        public async Task<int> Test()
-        {
-            return 69;
-        }
+        //[AllowAnonymous]
+        //[HttpPost("Test")]
+        //public ActionResult<PollAnswerVM> Test([FromBody] string test)
+        //{
+        //    var ans = new PollAnswerVM() { Id = Guid.NewGuid(), UserId = "123", UserName = "543" };
+        //    return Ok(ans);
+        //}
 
         private string GenerateInvite()
         {
