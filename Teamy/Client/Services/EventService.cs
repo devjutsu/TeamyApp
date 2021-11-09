@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Teamy.Shared.ViewModels;
 
@@ -21,14 +22,11 @@ namespace Teamy.Client.Services
         HttpClient Http { get; set; }
         AppState AppState { get; set; }
         NavigationManager Nav { get; set; }
-        IHttpClientFactory HttpClientFactory { get; set; }
         public EventService(IHttpClientFactory httpClientFactory, HttpClient http, AppState appState, NavigationManager nav)
         {
             AppState = appState;
-            Http = appState.IsLoggedIn ? http : httpClientFactory.CreateClient("Teamy.AnonymousAPI");
-            Http = http;
+            Http = appState.IsLoggedIn ? http : httpClientFactory.CreateClient("public");
             Nav = nav;
-            HttpClientFactory = httpClientFactory;
         }
 
         public async Task<EventVM> Get(Guid id)
@@ -61,25 +59,13 @@ namespace Teamy.Client.Services
 
         public async Task<EventVM> Invited(string inviteCode)
         {
-            if (AppState.IsLoggedIn)
-            {
-                Console.WriteLine("----< logged in >----");
-                var uri = Nav.BaseUri + $"Events/Invited/{inviteCode}";
-                var result = await Http.PostAsJsonAsync<string>(uri, inviteCode);
-                return await result.Content.ReadFromJsonAsync<EventVM>();
-            }
-            else
-            {
-                Console.WriteLine("((((( public )))))");
-                //var http = HttpClientFactory.CreateClient("Teamy.AnonymousAPI");
-                //Evt = await http.GetFromJsonAsync<EventVM>($"Invite/{InviteCode}");
+            var uri = Nav.BaseUri + $"Events/AnonInvited";
 
-                var http = HttpClientFactory.CreateClient("public");
-                var hz = http.GetFromJsonAsync<int>("Events/Test");
-                Console.WriteLine(hz);
+            var result = await Http.PostAsJsonAsync(uri, inviteCode);
+            var content = await result.Content.ReadAsStringAsync();
 
-                throw new NotImplementedException();
-            }
+            var evt = JsonSerializer.Deserialize<EventVM>(content, new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            return evt;
         }
     }
 }
