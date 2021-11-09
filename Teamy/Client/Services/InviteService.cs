@@ -11,7 +11,7 @@ namespace Teamy.Client.Services
 {
     public interface IManageInvites
     {
-        Task Respond(Guid eventId, bool accept);
+        Task<ParticipationVM> Respond(Guid eventId, bool accept, string participantName, string inviteCode);
         Task<ParticipationVM> RespondAnon(Guid eventId, bool accept, string participantName, string inviteCode);
     }
 
@@ -28,15 +28,18 @@ namespace Teamy.Client.Services
             Nav = nav;
         }
 
-        public async Task Respond(Guid eventId, bool accept)
+        public async Task<ParticipationVM> Respond(Guid eventId, bool accept, string participantName, string inviteCode)
         {
             var participation = new ParticipationVM
             {
                 EventId = eventId,
                 Status = accept ? ParticipationStatus.Accept : ParticipationStatus.Reject,
+                Name = participantName,
+                InviteCode = inviteCode
             };
             var url = $"{Nav.BaseUri}Invites/Respond";
             await Http.PostAsJsonAsync<ParticipationVM>(url, participation);
+            return participation;
         }
 
         public async Task<ParticipationVM> RespondAnon(Guid eventId, bool accept, string participantName, string inviteCode)

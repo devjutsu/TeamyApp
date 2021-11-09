@@ -29,14 +29,14 @@ else
     }
 }
 
-
 @code {
     [Parameter]
     public EventVM CurrentEvent { get; set; }
     [Parameter]
     public string UserId { get; set; }
-
-    bool DisableRespond => false; //string.IsNullOrEmpty(ParticipantName);
+    [Parameter]
+    public EventCallback<ParticipationVM> Responded { get; set; }
+    bool DisableRespond => false;
 
     ParticipationStatus Participation
         => CurrentEvent.CreatedById == UserId
@@ -45,8 +45,14 @@ else
                         ?? ParticipationStatus.NotSet;
 
     async Task Respond(bool accept)
-        => await InviteService.Respond(CurrentEvent.Id.Value, accept);
+    {
+        var participation = await InviteService.Respond(CurrentEvent.Id.Value, accept, "", CurrentEvent.InviteCode);
+
+        CurrentEvent.Participants?.RemoveAll(o => o.UserId == UserId);
+        CurrentEvent.Participants.Add(participation);
+        await Responded.InvokeAsync(participation);
+    }
 
     void ChangeResponse()
-        => CurrentEvent.Participants = null;
+    => CurrentEvent.Participants = null;
 }
