@@ -192,15 +192,15 @@ namespace Teamy.Server.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ef5e2594-6808-4750-aeda-d3a1d01b7b46",
-                            ConcurrencyStamp = "eedea390-a77e-4a08-a22b-d3f2541634e0",
+                            Id = "fe54fe5d-1917-4821-9e5b-fdf14b696971",
+                            ConcurrencyStamp = "8f2251ea-9c95-461e-a1d7-573e3095071c",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "cbf8dac4-235e-4733-b5a4-938728a7eb02",
-                            ConcurrencyStamp = "77fed298-057e-43f3-a308-ded08c8f2d4d",
+                            Id = "113529c3-543b-4ed6-acb6-d0fba195f9b1",
+                            ConcurrencyStamp = "382e9322-a976-45e7-a915-d676e3b44972",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -314,6 +314,29 @@ namespace Teamy.Server.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.AnonParticipation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("EventId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("InviteId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UnregisteredName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AnonParticipation");
                 });
 
             modelBuilder.Entity("Teamy.Server.Models.AppUser", b =>
