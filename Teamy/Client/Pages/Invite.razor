@@ -5,7 +5,7 @@
 @inject IHttpClientFactory HttpClientFactory
 @implements IDisposable
 
-@if(CurrentEvent != null)
+@if (CurrentEvent != null)
 {
     <div class="d-flex justify-content-between">
         <div>
@@ -21,11 +21,11 @@
             <EventRespond CurrentEvent=@CurrentEvent UserId=@AppState.UserId />
         </Authorized>
         <NotAuthorized>
-            <EventRespondAnon CurrentEvent=@CurrentEvent InviteCode=@InviteCode Responded=@OnResponded />
+            <EventRespondAnon CurrentEvent=@CurrentEvent InviteCode=@InviteCode Responded=@OnResponded LatestParticipation=@AppState.LatestParticipation />
         </NotAuthorized>
     </AuthorizeView>
 
-        
+
 }
 
 @code {
@@ -57,5 +57,6 @@
     void OnResponded(ParticipationVM participation)
     {
         Console.WriteLine($"Responded: {participation.InviteCode} {participation.Name} {participation.Status.ToString()}");
+        AppState.SetParticipation(this, participation);
     }
 }
