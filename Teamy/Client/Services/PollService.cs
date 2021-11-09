@@ -19,10 +19,10 @@ namespace Teamy.Client.Services
         HttpClient Http { get; set; }
         AppState AppState { get; set; }
 
-        public PollService(IHttpClientFactory httpClientFactory, HttpClient http, AppState appState)
+        public PollService(HttpClient http, AppState appState)
         {
             AppState = appState;
-            Http = AppState.IsLoggedIn ? http : httpClientFactory.CreateClient("Teamy.AnonymousAPI");
+            Http = http;
         }
 
         public PollVM NewPoll()

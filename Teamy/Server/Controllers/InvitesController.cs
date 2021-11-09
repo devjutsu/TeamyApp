@@ -40,7 +40,7 @@ namespace Teamy.Server.Controllers
             _db.Participation.RemoveRange(currentParticipations);
             _db.Participation.Add(new Participation() { UserId = currentUserId, EventId = participation.EventId, Status = participation.Status });
 
-            if(participation.Status == ParticipationStatus.Reject)
+            if (participation.Status == ParticipationStatus.Reject)
             {
                 var pollAnswers = _db.PollAnswers
                     .Include(_ => _.PollChoice)
@@ -49,6 +49,26 @@ namespace Teamy.Server.Controllers
 
                 _db.PollAnswers.RemoveRange(pollAnswers);
             }
+
+            await _db.SaveChangesAsync();
+            await _hub.EventUpdated(participation.EventId);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("RespondAnon")]
+        public async Task RespondAnon([FromBody] ParticipationVM participation)
+        {
+            var invite = _db.Invites.First(o => o.InviteCode == participation.InviteCode);
+
+            var answer = new AnonParticipation()
+            {
+                EventId = participation.EventId,
+                InviteId = invite.Id,
+                Status = participation.Status,
+                UnregisteredName = participation.Name,
+            };
+
+            await _db.AnonParticipation.AddAsync(answer);
 
             await _db.SaveChangesAsync();
             await _hub.EventUpdated(participation.EventId);

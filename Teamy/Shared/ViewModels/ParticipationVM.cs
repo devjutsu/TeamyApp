@@ -14,5 +14,6 @@ namespace Teamy.Shared.ViewModels
         public string? UserId { get; set; }
         public ParticipationStatus Status { get; set; }
         public string? Name { get; set; }
+        public string? InviteCode { get; set; }
     }
 }
