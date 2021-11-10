@@ -13,6 +13,10 @@ window.clipboardCopy = {
     }
 };
 
+
+//usage
+//var cookieEventId = await JS.InvokeAsync < string > ("ReadCookie.ReadCookie", "participationEventId");
+//await JS.InvokeAsync < object > ("WriteCookie.WriteCookie", "participationEventId", participation.EventId, DateTime.Now.AddMinutes(1));
 window.WriteCookie = {
 
     WriteCookie: function (name, value, days) {

@@ -20,6 +20,17 @@
 }
 
 @code {
+    protected override async Task OnInitializedAsync()
+    {
+        //var cookieEventId = await JS.InvokeAsync<string>("ReadCookie.ReadCookie", "participationEventId");
+        //var cookieParticipation = await JS.InvokeAsync<string>("ReadCookie.ReadCookie", "participationStatus");
+
+        //if(cookieEventId != null && cookieParticipation != null)
+        //{
+            
+        //}
+    }
+
     protected override void OnInitialized()
     {
         EventService.LoadUpcoming();

@@ -1,5 +1,4 @@
 ﻿@inject IManageInvites InviteService
-@inject IJSRuntime JS
 
 @if (Participation() == ParticipationStatus.NotSet)
 {
@@ -58,24 +57,12 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var cookieEventId = await JS.InvokeAsync<string>("ReadCookie.ReadCookie", "participationEventId");
-        var cookieParticipation = await JS.InvokeAsync<string>("ReadCookie.ReadCookie", "participationStatus");
-        if (cookieEventId == CurrentEvent.Id.ToString() && cookieParticipation != null)
-        {
-            LatestParticipation = new ParticipationVM()
-            {
-                EventId = CurrentEvent.Id.Value,
-                Status = cookieParticipation == "1" ? ParticipationStatus.Accept : ParticipationStatus.Reject
-            };
-        }
+        
     }
 
     async Task Respond(bool accept)
     {
         var participation = await InviteService.RespondAnon(CurrentEvent.Id.Value, accept, ParticipantName, InviteCode);
-        await JS.InvokeAsync<object>("WriteCookie.WriteCookie", "participationId", participation.Id, DateTime.Now.AddMinutes(1));
-        await JS.InvokeAsync<object>("WriteCookie.WriteCookie", "participationEventId", participation.EventId, DateTime.Now.AddMinutes(1));
-        await JS.InvokeAsync<object>("WriteCookie.WriteCookie", "participationStatus", participation.Status, DateTime.Now.AddMinutes(1));
         await Responded.InvokeAsync(participation);
     }
 
