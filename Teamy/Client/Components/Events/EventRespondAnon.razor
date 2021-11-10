@@ -1,4 +1,5 @@
 ﻿@inject IManageInvites InviteService
+@inject IJSRuntime JS
 
 @if (Participation() == ParticipationStatus.NotSet)
 {
@@ -58,6 +59,7 @@ else
     async Task Respond(bool accept)
     { 
         var participation = await InviteService.RespondAnon(CurrentEvent.Id.Value, accept, ParticipantName, InviteCode);
+        await JS.InvokeAsync<object>("WriteCookie.WriteCookie", "participationId", participation.Id, DateTime.Now.AddMinutes(1));
         await Responded.InvokeAsync(participation);
     }
 
