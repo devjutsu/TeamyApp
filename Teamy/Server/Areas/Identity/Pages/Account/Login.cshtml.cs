@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Teamy.Server.Models;
+using Teamy.Server.Data;
 
 namespace Teamy.Server.Areas.Identity.Pages.Account
 {
@@ -22,11 +23,13 @@ namespace Teamy.Server.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly TeamyDbContext _db;
 
-        public LoginModel(SignInManager<AppUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<AppUser> signInManager, ILogger<LoginModel> logger, TeamyDbContext db)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _db = db;
         }
 
         /// <summary>
@@ -83,14 +86,19 @@ namespace Teamy.Server.Areas.Identity.Pages.Account
             /// </summary>
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Invite Response")]
+            public string InviteResponse { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string returnUrl = null, string inviteResponse = null)
         {
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
+            Input = new InputModel() { InviteResponse = inviteResponse };
 
             returnUrl ??= Url.Content("~/");
 
@@ -116,6 +124,22 @@ namespace Teamy.Server.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
+                    if (!string.IsNullOrEmpty(Input.InviteResponse))
+                    {
+                        var actualParticipation = _db.Participation.Find(Guid.Parse(Input.InviteResponse));
+                        actualParticipation.UserId = _db.Users.Where(o => o.Email == Input.Email).SingleOrDefault().Id;
+
+                        var existingAnswers = _db.Participation.Where(o => o.EventId == actualParticipation.EventId && o.UserId == actualParticipation.UserId);
+                        if (existingAnswers.Any())
+                            _db.Participation.Remove(actualParticipation);
+                        else
+                            _db.Participation.Update(actualParticipation);
+
+                        _db.SaveChanges();
+                    }
+
+                    // @! change to event id
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

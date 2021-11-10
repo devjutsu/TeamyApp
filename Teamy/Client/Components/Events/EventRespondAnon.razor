@@ -3,12 +3,10 @@
 @if (Participation() == ParticipationStatus.NotSet)
 {
     <div class="dummy-block">
-        <label>Your name:</label>
-        <div><input class="form-control" @bind-value=@ParticipantName /></div>
         <div>Are you coming?</div>
         <div class="form-inline">
-            <button @onclick="() => Respond(accept:true)" class="btn btn-success" disabled="@DisableRespond">Yes</button>
-            <button @onclick="() => Respond(accept:false)" class="btn btn-danger" disabled="@DisableRespond">No</button>
+            <button @onclick="() => Respond(accept:true)" class="btn btn-success">Yes</button>
+            <button @onclick="() => Respond(accept:false)" class="btn btn-danger">No</button>
         </div>
     </div>
 }
@@ -18,14 +16,15 @@ else
     {
         <div class="dummy-block">
             <div>You're in!</div>
-            <button class="btn btn-link" @onclick="ChangeResponse">Change my response</button>
+            <a href="#" @onclick="NavigateToLogin">Log in</a> or <a href="#" @onclick="NavigateToRegistration">Register</a> to confirm your answer!
         </div>
+
     }
     else if (Participation() == ParticipationStatus.Reject)
     {
         <div class="dummy-block">
             <div>You're not going :(</div>
-            <button class="btn btn-link" @onclick="ChangeResponse">Change attendance</button>
+            <a href="#" @onclick="NavigateToLogin">Log in</a> or <a href="#" @onclick="NavigateToRegistration">Register</a> to confirm your answer!
         </div>
     }
 }
@@ -41,9 +40,8 @@ else
     [Parameter]
     public ParticipationVM? LatestParticipation { get; set; }
 
-    public string ParticipantName { get; set; } = "";
-
-    bool DisableRespond => string.IsNullOrEmpty(ParticipantName);
+    void NavigateToRegistration() => Nav.NavigateTo($"Identity/Account/Register?inviteResponse={LatestParticipation.Id}", forceLoad: true);
+    void NavigateToLogin() => Nav.NavigateTo($"Identity/Account/Login?inviteResponse={LatestParticipation.Id}", forceLoad: true);
 
     ParticipationStatus Participation()
     {
@@ -55,14 +53,9 @@ else
             return LatestParticipation.Status;
     }
 
-    protected override async Task OnInitializedAsync()
-    {
-        
-    }
-
     async Task Respond(bool accept)
     {
-        var participation = await InviteService.RespondAnon(CurrentEvent.Id.Value, accept, ParticipantName, InviteCode);
+        var participation = await InviteService.RespondAnon(CurrentEvent.Id.Value, accept, "anonymous", InviteCode);
         await Responded.InvokeAsync(participation);
     }
 
