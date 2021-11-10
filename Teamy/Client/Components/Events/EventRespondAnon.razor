@@ -36,13 +36,13 @@ else
     [Parameter]
     public EventVM CurrentEvent { get; set; }
     [Parameter]
-    public string InviteCode {get; set;}
+    public string InviteCode { get; set; }
     [Parameter]
     public EventCallback<ParticipationVM> Responded { get; set; }
     [Parameter]
     public ParticipationVM? LatestParticipation { get; set; }
 
-    public string ParticipantName {get; set;} = "";
+    public string ParticipantName { get; set; } = "";
 
     bool DisableRespond => string.IsNullOrEmpty(ParticipantName);
 
@@ -56,10 +56,26 @@ else
             return LatestParticipation.Status;
     }
 
+    protected override async Task OnInitializedAsync()
+    {
+        var cookieEventId = await JS.InvokeAsync<string>("ReadCookie.ReadCookie", "participationEventId");
+        var cookieParticipation = await JS.InvokeAsync<string>("ReadCookie.ReadCookie", "participationStatus");
+        if (cookieEventId == CurrentEvent.Id.ToString() && cookieParticipation != null)
+        {
+            LatestParticipation = new ParticipationVM()
+            {
+                EventId = CurrentEvent.Id.Value,
+                Status = cookieParticipation == "1" ? ParticipationStatus.Accept : ParticipationStatus.Reject
+            };
+        }
+    }
+
     async Task Respond(bool accept)
-    { 
+    {
         var participation = await InviteService.RespondAnon(CurrentEvent.Id.Value, accept, ParticipantName, InviteCode);
         await JS.InvokeAsync<object>("WriteCookie.WriteCookie", "participationId", participation.Id, DateTime.Now.AddMinutes(1));
+        await JS.InvokeAsync<object>("WriteCookie.WriteCookie", "participationEventId", participation.EventId, DateTime.Now.AddMinutes(1));
+        await JS.InvokeAsync<object>("WriteCookie.WriteCookie", "participationStatus", participation.Status, DateTime.Now.AddMinutes(1));
         await Responded.InvokeAsync(participation);
     }
 
