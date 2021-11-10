@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Teamy.Shared.ViewModels;
 using Teamy.Shared.Common;
 using Microsoft.AspNetCore.Components;
+using System.Text.Json;
 
 namespace Teamy.Client.Services
 {
@@ -39,7 +40,13 @@ namespace Teamy.Client.Services
                 UserId = AppState.UserId,
             };
             var url = $"{Nav.BaseUri}Invites/Respond";
-            await Http.PostAsJsonAsync<ParticipationVM>(url, participation);
+            var result = await Http.PostAsJsonAsync<ParticipationVM>(url, participation);
+            if (result.IsSuccessStatusCode)
+            {
+                var content = await result.Content.ReadAsStringAsync();
+                var id = JsonSerializer.Deserialize<Guid>(content);
+                participation.Id = id;
+            }
             return participation;
         }
 
@@ -54,6 +61,12 @@ namespace Teamy.Client.Services
             };
             var url = $"{Nav.BaseUri}Invites/RespondAnon";
             var result = await Http.PostAsJsonAsync<ParticipationVM>(url, participation);
+            if (result.IsSuccessStatusCode)
+            {
+                var content = await result.Content.ReadAsStringAsync();
+                var id = JsonSerializer.Deserialize<Guid>(content);
+                participation.Id = id;
+            }
             return participation;
         }
     }

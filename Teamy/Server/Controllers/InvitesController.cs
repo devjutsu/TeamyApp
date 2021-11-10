@@ -32,13 +32,13 @@ namespace Teamy.Server.Controllers
         }
 
         [HttpPost("Respond")]
-        public async Task Respond([FromBody] ParticipationVM participation)
+        public async Task<Guid> Respond([FromBody] ParticipationVM participation)
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             var currentParticipations = _db.Participation.Where(o => o.UserId == currentUserId && o.EventId == participation.EventId);
             _db.Participation.RemoveRange(currentParticipations);
-            _db.Participation.Add(new Participation() { UserId = currentUserId, EventId = participation.EventId, Status = participation.Status });
+            var entity = _db.Participation.Add(new Participation() { UserId = currentUserId, EventId = participation.EventId, Status = participation.Status });
 
             if (participation.Status == ParticipationStatus.Reject)
             {
@@ -52,11 +52,12 @@ namespace Teamy.Server.Controllers
 
             await _db.SaveChangesAsync();
             await _hub.EventUpdated(participation.EventId);
+            return entity.Entity.Id;
         }
 
         [AllowAnonymous]
         [HttpPost("RespondAnon")]
-        public async Task RespondAnon([FromBody] ParticipationVM participation)
+        public async Task<Guid> RespondAnon([FromBody] ParticipationVM participation)
         {
             var invite = _db.Invites.First(o => o.InviteCode == participation.InviteCode);
 
@@ -68,10 +69,11 @@ namespace Teamy.Server.Controllers
                 UnregisteredName = participation.Name,
             };
 
-            await _db.AnonParticipation.AddAsync(answer);
+            var entity = await _db.AnonParticipation.AddAsync(answer);
 
             await _db.SaveChangesAsync();
             await _hub.EventUpdated(participation.EventId);
+            return entity.Entity.Id;
         }
     }
 }
