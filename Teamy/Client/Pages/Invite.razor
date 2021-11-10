@@ -18,7 +18,7 @@
 
     <AuthorizeView>
         <Authorized>
-            <EventRespond CurrentEvent=@CurrentEvent UserId=@AppState.UserId Responded=@OnResponded />
+            <EventRespond CurrentEvent=@CurrentEvent UserId=@AppState.UserId />
         </Authorized>
         <NotAuthorized>
             <EventRespondAnon CurrentEvent=@CurrentEvent InviteCode=@InviteCode Responded=@OnResponded LatestParticipation=@AppState.LatestParticipation />
@@ -37,6 +37,7 @@
     protected override async Task OnInitializedAsync()
     {
         CurrentEvent = await EventService.Invited(InviteCode);
+        Console.WriteLine($"init: {CurrentEvent.Participants.Count()}");
     }
 
     protected override void OnInitialized()
@@ -57,13 +58,6 @@
     void OnResponded(ParticipationVM participation)
     {
         Console.WriteLine($"Responded: {participation.InviteCode} {participation.Name} {participation.Status.ToString()}");
-        if (AppState.IsLoggedIn)
-        {
-            StateHasChanged();
-        }
-        else
-        {
-            AppState.SetParticipation(this, participation);
-        }
+        AppState.SetParticipation(this, participation);
     }
 }

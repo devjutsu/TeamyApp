@@ -35,7 +35,8 @@ namespace Teamy.Client.Services
                 EventId = eventId,
                 Status = accept ? ParticipationStatus.Accept : ParticipationStatus.Reject,
                 Name = participantName,
-                InviteCode = inviteCode
+                InviteCode = inviteCode,
+                UserId = AppState.UserId,
             };
             var url = $"{Nav.BaseUri}Invites/Respond";
             await Http.PostAsJsonAsync<ParticipationVM>(url, participation);
