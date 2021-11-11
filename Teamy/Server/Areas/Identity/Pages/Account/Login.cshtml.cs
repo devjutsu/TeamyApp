@@ -87,18 +87,18 @@ namespace Teamy.Server.Areas.Identity.Pages.Account
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
 
+            //Anonymous Participation
             [DataType(DataType.Text)]
-            [Display(Name = "Invite Response")]
-            public string InviteResponse { get; set; }
+            public string Participation { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null, string inviteResponse = null)
+        public async Task OnGetAsync(string returnUrl = null, string participation = null)
         {
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
-            Input = new InputModel() { InviteResponse = inviteResponse };
+            Input = new InputModel() { Participation = participation };
 
             returnUrl ??= Url.Content("~/");
 
@@ -125,21 +125,33 @@ namespace Teamy.Server.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User logged in.");
 
-                    if (!string.IsNullOrEmpty(Input.InviteResponse))
+                    if (!string.IsNullOrEmpty(Input.Participation))
                     {
-                        var actualParticipation = _db.Participation.Find(Guid.Parse(Input.InviteResponse));
-                        actualParticipation.UserId = _db.Users.Where(o => o.Email == Input.Email).SingleOrDefault().Id;
+                        var anonymousParticipation = _db.AnonParticipation.Find(Guid.Parse(Input.Participation));
+                        var currentUserId = _db.Users.Where(o => o.Email == Input.Email).SingleOrDefault().Id;
 
-                        var existingAnswers = _db.Participation.Where(o => o.EventId == actualParticipation.EventId && o.UserId == actualParticipation.UserId);
-                        if (existingAnswers.Any())
-                            _db.Participation.Remove(actualParticipation);
-                        else
-                            _db.Participation.Update(actualParticipation);
+                        if(anonymousParticipation != null)
+                        {
+                            var existingAnswers = _db.Participation.Where(o => o.EventId == anonymousParticipation.EventId && o.UserId == currentUserId);
+                            if(existingAnswers.Any())
+                                _db.Participation.RemoveRange(existingAnswers);
 
-                        _db.SaveChanges();
+                            var realParticipation = new Participation()
+                            {
+                                EventId = anonymousParticipation.EventId,
+                                InviteId = anonymousParticipation.InviteId,
+                                Status = anonymousParticipation.Status,
+                                UserId = currentUserId,
+                            };
+
+                            _db.Participation.Add(realParticipation);
+                            _db.AnonParticipation.Remove(anonymousParticipation);
+                            _db.SaveChanges();
+
+                            returnUrl = $"/event/{realParticipation.EventId}";
+                        }
                     }
 
-                    // @! change to event id
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

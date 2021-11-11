@@ -10,7 +10,8 @@
     <div class="col-md-4">
         <section>
             <form id="account" method="post">
-                <h2>Use a local account to log in.</h2>
+                <input asp-for="Input.Participation" type="hidden" />
+                <h3>Use a local account to log in.</h3>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-floating">
