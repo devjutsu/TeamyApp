@@ -34,6 +34,8 @@ else
     public EventVM CurrentEvent { get; set; }
     [Parameter]
     public string UserId { get; set; }
+    [Parameter]
+    public EventCallback NavigateTo { get; set; }
     bool DisableRespond => false;
 
     ParticipationStatus Participation()
@@ -46,6 +48,9 @@ else
     {
         var participation = await InviteService.Respond(CurrentEvent.Id.Value, accept, "", CurrentEvent.InviteCode);
         CurrentEvent.Participants.Add(participation);
+
+
+        await NavigateTo.InvokeAsync();
     }
 
     void ChangeResponse()
