@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Teamy.Server.Data;
 using Teamy.Server.Models;
 
 namespace Teamy.Server.Areas.Identity.Pages.Account
@@ -30,13 +31,15 @@ namespace Teamy.Server.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<AppUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly TeamyDbContext _db;
 
         public RegisterModel(
             UserManager<AppUser> userManager,
             IUserStore<AppUser> userStore,
             SignInManager<AppUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender, 
+            TeamyDbContext db)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +47,7 @@ namespace Teamy.Server.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _db = db;
         }
 
         /// <summary>
@@ -104,12 +108,17 @@ namespace Teamy.Server.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            //Anonymous Participation
+            [DataType(DataType.Text)]
+            public string Participation { get; set; }
         }
 
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string returnUrl = null, string participation = null)
         {
             ReturnUrl = returnUrl;
+            Input = new InputModel() { Participation = participation };
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
@@ -141,6 +150,33 @@ namespace Teamy.Server.Areas.Identity.Pages.Account
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                    if (!string.IsNullOrEmpty(Input.Participation))
+                    {
+                        var anonymousParticipation = _db.AnonParticipation.Find(Guid.Parse(Input.Participation));
+                        var currentUserId = _db.Users.Where(o => o.Email == Input.Email).SingleOrDefault().Id;
+
+                        if (anonymousParticipation != null)
+                        {
+                            var realParticipation = new Participation()
+                            {
+                                EventId = anonymousParticipation.EventId,
+                                InviteId = anonymousParticipation.InviteId,
+                                Status = anonymousParticipation.Status,
+                                UserId = currentUserId,
+                            };
+
+                            _db.Participation.Add(realParticipation);
+                            _db.AnonParticipation.Remove(anonymousParticipation);
+                            _db.SaveChanges();
+
+                            returnUrl = $"/event/{realParticipation.EventId}";
+                        }
+
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+
+                        return LocalRedirect(returnUrl);
+                    }
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
