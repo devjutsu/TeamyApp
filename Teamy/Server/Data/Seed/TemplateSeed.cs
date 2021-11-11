@@ -127,6 +127,35 @@ namespace Teamy.Server.Data.Seed
                     Url = "https://squalldiag.blob.core.windows.net/template-img/t3bip9rzxau6hh4kz5hb.jfif",
                     Id = Guid.NewGuid()
                 },
+                Polls = new List<TemplatePoll>()
+                {
+                    new TemplatePoll()
+                    {
+                        Question = "Where are we going?",
+                        Choices = new List<TemplatePollChoice>()
+                        {
+                            new TemplatePollChoice() { Choice = "Barbeque" },
+                            new TemplatePollChoice() { Choice = "Walk in the forest" },
+                            new TemplatePollChoice() { Choice = "Swimming" },
+                            new TemplatePollChoice() { Choice = "Riding a bicycle" },
+                        }
+                    },
+                    new TemplatePoll()
+                    {
+                        Question = "How far you're ready to walk?",
+                        Choices = new List<TemplatePollChoice>()
+                        {
+                            new TemplatePollChoice() { Choice = "5 km" },
+                            new TemplatePollChoice() { Choice = "10 km" },
+                            new TemplatePollChoice() { Choice = "20 km" },
+                            new TemplatePollChoice() { Choice = "30 km" },
+                            new TemplatePollChoice() { Choice = "50 km" },
+                        },
+                        FreeTextOption = true,
+                        MultiChoice = true,
+                    }
+                },
+                Where = "To be decided...",
             });
 
             db.Templates.Add(new Template()
@@ -139,6 +168,35 @@ namespace Teamy.Server.Data.Seed
                     Url = "https://squalldiag.blob.core.windows.net/template-img/travel.jpg",
                     Id = Guid.NewGuid()
                 },
+                Polls = new List<TemplatePoll>()
+                {
+                    new TemplatePoll()
+                    {
+                        Question = "Where are we going?",
+                        Choices = new List<TemplatePollChoice>()
+                        {
+                            new TemplatePollChoice() { Choice = "Countryside" },
+                            new TemplatePollChoice() { Choice = "Seaside" },
+                            new TemplatePollChoice() { Choice = "Mountains" },
+                            new TemplatePollChoice() { Choice = "City travel" },
+                        }
+                    },
+                    new TemplatePoll()
+                    {
+                        Question = "How far you're ready to walk?",
+                        Choices = new List<TemplatePollChoice>()
+                        {
+                            new TemplatePollChoice() { Choice = "5 km" },
+                            new TemplatePollChoice() { Choice = "10 km" },
+                            new TemplatePollChoice() { Choice = "20 km" },
+                            new TemplatePollChoice() { Choice = "30 km" },
+                            new TemplatePollChoice() { Choice = "50 km" },
+                        },
+                        FreeTextOption = true,
+                        MultiChoice = true,
+                    }
+                },
+                Where = "To be decided...",
             });
 
             db.Templates.Add(new Template()
@@ -243,6 +301,40 @@ namespace Teamy.Server.Data.Seed
                     Url = "https://squalldiag.blob.core.windows.net/template-img/nightlife.jpg",
                     Id = Guid.NewGuid()
                 },
+                Polls = new List<TemplatePoll>()
+                {
+                    new TemplatePoll()
+                    {
+                        Question = "Where should we go?",
+                        Choices = new List<TemplatePollChoice>()
+                        {
+                            new TemplatePollChoice() { Choice = "Coktail/wine party" },
+                            new TemplatePollChoice() { Choice = "Salsa evening" },
+                            new TemplatePollChoice() { Choice = "Pub hopping" },
+                            new TemplatePollChoice() { Choice = "Nightclub" },
+                            new TemplatePollChoice() { Choice = "Concert" },
+                            new TemplatePollChoice() { Choice = "Strip bar" },
+                            new TemplatePollChoice() { Choice = "Cazino" },
+                        },
+                        
+                    },
+                    new TemplatePoll()
+                    {
+                        Question = "How do you like it?",
+                        FreeTextOption = true,
+                        MultiChoice = true,
+                        Choices = new List<TemplatePollChoice>()
+                        {
+                            new TemplatePollChoice() { Choice = "Loud music and lots of dancing" },
+                            new TemplatePollChoice() { Choice = "Not so loud so we can speak" },
+                            new TemplatePollChoice() { Choice = "More alcohol" },
+                            new TemplatePollChoice() { Choice = "Less alcohol" },
+                            new TemplatePollChoice() { Choice = "Games and fun" },
+                            new TemplatePollChoice() { Choice = "Meeting new people" },
+                        },
+                    }
+                },
+                Where = "To be decided...",
             });
 
             db.Templates.Add(new Template()
