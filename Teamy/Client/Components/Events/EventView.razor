@@ -7,17 +7,21 @@
 <div>
     <div class="d-flex justify-content-between">
         <div>
-            <h4>@Evt.Title</h4>
-            <div>@Evt.When.ToLongDateString()</div>
-            <div>@Evt.Description</div>
+            <h4>@CurrentEvent.Title</h4>
+            <div>@CurrentEvent.When.ToLongDateString()</div>
+            <div>@CurrentEvent.Description</div>
+            <div>
+                <button class="btn btn-warning" @onclick="() => EditEvent()">Edit event</button>
+            </div>
         </div>
-        <div><img src=@Evt.ImageUrl width="400" /></div>
+        <div><img src=@CurrentEvent.ImageUrl width="400" /></div>
     </div>
 
+
     <h5>Polls</h5>
-    @if (Evt.Polls != null)
+    @if (CurrentEvent.Polls != null)
     {
-        @foreach (var poll in Evt.Polls)
+        @foreach (var poll in CurrentEvent.Polls)
         {
             <div style="margin:1rem 0 1rem 0; padding: 1rem; border: 1px dotted black; max-width: 30rem;">
                 <div style="font-weight:bold;">@poll.Question</div>
@@ -73,23 +77,25 @@
         }
     }
 
-    <EventParticipants CurrentEvent=@Evt />
-    <EventRespond CurrentEvent=@Evt UserId=@AppState.UserId />
+    <EventParticipants CurrentEvent=@CurrentEvent />
+    <EventRespond CurrentEvent=@CurrentEvent UserId=@AppState.UserId />
 
-    @if(UserCanModifyEvent())
+    @if (UserCanModifyEvent())
     {
-        <EventInvite CurrentEvent=@Evt />
+        <EventInvite CurrentEvent=@CurrentEvent />
     }
+
+
 </div>
 
 @code {
     [CascadingParameter] public IModalService Modal { get; set; }
-    [Parameter] public EventVM Evt { get; set; }
+    [Parameter] public EventVM CurrentEvent { get; set; }
     HubConnection _hub;
 
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine(string.Join(", ", Evt.Participants.Where(o => o.Status == ParticipationStatus.Accept).Select(o => o.Name)));
+        Console.WriteLine(string.Join(", ", CurrentEvent.Participants.Where(o => o.Status == ParticipationStatus.Accept).Select(o => o.Name)));
 
         _hub = new HubConnectionBuilder()
                 .WithUrl(Nav.BaseUri + "votehub")
@@ -100,16 +106,16 @@
 
         _hub.On<Guid>("EventUpdated", async (changedEventId) =>
         {
-            if (changedEventId == Evt.Id)
+            if (changedEventId == CurrentEvent.Id)
             {
-                Evt = await EventService.Get(Evt.Id.Value);
+                CurrentEvent = await EventService.Get(CurrentEvent.Id.Value);
                 StateHasChanged();
             }
         });
 
         _hub.On<Guid>("EventDeleted", async (changedEventId) =>
         {
-            if (changedEventId == Evt.Id)
+            if (changedEventId == CurrentEvent.Id)
             {
                 var options = new ModalOptions() { Class = "default-modal" };
                 var parameters = new ModalParameters();
@@ -152,23 +158,40 @@
         => poll.Choices.Any(c => c.Answers.Any(a => a.UserId == AppState.UserId));
 
     bool UserCanModifyEvent()
-        => (Evt.CreatedById == AppState.UserId);
+        => (CurrentEvent.CreatedById == AppState.UserId);
 
     bool CanNotVote(PollVM poll, PollChoiceVM choice)
     {
         var currentUserId = AppState.UserId;
-        if(Evt.CreatedById == currentUserId)
+        if (CurrentEvent.CreatedById == currentUserId)
         {
             return AlreadyVotedChoice(poll, choice);
         }
 
-        var currentUserParticipation = Evt.Participants.FirstOrDefault(o => o.UserId == currentUserId)?.Status;
-        if(currentUserParticipation == ParticipationStatus.Accept)
+        var currentUserParticipation = CurrentEvent.Participants.FirstOrDefault(o => o.UserId == currentUserId)?.Status;
+        if (currentUserParticipation == ParticipationStatus.Accept)
         {
             return AlreadyVotedChoice(poll, choice);
         }
-        
+
         return true;
+    }
+
+    async Task EditEvent()
+    {
+        var options = new ModalOptions() { Class = "event-edit-modal" };
+        var parameters = new ModalParameters();
+        parameters.Add("Evt", CurrentEvent);
+
+        var messageModal = Modal.Show<EventEditModal>("Edit event", parameters, options);
+        var modalResult = await messageModal.Result;
+        if(!modalResult.Cancelled)
+        {
+            var evt = (EventVM)modalResult.Data;
+            var result = await EventService.Create(evt);
+            if (!string.IsNullOrEmpty(result))
+                Nav.NavigateTo($"/event/{result}");
+        }
     }
 
     protected override void OnInitialized()
