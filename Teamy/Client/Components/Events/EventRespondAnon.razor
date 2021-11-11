@@ -12,19 +12,10 @@
 }
 else
 {
-    @if (Participation() == ParticipationStatus.Accept)
+    @if (Participation() == ParticipationStatus.Accept || Participation() == ParticipationStatus.Reject)
     {
         <div class="dummy-block">
-            <div>You're in!</div>
-            <a href="#" @onclick="NavigateToLogin">Log in</a> or <a href="#" @onclick="NavigateToRegistration">Register</a> to confirm your answer!
-        </div>
-
-    }
-    else if (Participation() == ParticipationStatus.Reject)
-    {
-        <div class="dummy-block">
-            <div>You're not going :(</div>
-            <a href="#" @onclick="NavigateToLogin">Log in</a> or <a href="#" @onclick="NavigateToRegistration">Register</a> to confirm your answer!
+            Please, <a href="#" @onclick="NavigateToLogin">Log in</a> or <a href="#" @onclick="NavigateToRegistration">Register</a> to confirm your answer!
         </div>
     }
 }
@@ -40,8 +31,8 @@ else
     [Parameter]
     public ParticipationVM? LatestParticipation { get; set; }
 
-    void NavigateToRegistration() => Nav.NavigateTo($"Identity/Account/Register?inviteResponse={LatestParticipation.Id}", forceLoad: true);
-    void NavigateToLogin() => Nav.NavigateTo($"Identity/Account/Login?inviteResponse={LatestParticipation.Id}", forceLoad: true);
+    void NavigateToRegistration() => Nav.NavigateTo($"Identity/Account/Register?participation={LatestParticipation.Id}", forceLoad: true);
+    void NavigateToLogin() => Nav.NavigateTo($"Identity/Account/Login?participation={LatestParticipation.Id}", forceLoad: true);
 
     ParticipationStatus Participation()
     {
