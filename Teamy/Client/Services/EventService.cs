@@ -14,6 +14,7 @@ namespace Teamy.Client.Services
         Task LoadUpcoming();
         Task<EventVM> Get(Guid id);
         Task<string> Create(EventVM eventVM);
+        Task<string> Update(EventVM eventVM);
         Task<EventVM> Invited(string inviteCode);
     }
 
@@ -45,13 +46,19 @@ namespace Teamy.Client.Services
 
         public async Task<string> Create(EventVM eventVM)
         {
-            foreach (var poll in eventVM.Polls)
-            {
-                // Cleaning empty choices
-                poll.Choices = poll.Choices.Where(o => !string.IsNullOrEmpty(o.Choice)).ToList();
-            }
+            eventVM.CleanEmptyPollChoices();
 
             var result = await Http.PostAsJsonAsync<EventVM>("Events/Create", eventVM);
+            if (result.IsSuccessStatusCode)
+                return await result.Content.ReadAsStringAsync();
+            else return string.Empty;
+        }
+
+        public async Task<string> Update(EventVM eventVM)
+        {
+            eventVM.CleanEmptyPollChoices();
+
+            var result = await Http.PostAsJsonAsync<EventVM>("Events/Update", eventVM);
             if (result.IsSuccessStatusCode)
                 return await result.Content.ReadAsStringAsync();
             else return string.Empty;
