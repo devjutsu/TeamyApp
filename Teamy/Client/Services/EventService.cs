@@ -57,8 +57,12 @@ namespace Teamy.Client.Services
         public async Task<string> Update(EventVM eventVM)
         {
             eventVM.CleanEmptyPollChoices();
+            eventVM.Participants = null;
+            //eventVM.Polls = null;
+            //eventVM.CleanPollAnswers();
 
             var result = await Http.PostAsJsonAsync<EventVM>("Events/Update", eventVM);
+            
             if (result.IsSuccessStatusCode)
                 return await result.Content.ReadAsStringAsync();
             else return string.Empty;

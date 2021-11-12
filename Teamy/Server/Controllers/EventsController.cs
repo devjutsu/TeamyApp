@@ -52,6 +52,43 @@ namespace Teamy.Server.Controllers
             { throw; }
         }
 
+        [HttpPost("Update")]
+        public async Task<IActionResult> Update([FromBody] EventVM eventVM)
+        {
+            try
+            {
+                var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var displayName = (await _userManager.FindByIdAsync(currentUserId)).DisplayName;
+
+                var existingEvent = _db.Events
+                                    .Include(_ => _.Polls)
+                                    .ThenInclude(_ => _.Choices)
+                                    .ThenInclude(_ => _.Answers)
+                                    .Include(_ => _.CoverImage)
+                                    .First(_ => _.Id == eventVM.Id);
+
+                var newEvent = _mapper.Map<Event>(eventVM);
+                if (existingEvent?.CoverImage.Url != eventVM.ImageUrl)
+                {
+                    if (eventVM.ImageUrl == null)
+                        existingEvent.CoverImageId = null;
+                    else
+                        existingEvent.CoverImage = new ImageModel() { Url = eventVM.ImageUrl };
+                }
+                existingEvent.Polls = newEvent.Polls;
+                existingEvent.Title = eventVM.Title;
+                existingEvent.Description = eventVM.Description;
+                existingEvent.When = eventVM.When;
+                existingEvent.Where = eventVM.Where;
+
+                var e = _db.Events.Update(existingEvent);
+                await _db.SaveChangesAsync();
+                return Ok($"{e.Entity.Id}");
+            }
+            catch (Exception ex)
+            { throw; }
+        }
+
         [HttpGet("Upcoming/{count}")]
         public List<EventVM> Upcoming(int count = 9)
         {
