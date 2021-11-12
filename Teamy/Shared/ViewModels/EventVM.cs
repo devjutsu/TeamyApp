@@ -27,7 +27,7 @@ namespace Teamy.Shared.ViewModels
 
         public void CleanEmptyPollChoices()
         {
-            foreach (var poll in Polls)
+            foreach (var poll in Polls ?? new List<PollVM>())
             {
                 poll.Choices = poll.Choices.Where(o => !string.IsNullOrEmpty(o.Choice)).ToList();
             }
