@@ -189,7 +189,7 @@
         {
             var evt = (EventVM)modalResult.Data;
             var result = await EventService.Update(evt);
-            
+            CurrentEvent = await EventService.Get(Guid.Parse(result));
         }
     }
 
