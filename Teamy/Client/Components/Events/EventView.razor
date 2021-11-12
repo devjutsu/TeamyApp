@@ -188,9 +188,8 @@
         if(!modalResult.Cancelled)
         {
             var evt = (EventVM)modalResult.Data;
-            var result = await EventService.Create(evt);
-            if (!string.IsNullOrEmpty(result))
-                Nav.NavigateTo($"/event/{result}");
+            var result = await EventService.Update(evt);
+            
         }
     }
 
