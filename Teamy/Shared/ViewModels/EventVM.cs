@@ -32,19 +32,5 @@ namespace Teamy.Shared.ViewModels
                 poll.Choices = poll.Choices.Where(o => !string.IsNullOrEmpty(o.Choice)).ToList();
             }
         }
-
-        public void CleanPollAnswers()
-        {
-            foreach (var poll in Polls)
-            {
-                foreach(var choice in poll.Choices)
-                {
-                    if(!choice.Answers?.Any() ?? false)
-                    {
-                        choice.Answers = null;
-                    }
-                }
-            }
-        }
     }
 }
