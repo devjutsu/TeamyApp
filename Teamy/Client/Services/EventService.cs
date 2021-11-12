@@ -59,7 +59,6 @@ namespace Teamy.Client.Services
             eventVM.CleanEmptyPollChoices();
             eventVM.Participants = null;
             //eventVM.Polls = null;
-            //eventVM.CleanPollAnswers();
 
             var result = await Http.PostAsJsonAsync<EventVM>("Events/Update", eventVM);
             
