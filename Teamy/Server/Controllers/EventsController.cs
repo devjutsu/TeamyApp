@@ -68,7 +68,7 @@ namespace Teamy.Server.Controllers
                                     .First(_ => _.Id == eventVM.Id);
 
                 var newEvent = _mapper.Map<Event>(eventVM);
-                if (existingEvent?.CoverImage.Url != eventVM.ImageUrl)
+                if (existingEvent.CoverImage?.Url != eventVM.ImageUrl)
                 {
                     if (eventVM.ImageUrl == null)
                         existingEvent.CoverImageId = null;
