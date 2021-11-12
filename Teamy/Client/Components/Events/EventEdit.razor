@@ -134,6 +134,33 @@
 
     async Task DoneEdit()
     {
-        await DoneEditing.InvokeAsync(EditedEvent);
+        if(EditedEvent.Polls?.Any(o => string.IsNullOrEmpty(o.Question)) ?? false)
+        {
+            var options = new ModalOptions() { Class = "default-modal" };
+            var parameters = new ModalParameters();
+            parameters.Add("Message", "Please, input non-empty poll question.");
+            var messageModal = Modal.Show<NotifyModal>("Information", parameters, options);
+            var result = await messageModal.Result;
+        }
+        else if(EditedEvent.Polls?.Any(o => BadPollChoices(o)) ?? false)
+        {
+            var options = new ModalOptions() { Class = "default-modal" };
+            var parameters = new ModalParameters();
+            parameters.Add("Message", "Polls should have 2 or more non-empty choices.");
+            var messageModal = Modal.Show<NotifyModal>("Information", parameters, options);
+            var result = await messageModal.Result;
+        }
+        else
+        {
+            await DoneEditing.InvokeAsync(EditedEvent);
+        }
+    }
+
+    bool BadPollChoices(PollVM poll)
+    {
+        if(poll.Choices.Where(o => !string.IsNullOrEmpty(o.Choice)).Count() < 2)
+            return true;
+        
+        return false;
     }
 }
