@@ -48,19 +48,22 @@
 
     public async Task DoCreateFromTemplate(EventVM tpl)
     {
-        var options = new ModalOptions() { Class = "event-edit-modal" };
-        var parameters = new ModalParameters();
-        parameters.Add("Evt", tpl);
+        Console.WriteLine(tpl.Id);
+        Nav.NavigateTo($"/edit/{tpl.Id}");
 
-        var messageModal = Modal.Show<EventEditModal>("Create event", parameters, options);
-        var modalResult = await messageModal.Result;
-        if(!modalResult.Cancelled)
-        {
-            var evt = (EventVM)modalResult.Data;
-            var result = await EventService.Create(evt);
-            if (!string.IsNullOrEmpty(result))
-                Nav.NavigateTo($"/event/{result}");
-        }
+        //var options = new ModalOptions() { Class = "event-edit-modal" };
+        //var parameters = new ModalParameters();
+        //parameters.Add("Evt", tpl);
+
+        //var messageModal = Modal.Show<EventEditModal>("Create event", parameters, options);
+        //var modalResult = await messageModal.Result;
+        //if(!modalResult.Cancelled)
+        //{
+        //    var evt = (EventVM)modalResult.Data;
+        //    var result = await EventService.Create(evt);
+        //    if (!string.IsNullOrEmpty(result))
+        //        Nav.NavigateTo($"/event/{result}");
+        //}
     }
 
     public async Task DoCreateNew()

@@ -1,0 +1,26 @@
+﻿@page "/edit/{Id:guid}"
+@inject IManageTemplates TemplateService
+<h3>Edit</h3>
+
+@if (CurrentEvent != null)
+{
+    <EventEdit InitialEvent=CurrentEvent DoneEditing=@Finished></EventEdit>
+}
+
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+    public EventVM CurrentEvent { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        CurrentEvent = await TemplateService.Get(Id);
+        Console.WriteLine("Got: " + CurrentEvent.Title);
+    }
+
+    async Task Finished(EventVM editedVM)
+    {
+        //await BlazoredModal.CloseAsync(ModalResult.Ok(editedVM));
+    }
+}
