@@ -12,7 +12,7 @@ using Teamy.Server.Data;
 namespace Teamy.Server.Data.Migrations
 {
     [DbContext(typeof(TeamyDbContext))]
-    [Migration("20211109161715_001")]
+    [Migration("20211113173630_001")]
     partial class _001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -194,15 +194,15 @@ namespace Teamy.Server.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fe54fe5d-1917-4821-9e5b-fdf14b696971",
-                            ConcurrencyStamp = "8f2251ea-9c95-461e-a1d7-573e3095071c",
+                            Id = "7407d1ef-414e-4f06-909c-c371e6106819",
+                            ConcurrencyStamp = "934db3ac-f2bb-4564-8079-54ee85aedca8",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "113529c3-543b-4ed6-acb6-d0fba195f9b1",
-                            ConcurrencyStamp = "382e9322-a976-45e7-a915-d676e3b44972",
+                            Id = "9c1ebcf8-38fa-4e88-a4f0-821f7917c47b",
+                            ConcurrencyStamp = "7f0fb0a7-e818-42b6-ad73-e67d0beb6554",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -605,6 +605,25 @@ namespace Teamy.Server.Data.Migrations
                     b.ToTable("PollChoices");
                 });
 
+            modelBuilder.Entity("Teamy.Server.Models.ProposedDate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("ProposedDates");
+                });
+
             modelBuilder.Entity("Teamy.Server.Models.Template", b =>
                 {
                     b.Property<Guid>("Id")
@@ -835,6 +854,17 @@ namespace Teamy.Server.Data.Migrations
                     b.Navigation("Poll");
                 });
 
+            modelBuilder.Entity("Teamy.Server.Models.ProposedDate", b =>
+                {
+                    b.HasOne("Teamy.Server.Models.Event", "Event")
+                        .WithMany("ProposedDates")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+                });
+
             modelBuilder.Entity("Teamy.Server.Models.Template", b =>
                 {
                     b.HasOne("Teamy.Server.Models.TemplateCategory", "Category")
@@ -883,6 +913,8 @@ namespace Teamy.Server.Data.Migrations
                     b.Navigation("Participants");
 
                     b.Navigation("Polls");
+
+                    b.Navigation("ProposedDates");
                 });
 
             modelBuilder.Entity("Teamy.Server.Models.Poll", b =>

@@ -17,6 +17,7 @@ namespace Teamy.Server.Models
         public AppUser CreatedBy { get; set; }
         public Guid? CoverImageId { get; set; }
         public ImageModel? CoverImage { get; set; }
+        public List<ProposedDate>? ProposedDates { get; set; }
     }
 
     public class EventConfiguration : IEntityTypeConfiguration<Event>
@@ -31,6 +32,7 @@ namespace Teamy.Server.Models
 
             builder.HasMany(o => o.Invites).WithOne(o => o.Event).OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(o => o.Polls).WithOne(o => o.Event).OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(o => o.ProposedDates).WithOne(o => o.Event).OnDelete(DeleteBehavior.Cascade);
             //builder.HasMany(o => o.Participants).WithOne(o => o.Event).OnDelete(DeleteBehavior.Cascade);
         }
     }
