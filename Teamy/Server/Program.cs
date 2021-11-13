@@ -49,6 +49,9 @@ builder.Services.AddAuthentication()
         twitterOptions.ConsumerKey = builder.Configuration["Integrations:Twitter:ApiKey"];
         twitterOptions.ConsumerSecret = builder.Configuration["Integrations:Twitter:ApiKeySecret"];
         twitterOptions.RetrieveUserDetails = true;
+        twitterOptions.SaveTokens = true;
+        twitterOptions.ClaimActions.MapJsonKey("display-name", "name");
+        twitterOptions.ClaimActions.MapJsonKey("profile-image-url", "profile_image_url_https");
     })
     .AddIdentityServerJwt();
 

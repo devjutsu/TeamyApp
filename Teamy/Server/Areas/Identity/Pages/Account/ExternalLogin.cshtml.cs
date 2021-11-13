@@ -112,6 +112,9 @@ namespace Teamy.Server.Areas.Identity.Pages.Account
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
+            var profileImageClaim = info.Principal.Claims.Where(x => x.Type == "profile-image-url").FirstOrDefault();
+            var displayname = info.Principal.Claims.Where(x => x.Type == "urn:twitter:screenname").FirstOrDefault();
+
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
@@ -156,6 +159,8 @@ namespace Teamy.Server.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+
+                user.DisplayName = info.Principal.Claims.Where(x => x.Type == "urn:twitter:screenname").FirstOrDefault()?.Value;
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
