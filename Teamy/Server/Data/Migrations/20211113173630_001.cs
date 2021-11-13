@@ -376,6 +376,25 @@ namespace Teamy.Server.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProposedDates",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProposedDates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProposedDates_Events_EventId",
+                        column: x => x.EventId,
+                        principalTable: "Events",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TemplatePolls",
                 columns: table => new
                 {
@@ -456,12 +475,12 @@ namespace Teamy.Server.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "113529c3-543b-4ed6-acb6-d0fba195f9b1", "382e9322-a976-45e7-a915-d676e3b44972", "Admin", "ADMIN" });
+                values: new object[] { "7407d1ef-414e-4f06-909c-c371e6106819", "934db3ac-f2bb-4564-8079-54ee85aedca8", "User", "USER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "fe54fe5d-1917-4821-9e5b-fdf14b696971", "8f2251ea-9c95-461e-a1d7-573e3095071c", "User", "USER" });
+                values: new object[] { "9c1ebcf8-38fa-4e88-a4f0-821f7917c47b", "7f0fb0a7-e818-42b6-ad73-e67d0beb6554", "Admin", "ADMIN" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -610,6 +629,11 @@ namespace Teamy.Server.Data.Migrations
                 column: "Id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProposedDates_EventId",
+                table: "ProposedDates",
+                column: "EventId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TemplatePollChoices_Id",
                 table: "TemplatePollChoices",
                 column: "Id");
@@ -677,6 +701,9 @@ namespace Teamy.Server.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "PollAnswers");
+
+            migrationBuilder.DropTable(
+                name: "ProposedDates");
 
             migrationBuilder.DropTable(
                 name: "TemplatePollChoices");

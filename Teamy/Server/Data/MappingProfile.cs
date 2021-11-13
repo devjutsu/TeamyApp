@@ -55,7 +55,9 @@ namespace Teamy.Server.Data
 
             CreateMap<Template, Event>()
                 .ForMember(dest => dest.Polls, opt => opt.MapFrom(src => src.Polls));
-                
+
+            CreateMap<ProposedDate, ProposedDateVM>()
+                .ReverseMap();
         }
     }
 }
