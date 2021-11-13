@@ -44,6 +44,12 @@ builder.Services.AddIdentityServer()
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("role");
 
 builder.Services.AddAuthentication()
+    .AddTwitter(twitterOptions =>
+    {
+        twitterOptions.ConsumerKey = builder.Configuration["Integrations:Twitter:ApiKey"];
+        twitterOptions.ConsumerSecret = builder.Configuration["Integrations:Twitter:ApiKeySecret"];
+        twitterOptions.RetrieveUserDetails = true;
+    })
     .AddIdentityServerJwt();
 
 builder.Services.Configure<GzipCompressionProviderOptions>(options =>
