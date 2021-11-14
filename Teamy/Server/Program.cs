@@ -53,6 +53,14 @@ builder.Services.AddAuthentication()
         twitterOptions.ClaimActions.MapJsonKey("display-name", "name");
         twitterOptions.ClaimActions.MapJsonKey("profile-image-url", "profile_image_url_https");
     })
+    .AddGoogle(options =>
+    {
+        IConfigurationSection googleAuthNSection =
+            builder.Configuration.GetSection("Integrations:Google");
+
+        options.ClientId = googleAuthNSection["ClientId"];
+        options.ClientSecret = googleAuthNSection["ClientSecret"];
+    })
     .AddIdentityServerJwt();
 
 builder.Services.Configure<GzipCompressionProviderOptions>(options =>
