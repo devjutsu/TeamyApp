@@ -58,47 +58,18 @@ else
     public async Task DoCreateFromTemplate(EventVM tpl)
     {
         EditingEvent = tpl;
-
-        //var options = new ModalOptions() { Class = "event-edit-modal" };
-        //var parameters = new ModalParameters();
-        //parameters.Add("Evt", tpl);
-
-        //var messageModal = Modal.Show<EventEditModal>("Create event", parameters, options);
-        //var modalResult = await messageModal.Result;
-        //if(!modalResult.Cancelled)
-        //{
-        //    var evt = (EventVM)modalResult.Data;
-        //    var result = await EventService.Create(evt);
-        //    if (!string.IsNullOrEmpty(result))
-        //        Nav.NavigateTo($"/event/{result}");
-        //}
     }
 
     public async Task DoCreateNew()
     {
-        var options = new ModalOptions() { Class = "event-edit-modal" };
-        var parameters = new ModalParameters();
-        parameters.Add("Evt", new EventVM() { When = DateTime.Today.AddDays(1).AddHours(12)});
-
-        var messageModal = Modal.Show<EventEditModal>("Create event", parameters, options);
-        var modalResult = await messageModal.Result;
-        if(!modalResult.Cancelled)
-        {
-            var evt = (EventVM)modalResult.Data;
-            var result = await EventService.Create(evt);
-            if (!string.IsNullOrEmpty(result))
-                Nav.NavigateTo($"/event/{result}");
-        }
+        EditingEvent = new EventVM();
+        EditingEvent.When = DateTime.Today.AddDays(1);
     }
 
     async Task Finished(EventVM editedVM)
     {
-        Console.WriteLine($"done editing {editedVM.Title}");
-        
-        var createdId = await EventService.Create(EditingEvent);
+        var createdId = await EventService.Create(editedVM);
         Nav.NavigateTo($"/event/{Guid.Parse(createdId)}");
-
-        //await BlazoredModal.CloseAsync(ModalResult.Ok(editedVM));
     }
 }
 
