@@ -197,16 +197,26 @@ namespace Teamy.Server.Controllers
         [HttpPost("Delete")]
         public async Task<IActionResult> Delete([FromBody] Guid id)
         {
-            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            try
+            {
+                var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var evt = await _db.Events.Where(o => o.Id == id && o.CreatedById == currentUserId).FirstAsync();
-            _db.Events.Remove(evt);
-            var result = await _db.SaveChangesAsync();
+                var evt = await _db.Events
+                                    .Include(o => o.Participants)
+                                    .Where(o => o.Id == id && o.CreatedById == currentUserId).FirstAsync();
+                _db.Participation.RemoveRange(evt.Participants);
+                _db.Events.Remove(evt);
+                var result = await _db.SaveChangesAsync();
 
-            if (result > 0)
-                return Ok();
-            else
-                return BadRequest();
+                if (result > 0)
+                    return Ok();
+                else
+                    return BadRequest();
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
         }
 
         //[AllowAnonymous]

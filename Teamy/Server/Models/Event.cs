@@ -33,7 +33,9 @@ namespace Teamy.Server.Models
             builder.HasMany(o => o.Invites).WithOne(o => o.Event).OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(o => o.Polls).WithOne(o => o.Event).OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(o => o.ProposedDates).WithOne(o => o.Event).OnDelete(DeleteBehavior.Cascade);
-            //builder.HasMany(o => o.Participants).WithOne(o => o.Event).OnDelete(DeleteBehavior.Cascade);
+
+            //builder.HasMany(o => o.Participants).WithOne(o => o.Event)
+            //    .HasForeignKey(o => o.EventId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
