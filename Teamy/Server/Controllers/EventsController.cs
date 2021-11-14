@@ -194,6 +194,21 @@ namespace Teamy.Server.Controllers
             { throw; }
         }
 
+        [HttpPost("Delete")]
+        public async Task<IActionResult> Delete([FromBody] Guid id)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var evt = await _db.Events.Where(o => o.Id == id && o.CreatedById == currentUserId).FirstAsync();
+            _db.Events.Remove(evt);
+            var result = await _db.SaveChangesAsync();
+
+            if (result > 0)
+                return Ok();
+            else
+                return BadRequest();
+        }
+
         //[AllowAnonymous]
         //[HttpPost("Test")]
         //public ActionResult<PollAnswerVM> Test([FromBody] string test)

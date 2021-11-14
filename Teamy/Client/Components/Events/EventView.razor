@@ -11,7 +11,8 @@
             <div>@CurrentEvent.When.ToLongDateString()</div>
             <div>@CurrentEvent.Description</div>
             <div>
-                <button class="btn btn-warning" @onclick="() => EditEvent()">Edit event</button>
+                <button class="btn btn-warning" @onclick="() => EditEvent()">Edit</button>
+                <button class="btn btn-danger" @onclick="() => DeleteEvent()">Delete</button>
             </div>
         </div>
         <div><img src=@CurrentEvent.ImageUrl width="400" /></div>
@@ -185,11 +186,23 @@
 
         var messageModal = Modal.Show<EventEditModal>("Edit event", parameters, options);
         var modalResult = await messageModal.Result;
-        if(!modalResult.Cancelled)
+        if (!modalResult.Cancelled)
         {
             var evt = (EventVM)modalResult.Data;
             var result = await EventService.Update(evt);
             CurrentEvent = await EventService.Get(Guid.Parse(result));
+        }
+    }
+
+    async Task DeleteEvent()
+    {
+        var modal = Modal.Show<ConfirmModal>("Are you sure you want to delete this event?", new ModalOptions { Class = "default-modal" });
+        var result = await modal.Result;
+
+        if (!result.Cancelled)
+        {
+            EventService.Delete(CurrentEvent.Id.Value);
+            Nav.NavigateTo("/");
         }
     }
 
