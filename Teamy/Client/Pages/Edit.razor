@@ -1,5 +1,5 @@
 ﻿@page "/edit/{Id:guid}"
-@inject IManageTemplates TemplateService
+@inject IManageEvents EventService
 <h3>Edit</h3>
 
 @if (CurrentEvent != null)
@@ -15,12 +15,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        CurrentEvent = await TemplateService.Get(Id);
-        Console.WriteLine("Got: " + CurrentEvent.Title);
+        CurrentEvent = await EventService.Get(Id);
     }
 
     async Task Finished(EventVM editedVM)
     {
-        //await BlazoredModal.CloseAsync(ModalResult.Ok(editedVM));
+        await EventService.Update(CurrentEvent);
+        Nav.NavigateTo($"/event/{CurrentEvent.Id}");
     }
 }

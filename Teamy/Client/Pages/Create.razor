@@ -1,36 +1,43 @@
 ﻿@page "/create"
+@using Blazored.Modal.Services
 @inject IJSRuntime JS
 @inject IManageEvents EventService
-@using Blazored.Modal.Services
-
 @inject IManageTemplates TemplateService
-<h3>Create new event</h3>
-<h4>Call your friends to ...</h4>
-<p></p>
-<h5>(select template)</h5>
-<div class="d-flex flex-wrap">
-    @if (Recommended != null)
-    {
-        @foreach (var item in Recommended)
+
+@if (EditingEvent == null)
+{
+    <h3>Create new event</h3>
+    <h4>Call your friends to ...</h4>
+    <p></p>
+    <h5>(select template)</h5>
+    <div class="d-flex flex-wrap">
+        @if (Recommended != null)
         {
-            <div class="d-flex" @onclick="(() => DoCreateFromTemplate(item))" style="border:1px dashed black; margin:1rem 1rem 0 0; padding: .5rem; width:33rem; height:7rem;">
-                <div><img src=@item.ImageUrl width="150" style="margin:0 1rem 0 0;" /></div>
+            @foreach (var item in Recommended)
+            {
+                <div class="d-flex" @onclick="(() => DoCreateFromTemplate(item))" style="border:1px dashed black; margin:1rem 1rem 0 0; padding: .5rem; width:33rem; height:7rem;">
+                    <div><img src=@item.ImageUrl width="150" style="margin:0 1rem 0 0;" /></div>
+                    <div>
+                        <div style="font-weight:bold;">@item.Title</div>
+                        <div>@item.Description</div>
+                    </div>
+                </div>
+            }
+
+            <div class="d-flex" @onclick="(() => DoCreateNew())" style="border:1px dashed black; margin:1rem 1rem 0 0; padding: .5rem; width:33rem; height:7rem;">
+                <div><img src="https://miro.medium.com/max/1200/1*deNLDT12xC4buYqv0r7ZCg.jpeg" width="150" style="margin:0 1rem 0 0;" /></div>
                 <div>
-                    <div style="font-weight:bold;">@item.Title</div>
-                    <div>@item.Description</div>
+                    <div style="font-weight:bold;">Custom event</div>
                 </div>
             </div>
         }
-
-        <div class="d-flex" @onclick="(() => DoCreateNew())" style="border:1px dashed black; margin:1rem 1rem 0 0; padding: .5rem; width:33rem; height:7rem;">
-            <div><img src="https://miro.medium.com/max/1200/1*deNLDT12xC4buYqv0r7ZCg.jpeg" width="150" style="margin:0 1rem 0 0;" /></div>
-            <div>
-                <div style="font-weight:bold;">Custom event</div>
-            </div>
-        </div>
-    }
-</div>
-<p>&nbsp;</p>
+    </div>
+    <p>&nbsp;</p>
+}
+else
+{
+    <EventEdit InitialEvent=@EditingEvent DoneEditing=@Finished></EventEdit>
+}
 
 @code {
     [CascadingParameter]
@@ -40,6 +47,8 @@
 
     List<EventVM> Recommended { get; set; }
 
+    EventVM EditingEvent { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         Recommended = await TemplateService.Recommended();
@@ -48,8 +57,7 @@
 
     public async Task DoCreateFromTemplate(EventVM tpl)
     {
-        Console.WriteLine(tpl.Id);
-        Nav.NavigateTo($"/edit/{tpl.Id}");
+        EditingEvent = tpl;
 
         //var options = new ModalOptions() { Class = "event-edit-modal" };
         //var parameters = new ModalParameters();
@@ -81,6 +89,16 @@
             if (!string.IsNullOrEmpty(result))
                 Nav.NavigateTo($"/event/{result}");
         }
+    }
+
+    async Task Finished(EventVM editedVM)
+    {
+        Console.WriteLine($"done editing {editedVM.Title}");
+        
+        var createdId = await EventService.Create(EditingEvent);
+        Nav.NavigateTo($"/event/{Guid.Parse(createdId)}");
+
+        //await BlazoredModal.CloseAsync(ModalResult.Ok(editedVM));
     }
 }
 

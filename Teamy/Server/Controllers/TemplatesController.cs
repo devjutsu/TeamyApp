@@ -38,11 +38,11 @@ namespace Teamy.Server.Controllers
                                 .ToListAsync();
 
             //var vms = _mapper.Map<List<Template>, List<EventVM>>(tpls).ToList();
-
             var events = templates.Select(_ => _mapper.Map<Event>(_)).ToList();
             var vms = _mapper.Map<List<Event>, List<EventVM>>(events);
             vms.ForEach(v => 
-            { 
+            {
+                v.Id = null;
                 v.When = DateTime.Today.AddDays(1).AddHours(12);
                 v.Polls.ForEach(p =>
                 {
@@ -52,30 +52,6 @@ namespace Teamy.Server.Controllers
             });
             // @! only this weird mapping works: List<TemplatePollChoice> => List<EventPollChoiceVM> !@
             return vms;
-        }
-
-        [AllowAnonymous]
-        [HttpGet("{id}")]
-        public async Task<EventVM> Get(Guid id)
-        {
-            var template = await _db.Templates
-                                .Include(_ => _.Polls)
-                                .ThenInclude(p => p.Choices)
-                                .Include(_ => _.CoverImage)
-                                .Where(_ => _.Id == id)
-                                .FirstAsync();
-
-
-            var evt = _mapper.Map<Event>(template);
-            var vm = _mapper.Map<EventVM>(evt);
-            vm.Polls.ForEach(p =>
-            {
-                p.Id = null;
-                p.EventId = null;
-                p.Choices.ForEach(c => c.Id=null);
-            });
-            
-            return vm;
         }
     }
 }

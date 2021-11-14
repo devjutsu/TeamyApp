@@ -11,7 +11,6 @@ namespace Teamy.Client.Services
     public interface IManageTemplates
     {
         Task<List<EventVM>> Recommended();
-        Task<EventVM> Get(Guid id);
     }
 
     public class TemplateService : IManageTemplates
@@ -32,8 +31,5 @@ namespace Teamy.Client.Services
 
         public async Task<List<EventVM>> Recommended()
             => await Http.GetFromJsonAsync<List<EventVM>>(Nav.BaseUri.ToString() + "Templates");
-
-        public async Task<EventVM> Get(Guid id)
-            => await Http.GetFromJsonAsync<EventVM>(Nav.BaseUri.ToString() + $"Templates/{id}");
     }
 }
