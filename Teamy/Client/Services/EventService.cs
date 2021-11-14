@@ -16,6 +16,7 @@ namespace Teamy.Client.Services
         Task<string> Create(EventVM eventVM);
         Task<string> Update(EventVM eventVM);
         Task<EventVM> Invited(string inviteCode);
+        Task Delete(Guid id);
     }
 
     public class EventService : IManageEvents
@@ -75,6 +76,11 @@ namespace Teamy.Client.Services
 
             var evt = JsonSerializer.Deserialize<EventVM>(content, new JsonSerializerOptions(JsonSerializerDefaults.Web));
             return evt;
+        }
+
+        public async Task Delete(Guid id)
+        {
+            await Http.PostAsJsonAsync<Guid>("Events/Delete", id);
         }
     }
 }
