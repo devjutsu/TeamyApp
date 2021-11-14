@@ -10,10 +10,6 @@
             <h4>@CurrentEvent.Title</h4>
             <div>@CurrentEvent.When.ToLongDateString()</div>
             <div>@CurrentEvent.Description</div>
-            <div>
-                <button class="btn btn-warning" @onclick="() => EditEvent()">Edit</button>
-                <button class="btn btn-danger" @onclick="() => DeleteEvent()">Delete</button>
-            </div>
         </div>
         <div><img src=@CurrentEvent.ImageUrl width="400" /></div>
     </div>
@@ -84,8 +80,13 @@
     @if (UserCanModifyEvent())
     {
         <EventInvite CurrentEvent=@CurrentEvent />
-    }
 
+        <div>
+            <button class="btn btn-warning" @onclick="() => EditEvent()">Edit</button>
+            <button class="btn btn-danger" @onclick="() => DeleteEvent()">Delete</button>
+            <p>&nbsp;</p>
+        </div>
+    }
 
 </div>
 
