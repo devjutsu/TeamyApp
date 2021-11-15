@@ -80,6 +80,7 @@ namespace Teamy.Server.Controllers
                         existingEvent.CoverImage = new ImageModel() { Url = eventVM.ImageUrl };
                 }
                 existingEvent.Polls = newEvent.Polls;
+                existingEvent.ProposedDates = newEvent.ProposedDates;
                 existingEvent.Title = eventVM.Title;
                 existingEvent.Description = eventVM.Description;
                 existingEvent.When = eventVM.When;
@@ -110,6 +111,7 @@ namespace Teamy.Server.Controllers
                                 .Include(_ => _.Invites)
                                 .Include(_ => _.CoverImage)
                                 .Include(_ => _.CreatedBy)
+                                .Include(_ => _.ProposedDates)
                                 .Where(_ => _.CreatedById == currentUserId || _.Participants.Any(p => p.UserId == currentUserId))
                                 .OrderBy(_ => _.When)
                                 .Take(count)
@@ -138,6 +140,7 @@ namespace Teamy.Server.Controllers
                                 .Include(_ => _.Invites)
                                 .Include(_ => _.CoverImage)
                                 .Include(_ => _.CreatedBy)
+                                .Include(_ => _.ProposedDates)
                                 .Where(_ => _.CreatedById == currentUserId || _.Participants.Any(p => p.UserId == currentUserId))
                                 .FirstAsync(o => o.Id == id);
 

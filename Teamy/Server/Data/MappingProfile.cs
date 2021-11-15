@@ -33,6 +33,7 @@ namespace Teamy.Server.Data
                 .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.CoverImage.Url))
                 .ForMember(dest => dest.CreatedByName, opt => opt.MapFrom(src => src.CreatedBy.DisplayName))
                 .ForMember(dest => dest.InviteCode, opt => opt.MapFrom(src => src.Invites.First(o => o.Public).InviteCode))
+                .ForMember(dest => dest.ProposedDates, opt => opt.MapFrom(src => src.ProposedDates))
                 .ReverseMap();
 
             CreateMap<TemplatePollChoice, PollChoiceVM>()
