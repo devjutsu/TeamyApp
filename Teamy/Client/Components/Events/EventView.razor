@@ -8,6 +8,10 @@
         <div>
             <h4>@CurrentEvent.Title</h4>
             <div>@CurrentEvent.When.ToLongDateString()</div>
+            @foreach(var date in CurrentEvent.ProposedDates)
+            {
+                <div>@date.Date.ToLongDateString()</div>
+            }
             <div>@CurrentEvent.Description</div>
         </div>
         <div><img src=@CurrentEvent.ImageUrl width="400" /></div>
