@@ -1,20 +1,82 @@
 ﻿@page "/event/{Id:guid}"
 @inject AppState AppState
 @inject IManageEvents EventService
+@implements IDisposable
 
-@if (Evt != null)
+@if (CurrentEvent != null)
 {
-    <EventView CurrentEvent=@Evt />
+    @if (Editing)
+    {
+        <EventEdit InitialEvent=@CurrentEvent DoneEditing=@Finished></EventEdit>
+    }
+    else
+    {
+        <EventView CurrentEvent=@CurrentEvent />
+
+        @if (UserCanModifyEvent())
+        {
+            <div>
+                <button class="btn btn-warning" @onclick="() => EditEvent()">Edit</button>
+                <button class="btn btn-danger" @onclick="() => DeleteEvent()">Delete</button>
+                <p>&nbsp;</p>
+            </div>
+        }
+
+    }
 }
 
 @code {
+    [CascadingParameter] public IModalService Modal { get; set; }
     [Parameter]
     public Guid Id { get; set; }
-    EventVM Evt { get; set; }
+    EventVM CurrentEvent { get; set; }
+    bool Editing { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
-        Evt = AppState.StoredEvents?.SingleOrDefault(o => o.Id == Id)
+        CurrentEvent = AppState.StoredEvents?.SingleOrDefault(o => o.Id == Id)
                     ?? await EventService.Get(Id);
+    }
+
+    bool UserCanModifyEvent()
+        => (CurrentEvent.CreatedById == AppState.UserId);
+
+    async Task EditEvent()
+    {
+        Editing = true;
+    }
+
+    async Task DeleteEvent()
+    {
+        var modal = Modal.Show<ConfirmModal>("Are you sure you want to delete this event?", new ModalOptions { Class = "default-modal" });
+        var result = await modal.Result;
+
+        if (!result.Cancelled)
+        {
+            await EventService.Delete(CurrentEvent.Id.Value);
+            Nav.NavigateTo("/");
+        }
+    }
+
+    async Task Finished(EventVM editedVM)
+    {
+        await EventService.Update(editedVM);
+        CurrentEvent = editedVM;
+        Editing = false;
+    }
+
+    protected override void OnInitialized()
+    {
+        AppState.Statechanged += async (Source, Property) => await AppState_StateChanged(Source, Property);
+    }
+
+    private async Task AppState_StateChanged(ComponentBase source, string Property)
+    {
+        if (source != this) await InvokeAsync(StateHasChanged);
+    }
+
+    void IDisposable.Dispose()
+    {
+        AppState.Statechanged -= async (Source, Property) => await AppState_StateChanged(Source, Property);
     }
 }
