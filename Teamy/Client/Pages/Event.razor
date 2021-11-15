@@ -2,6 +2,7 @@
 @inject AppState AppState
 @inject IManageEvents EventService
 @implements IDisposable
+@using Microsoft.AspNetCore.SignalR.Client
 
 @if (CurrentEvent != null)
 {
@@ -31,11 +32,43 @@
     public Guid Id { get; set; }
     EventVM CurrentEvent { get; set; }
     bool Editing { get; set; } = false;
+    HubConnection _hub;
 
     protected override async Task OnInitializedAsync()
     {
         CurrentEvent = AppState.StoredEvents?.SingleOrDefault(o => o.Id == Id)
                     ?? await EventService.Get(Id);
+
+        _hub = new HubConnectionBuilder()
+                    .WithUrl(Nav.BaseUri + "votehub")
+                    .WithAutomaticReconnect()
+                    .Build();
+        await _hub.StartAsync();
+
+        Console.WriteLine($"started hub for {CurrentEvent.Id}");
+        _hub.On<Guid>("EventUpdated", async (changedEventId) =>
+        {
+            Console.WriteLine("***===event updated===***");
+            if (changedEventId == CurrentEvent.Id)
+            {
+                CurrentEvent = await EventService.Get(CurrentEvent.Id.Value);
+                StateHasChanged();
+            }
+        });
+
+        _hub.On<Guid>("EventDeleted", async (changedEventId) =>
+        {
+            Console.WriteLine("---===event deleted===---");
+            if (changedEventId == CurrentEvent.Id)
+            {
+                var options = new ModalOptions() { Class = "default-modal" };
+                var parameters = new ModalParameters();
+                parameters.Add("Message", "This event was deleted!");
+                var messageModal = Modal.Show<NotifyModal>("Information", parameters, options);
+                var result = await messageModal.Result;
+                Nav.NavigateTo("");
+            }
+        });
     }
 
     bool UserCanModifyEvent()

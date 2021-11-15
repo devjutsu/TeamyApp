@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.SignalR.Client
-@inject AppState AppState
+﻿@inject AppState AppState
 @inject IManagePolls PollService
 @inject IManageEvents EventService
 @implements IDisposable
@@ -13,7 +12,6 @@
         </div>
         <div><img src=@CurrentEvent.ImageUrl width="400" /></div>
     </div>
-
 
     <h5>Polls</h5>
     @if (CurrentEvent.Polls != null)
@@ -86,40 +84,7 @@
 @code {
     [CascadingParameter] public IModalService Modal { get; set; }
     [Parameter] public EventVM CurrentEvent { get; set; }
-    HubConnection _hub;
-
-    protected override async Task OnInitializedAsync()
-    {
-        _hub = new HubConnectionBuilder()
-                .WithUrl(Nav.BaseUri + "votehub")
-                .WithAutomaticReconnect()
-                .Build();
-
-        await _hub.StartAsync();
-
-        _hub.On<Guid>("EventUpdated", async (changedEventId) =>
-        {
-            if (changedEventId == CurrentEvent.Id)
-            {
-                CurrentEvent = await EventService.Get(CurrentEvent.Id.Value);
-                StateHasChanged();
-            }
-        });
-
-        _hub.On<Guid>("EventDeleted", async (changedEventId) =>
-        {
-            if (changedEventId == CurrentEvent.Id)
-            {
-                var options = new ModalOptions() { Class = "default-modal" };
-                var parameters = new ModalParameters();
-                parameters.Add("Message", "This event was deleted!");
-                var messageModal = Modal.Show<NotifyModal>("Information", parameters, options);
-                var result = await messageModal.Result;
-                Nav.NavigateTo("");
-            }
-        });
-    }
-
+    
     async Task Vote(PollVM poll, PollChoiceVM choice)
     {
         await PollService.Vote(poll, choice);
