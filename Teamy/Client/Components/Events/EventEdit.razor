@@ -6,7 +6,19 @@
             <label>What</label>
             <input class="form-control" @bind-value="@EditedEvent.Title" @ref="titleRef" />
             <label>When</label>
+
             <input type="date" @bind="@EditedEvent.When" @bind:format="yyyy-MM-dd" class="form-control event-text-input event-input-date">
+
+            @foreach (var date in EditedEvent.ProposedDates ?? new List<ProposedDateVM>())
+            {
+                <div>@date.Date</div>
+            }
+            <div>
+                <button class="btn btn-outline-success" @onclick="() => AddDate()">
+                    <span class="oi oi-plus" />
+                </button>
+            </div>
+
             <label>Details</label>
             <textarea rows=2 @bind="@EditedEvent.Description" class="form-control" />
             <label>Where</label>
@@ -132,7 +144,7 @@
 
     async Task DoneEdit()
     {
-        if(EditedEvent.Polls?.Any(o => string.IsNullOrEmpty(o.Question)) ?? false)
+        if (EditedEvent.Polls?.Any(o => string.IsNullOrEmpty(o.Question)) ?? false)
         {
             var options = new ModalOptions() { Class = "default-modal" };
             var parameters = new ModalParameters();
@@ -140,7 +152,7 @@
             var messageModal = Modal.Show<NotifyModal>("Information", parameters, options);
             var result = await messageModal.Result;
         }
-        else if(EditedEvent.Polls?.Any(o => BadPollChoices(o)) ?? false)
+        else if (EditedEvent.Polls?.Any(o => BadPollChoices(o)) ?? false)
         {
             var options = new ModalOptions() { Class = "default-modal" };
             var parameters = new ModalParameters();
@@ -156,9 +168,14 @@
 
     bool BadPollChoices(PollVM poll)
     {
-        if(poll.Choices.Where(o => !string.IsNullOrEmpty(o.Choice)).Count() < 2)
+        if (poll.Choices.Where(o => !string.IsNullOrEmpty(o.Choice)).Count() < 2)
             return true;
-        
+
         return false;
+    }
+
+    void AddDate()
+    {
+
     }
 }
