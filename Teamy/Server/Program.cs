@@ -53,6 +53,14 @@ builder.Services.AddAuthentication()
         twitterOptions.ClaimActions.MapJsonKey("display-name", "name");
         twitterOptions.ClaimActions.MapJsonKey("profile-image-url", "profile_image_url_https");
     })
+    //.AddFacebook(facebookOptions =>
+    //{
+    //    facebookOptions.AppId = builder.Configuration["Integrations:Facebook:ClientId"];
+    //    facebookOptions.AppSecret = builder.Configuration["Integrations:Facebook:ClientSecret"];
+    //    facebookOptions.SaveTokens = true;
+    //    facebookOptions.ClaimActions.MapJsonKey("display-name", "name");
+    //    facebookOptions.AccessDeniedPath = "/AccessDeniedPathInfo";
+    //})
     .AddGoogle(options =>
     {
         IConfigurationSection googleAuthNSection =
