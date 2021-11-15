@@ -24,13 +24,5 @@ namespace Teamy.Shared.ViewModels
         {
             return this.MemberwiseClone();
         }
-
-        public void CleanEmptyPollChoices()
-        {
-            foreach (var poll in Polls ?? new List<PollVM>())
-            {
-                poll.Choices = poll.Choices.Where(o => !string.IsNullOrEmpty(o.Choice)).ToList();
-            }
-        }
     }
 }
