@@ -47,11 +47,6 @@ namespace Teamy.Client.Services
 
         public async Task<string> Create(EventVM eventVM)
         {
-            Console.WriteLine($"in: {eventVM.Title}");
-            Console.WriteLine($"in: {eventVM.When.ToString()}");
-            Console.WriteLine($"in: {eventVM.Where}");
-            Console.WriteLine($"in: {eventVM.ImageUrl}");
-            Console.WriteLine($"in: {eventVM.Id}");
             eventVM.CleanEmptyPollChoices();
 
             var result = await Http.PostAsJsonAsync<EventVM>("Events/Create", eventVM);
