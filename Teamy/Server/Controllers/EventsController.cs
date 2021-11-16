@@ -86,6 +86,9 @@ namespace Teamy.Server.Controllers
                 existingEvent.When = eventVM.When;
                 existingEvent.Where = eventVM.Where;
 
+                var existingProposedDates = _db.ProposedDates.Where(o => o.EventId == existingEvent.Id);
+                _db.ProposedDates.RemoveRange(existingProposedDates);
+
                 var e = _db.Events.Update(existingEvent);
                 await _db.SaveChangesAsync();
                 await _hub.EventUpdated(e.Entity.Id);
