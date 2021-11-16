@@ -24,9 +24,9 @@ namespace Teamy.Shared.ViewModels
         public object Clone()
         {
             var item = (EventVM)this.MemberwiseClone();
-            item.ProposedDates = new List<ProposedDateVM>();
             item.ProposedDates = this.ProposedDates?.ToList() ?? new List<ProposedDateVM>();
-
+            item.Polls = this.Polls?.ToList() ?? new List<PollVM>();
+            item.Participants = this.Participants?.ToList() ?? new List<ParticipationVM>();
             return item;
         }
     }
