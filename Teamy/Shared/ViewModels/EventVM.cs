@@ -23,7 +23,11 @@ namespace Teamy.Shared.ViewModels
 
         public object Clone()
         {
-            return this.MemberwiseClone();
+            var item = (EventVM)this.MemberwiseClone();
+            item.ProposedDates = new List<ProposedDateVM>();
+            item.ProposedDates = this.ProposedDates?.ToList() ?? new List<ProposedDateVM>();
+
+            return item;
         }
     }
 }
