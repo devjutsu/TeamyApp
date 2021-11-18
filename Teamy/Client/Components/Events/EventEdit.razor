@@ -7,7 +7,7 @@
             <input class="form-control" @bind-value="@EditedEvent.Title" @ref="titleRef" />
             <label>When</label>
 
-            <input type="date" @bind="@EditedEvent.When" @bind:format="yyyy-MM-dd" class="form-control event-text-input event-input-date">
+            @*<input type="date" @bind="@EditedEvent.When" @bind:format="yyyy-MM-dd" class="form-control event-text-input event-input-date">*@
 
             @foreach (var date in EditedEvent.ProposedDates ?? new List<ProposedDateVM>())
             {
