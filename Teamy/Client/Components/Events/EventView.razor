@@ -15,11 +15,28 @@
             }
             else
             {
-                <div>Proposed dates:</div>
-                @foreach (var date in CurrentEvent.ProposedDates)
-                {
+                @*<div>Date selection:</div>
+                    @foreach (var date in CurrentEvent.ProposedDates)
+                    {
                     <div>@date.Date.ToLongDateString()</div>
-                }
+                    }*@
+
+                <div style="margin:1rem 0 1rem 0; padding: 1rem; border: 1px dotted black; max-width: 30rem;">
+                    <div style="font-weight:bold;">Date selection:</div>
+                    @foreach (var date in CurrentEvent.ProposedDates)
+                    {
+                        <button class="btn btn-link" @onclick="(() => VoteDate(date))" disabled=@CanNotVoteDate(date)>@date.Date.ToLongDateString()</button>
+
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: @PercentDate(date)%;" aria-valuenow="@PercentDate(date)" aria-valuemin="0" aria-valuemax="100">
+                                @if (ChoiceTotalVotesDate(date) > 0)
+                                {
+                                    <span>@PercentDate(date)% (@ChoiceTotalVotesDate(date))</span>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
             }
         </div>
         <div><img src=@CurrentEvent.ImageUrl width="400" /></div>
@@ -145,6 +162,26 @@
         }
 
         return true;
+    }
+
+    void VoteDate(ProposedDateVM date)
+    {
+        Console.WriteLine(date.Date.ToLongDateString());
+    }
+
+    bool CanNotVoteDate(ProposedDateVM date)
+    {
+        return false;
+    }
+
+    int PercentDate(ProposedDateVM date)
+    {
+        return 30;
+    }
+
+    int ChoiceTotalVotesDate(ProposedDateVM date)
+    {
+        return 2;
     }
 
     protected override void OnInitialized()
