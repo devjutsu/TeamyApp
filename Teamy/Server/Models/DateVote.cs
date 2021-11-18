@@ -7,6 +7,7 @@ namespace Teamy.Server.Models
     {
         public Guid Id { get; set; }
         public string UserId { get; set; }
+        public Guid ProposedDateId { get; set; }
         public ProposedDate ProposedDate { get; set; }
     }
 
