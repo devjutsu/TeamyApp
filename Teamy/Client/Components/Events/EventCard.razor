@@ -2,7 +2,10 @@
     <div><img src=@Evt.ImageUrl width="150" style="margin:0 1rem 0 0;"/></div>
     <div>
         <div style="font-weight:bold;">@Evt.Title</div>
-        <div style="color: darkcyan;">@Evt.When.ToLongDateString()</div>
+        @if (@Evt.DateStatus == EventDateStatus.Locked)
+        {
+            <div style="color: darkcyan;">@Evt.EventDate.Value.ToLongDateString()</div>
+        }
         <div>@Evt.Description</div>
     </div>
 </div>

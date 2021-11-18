@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Teamy.Shared.Common;
 
 namespace Teamy.Server.Models
 {
@@ -8,7 +9,6 @@ namespace Teamy.Server.Models
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTime When { get; set; }
         public string? Where { get; set; }
         public List<Poll> Polls { get; set; }
         public List<Participation> Participants { get; set; }
@@ -18,6 +18,8 @@ namespace Teamy.Server.Models
         public Guid? CoverImageId { get; set; }
         public ImageModel? CoverImage { get; set; }
         public List<ProposedDate>? ProposedDates { get; set; }
+        public EventDateStatus DateStatus { get; set; }
+        public DateTime? EventDate { get; set; }
     }
 
     public class EventConfiguration : IEntityTypeConfiguration<Event>

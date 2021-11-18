@@ -53,7 +53,7 @@ namespace Teamy.Server.Data.Seed
                 Invites = new List<Invite>() { new Invite() { InviteCode = Guid.NewGuid().ToString().Substring(0, 8), InvitedById = garuda.Entity.Id, Public = true } },
                 CreatedById = garuda.Entity.Id,
                 Title = "Poker Night",
-                When = DateTime.Now.AddDays(30),
+                EventDate = DateTime.Now.AddDays(30),
                 Where = "Office conference room",
                 Description = "Tournament: The winner takes it all, others just have a good time and some drinks",
                 CoverImage = new ImageModel() { Url = "https://images8.alphacoders.com/642/642626.jpg" }
@@ -109,7 +109,7 @@ namespace Teamy.Server.Data.Seed
                 Invites = new List<Invite>() { new Invite() { InviteCode = Guid.NewGuid().ToString().Substring(0, 8), InvitedById = garuda.Entity.Id, Public = true } },
                 CreatedById = garuda.Entity.Id,
                 Title = "Bicycle ride",
-                When = DateTime.Now.AddDays(10),
+                EventDate = DateTime.Now.AddDays(10),
                 Description = "I want to ride my bicycle",
                 Where = "Somewhere over the rainbow",
                 CoverImage = new ImageModel() { Url = "https://img3.goodfon.com/wallpaper/nbig/1/47/nebo-velosiped-uniforma.jpg" }
@@ -165,7 +165,7 @@ namespace Teamy.Server.Data.Seed
                 Invites = new List<Invite>() { new Invite() { InviteCode = Guid.NewGuid().ToString().Substring(0,8), InvitedById = garuda.Entity.Id, Public = true} },
                 CreatedById = garuda.Entity.Id,
                 Title = "Hacking night",
-                When = DateTime.Now.AddDays(20),
+                EventDate = DateTime.Now.AddDays(20),
                 Description = "Creating cool stuff and Banja right after",
                 Where = "YogaLab countryside workshop facility",
                 CoverImage = new ImageModel() { Url = "https://i.pinimg.com/originals/71/85/0c/71850c4d6cd020d740e21c0b2b030acb.jpg" }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Teamy.Shared.Common;
 
 namespace Teamy.Shared.ViewModels
 {
@@ -11,7 +12,6 @@ namespace Teamy.Shared.ViewModels
         public Guid? Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; } = "";
-        public DateTime When { get; set; }
         public string? Where { get; set; }
         public List<PollVM>? Polls { get; set; }
         public List<ParticipationVM>? Participants { get; set; }
@@ -20,6 +20,8 @@ namespace Teamy.Shared.ViewModels
         public string? ImageUrl { get; set; }
         public string? InviteCode { get; set; }
         public List<ProposedDateVM>? ProposedDates { get; set; }
+        public EventDateStatus DateStatus { get; set; }
+        public DateTime? EventDate { get; set; }
 
         public object Clone()
         {
