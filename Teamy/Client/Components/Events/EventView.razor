@@ -9,18 +9,13 @@
             <h4>@CurrentEvent.Title</h4>
             <div>@CurrentEvent.Description</div>
             <p></p>
+            @* add different logic: if one event then no voting. *@
             @if (@CurrentEvent.DateStatus == EventDateStatus.Locked)
             {
                 <div>@CurrentEvent.EventDate.Value.ToLongDateString()</div>
             }
             else
             {
-                @*<div>Date selection:</div>
-                    @foreach (var date in CurrentEvent.ProposedDates)
-                    {
-                    <div>@date.Date.ToLongDateString()</div>
-                    }*@
-
                 <div style="margin:1rem 0 1rem 0; padding: 1rem; border: 1px dotted black; max-width: 30rem;">
                     <div style="font-weight:bold;">Date selection:</div>
                     @foreach (var date in CurrentEvent.ProposedDates)
@@ -164,9 +159,10 @@
         return true;
     }
 
-    void VoteDate(ProposedDateVM date)
+    async Task VoteDate(ProposedDateVM date)
     {
-        Console.WriteLine(date.Date.ToLongDateString());
+        date.EventId = CurrentEvent.Id.Value;
+        await PollService.VoteDate(date);
     }
 
     bool CanNotVoteDate(ProposedDateVM date)

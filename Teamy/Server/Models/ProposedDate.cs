@@ -9,6 +9,7 @@ namespace Teamy.Server.Models
         public DateTime Date { get; set; }
         public Guid EventId { get; set; }
         public Event Event { get; set; }
+        public List<DateVote> Votes { get; set; } = new List<DateVote>();
     }
 
     public class ProposedDateConfiguration : IEntityTypeConfiguration<ProposedDate>
@@ -16,6 +17,7 @@ namespace Teamy.Server.Models
         public void Configure(EntityTypeBuilder<ProposedDate> builder)
         {
             builder.HasKey(o => o.Id);
+            builder.HasMany(o => o.Votes).WithOne(o => o.ProposedDate).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
