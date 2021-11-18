@@ -65,6 +65,7 @@ else
     {
         EditingEvent = new EventVM();
         EditingEvent.EventDate = null;
+        EditingEvent.ProposedDates = new List<ProposedDateVM>() {new ProposedDateVM() {Date = DateTime.Today.AddDays(1) }};
     }
 
     async Task Finished(EventVM editedVM)
