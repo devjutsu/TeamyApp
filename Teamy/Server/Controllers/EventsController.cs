@@ -83,7 +83,7 @@ namespace Teamy.Server.Controllers
                 existingEvent.ProposedDates = newEvent.ProposedDates;
                 existingEvent.Title = eventVM.Title;
                 existingEvent.Description = eventVM.Description;
-                existingEvent.When = eventVM.When;
+                existingEvent.EventDate = eventVM.EventDate;
                 existingEvent.Where = eventVM.Where;
 
                 var existingProposedDates = _db.ProposedDates.Where(o => o.EventId == existingEvent.Id);
@@ -116,7 +116,7 @@ namespace Teamy.Server.Controllers
                                 .Include(_ => _.CreatedBy)
                                 .Include(_ => _.ProposedDates)
                                 .Where(_ => _.CreatedById == currentUserId || _.Participants.Any(p => p.UserId == currentUserId))
-                                .OrderBy(_ => _.When)
+                                .OrderBy(_ => _.EventDate)
                                 .Take(count)
                                 .ToList();
 

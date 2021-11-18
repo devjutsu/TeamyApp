@@ -64,7 +64,7 @@ else
     public async Task DoCreateNew()
     {
         EditingEvent = new EventVM();
-        EditingEvent.When = DateTime.Today.AddDays(1);
+        EditingEvent.EventDate = null;
     }
 
     async Task Finished(EventVM editedVM)

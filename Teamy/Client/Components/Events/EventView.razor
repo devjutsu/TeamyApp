@@ -7,10 +7,17 @@
     <div class="d-flex justify-content-between">
         <div>
             <h4>@CurrentEvent.Title</h4>
-            <div>@CurrentEvent.When.ToLongDateString()</div>
-            @foreach(var date in CurrentEvent.ProposedDates)
+            @if (@CurrentEvent.DateStatus == EventDateStatus.Locked)
             {
-                <div>@date.Date.ToLongDateString()</div>
+                <div>@CurrentEvent.EventDate.Value.ToLongDateString()</div>
+            }
+            else
+            {
+                <div>Proposed dates:</div>
+                @foreach (var date in CurrentEvent.ProposedDates)
+                {
+                    <div>@date.Date.ToLongDateString()</div>
+                }
             }
             <div>@CurrentEvent.Description</div>
         </div>
@@ -88,7 +95,7 @@
 @code {
     [CascadingParameter] public IModalService Modal { get; set; }
     [Parameter] public EventVM CurrentEvent { get; set; }
-    
+
     async Task Vote(PollVM poll, PollChoiceVM choice)
     {
         await PollService.Vote(poll, choice);

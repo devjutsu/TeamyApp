@@ -192,15 +192,15 @@ namespace Teamy.Server.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "945bf2c2-2fba-4cbd-b29c-6e935512e3d9",
-                            ConcurrencyStamp = "086f2f61-4cd5-439a-ad17-0fd02b68fbea",
+                            Id = "5f0cf0ae-db66-4192-813e-8bb7d17709ba",
+                            ConcurrencyStamp = "9f0fb258-1b8f-40fb-94c8-5b92acf20084",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "0a31afa5-1150-4980-b5bd-db2956cd50b9",
-                            ConcurrencyStamp = "de5b0536-8118-4f6d-8166-9e123e41d274",
+                            Id = "e49fb660-1c4c-44b0-9308-697023ea45c1",
+                            ConcurrencyStamp = "60b330b1-28f9-4cd8-98f1-a00f1617fd75",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -422,18 +422,21 @@ namespace Teamy.Server.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("DateStatus")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(1024)
                         .HasColumnType("nvarchar(1024)");
 
+                    b.Property<DateTime?>("EventDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
-
-                    b.Property<DateTime>("When")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Where")
                         .HasMaxLength(256)

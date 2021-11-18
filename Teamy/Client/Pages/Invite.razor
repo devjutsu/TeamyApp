@@ -10,7 +10,10 @@
     <div class="d-flex justify-content-between">
         <div>
             <h4>@CurrentEvent.Title</h4>
-            <div>@CurrentEvent.When.ToLongDateString()</div>
+            @if (@CurrentEvent.DateStatus == EventDateStatus.Locked)
+            {
+                <div>@CurrentEvent.EventDate.Value.ToLongDateString()</div>
+            }
             <div>@CurrentEvent.Description</div>
         </div>
         <div><img src=@CurrentEvent.ImageUrl width="400" /></div>
