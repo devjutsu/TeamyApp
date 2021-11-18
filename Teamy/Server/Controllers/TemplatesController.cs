@@ -44,7 +44,8 @@ namespace Teamy.Server.Controllers
             {
                 v.Id = null;
                 v.When = DateTime.Today.AddDays(1).AddHours(12);
-                v.Polls.ForEach(p =>
+                v.ProposedDates = new List<ProposedDateVM>() { new ProposedDateVM() { Date = DateTime.Today.AddDays(1) } };
+                v.Polls?.ForEach(p =>
                 {
                     p.Id = null;
                     p.Choices.ForEach(c => c.Id = null);
