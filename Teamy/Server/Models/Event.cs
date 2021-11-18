@@ -11,13 +11,13 @@ namespace Teamy.Server.Models
         public string Description { get; set; }
         public string? Where { get; set; }
         public List<Poll> Polls { get; set; }
-        public List<Participation> Participants { get; set; }
+        public List<Participation> Participants { get; set; } = new List<Participation>();
         public List<Invite> Invites { get; set; }
         public string CreatedById { get; set; }
         public AppUser CreatedBy { get; set; }
         public Guid? CoverImageId { get; set; }
         public ImageModel? CoverImage { get; set; }
-        public List<ProposedDate>? ProposedDates { get; set; }
+        public List<ProposedDate> ProposedDates { get; set; } = new List<ProposedDate>();
         public EventDateStatus DateStatus { get; set; }
         public DateTime? EventDate { get; set; }
     }

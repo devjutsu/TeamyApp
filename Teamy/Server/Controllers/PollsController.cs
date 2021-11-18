@@ -40,7 +40,7 @@ namespace Teamy.Server.Controllers
 
             var poll = await _db.Polls.FindAsync(choice.PollId);
             var answer = new PollAnswer() { PollChoiceId = choice.Id.Value, UserId = currentUserId };
-            if(poll.MultiChoice)
+            if (poll.MultiChoice)
             {
                 _db.PollAnswers.Add(answer);
             }
@@ -70,6 +70,21 @@ namespace Teamy.Server.Controllers
             _db.PollAnswers.RemoveRange(answers);
             await _db.SaveChangesAsync();
             _hub.EventUpdated(pollVM.EventId.Value);
+        }
+
+        [HttpPost("VoteDate")]
+        public async Task<IActionResult> VoteDate([FromBody] ProposedDateVM date)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var evt = await _db.Events
+                            .Include(o => o.ProposedDates)
+                            .Where(o => o.Id == date.EventId).FirstAsync();
+            // @! filter by participation
+            
+            // @! add it.
+
+
+            return Ok();
         }
     }
 }

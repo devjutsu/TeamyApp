@@ -25,6 +25,7 @@ namespace Teamy.Server.Data
 
         public DbSet<AnonParticipation> AnonParticipation { get; set; }
         public DbSet<ProposedDate> ProposedDates { get; set; }
+        public DbSet<DateVote> DateVotes { get; set; }
 
         public TeamyDbContext(
             DbContextOptions options,
@@ -60,6 +61,7 @@ namespace Teamy.Server.Data
 
             builder.ApplyConfiguration(new AnonParticipationConfiguration());
             builder.ApplyConfiguration(new ProposedDateConfiguration());
+            builder.ApplyConfiguration(new DateVoteConfiguration());
         }
     }
 }

@@ -115,6 +115,7 @@ namespace Teamy.Server.Controllers
                                 .Include(_ => _.CoverImage)
                                 .Include(_ => _.CreatedBy)
                                 .Include(_ => _.ProposedDates)
+                                .ThenInclude(_ => _.Votes)
                                 .Where(_ => _.CreatedById == currentUserId || _.Participants.Any(p => p.UserId == currentUserId))
                                 .OrderBy(_ => _.EventDate)
                                 .Take(count)

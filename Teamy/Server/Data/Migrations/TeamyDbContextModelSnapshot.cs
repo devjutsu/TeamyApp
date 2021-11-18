@@ -192,15 +192,15 @@ namespace Teamy.Server.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5f0cf0ae-db66-4192-813e-8bb7d17709ba",
-                            ConcurrencyStamp = "9f0fb258-1b8f-40fb-94c8-5b92acf20084",
+                            Id = "404aa3e8-2b06-4b66-837b-cb802fe1a124",
+                            ConcurrencyStamp = "b4a25714-b8a5-465c-9a39-8d079e672cf9",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "e49fb660-1c4c-44b0-9308-697023ea45c1",
-                            ConcurrencyStamp = "60b330b1-28f9-4cd8-98f1-a00f1617fd75",
+                            Id = "b80cc16c-7658-4d1b-9a9a-bf340ac14552",
+                            ConcurrencyStamp = "ca7a4756-ca8f-4b84-8200-ca5a56104ec3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -407,6 +407,30 @@ namespace Teamy.Server.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.DateVote", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProposedDateId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("ProposedDateId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("DateVotes");
                 });
 
             modelBuilder.Entity("Teamy.Server.Models.Event", b =>
@@ -779,6 +803,17 @@ namespace Teamy.Server.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Teamy.Server.Models.DateVote", b =>
+                {
+                    b.HasOne("Teamy.Server.Models.ProposedDate", "ProposedDate")
+                        .WithMany("Votes")
+                        .HasForeignKey("ProposedDateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProposedDate");
+                });
+
             modelBuilder.Entity("Teamy.Server.Models.Event", b =>
                 {
                     b.HasOne("Teamy.Server.Models.ImageModel", "CoverImage")
@@ -926,6 +961,11 @@ namespace Teamy.Server.Data.Migrations
             modelBuilder.Entity("Teamy.Server.Models.PollChoice", b =>
                 {
                     b.Navigation("Answers");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.ProposedDate", b =>
+                {
+                    b.Navigation("Votes");
                 });
 
             modelBuilder.Entity("Teamy.Server.Models.Template", b =>
