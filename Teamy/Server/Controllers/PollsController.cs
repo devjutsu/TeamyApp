@@ -7,6 +7,7 @@ using System.Security.Claims;
 using Teamy.Server.Data;
 using Teamy.Server.Models;
 using Teamy.Server.Services;
+using Teamy.Shared.Common;
 using Teamy.Shared.ViewModels;
 
 namespace Teamy.Server.Controllers
@@ -94,6 +95,45 @@ namespace Teamy.Server.Controllers
 
             await _hub.EventUpdated(date.EventId.Value);
             return Ok();
+        }
+
+        [HttpPost("LockDate")]
+        public async Task<IActionResult> LockDate([FromBody] ProposedDateVM date)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var evt = await _db.Events.Where(o => o.Id == date.EventId && o.CreatedById == currentUserId).FirstAsync();
+
+            evt.EventDate = date.Date;
+            evt.DateStatus = EventDateStatus.Locked;
+
+            _db.Events.Update(evt);
+            await _db.SaveChangesAsync();
+
+            await _hub.EventUpdated(date.EventId.Value);
+            return Ok();
+        }
+
+        [HttpPost("UnlockDate")]
+        public async Task<IActionResult> UnlockDate(Guid id)
+        {
+            try
+            {
+                var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var evt = await _db.Events.Where(o => o.Id == id && o.CreatedById == currentUserId).FirstAsync();
+
+                evt.EventDate = null;
+                evt.DateStatus = EventDateStatus.Voting;
+
+                _db.Events.Update(evt);
+                await _db.SaveChangesAsync();
+
+                await _hub.EventUpdated(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

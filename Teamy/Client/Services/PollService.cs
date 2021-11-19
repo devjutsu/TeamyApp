@@ -14,7 +14,7 @@ namespace Teamy.Client.Services
         Task ResetAnswers(PollVM poll);
         Task<bool> VoteDate(ProposedDateVM date);
         Task<bool> LockDate(ProposedDateVM date);
-        Task<bool> UnlockDate();
+        Task<bool> UnlockDate(Guid id);
     }
 
     public class PollService : IManagePolls
@@ -69,9 +69,10 @@ namespace Teamy.Client.Services
             var result = await Http.PostAsJsonAsync<ProposedDateVM>("Polls/LockDate", date);
             return result.IsSuccessStatusCode;
         }
-        public async Task<bool> UnlockDate()
+        public async Task<bool> UnlockDate(Guid id)
         {
-            var result = await Http.PostAsJsonAsync<bool>("Polls/LockDate", true);
+            Console.WriteLine(id);
+            var result = await Http.PostAsJsonAsync<Guid>("Polls/UnlockDate", id);
             return result.IsSuccessStatusCode;
         }
     }
