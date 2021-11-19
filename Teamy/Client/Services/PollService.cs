@@ -13,6 +13,8 @@ namespace Teamy.Client.Services
         Task<bool> Vote(PollVM poll, PollChoiceVM choice);
         Task ResetAnswers(PollVM poll);
         Task<bool> VoteDate(ProposedDateVM date);
+        Task<bool> LockDate(ProposedDateVM date);
+        Task<bool> UnlockDate();
     }
 
     public class PollService : IManagePolls
@@ -25,23 +27,21 @@ namespace Teamy.Client.Services
             AppState = appState;
             Http = http;
         }
-
         public PollVM NewPoll()
-            => new PollVM()
+        => new PollVM()
+        {
+            Choices = new List<PollChoiceVM>()
             {
-                Choices = new List<PollChoiceVM>()
+                new PollChoiceVM()
                 {
-                    new PollChoiceVM()
-                    {
-                        Choice = "Type poll choice text",
-                        Answers = new List<PollAnswerVM>()
-                    }
-                },
-                Question = "Type Question",
-                MultiChoice = true,
-                FreeTextOption = true
-            };
-
+                    Choice = "Type poll choice text",
+                    Answers = new List<PollAnswerVM>()
+                }
+            },
+            Question = "Type Question",
+            MultiChoice = true,
+            FreeTextOption = true
+        };
         public async Task<bool> Vote(PollVM poll, PollChoiceVM choice)
         {
             var voteRequest = (PollChoiceVM)choice.Clone();
@@ -61,6 +61,17 @@ namespace Teamy.Client.Services
         public async Task<bool> VoteDate(ProposedDateVM date)
         {
             var result = await Http.PostAsJsonAsync<ProposedDateVM>("Polls/VoteDate", date);
+            return result.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> LockDate(ProposedDateVM date)
+        {
+            var result = await Http.PostAsJsonAsync<ProposedDateVM>("Polls/LockDate", date);
+            return result.IsSuccessStatusCode;
+        }
+        public async Task<bool> UnlockDate()
+        {
+            var result = await Http.PostAsJsonAsync<bool>("Polls/LockDate", true);
             return result.IsSuccessStatusCode;
         }
     }
