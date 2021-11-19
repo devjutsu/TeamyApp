@@ -190,6 +190,7 @@
     {
         CurrentEvent.EventDate = date.Date;
         CurrentEvent.DateStatus = EventDateStatus.Locked;
+        date.EventId = CurrentEvent.Id;
         PollService.LockDate(date);
     }
 
@@ -197,7 +198,7 @@
     {
         CurrentEvent.EventDate = null;
         CurrentEvent.DateStatus = EventDateStatus.Voting;
-        PollService.UnlockDate();
+        PollService.UnlockDate(CurrentEvent.Id.Value);
     }
 
     int ChoiceTotalVotesDate(ProposedDateVM date)
