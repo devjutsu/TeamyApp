@@ -20,6 +20,7 @@
                     <div style="font-weight:bold;">Date selection:</div>
                     @foreach (var date in CurrentEvent.ProposedDates)
                     {
+                        <div>@PercentDate(date)</div>
                         <button class="btn btn-link" @onclick="(() => VoteDate(date))" disabled=@CanNotVoteDate(date)>@date.Date.ToLongDateString()</button>
 
                         <div class="progress">
@@ -172,13 +173,14 @@
 
     int PercentDate(ProposedDateVM date)
     {
-        return 30;
+        var totalVotes = CurrentEvent.ProposedDates.Sum(o => o.Votes?.Count()) ?? 0;
+        return totalVotes > 0
+                ? ChoiceTotalVotesDate(date) * (100 / totalVotes)
+                : 0;
     }
 
     int ChoiceTotalVotesDate(ProposedDateVM date)
-    {
-        return 2;
-    }
+        => date.Votes?.Count() ?? 0;
 
     protected override void OnInitialized()
     {

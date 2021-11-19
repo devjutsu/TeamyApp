@@ -11,5 +11,12 @@ namespace Teamy.Shared.ViewModels
         public Guid Id { get; set; }
         public DateTime Date { get; set; }
         public Guid? EventId { get; set; }
+        public List<DateVoteVM> Votes { get; set; } = new List<DateVoteVM>();
+    }
+
+    public class DateVoteVM
+    {
+        public Guid Id { get; set; }
+        public string UserId { get; set; }
     }
 }

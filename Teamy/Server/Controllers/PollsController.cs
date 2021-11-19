@@ -69,21 +69,21 @@ namespace Teamy.Server.Controllers
 
             _db.PollAnswers.RemoveRange(answers);
             await _db.SaveChangesAsync();
-            _hub.EventUpdated(pollVM.EventId.Value);
+            await _hub.EventUpdated(pollVM.EventId.Value);
         }
 
         [HttpPost("VoteDate")]
         public async Task<IActionResult> VoteDate([FromBody] ProposedDateVM date)
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var evt = await _db.Events
-                            .Include(o => o.ProposedDates)
-                            .Where(o => o.Id == date.EventId).FirstAsync();
-            // @! filter by participation
-            
-            // @! add it.
 
+            var toRemove = await _db.DateVotes.Where(o => o.UserId == currentUserId && o.ProposedDateId == date.Id).ToListAsync();
+            _db.DateVotes.RemoveRange(toRemove);
+            _db.DateVotes.Add(new DateVote() { UserId = currentUserId, ProposedDateId = date.Id });
 
+            await _db.SaveChangesAsync();
+
+            await _hub.EventUpdated(date.EventId.Value);
             return Ok();
         }
     }
