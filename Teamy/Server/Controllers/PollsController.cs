@@ -114,26 +114,19 @@ namespace Teamy.Server.Controllers
         }
 
         [HttpPost("UnlockDate")]
-        public async Task<IActionResult> UnlockDate(Guid id)
+        public async Task<IActionResult> UnlockDate(ProposedDateVM date)
         {
-            try
-            {
-                var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                var evt = await _db.Events.Where(o => o.Id == id && o.CreatedById == currentUserId).FirstAsync();
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var evt = await _db.Events.Where(o => o.Id == date.EventId && o.CreatedById == currentUserId).FirstAsync();
 
-                evt.EventDate = null;
-                evt.DateStatus = EventDateStatus.Voting;
+            evt.EventDate = null;
+            evt.DateStatus = EventDateStatus.Voting;
 
-                _db.Events.Update(evt);
-                await _db.SaveChangesAsync();
+            _db.Events.Update(evt);
+            await _db.SaveChangesAsync();
 
-                await _hub.EventUpdated(id);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            await _hub.EventUpdated(date.EventId.Value);
+            return Ok();
         }
     }
 }

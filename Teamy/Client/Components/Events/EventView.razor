@@ -14,32 +14,32 @@
             {
                 @if (UserCanModifyEvent())
                 {
-                     <button class="btn btn-outline-secondary d-inline" @onclick="(() => UnlockDate())"><span class="oi oi-lock-locked" /></button>
+                    <button class="btn btn-outline-secondary d-inline" @onclick="(() => UnlockDate())"><span class="oi oi-lock-locked" /></button>
                 }
-                 <div class="d-inline"> @CurrentEvent.EventDate.Value.ToLongDateString()</div>
+                <div class="d-inline"> @CurrentEvent.EventDate.Value.ToLongDateString()</div>
             }
             else
             {
-                            <div style="margin:1rem 0 1rem 0; padding: 1rem; border: 1px dotted black; max-width: 30rem;">
-                                <div style="font-weight:bold;">Date selection:</div>
+                <div style="margin:1rem 0 1rem 0; padding: 1rem; border: 1px dotted black; max-width: 30rem;">
+                    <div style="font-weight:bold;">Date selection:</div>
                     @foreach (var date in CurrentEvent.ProposedDates)
                     {
                         @if (UserCanModifyEvent())
                         {
-                                        <button class="btn btn-outline-secondary" @onclick="(() => LockDate(date))"><span class="oi oi-lock-unlocked" /></button>
+                            <button class="btn btn-outline-secondary" @onclick="(() => LockDate(date))"><span class="oi oi-lock-unlocked" /></button>
                         }
-                                <button class="btn btn-link form-check form-check-inline" @onclick="(() => VoteDate(date))" disabled=@CanNotVoteDate(date)>@date.Date.ToLongDateString()</button>
+                        <button class="btn btn-link form-check form-check-inline" @onclick="(() => VoteDate(date))" disabled=@CanNotVoteDate(date)>@date.Date.ToLongDateString()</button>
 
-                                                <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" style="width: @PercentDate(date)%;" aria-valuenow="@PercentDate(date)" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: @PercentDate(date)%;" aria-valuenow="@PercentDate(date)" aria-valuemin="0" aria-valuemax="100">
                                 @if (ChoiceTotalVotesDate(date) > 0)
                                 {
-                                                    <span>@PercentDate(date)% (@ChoiceTotalVotesDate(date))</span>
+                                    <span>@PercentDate(date)% (@ChoiceTotalVotesDate(date))</span>
                                 }
-                                                    </div>
-                                                </div>
-                    }
                             </div>
+                        </div>
+                    }
+                </div>
             }
         </div>
         <div><img src=@CurrentEvent.ImageUrl width="400" /></div>
@@ -50,11 +50,11 @@
     {
         @foreach (var poll in CurrentEvent.Polls)
         {
-                                    <div style="margin:1rem 0 1rem 0; padding: 1rem; border: 1px dotted black; max-width: 30rem;">
-                                        <div style="font-weight:bold;">@poll.Question</div>
+            <div style="margin:1rem 0 1rem 0; padding: 1rem; border: 1px dotted black; max-width: 30rem;">
+                <div style="font-weight:bold;">@poll.Question</div>
                 @if (AlreadyVotedPoll(poll))
                 {
-                                                        <button class="btn btn-link float-end" @onclick=@(() => ResetAnswers(poll))>Reset answer</button>
+                    <button class="btn btn-link float-end" @onclick=@(() => ResetAnswers(poll))>Reset answer</button>
                 }
 
                 @foreach (var choice in poll.Choices)
@@ -67,16 +67,16 @@
                         {
                         <input type="radio" name=@poll.Question class="form-check-input" id=@choice.Id style="margin-top:.7rem;" />
                         }*@
-                                                        <button class="btn btn-link" @onclick="(() => Vote(poll, choice))" disabled=@CanNotVote(poll, choice)>@choice.Choice</button>
+                    <button class="btn btn-link" @onclick="(() => Vote(poll, choice))" disabled=@CanNotVote(poll, choice)>@choice.Choice</button>
 
-                                                        <div class="progress">
-                                                            <div class="progress-bar" role="progressbar" style="width: @Percent(poll, choice)%;" aria-valuenow="@Percent(poll, choice)" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: @Percent(poll, choice)%;" aria-valuenow="@Percent(poll, choice)" aria-valuemin="0" aria-valuemax="100">
                             @if (ChoiceTotalVotes(choice) > 0)
                             {
-                                                                                <span>@Percent(poll, choice)% (@ChoiceTotalVotes(choice))</span>
+                                <span>@Percent(poll, choice)% (@ChoiceTotalVotes(choice))</span>
                             }
-                                                            </div>
-                                                        </div>
+                        </div>
+                    </div>
                 }
                 @*@if (poll.FreeTextOption)
                     {
@@ -100,7 +100,7 @@
                     </div>
                     </div>
                     }*@
-                                    </div>
+            </div>
         }
     }
 
@@ -196,9 +196,10 @@
 
     void UnlockDate()
     {
+        var date = new ProposedDateVM() { Date = CurrentEvent.EventDate.Value, EventId = CurrentEvent.Id };
         CurrentEvent.EventDate = null;
         CurrentEvent.DateStatus = EventDateStatus.Voting;
-        PollService.UnlockDate(CurrentEvent.Id.Value);
+        PollService.UnlockDate(date);
     }
 
     int ChoiceTotalVotesDate(ProposedDateVM date)
