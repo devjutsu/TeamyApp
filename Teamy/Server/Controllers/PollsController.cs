@@ -77,7 +77,16 @@ namespace Teamy.Server.Controllers
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var toRemove = await _db.DateVotes.Where(o => o.UserId == currentUserId && o.ProposedDateId == date.Id).ToListAsync();
+            var proposed = await _db.Events
+                                    .Include(o => o.ProposedDates)
+                                    .ThenInclude(o => o.Votes)
+                                    .Where(o => o.Id == date.EventId)
+                                    .FirstAsync();
+
+            var toRemove = proposed.ProposedDates
+                                    .SelectMany(o => o.Votes)
+                                    .Where(o => o.UserId == currentUserId);
+
             _db.DateVotes.RemoveRange(toRemove);
             _db.DateVotes.Add(new DateVote() { UserId = currentUserId, ProposedDateId = date.Id });
 
