@@ -109,7 +109,7 @@
 
     @if (UserCanModifyEvent())
     {
-                    <EventInvite CurrentEvent=@CurrentEvent />
+        <EventInvite CurrentEvent=@CurrentEvent />
     }
 </div>
 
@@ -190,12 +190,14 @@
     {
         CurrentEvent.EventDate = date.Date;
         CurrentEvent.DateStatus = EventDateStatus.Locked;
+        PollService.LockDate(date);
     }
 
     void UnlockDate()
     {
         CurrentEvent.EventDate = null;
         CurrentEvent.DateStatus = EventDateStatus.Voting;
+        PollService.UnlockDate();
     }
 
     int ChoiceTotalVotesDate(ProposedDateVM date)
