@@ -5,19 +5,26 @@
 
 <PageTitle>Dashboard</PageTitle>
 
-<div>Hello, @AppState.UserDisplayName</div>
+<AuthorizeView>
+    <NotAuthorized>
+        <RedirectToLogin />
+    </NotAuthorized>
+    <Authorized>
+        <div>Hello, @AppState.UserDisplayName</div>
 
-@if (AppState.StoredEvents != null)
-{
-    <div class="d-flex flex-wrap">
-        @foreach(var evt in AppState.StoredEvents)
+        @if (AppState.StoredEvents != null)
         {
-            <div @onclick="() => GoEvent(evt)">
-                <EventCard Evt="@evt"></EventCard>
+            <div class="d-flex flex-wrap">
+                @foreach (var evt in AppState.StoredEvents)
+                {
+                    <div @onclick="() => GoEvent(evt)">
+                        <EventCard Evt="@evt"></EventCard>
+                    </div>
+                }
             </div>
         }
-    </div>
-}
+    </Authorized>
+</AuthorizeView>
 
 @code {
     protected override async Task OnInitializedAsync()
@@ -27,7 +34,7 @@
 
         //if(cookieEventId != null && cookieParticipation != null)
         //{
-            
+
         //}
     }
 

@@ -4,27 +4,34 @@
 @implements IDisposable
 @using Microsoft.AspNetCore.SignalR.Client
 
-@if (CurrentEvent != null)
-{
-    @if (Editing)
-    {
-        <button class="btn btn-link" @onclick="() => GoBack()">Back</button>
-        <EventEdit InitialEvent=@EditingEvent DoneEditing=@Finished></EventEdit>
-    }
-    else
-    {
-        <EventView CurrentEvent=@CurrentEvent />
-
-        @if (UserCanModifyEvent())
+<AuthorizeView>
+    <NotAuthorized>
+        <RedirectToLogin />
+    </NotAuthorized>
+    <Authorized>
+        @if (CurrentEvent != null)
         {
-            <div>
-                <button class="btn btn-warning" @onclick="() => EditEvent()">Edit</button>
-                <button class="btn btn-danger" @onclick="() => DeleteEvent()">Delete</button>
-                <p>&nbsp;</p>
-            </div>
+            @if (Editing)
+            {
+                <button class="btn btn-link" @onclick="() => GoBack()">Back</button>
+                <EventEdit InitialEvent=@EditingEvent DoneEditing=@Finished></EventEdit>
+            }
+            else
+            {
+                <EventView CurrentEvent=@CurrentEvent />
+
+                @if (UserCanModifyEvent())
+                {
+                    <div>
+                        <button class="btn btn-warning" @onclick="() => EditEvent()">Edit</button>
+                        <button class="btn btn-danger" @onclick="() => DeleteEvent()">Delete</button>
+                        <p>&nbsp;</p>
+                    </div>
+                }
+            }
         }
-    }
-}
+    </Authorized>
+</AuthorizeView>
 
 @code {
     [CascadingParameter] public IModalService Modal { get; set; }
