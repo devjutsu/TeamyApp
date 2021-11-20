@@ -1,13 +1,24 @@
 ﻿@inject IJSRuntime JSRuntime
 
 <div class="dummy-block">
-<h5>Invite</h5>
-<div class="d-flex flex-row">
-    <div><input @ref="inviteLink" class="form-control" value="@publicInviteLink" readonly="readonly" size=25 /></div>
-    <div><button class="btn btn-outline-secondary" @onclick="CopyTextToClipboard">Copy</button></div>
-</div>
+    <h5>Invite</h5>
+    <div class="d-flex flex-row">
+        <div><input @ref="inviteLink" class="form-control" value="@publicInviteLink" readonly="readonly" size=25 /></div>
+        <div><button class="btn btn-outline-secondary" @onclick="CopyTextToClipboard">Copy link</button></div>
+    </div>
 
-<a href="whatsapp://send?text=Let's go? @publicInviteLink" data-action="share/whatsapp/share" target="_blank"> Share to WhatsApp </a> 
+    <div>
+        <a href="whatsapp://send?text=Let's go? @publicInviteLink" data-action="share/whatsapp/share" target="_blank">Invite via WhatsApp</a>
+    </div>
+    <div>
+        <a href="https://telegram.me/share/url?url=@publicInviteLink&text=Let's go?" target="_blank">Invite via Telegram</a>
+    </div>
+    @*<div>
+        <a href="https://twitter.com/share?url=@publicInviteLink&text=Let's go?" target="_blank">Share to Twitter</a>
+    </div>*@
+    <div>
+        <a href="https://twitter.com/messages/compose?text=Let's%20go? @publicInviteLink" target="_blank">Invite via Twitter</a>
+    </div>
 </div>
 
 @code {
