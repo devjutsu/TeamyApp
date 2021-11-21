@@ -102,7 +102,11 @@
 
     async Task Finished(EventVM editedVM)
     {
-        Console.WriteLine($"{editedVM.ProposedDates.Count} - {CurrentEvent.ProposedDates.Count}");
+        if(editedVM.ProposedDates != null && editedVM.ProposedDates.Count == 1)
+        {
+            editedVM.EventDate = editedVM.ProposedDates.First()?.Date;
+            editedVM.DateStatus = EventDateStatus.Locked;
+        }
         await EventService.Update(editedVM);
         CurrentEvent = editedVM;
         Editing = false;

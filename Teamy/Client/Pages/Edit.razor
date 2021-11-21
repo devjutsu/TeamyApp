@@ -19,6 +19,11 @@
 
     async Task Finished(EventVM editedVM)
     {
+        if(editedVM.ProposedDates != null && editedVM.ProposedDates.Count == 0)
+        {
+            editedVM.EventDate = editedVM.ProposedDates.First()?.Date;
+            editedVM.DateStatus = EventDateStatus.Locked;
+        }
         await EventService.Update(CurrentEvent);
         Nav.NavigateTo($"/event/{CurrentEvent.Id}");
     }
