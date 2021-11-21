@@ -63,6 +63,9 @@ namespace Teamy.Server.Data
 
             CreateMap<DateVote, DateVoteVM>()
                 .ReverseMap();
+
+            CreateMap<ChatMessage, ChatMessageVM>()
+                .ReverseMap();
         }
     }
 }

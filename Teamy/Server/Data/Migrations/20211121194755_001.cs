@@ -65,6 +65,21 @@ namespace Teamy.Server.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Chat",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PostedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Chat", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DeviceCodes",
                 columns: table => new
                 {
@@ -495,12 +510,12 @@ namespace Teamy.Server.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "acf32d0b-97ac-4f88-a0db-37f84fb368f4", "cdab26b7-3b08-4b51-94ce-a3eb7846b75e", "User", "USER" });
+                values: new object[] { "43866494-0c7e-4d0e-9e65-45e13f22a47d", "48a7f500-60d7-4414-8b9d-aa33f10d9cce", "User", "USER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "be845b02-2e4f-410f-a800-bb0a219527e9", "c7815f20-e5ff-4737-8d2e-f89276b06ec5", "Admin", "ADMIN" });
+                values: new object[] { "6ec23b02-1397-4cce-bc38-7e32e910dabd", "7dc695b7-1082-44e2-8920-0c75e9f41580", "Admin", "ADMIN" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -540,6 +555,16 @@ namespace Teamy.Server.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Chat_EventId",
+                table: "Chat",
+                column: "EventId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Chat_Id",
+                table: "Chat",
+                column: "Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DateVotes_Id",
@@ -718,6 +743,9 @@ namespace Teamy.Server.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Chat");
 
             migrationBuilder.DropTable(
                 name: "DateVotes");

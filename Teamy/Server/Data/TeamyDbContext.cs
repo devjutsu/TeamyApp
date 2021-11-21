@@ -27,6 +27,8 @@ namespace Teamy.Server.Data
         public DbSet<ProposedDate> ProposedDates { get; set; }
         public DbSet<DateVote> DateVotes { get; set; }
 
+        public DbSet<ChatMessage> Chat { get; set; }
+
         public TeamyDbContext(
             DbContextOptions options,
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
@@ -62,6 +64,8 @@ namespace Teamy.Server.Data
             builder.ApplyConfiguration(new AnonParticipationConfiguration());
             builder.ApplyConfiguration(new ProposedDateConfiguration());
             builder.ApplyConfiguration(new DateVoteConfiguration());
+
+            builder.ApplyConfiguration(new ChatMessageConfiguration());
         }
     }
 }

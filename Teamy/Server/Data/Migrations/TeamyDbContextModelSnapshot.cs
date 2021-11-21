@@ -192,15 +192,15 @@ namespace Teamy.Server.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "acf32d0b-97ac-4f88-a0db-37f84fb368f4",
-                            ConcurrencyStamp = "cdab26b7-3b08-4b51-94ce-a3eb7846b75e",
+                            Id = "43866494-0c7e-4d0e-9e65-45e13f22a47d",
+                            ConcurrencyStamp = "48a7f500-60d7-4414-8b9d-aa33f10d9cce",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "be845b02-2e4f-410f-a800-bb0a219527e9",
-                            ConcurrencyStamp = "c7815f20-e5ff-4737-8d2e-f89276b06ec5",
+                            Id = "6ec23b02-1397-4cce-bc38-7e32e910dabd",
+                            ConcurrencyStamp = "7dc695b7-1082-44e2-8920-0c75e9f41580",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -407,6 +407,34 @@ namespace Teamy.Server.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.ChatMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PostedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("Id");
+
+                    b.ToTable("Chat");
                 });
 
             modelBuilder.Entity("Teamy.Server.Models.DateVote", b =>
