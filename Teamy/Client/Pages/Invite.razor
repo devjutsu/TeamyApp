@@ -37,6 +37,36 @@
         <div><img src=@CurrentEvent.ImageUrl width="400" /></div>
     </div>
 
+    @if (CurrentEvent.Polls != null)
+    {
+        <h5>Event has polls:</h5>
+        <div>Registered participants can vote</div>
+        @foreach (var poll in CurrentEvent.Polls)
+        {
+            <div style="margin:1rem 0 1rem 0; border: 1px dotted black; max-width: 30rem;">
+                <div style="font-weight:bold;">@poll.Question</div>
+
+                <div style="margin:0;padding:0 1rem 1rem 1rem;">
+                    @foreach (var choice in poll.Choices)
+                    {
+                        <div>
+                            @choice.Choice
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: @Percent(poll, choice)%;" aria-valuenow="@Percent(poll, choice)" aria-valuemin="0" aria-valuemax="100">
+                                @if (ChoiceTotalVotes(choice) > 0)
+                                {
+                                    <span>@Percent(poll, choice)% (@ChoiceTotalVotes(choice))</span>
+                                }
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+        }
+    }
+
     <AuthorizeView>
         <Authorized>
             <EventRespond CurrentEvent=@CurrentEvent UserId=@AppState.UserId NavigateTo=@GoToEvent />
@@ -45,8 +75,6 @@
             <EventRespondAnon CurrentEvent=@CurrentEvent InviteCode=@InviteCode Responded=@OnResponded LatestParticipation=@AppState.LatestParticipation />
         </NotAuthorized>
     </AuthorizeView>
-
-
 }
 
 @code {
@@ -63,6 +91,20 @@
         CurrentEvent = await EventService.Invited(InviteCode);
         Console.WriteLine($"init: {CurrentEvent.ProposedDates.Count()}");
     }
+
+    int Percent(PollVM poll, PollChoiceVM choice)
+    {
+        var totalVotes = PollTotalVotes(poll);
+        return totalVotes > 0
+                ? ChoiceTotalVotes(choice) * (100 / totalVotes)
+                : 0;
+    }
+
+    int PollTotalVotes(PollVM poll)
+        => poll.Choices.Sum(o => o.Answers?.Count()) ?? 0;
+
+    int ChoiceTotalVotes(PollChoiceVM choice)
+        => choice.Answers?.Count() ?? 0;
 
     protected override void OnInitialized()
     {
