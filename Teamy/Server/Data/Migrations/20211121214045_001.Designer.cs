@@ -12,7 +12,7 @@ using Teamy.Server.Data;
 namespace Teamy.Server.Data.Migrations
 {
     [DbContext(typeof(TeamyDbContext))]
-    [Migration("20211121194755_001")]
+    [Migration("20211121214045_001")]
     partial class _001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -194,15 +194,15 @@ namespace Teamy.Server.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "43866494-0c7e-4d0e-9e65-45e13f22a47d",
-                            ConcurrencyStamp = "48a7f500-60d7-4414-8b9d-aa33f10d9cce",
+                            Id = "f8b7900f-ae22-486c-8f19-5302dd5c755f",
+                            ConcurrencyStamp = "077e9801-f41c-4a42-8a07-cdd51bb25307",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "6ec23b02-1397-4cce-bc38-7e32e910dabd",
-                            ConcurrencyStamp = "7dc695b7-1082-44e2-8920-0c75e9f41580",
+                            Id = "3979f72d-8073-4859-9162-e9b95622a60e",
+                            ConcurrencyStamp = "d8916778-30fa-4dc9-bf89-3f3c36a58f2e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -413,17 +413,17 @@ namespace Teamy.Server.Data.Migrations
 
             modelBuilder.Entity("Teamy.Server.Models.ChatMessage", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("PostedBy")
-                        .IsRequired()
+                    b.Property<DateTime>("SentAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SentBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Text")

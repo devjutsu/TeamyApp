@@ -36,7 +36,14 @@ namespace Teamy.Server.Controllers
         [HttpPost("Post")]
         public async Task<IActionResult> Post([FromBody] ChatMessageVM message)
         {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var displayName = (await _userManager.FindByIdAsync(currentUserId)).DisplayName;
+
+
             var entity = _mapper.Map<ChatMessage>(message);
+            entity.SentBy = currentUserId;
+            entity.SentAt = DateTime.Now;
+
             _db.Chat.Add(entity);
             
             await _db.SaveChangesAsync();
