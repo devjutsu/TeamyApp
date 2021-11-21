@@ -173,6 +173,7 @@ namespace Teamy.Server.Controllers
                                 .Include(_ => _.CoverImage)
                                 .Include(_ => _.CreatedBy)
                                 .Include(_ => _.Participants)
+                                .Include(_ => _.ProposedDates)
                                 .FirstAsync(o => o.Invites.Any(o => o.InviteCode == inviteCode));
 
                 var vm = _mapper.Map<EventVM>(evt);
@@ -198,6 +199,7 @@ namespace Teamy.Server.Controllers
                                 .Include(_ => _.CoverImage)
                                 .Include(_ => _.CreatedBy)
                                 .Include(_ => _.Participants)
+                                .Include(_ => _.ProposedDates)
                                 .FirstAsync(o => o.Invites.Any(o => o.InviteCode == inviteCode));
 
                 var vm = _mapper.Map<EventVM>(evt);
