@@ -68,11 +68,11 @@ namespace Teamy.Server.Data.Migrations
                 name: "Chat",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PostedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SentBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SentAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -510,12 +510,12 @@ namespace Teamy.Server.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "43866494-0c7e-4d0e-9e65-45e13f22a47d", "48a7f500-60d7-4414-8b9d-aa33f10d9cce", "User", "USER" });
+                values: new object[] { "3979f72d-8073-4859-9162-e9b95622a60e", "d8916778-30fa-4dc9-bf89-3f3c36a58f2e", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "6ec23b02-1397-4cce-bc38-7e32e910dabd", "7dc695b7-1082-44e2-8920-0c75e9f41580", "Admin", "ADMIN" });
+                values: new object[] { "f8b7900f-ae22-486c-8f19-5302dd5c755f", "077e9801-f41c-4a42-8a07-cdd51bb25307", "User", "USER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
