@@ -10,11 +10,29 @@
     <div class="d-flex justify-content-between">
         <div>
             <h4>@CurrentEvent.Title</h4>
-            @if (@CurrentEvent.DateStatus == EventDateStatus.Locked)
+            @if (@CurrentEvent.DateStatus == EventDateStatus.Locked || @CurrentEvent.ProposedDates.Count == 1)
             {
                 <div>@CurrentEvent.EventDate.Value.ToLongDateString()</div>
             }
-            <div>@CurrentEvent.Description</div>
+            else
+            {
+                <div style="margin:1rem 0 1rem 0; border: 1px dotted black; max-width: 30rem;">
+                    <div style="font-weight:bold;">Date choice:</div>
+                    @foreach (var date in CurrentEvent.ProposedDates)
+                    {
+                        <div>@date.Date.ToLongDateString()</div>
+                    }
+                </div>
+            }
+            <div style="margin:1rem 0 1rem 0; border: 1px dotted black; max-width: 30rem;">
+                <div style="font-weight:bold;">Details:</div>
+                <div>@CurrentEvent.Description</div>
+            </div>
+
+            <div style="margin:1rem 0 1rem 0; border: 1px dotted black; max-width: 30rem;">
+                <div style="font-weight:bold;">Location:</div>
+                <div>@CurrentEvent.Where</div>
+            </div>
         </div>
         <div><img src=@CurrentEvent.ImageUrl width="400" /></div>
     </div>
@@ -37,10 +55,13 @@
 
     EventVM CurrentEvent { get; set; }
 
+    bool UserCanModifyEvent()
+        => (CurrentEvent.CreatedById == AppState.UserId);
+
     protected override async Task OnInitializedAsync()
     {
         CurrentEvent = await EventService.Invited(InviteCode);
-        Console.WriteLine($"init: {CurrentEvent.Participants.Count()}");
+        Console.WriteLine($"init: {CurrentEvent.ProposedDates.Count()}");
     }
 
     protected override void OnInitialized()
