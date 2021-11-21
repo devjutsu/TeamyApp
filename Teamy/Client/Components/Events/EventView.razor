@@ -7,7 +7,7 @@
     <div class="d-flex justify-content-between">
         <div>
             <h4>@CurrentEvent.Title</h4>
-            <div>@CurrentEvent.Description</div>
+            <div><span style="font-weight:bold;">Details: </span>@CurrentEvent.Description</div>
             <p></p>
             @* add different logic: if one event then no voting. *@
             @if (@CurrentEvent.DateStatus == EventDateStatus.Locked)
@@ -41,10 +41,13 @@
                     }
                 </div>
             }
+            <div><span style="font-weight:bold;">Location: </span>@CurrentEvent.Where</div>
         </div>
+
         <div><img src=@CurrentEvent.ImageUrl width="400" /></div>
     </div>
 
+    <p>&nbsp;</p>
     <h5>Polls</h5>
     @if (CurrentEvent.Polls != null)
     {

@@ -70,6 +70,11 @@ else
 
     async Task Finished(EventVM editedVM)
     {
+        if(editedVM.ProposedDates != null && editedVM.ProposedDates.Count == 1)
+        {
+            editedVM.EventDate = editedVM.ProposedDates.First()?.Date;
+            editedVM.DateStatus = EventDateStatus.Locked;
+        }
         var createdId = await EventService.Create(editedVM);
         Nav.NavigateTo($"/event/{Guid.Parse(createdId)}");
     }

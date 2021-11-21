@@ -85,6 +85,7 @@ namespace Teamy.Server.Controllers
                 existingEvent.Description = eventVM.Description;
                 existingEvent.EventDate = eventVM.EventDate;
                 existingEvent.Where = eventVM.Where;
+                existingEvent.DateStatus = eventVM.DateStatus;
 
                 var existingProposedDates = _db.ProposedDates.Where(o => o.EventId == existingEvent.Id);
                 _db.ProposedDates.RemoveRange(existingProposedDates);
