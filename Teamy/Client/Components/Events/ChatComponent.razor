@@ -2,17 +2,29 @@
 @inject IManageChats ChatService
 
 <div style="margin:1rem 0 1rem 0; padding: 1rem; border: 1px dotted black; max-width: 30rem;">
-    @if(CurrentEvent != null)
+    @if (CurrentEvent != null)
     {
         @if (ChatMessages != null)
         {
             @foreach (var message in ChatMessages)
             {
-                <div>@message.Text</div>
+                <div>
+                    <span class="oi oi-envelope-closed" style="font-size:small;"
+              title="@(message.SentAt.Value.ToShortDateString() + " - " + message.SentAt.Value.ToLongTimeString())"
+              @onclick="() => OnClickEnvelope(message)">
+                    </span>
+                    <span style="font-size:small;">
+                        @message.SentBy
+                    </span>
+                    <span style="font-size:small;">
+                        : @message.Text
+                    </span>
+                </div>
+
             }
 
         }
-        <input class="form-control" @bind-value="MessageToSend" />
+        <input class="form-control" @bind-value="MessageToSend" @ref="inputMessage" />
         <button class="btn btn-primary" @onclick="Send" style="margin-top:1rem;">Post</button>
     }
 </div>
@@ -20,9 +32,10 @@
 @code {
     [Parameter]
     public EventVM CurrentEvent { get; set; }
-    public List<ChatMessageVM> ChatMessages { get; set; }
-    public string MessageToSend { get; set; }
-    HubConnection _hub; 
+    public List<ChatMessageVM> ChatMessages { get; set; } = new List<ChatMessageVM>();
+    public string MessageToSend { get; set; } = "";
+    HubConnection _hub;
+    ElementReference inputMessage;
 
     protected override async Task OnInitializedAsync()
     {
@@ -48,5 +61,15 @@
     {
         await ChatService.Post(new ChatMessageVM() { EventId = CurrentEvent.Id.Value, Text = MessageToSend });
         MessageToSend = "";
+    }
+
+    async Task OnClickEnvelope(ChatMessageVM message)
+    {
+        if (string.IsNullOrWhiteSpace(MessageToSend))
+            MessageToSend = $"{message.SentBy} ";
+        else
+            MessageToSend += $" {message.SentBy} ";
+
+        await inputMessage.FocusAsync();
     }
 }

@@ -65,6 +65,7 @@ namespace Teamy.Server.Data
                 .ReverseMap();
 
             CreateMap<ChatMessage, ChatMessageVM>()
+                .ForMember(dest => dest.SentBy, opt => opt.MapFrom(src => src.SentBy.DisplayName))
                 .ReverseMap();
         }
     }
