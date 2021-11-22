@@ -9,6 +9,7 @@ namespace Teamy.Shared.ViewModels
     public record ChatMessageVM
     {
         public Guid? Id { get; set; }
+        public string? SentById { get; set; }
         public string? SentBy { get; set; }
         public DateTime? SentAt { get; set; }
         public string Text { get; set; }

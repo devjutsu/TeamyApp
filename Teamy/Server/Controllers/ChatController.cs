@@ -41,7 +41,7 @@ namespace Teamy.Server.Controllers
 
 
             var entity = _mapper.Map<ChatMessage>(message);
-            entity.SentBy = currentUserId;
+            entity.SentById = currentUserId;
             entity.SentAt = DateTime.Now;
 
             _db.Chat.Add(entity);

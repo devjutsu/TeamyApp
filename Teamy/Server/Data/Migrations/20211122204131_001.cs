@@ -65,21 +65,6 @@ namespace Teamy.Server.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Chat",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SentBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SentAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Chat", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "DeviceCodes",
                 columns: table => new
                 {
@@ -264,6 +249,26 @@ namespace Teamy.Server.Data.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Chat",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SentById = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    SentAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Chat", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Chat_AspNetUsers_SentById",
+                        column: x => x.SentById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -510,12 +515,12 @@ namespace Teamy.Server.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "3979f72d-8073-4859-9162-e9b95622a60e", "d8916778-30fa-4dc9-bf89-3f3c36a58f2e", "Admin", "ADMIN" });
+                values: new object[] { "83e8ed7a-f8b3-44c2-b049-ee2b8606caca", "857e42fd-7bac-47be-8cf7-f1714c66f208", "User", "USER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "f8b7900f-ae22-486c-8f19-5302dd5c755f", "077e9801-f41c-4a42-8a07-cdd51bb25307", "User", "USER" });
+                values: new object[] { "9a740c2a-c155-473f-9c28-e725e3c95140", "b57a93cf-59cd-4fd5-8beb-d02a5a67fd40", "Admin", "ADMIN" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -565,6 +570,11 @@ namespace Teamy.Server.Data.Migrations
                 name: "IX_Chat_Id",
                 table: "Chat",
                 column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Chat_SentById",
+                table: "Chat",
+                column: "SentById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DateVotes_Id",
