@@ -19,12 +19,12 @@ namespace Teamy.Server.Controllers
         TeamyDbContext _db { get; set; }
         UserManager<AppUser> _userManager { get; set; }
         private readonly IMapper _mapper;
-        IVoteHub _hub;
+        IChatHub _hub;
         public ChatController(ILogger<EventsController> logger,
                                     TeamyDbContext db,
                                     UserManager<AppUser> userManager,
                                     IMapper mapper,
-                                    IVoteHub hub)
+                                    IChatHub hub)
         {
             _logger = logger;
             _db = db;
@@ -47,11 +47,12 @@ namespace Teamy.Server.Controllers
             _db.Chat.Add(entity);
             
             await _db.SaveChangesAsync();
+            await _hub.SendMessage(message);
             return Ok();
         }
 
         [HttpGet("Get/{eventId}")]
-        public async Task<List<ChatMessageVM>> Get([FromQuery] Guid eventId)
+        public async Task<List<ChatMessageVM>> Get(Guid eventId)
         {
             var messages = await _db.Chat.Where(o => o.EventId == eventId).ToListAsync();
             var vms = _mapper.Map<List<ChatMessageVM>>(messages);
