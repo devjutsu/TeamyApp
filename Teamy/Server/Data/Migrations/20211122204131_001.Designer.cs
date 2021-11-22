@@ -12,7 +12,7 @@ using Teamy.Server.Data;
 namespace Teamy.Server.Data.Migrations
 {
     [DbContext(typeof(TeamyDbContext))]
-    [Migration("20211121214045_001")]
+    [Migration("20211122204131_001")]
     partial class _001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -194,15 +194,15 @@ namespace Teamy.Server.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f8b7900f-ae22-486c-8f19-5302dd5c755f",
-                            ConcurrencyStamp = "077e9801-f41c-4a42-8a07-cdd51bb25307",
+                            Id = "83e8ed7a-f8b3-44c2-b049-ee2b8606caca",
+                            ConcurrencyStamp = "857e42fd-7bac-47be-8cf7-f1714c66f208",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "3979f72d-8073-4859-9162-e9b95622a60e",
-                            ConcurrencyStamp = "d8916778-30fa-4dc9-bf89-3f3c36a58f2e",
+                            Id = "9a740c2a-c155-473f-9c28-e725e3c95140",
+                            ConcurrencyStamp = "b57a93cf-59cd-4fd5-8beb-d02a5a67fd40",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -423,8 +423,8 @@ namespace Teamy.Server.Data.Migrations
                     b.Property<DateTime>("SentAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("SentBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("SentById")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -435,6 +435,8 @@ namespace Teamy.Server.Data.Migrations
                     b.HasIndex("EventId");
 
                     b.HasIndex("Id");
+
+                    b.HasIndex("SentById");
 
                     b.ToTable("Chat");
                 });
@@ -831,6 +833,15 @@ namespace Teamy.Server.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.ChatMessage", b =>
+                {
+                    b.HasOne("Teamy.Server.Models.AppUser", "SentBy")
+                        .WithMany()
+                        .HasForeignKey("SentById");
+
+                    b.Navigation("SentBy");
                 });
 
             modelBuilder.Entity("Teamy.Server.Models.DateVote", b =>
