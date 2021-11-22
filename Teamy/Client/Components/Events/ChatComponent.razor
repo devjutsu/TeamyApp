@@ -1,4 +1,5 @@
-﻿@inject IManageChats ChatService
+﻿@using Microsoft.AspNetCore.SignalR.Client
+@inject IManageChats ChatService
 
 <div style="border: 1px solid black;">
     @if(CurrentEvent != null)
@@ -21,11 +22,29 @@
     public EventVM CurrentEvent { get; set; }
     public List<ChatMessageVM> ChatMessages { get; set; }
     public string MessageToSend { get; set; }
+    HubConnection _hub; 
 
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine($"{CurrentEvent.Title}");
         ChatMessages = await ChatService.Get(CurrentEvent.Id.Value);
+
+        _hub = new HubConnectionBuilder()
+                    .WithUrl(Nav.BaseUri + "chathub")
+                    .WithAutomaticReconnect()
+                    .Build();
+        await _hub.StartAsync();
+        Console.WriteLine($"-----> started @ {Nav.BaseUri}chathub");
+
+        _hub.On<ChatMessageVM>("ChatUpdated", async (message) =>
+        {
+            Console.WriteLine("***===chat updated===***");
+            if (message.EventId == CurrentEvent.Id)
+            {
+                ChatMessages = await ChatService.Get(CurrentEvent.Id.Value);
+                StateHasChanged();
+            }
+        });
+
     }
 
     async Task Send()

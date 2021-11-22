@@ -88,6 +88,7 @@ builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 builder.Services.Configure<BlobStorageOptions>(builder.Configuration.GetSection("Storage"));
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddSignalR();
+builder.Services.AddSingleton<IChatHub, ChatHub>();
 builder.Services.AddSingleton<IVoteHub, VoteHub>();
 
 builder.Services.AddControllersWithViews();
@@ -131,5 +132,6 @@ app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 app.MapHub<VoteHub>("/votehub");
+app.MapHub<ChatHub>("/chathub");
 
 app.Run();
