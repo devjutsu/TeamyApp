@@ -28,8 +28,6 @@
                         <p>&nbsp;</p>
                     </div>
                 }
-
-                <ChatComponent CurrentEvent=@CurrentEvent />
             }
         }
     </Authorized>
@@ -55,7 +53,6 @@
                     .Build();
         await _hub.StartAsync();
 
-        Console.WriteLine($"started hub for {CurrentEvent.Id}");
         _hub.On<Guid>("EventUpdated", async (changedEventId) =>
         {
             Console.WriteLine("***===event updated===***");
