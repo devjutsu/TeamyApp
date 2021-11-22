@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.SignalR.Client
 @inject IManageChats ChatService
 
-<div style="border: 1px solid black;">
+<div style="margin:1rem 0 1rem 0; padding: 1rem; border: 1px dotted black; max-width: 30rem;">
     @if(CurrentEvent != null)
     {
         @if (ChatMessages != null)
@@ -13,7 +13,7 @@
 
         }
         <input class="form-control" @bind-value="MessageToSend" />
-        <button class="btn btn-primary" @onclick="Send">Post</button>
+        <button class="btn btn-primary" @onclick="Send" style="margin-top:1rem;">Post</button>
     }
 </div>
 
@@ -33,22 +33,20 @@
                     .WithAutomaticReconnect()
                     .Build();
         await _hub.StartAsync();
-        Console.WriteLine($"-----> started @ {Nav.BaseUri}chathub");
 
         _hub.On<ChatMessageVM>("ChatUpdated", async (message) =>
         {
-            Console.WriteLine("***===chat updated===***");
             if (message.EventId == CurrentEvent.Id)
             {
                 ChatMessages = await ChatService.Get(CurrentEvent.Id.Value);
                 StateHasChanged();
             }
         });
-
     }
 
     async Task Send()
     {
         await ChatService.Post(new ChatMessageVM() { EventId = CurrentEvent.Id.Value, Text = MessageToSend });
+        MessageToSend = "";
     }
 }
