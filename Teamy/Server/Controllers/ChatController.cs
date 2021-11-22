@@ -42,6 +42,7 @@ namespace Teamy.Server.Controllers
 
             var entity = _mapper.Map<ChatMessage>(message);
             entity.SentById = currentUserId;
+            entity.SentBy = null;
             entity.SentAt = DateTime.Now;
 
             _db.Chat.Add(entity);
@@ -54,7 +55,9 @@ namespace Teamy.Server.Controllers
         [HttpGet("Get/{eventId}")]
         public async Task<List<ChatMessageVM>> Get(Guid eventId)
         {
-            var messages = await _db.Chat.Where(o => o.EventId == eventId).ToListAsync();
+            var messages = await _db.Chat.Include(_ => _.SentBy)
+                                        .Where(o => o.EventId == eventId)
+                                        .ToListAsync();
             var vms = _mapper.Map<List<ChatMessageVM>>(messages);
             
             return vms;
