@@ -17,6 +17,9 @@
                     <button class="btn btn-outline-secondary d-inline" @onclick="(() => UnlockDate())"><span class="oi oi-lock-locked" /></button>
                 }
                 <div class="d-inline"> @CurrentEvent.EventDate.Value.ToLongDateString()</div>
+                <div>
+                    <a href=@GoogleCalendarLink target="_blank">Add to Google Calendar</a>
+                </div>
             }
             else
             {
@@ -127,6 +130,7 @@
 @code {
     [CascadingParameter] public IModalService Modal { get; set; }
     [Parameter] public EventVM CurrentEvent { get; set; }
+    string GoogleCalendarLink => $"http://www.google.com/calendar/event?action=TEMPLATE&text={CurrentEvent.Title.Slugify()}&dates=20131124T010000Z/20131124T020000Z&details={CurrentEvent.Description.Slugify()}&location={CurrentEvent.Where.Slugify()}";
 
     async Task Vote(PollVM poll, PollChoiceVM choice)
     {
