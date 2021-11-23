@@ -17,15 +17,12 @@
                 {
                     <button class="btn btn-outline-secondary d-inline" @onclick="(() => UnlockDate())"><span class="oi oi-lock-locked" /></button>
                 }
-                <div class="d-inline"> @CurrentEvent.EventDate.Value.ToLongDateString()</div>
+                <div class="d-inline" style="margin-left:1rem;">@CurrentEvent.EventDate.Value.ToLongDateString()</div>
                 <div>
-                    <a href=@GoogleCalEntry target="_blank">Add to Google Calendar</a>
+                    <a class="btn btn-link" href=@GoogleCalEntry target="_blank">Add to Google calendar</a>
                 </div>
                 <div>
-                    <a href="@CalendarIcsLink" download="MyFile.ics">Download Calendar .ics</a>
-                </div>
-                <div>
-                    <button @onclick="(() => CallDownload())">Download .ics</button>
+                    <button class="btn btn-link" @onclick="(() => CallDownload())">Download calendar .ics</button>
                 </div>
             }
             else
@@ -147,8 +144,7 @@
 
     async Task CallDownload()
     {
-        var calendarFileContent = CurrentEvent.CalendarFile();
-        await JS.InvokeVoidAsync("BlazorDownloadFile", "event.ics","text/calendar","123");
+        await JS.InvokeVoidAsync("DownloadFile", "event.ics","text/calendar", CurrentEvent.CalendarFile(Nav.BaseUri));
     }
 
     async Task Vote(PollVM poll, PollChoiceVM choice)

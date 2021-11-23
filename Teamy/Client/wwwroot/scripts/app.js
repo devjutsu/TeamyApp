@@ -51,8 +51,7 @@ window.ReadCookie = {
     }
 }
 
-
-function BlazorDownloadFile(filename, contentType, data) {
+function DownloadFile(filename, contentType, data) {
 
     // Create the URL
     const file = new File([data], filename, { type: contentType });
