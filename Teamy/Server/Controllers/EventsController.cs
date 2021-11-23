@@ -223,6 +223,7 @@ namespace Teamy.Server.Controllers
                 _db.Participation.RemoveRange(evt.Participants);
                 _db.Events.Remove(evt);
                 var result = await _db.SaveChangesAsync();
+                await _hub.EventDeleted(id);
 
                 if (result > 0)
                     return Ok();
