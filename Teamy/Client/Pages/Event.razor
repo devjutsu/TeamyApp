@@ -55,7 +55,6 @@
 
         _hub.On<Guid>("EventUpdated", async (changedEventId) =>
         {
-            Console.WriteLine("***===event updated===***");
             if (changedEventId == CurrentEvent.Id)
             {
                 CurrentEvent = await EventService.Get(CurrentEvent.Id.Value);
@@ -65,7 +64,6 @@
 
         _hub.On<Guid>("EventDeleted", async (changedEventId) =>
         {
-            Console.WriteLine("---===event deleted===---");
             if (changedEventId == CurrentEvent.Id)
             {
                 var options = new ModalOptions() { Class = "default-modal" };
@@ -101,10 +99,13 @@
 
     async Task Finished(EventVM editedVM)
     {
-        if(editedVM.ProposedDates != null && editedVM.ProposedDates.Count == 1)
+        if (editedVM.ProposedDates != null)
         {
-            editedVM.EventDate = editedVM.ProposedDates.First()?.Date;
-            editedVM.DateStatus = EventDateStatus.Locked;
+            if (editedVM.ProposedDates.Count == 1)
+            {
+                editedVM.EventDate = editedVM.ProposedDates.First()?.Date;
+                editedVM.DateStatus = EventDateStatus.Locked;
+            }
         }
         await EventService.Update(editedVM);
         CurrentEvent = editedVM;
