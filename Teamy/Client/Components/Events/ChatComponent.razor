@@ -10,8 +10,8 @@
             {
                 <div>
                     <span class="oi oi-envelope-closed" style="font-size:small;"
-              title="@(message.SentAt.Value.ToShortDateString() + " - " + message.SentAt.Value.ToLongTimeString())"
-              @onclick="() => OnClickEnvelope(message)">
+                      title="@(message.SentAt.Value.ToShortDateString() + " - " + message.SentAt.Value.ToLongTimeString())"
+                      @onclick="() => OnClickEnvelope(message)">
                     </span>
                     <span style="font-size:small;">
                         @message.SentBy

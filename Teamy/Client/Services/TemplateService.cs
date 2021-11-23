@@ -25,7 +25,7 @@ namespace Teamy.Client.Services
                             NavigationManager nav)
         {
             AppState = appState;
-            Http = AppState.IsLoggedIn ? http : httpClientFactory.CreateClient("Teamy1.AnonymousAPI");
+            Http = AppState.IsLoggedIn ? http : httpClientFactory.CreateClient("public");
             Nav = nav;
         }
 

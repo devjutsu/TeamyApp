@@ -20,13 +20,12 @@ namespace Teamy.Client.Services
         AppState AppState;
         NavigationManager Nav { get; set; }
 
-        public ChatService(IHttpClientFactory httpClientFactory,
-                            HttpClient http,
+        public ChatService(HttpClient http,
                             AppState appState,
                             NavigationManager nav)
         {
             AppState = appState;
-            Http = AppState.IsLoggedIn ? http : httpClientFactory.CreateClient("Teamy1.AnonymousAPI");
+            Http = http;
             Nav = nav;
         }
 

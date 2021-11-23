@@ -7,13 +7,11 @@
 
     public class UploadService : IManageUploads
     {
-        HttpClient AnonymousHttp;
         HttpClient Http;
         AppState AppState;
 
-        public UploadService(IHttpClientFactory httpClientFactory, HttpClient http, AppState appState)
+        public UploadService(HttpClient http, AppState appState)
         {
-            AnonymousHttp = httpClientFactory.CreateClient("Teamy1.AnonymousAPI");
             Http = http;
             AppState = appState;
         }
