@@ -18,7 +18,7 @@
                 }
                 <div class="d-inline"> @CurrentEvent.EventDate.Value.ToLongDateString()</div>
                 <div>
-                    <a href=@GoogleCalendarLink target="_blank">Add to Google Calendar</a>
+                    <a href=@GoogleCalEntry target="_blank">Add to Google Calendar</a>
                 </div>
             }
             else
@@ -130,7 +130,12 @@
 @code {
     [CascadingParameter] public IModalService Modal { get; set; }
     [Parameter] public EventVM CurrentEvent { get; set; }
-    string GoogleCalendarLink => $"http://www.google.com/calendar/event?action=TEMPLATE&text={CurrentEvent.Title.Slugify()}&dates=20131124T010000Z/20131124T020000Z&details={CurrentEvent.Description.Slugify()}&location={CurrentEvent.Where.Slugify()}";
+    string GoogleCalEntry => $"https://calendar.google.com/calendar/r/eventedit?text={GoogleCalTitle}&dates={GoogleCalDateFrom}/{GoogleCalDateTo}&details={GoogleCalDetails}&location={GoogleCalLocation}";
+    string GoogleCalTitle => $"{CurrentEvent.Title.CalSlugify()}";
+    string GoogleCalDateFrom => $"{CurrentEvent.EventDate.Value.ToString("yyyyMMddTHHmm00Z")}";
+    string GoogleCalDateTo => $"{CurrentEvent.EventDate.Value.AddHours(2).ToString("yyyyMMddTHHmm00Z")}";
+    string GoogleCalDetails => $"{CurrentEvent.Description.CalSlugify()} {Nav.BaseUri}Event/{CurrentEvent.Id}";
+    string GoogleCalLocation => $"{CurrentEvent.Where.CalSlugify()}";
 
     async Task Vote(PollVM poll, PollChoiceVM choice)
     {
