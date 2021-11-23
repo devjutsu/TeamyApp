@@ -1,6 +1,7 @@
 ﻿@inject AppState AppState
 @inject IManagePolls PollService
 @inject IManageEvents EventService
+@inject IJSRuntime JS
 @implements IDisposable
 
 <div>
@@ -19,6 +20,12 @@
                 <div class="d-inline"> @CurrentEvent.EventDate.Value.ToLongDateString()</div>
                 <div>
                     <a href=@GoogleCalEntry target="_blank">Add to Google Calendar</a>
+                </div>
+                <div>
+                    <a href="@CalendarIcsLink" download="MyFile.ics">Download Calendar .ics</a>
+                </div>
+                <div>
+                    <button @onclick="(() => CallDownload())">Download .ics</button>
                 </div>
             }
             else
@@ -136,6 +143,13 @@
     string GoogleCalDateTo => $"{CurrentEvent.EventDate.Value.AddHours(2).ToString("yyyyMMddTHHmm00Z")}";
     string GoogleCalDetails => $"{CurrentEvent.Description.CalSlugify()} {Nav.BaseUri}Event/{CurrentEvent.Id}";
     string GoogleCalLocation => $"{CurrentEvent.Where.CalSlugify()}";
+    string CalendarIcsLink => $"{Nav.BaseUri}Events/ClendarFile";
+
+    async Task CallDownload()
+    {
+        var calendarFileContent = CurrentEvent.CalendarFile();
+        await JS.InvokeVoidAsync("BlazorDownloadFile", "event.ics","text/calendar","123");
+    }
 
     async Task Vote(PollVM poll, PollChoiceVM choice)
     {

@@ -11,13 +11,8 @@ namespace Teamy.Shared.Common
     {
         public static string CalSlugify(this string value)
         {
-            ////Remove all accents
-            //var bytes = Encoding.GetEncoding("Cyrillic").GetBytes(value);
-
-            //value = Encoding.ASCII.GetString(bytes);
-
             //Remove invalid chars 
-            value = Regex.Replace(value, @"[^\w\s\p{Pd}]", "-", RegexOptions.Compiled);
+            value = Regex.Replace(value, @"[^\w\s\p{Pd}\.]", "-", RegexOptions.Compiled);
 
             //Replace spaces 
             value = Regex.Replace(value, @"\s", "+", RegexOptions.Compiled);
@@ -30,7 +25,5 @@ namespace Teamy.Shared.Common
 
             return value;
         }
-
-
     }
 }
