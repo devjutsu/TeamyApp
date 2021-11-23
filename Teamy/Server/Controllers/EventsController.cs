@@ -236,14 +236,6 @@ namespace Teamy.Server.Controllers
             }
         }
 
-        //[AllowAnonymous]
-        //[HttpPost("Test")]
-        //public ActionResult<PollAnswerVM> Test([FromBody] string test)
-        //{
-        //    var ans = new PollAnswerVM() { Id = Guid.NewGuid(), UserId = "123", UserName = "543" };
-        //    return Ok(ans);
-        //}
-
         private string GenerateInvite()
         {
             // use MlkPwgen
