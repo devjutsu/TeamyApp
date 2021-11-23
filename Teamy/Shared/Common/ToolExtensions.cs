@@ -9,7 +9,7 @@ namespace Teamy.Shared.Common
 {
     public static class ToolExtensions
     {
-        public static string Slugify(this string value)
+        public static string CalSlugify(this string value)
         {
             ////Remove all accents
             //var bytes = Encoding.GetEncoding("Cyrillic").GetBytes(value);
@@ -20,7 +20,7 @@ namespace Teamy.Shared.Common
             value = Regex.Replace(value, @"[^\w\s\p{Pd}]", "-", RegexOptions.Compiled);
 
             //Replace spaces 
-            value = Regex.Replace(value, @"\s", "%20", RegexOptions.Compiled);
+            value = Regex.Replace(value, @"\s", "+", RegexOptions.Compiled);
 
             //Trim dashes from end 
             value = value.Trim('-', '_');
