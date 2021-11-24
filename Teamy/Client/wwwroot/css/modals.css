@@ -19,3 +19,11 @@
   max-height: 80vh;
   overflow-y: auto;
 }
+.date-edit-modal {
+  background-color: #fafafa !important;
+  padding: 1.5rem 2.5rem 1.5rem 2rem;
+  z-index: 102;
+  min-width: 300px;
+  max-width: 1000px;
+  text-align: center;
+}

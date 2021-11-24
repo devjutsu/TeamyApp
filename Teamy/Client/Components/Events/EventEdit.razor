@@ -207,8 +207,10 @@
 
     async Task AddDate()
     {
-        var options = new ModalOptions() { Class = "default-modal" };
+        var options = new ModalOptions() { Class = "date-edit-modal" };
         var parameters = new ModalParameters();
+        parameters.Add(nameof(DateEditModal.DateTimeFrom), DateTime.Today.AddDays(1).AddHours(18));
+        parameters.Add(nameof(DateEditModal.DateTimeTo), DateTime.Today.AddDays(1).AddHours(20));
         var messageModal = Modal.Show<DateEditModal>("Add date and time", parameters, options);
         var result = await messageModal.Result;
 
@@ -220,6 +222,11 @@
 
     async Task EditDate(ProposedDateVM date)
     {
-
+        var options = new ModalOptions() { Class = "date-edit-modal" };
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(DateEditModal.DateTimeFrom), EditedEvent.EventDate.Value);
+        parameters.Add(nameof(DateEditModal.DateTimeTo), EditedEvent.EventDate.Value.AddHours(2));
+        var messageModal = Modal.Show<DateEditModal>("Add date and time", parameters, options);
+        var result = await messageModal.Result;
     }
 }
