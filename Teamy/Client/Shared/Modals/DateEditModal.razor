@@ -14,7 +14,7 @@
     <div>From:</div>
     <div class="d-flex justify-content-between">
         <input type="date" @bind=@DateTimeFrom @bind:format="yyyy-MM-dd" class="form-control" style="max-width:10rem;">
-        <input @bind=@DateTimeFrom @bind:format="HH:mm" class="form-control" style="max-width:5rem;">
+        <input @bind=@TimeFrom @bind:format="HH:mm" class="form-control" style="max-width:5rem;">
     </div>
     
     <div class="d-flex justify-content-between">Till: <input @bind=@DateTimeTo @bind:format="HH:mm" class="form-control" style="max-width:5rem;"></div>
@@ -31,11 +31,16 @@
     public string Message { get; set; }
     [Parameter]
     public DateTime DateTimeFrom { get; set; }
+    public DateTime TimeFrom { get; set; }
     [Parameter]
     public DateTime DateTimeTo { get; set; }
 
-    async Task Close() => await BlazoredModal.CloseAsync(ModalResult.Ok(true));
     async Task Cancel() => await BlazoredModal.CancelAsync();
+
+    protected override void OnInitialized()
+    {
+        TimeFrom = DateTime.Today.AddHours(DateTimeFrom.Hour).AddMinutes(DateTimeFrom.Minute);
+    }
 
     async Task KeyPressed(KeyboardEventArgs e)
     {
@@ -43,8 +48,10 @@
             await Cancel();
     }
 
-    async Task Finished(EventVM editedVM)
+    async Task Close()
     {
-        await BlazoredModal.CloseAsync(ModalResult.Ok(editedVM));
+        var realDateFrom = DateTimeFrom.Date.AddHours(TimeFrom.Hour).AddMinutes(TimeFrom.Minute);
+        var proposed = new ProposedDateVM() { Date = realDateFrom, DateTo = DateTimeTo };
+        await BlazoredModal.CloseAsync(ModalResult.Ok(proposed));
     }
 }

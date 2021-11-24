@@ -34,7 +34,7 @@ namespace Teamy.Shared.Common
             //sb.AppendLine("DTEND;TZID=Europe/Amsterdam:" + DateEnd.ToString("yyyyMMddTHHmm00"));
             //or without
             sb.AppendLine("DTSTART:" + eventVM.EventDate.Value.ToString("yyyyMMddTHHmm00"));
-            sb.AppendLine("DTEND:" + eventVM.EventDate.Value.AddHours(2).ToString("yyyyMMddTHHmm00"));
+            sb.AppendLine("DTEND:" + eventVM.EventDateTo.Value.ToString("yyyyMMddTHHmm00"));
 
             sb.AppendLine("SUMMARY:" + eventVM.Title);
             sb.AppendLine("LOCATION:" + eventVM.Where);

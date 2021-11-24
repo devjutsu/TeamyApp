@@ -104,6 +104,7 @@ namespace Teamy.Server.Controllers
             var evt = await _db.Events.Where(o => o.Id == date.EventId && o.CreatedById == currentUserId).FirstAsync();
 
             evt.EventDate = date.Date;
+            evt.EventDateTo = date.DateTo;
             evt.DateStatus = EventDateStatus.Locked;
 
             _db.Events.Update(evt);
@@ -120,6 +121,7 @@ namespace Teamy.Server.Controllers
             var evt = await _db.Events.Where(o => o.Id == date.EventId && o.CreatedById == currentUserId).FirstAsync();
 
             evt.EventDate = null;
+            evt.EventDateTo = null;
             evt.DateStatus = EventDateStatus.Voting;
 
             _db.Events.Update(evt);
