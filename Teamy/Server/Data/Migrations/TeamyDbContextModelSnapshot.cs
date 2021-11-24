@@ -192,15 +192,15 @@ namespace Teamy.Server.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "83e8ed7a-f8b3-44c2-b049-ee2b8606caca",
-                            ConcurrencyStamp = "857e42fd-7bac-47be-8cf7-f1714c66f208",
+                            Id = "61cbc24f-03ab-4737-997a-7af5a29ded3e",
+                            ConcurrencyStamp = "338e8ab2-2edd-4802-805f-bae22ca8a950",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "9a740c2a-c155-473f-9c28-e725e3c95140",
-                            ConcurrencyStamp = "b57a93cf-59cd-4fd5-8beb-d02a5a67fd40",
+                            Id = "a19f7df4-ce66-4dd0-acad-a5795f5b74e1",
+                            ConcurrencyStamp = "b0affef9-45bc-4a48-8feb-4855e33c05c2",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -485,6 +485,9 @@ namespace Teamy.Server.Data.Migrations
                         .HasColumnType("nvarchar(1024)");
 
                     b.Property<DateTime?>("EventDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("EventDateTo")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")

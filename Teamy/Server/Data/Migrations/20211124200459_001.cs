@@ -282,7 +282,8 @@ namespace Teamy.Server.Data.Migrations
                     CreatedById = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CoverImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     DateStatus = table.Column<int>(type: "int", nullable: false),
-                    EventDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    EventDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EventDateTo = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -515,12 +516,12 @@ namespace Teamy.Server.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "83e8ed7a-f8b3-44c2-b049-ee2b8606caca", "857e42fd-7bac-47be-8cf7-f1714c66f208", "User", "USER" });
+                values: new object[] { "61cbc24f-03ab-4737-997a-7af5a29ded3e", "338e8ab2-2edd-4802-805f-bae22ca8a950", "User", "USER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "9a740c2a-c155-473f-9c28-e725e3c95140", "b57a93cf-59cd-4fd5-8beb-d02a5a67fd40", "Admin", "ADMIN" });
+                values: new object[] { "a19f7df4-ce66-4dd0-acad-a5795f5b74e1", "b0affef9-45bc-4a48-8feb-4855e33c05c2", "Admin", "ADMIN" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

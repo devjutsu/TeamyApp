@@ -13,17 +13,17 @@
             {
                 @*<input type="date" @bind=@date.Date @bind:format="yyyy-MM-dd" class="form-control event-text-input event-input-date">*@
                 <div />
-                <button class="btn btn-outline-danger btn-sm" @onclick="() => RemoveDate(date)" type="button" style="margin:.5rem;">
+                <button class="btn btn-outline-danger btn-sm" @onclick="() => RemoveDate(date)" type="button">
                     <span class="oi oi-minus" />
                 </button>
                 @date.Date
-                <button class="btn btn-outline-primary btn-sm" @onclick="() => EditDate(date)" type="button" style="margin:.5rem;">
+                <button class="btn btn-outline-primary btn-sm" @onclick="() => EditDate(date)" type="button">
                     <span class="oi oi-pencil" />
                 </button>
 
             }
 
-            <button class="btn btn-outline-success btn-sm" @onclick="() => AddDate()" style="margin:.5rem;">
+            <button class="btn btn-outline-success btn-sm" @onclick="() => AddDate()">
                 <span class="oi oi-plus" />
             </button>
 
@@ -224,8 +224,8 @@
     {
         var options = new ModalOptions() { Class = "date-edit-modal" };
         var parameters = new ModalParameters();
-        parameters.Add(nameof(DateEditModal.DateTimeFrom), EditedEvent.EventDate.Value);
-        parameters.Add(nameof(DateEditModal.DateTimeTo), EditedEvent.EventDate.Value.AddHours(2));
+        parameters.Add(nameof(DateEditModal.DateTimeFrom), date.Date);
+        parameters.Add(nameof(DateEditModal.DateTimeTo), date.Date.AddHours(2));
         var messageModal = Modal.Show<DateEditModal>("Add date and time", parameters, options);
         var result = await messageModal.Result;
     }
