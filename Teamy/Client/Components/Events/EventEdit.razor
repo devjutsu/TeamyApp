@@ -11,21 +11,34 @@
 
             @foreach (var date in EditedEvent.ProposedDates ?? new List<ProposedDateVM>())
             {
-                <input type="date" @bind=@date.Date @bind:format="yyyy-MM-dd" class="form-control event-text-input event-input-date">
-                <button class="btn btn-outline-danger" @onclick="() => RemoveDate(date)" type="button">
+                @*<input type="date" @bind=@date.Date @bind:format="yyyy-MM-dd" class="form-control event-text-input event-input-date">*@
+                <div />
+                <button class="btn btn-outline-danger btn-sm" @onclick="() => RemoveDate(date)" type="button" style="margin:.5rem;">
                     <span class="oi oi-minus" />
                 </button>
-            }
-            <div>
-                <button class="btn btn-outline-success" @onclick="() => AddDate()">
-                    <span class="oi oi-plus" />
+                @date.Date
+                <button class="btn btn-outline-primary btn-sm" @onclick="() => EditDate(date)" type="button" style="margin:.5rem;">
+                    <span class="oi oi-pencil" />
                 </button>
-            </div>
 
-            <label>Details</label>
-            <textarea rows=2 @bind="@EditedEvent.Description" class="form-control" />
-            <label>Where</label>
-            <input class="form-control" @bind-value="@EditedEvent.Where" />
+            }
+
+            <button class="btn btn-outline-success btn-sm" @onclick="() => AddDate()" style="margin:.5rem;">
+                <span class="oi oi-plus" />
+            </button>
+
+            <div>
+                <label>Details</label>
+            </div>
+            <div>
+                <textarea rows=2 @bind="@EditedEvent.Description" class="form-control" />
+            </div>
+            <div>
+                <label>Where</label>
+            </div>
+            <div>
+                <input class="form-control" @bind-value="@EditedEvent.Where" />
+            </div>
         </div>
         <div>
             <EditImg DeleteConfirmation=true ImgUrl=@EditedEvent.ImageUrl OnChange=@ImageChange />
@@ -165,8 +178,8 @@
             var result = await messageModal.Result;
             return;
         }
-        
-        if(EditedEvent.ProposedDates.Count == 0)
+
+        if (EditedEvent.ProposedDates.Count == 0)
         {
             var options = new ModalOptions() { Class = "default-modal" };
             var parameters = new ModalParameters();
@@ -187,16 +200,26 @@
         return false;
     }
 
-    void AddDate()
-    {
-        if (EditedEvent.ProposedDates == null)
-            EditedEvent.ProposedDates = new List<ProposedDateVM>();
-
-        EditedEvent.ProposedDates.Add(new ProposedDateVM() { Date = DateTime.Today.AddDays(1) });
-    }
-
     void RemoveDate(ProposedDateVM date)
     {
         EditedEvent.ProposedDates.Remove(date);
+    }
+
+    async Task AddDate()
+    {
+        var options = new ModalOptions() { Class = "default-modal" };
+        var parameters = new ModalParameters();
+        var messageModal = Modal.Show<DateEditModal>("Add date and time", parameters, options);
+        var result = await messageModal.Result;
+
+        //if (EditedEvent.ProposedDates == null)
+        //    EditedEvent.ProposedDates = new List<ProposedDateVM>();
+
+        //EditedEvent.ProposedDates.Add(new ProposedDateVM() { Date = DateTime.Today.AddDays(1) });
+    }
+
+    async Task EditDate(ProposedDateVM date)
+    {
+
     }
 }
