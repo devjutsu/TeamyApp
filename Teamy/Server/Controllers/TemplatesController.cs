@@ -43,8 +43,10 @@ namespace Teamy.Server.Controllers
             vms.ForEach(v => 
             {
                 v.Id = null;
-                v.EventDate = DateTime.Today.AddDays(1).AddHours(12);
-                v.ProposedDates = new List<ProposedDateVM>() { new ProposedDateVM() { Date = DateTime.Today.AddDays(1).AddHours(18) } };
+                v.EventDate = DateTime.Today.AddDays(1).AddHours(18);
+                v.EventDateTo = DateTime.Today.AddDays(1).AddHours(20);
+                v.ProposedDates = new List<ProposedDateVM>() { new ProposedDateVM() 
+                { Date = DateTime.Today.AddDays(1).AddHours(18), DateTo = DateTime.Today.AddDays(1).AddHours(20) } };
                 v.Polls?.ForEach(p =>
                 {
                     p.Id = null;

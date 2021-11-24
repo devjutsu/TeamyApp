@@ -10,6 +10,7 @@ namespace Teamy.Shared.ViewModels
     {
         public Guid Id { get; set; }
         public DateTime Date { get; set; }
+        public DateTime DateTo { get; set; }
         public Guid? EventId { get; set; }
         public List<DateVoteVM> Votes { get; set; } = new List<DateVoteVM>();
     }

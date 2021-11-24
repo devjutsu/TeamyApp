@@ -7,19 +7,29 @@
             <input class="form-control" @bind-value="@EditedEvent.Title" @ref="titleRef" />
             <label>When</label>
 
-            @*<input type="date" @bind="@EditedEvent.EventDate" @bind:format="yyyy-MM-dd" class="form-control event-text-input event-input-date">*@
-
             @foreach (var date in EditedEvent.ProposedDates ?? new List<ProposedDateVM>())
             {
-                @*<input type="date" @bind=@date.Date @bind:format="yyyy-MM-dd" class="form-control event-text-input event-input-date">*@
                 <div />
-                <button class="btn btn-outline-danger btn-sm" @onclick="() => RemoveDate(date)" type="button">
-                    <span class="oi oi-minus" />
-                </button>
-                @date.Date
-                <button class="btn btn-outline-primary btn-sm" @onclick="() => EditDate(date)" type="button">
-                    <span class="oi oi-pencil" />
-                </button>
+                @if (EditedEvent.DateStatus == EventDateStatus.Locked && date.Date == EditedEvent.EventDate && date.DateTo == EditedEvent.EventDateTo)
+                {
+                    <button class="btn btn-sm" disabled>
+                        <span class="oi oi-lock-locked" />
+                    </button>
+                    @DatePeriod(date)
+                    <button class="btn btn-sm" disabled>
+                        <span class="oi oi-lock-locked" />
+                    </button>
+                }
+                else
+                {
+                    <button class="btn btn-outline-danger btn-sm" @onclick="() => RemoveDate(date)">
+                        <span class="oi oi-minus" />
+                    </button>
+                    @DatePeriod(date)
+                    <button class="btn btn-outline-primary btn-sm" @onclick="() => EditDate(date)">
+                        <span class="oi oi-pencil" />
+                    </button>
+                }
 
             }
 
@@ -113,6 +123,9 @@
     public EventVM EditedEvent { get; set; }
 
     ElementReference titleRef;
+
+    public string DatePeriod(ProposedDateVM date)
+    => $"{date.Date.ToShortDateString()} {@date.Date.ToShortTimeString()} - {@date.DateTo.ToShortTimeString()}";
 
     protected override void OnInitialized()
     {
@@ -213,11 +226,15 @@
         parameters.Add(nameof(DateEditModal.DateTimeTo), DateTime.Today.AddDays(1).AddHours(20));
         var messageModal = Modal.Show<DateEditModal>("Add date and time", parameters, options);
         var result = await messageModal.Result;
+        if (!result.Cancelled)
+        {
+            var proposed = (ProposedDateVM)result.Data;
 
-        //if (EditedEvent.ProposedDates == null)
-        //    EditedEvent.ProposedDates = new List<ProposedDateVM>();
+            if (EditedEvent.ProposedDates == null)
+                EditedEvent.ProposedDates = new List<ProposedDateVM>();
 
-        //EditedEvent.ProposedDates.Add(new ProposedDateVM() { Date = DateTime.Today.AddDays(1) });
+            EditedEvent.ProposedDates.Add(proposed);
+        }
     }
 
     async Task EditDate(ProposedDateVM date)
@@ -228,5 +245,11 @@
         parameters.Add(nameof(DateEditModal.DateTimeTo), date.Date.AddHours(2));
         var messageModal = Modal.Show<DateEditModal>("Add date and time", parameters, options);
         var result = await messageModal.Result;
+        if (!result.Cancelled)
+        {
+            var proposed = (ProposedDateVM)result.Data;
+            var index = EditedEvent.ProposedDates.IndexOf(date);
+            EditedEvent.ProposedDates[index] = proposed;
+        }
     }
 }

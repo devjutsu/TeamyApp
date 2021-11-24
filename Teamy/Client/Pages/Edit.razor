@@ -1,4 +1,4 @@
-﻿@page "/edit/{Id:guid}"
+﻿@*@page "/edit/{Id:guid}"
 @inject IManageEvents EventService
 <h3>Edit</h3>
 
@@ -28,3 +28,4 @@
         Nav.NavigateTo($"/event/{CurrentEvent.Id}");
     }
 }
+*@

@@ -403,6 +403,7 @@ namespace Teamy.Server.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateTo = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -516,12 +517,12 @@ namespace Teamy.Server.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "61cbc24f-03ab-4737-997a-7af5a29ded3e", "338e8ab2-2edd-4802-805f-bae22ca8a950", "User", "USER" });
+                values: new object[] { "474f9851-041a-4a2a-a081-6502b73fcae3", "9c62983a-d29d-4ab7-9a45-c7075f2ae1d4", "User", "USER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "a19f7df4-ce66-4dd0-acad-a5795f5b74e1", "b0affef9-45bc-4a48-8feb-4855e33c05c2", "Admin", "ADMIN" });
+                values: new object[] { "b019c958-c261-4c9b-a1fe-3382134166e9", "dc4b2f79-fea5-47cf-aac7-9400c9a03b14", "Admin", "ADMIN" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

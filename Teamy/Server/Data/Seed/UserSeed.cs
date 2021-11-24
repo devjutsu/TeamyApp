@@ -54,8 +54,11 @@ namespace Teamy.Server.Data.Seed
                 CreatedById = garuda.Entity.Id,
                 Title = "Poker Night",
                 EventDate = null,
-                ProposedDates = new List<ProposedDate>() { new ProposedDate() { Date = DateTime.Today.AddDays(7).AddHours(18).AddMinutes(30)},
-                new ProposedDate() {Date = DateTime.Today.AddDays(10).AddHours(18) }, new ProposedDate() {Date = DateTime.Today.AddDays(15).AddHours(15) } },
+                ProposedDates = new List<ProposedDate>() { 
+                    new ProposedDate() { Date = DateTime.Today.AddDays(7).AddHours(18).AddMinutes(30), DateTo = DateTime.Today.AddDays(7).AddHours(20).AddMinutes(30)},
+                    new ProposedDate() { Date = DateTime.Today.AddDays(10).AddHours(18), DateTo = DateTime.Today.AddDays(10).AddHours(20) }, 
+                    new ProposedDate() { Date = DateTime.Today.AddDays(15).AddHours(15), DateTo = DateTime.Today.AddDays(15).AddHours(17) } 
+                },
                 DateStatus = EventDateStatus.Voting,
                 Where = "Office conference room",
                 Description = "Tournament: The winner takes it all, others just have a good time and some drinks",
@@ -112,8 +115,11 @@ namespace Teamy.Server.Data.Seed
                 Invites = new List<Invite>() { new Invite() { InviteCode = Guid.NewGuid().ToString().Substring(0, 8), InvitedById = garuda.Entity.Id, Public = true } },
                 CreatedById = garuda.Entity.Id,
                 Title = "Bicycle ride",
-                ProposedDates = new List<ProposedDate>() { new ProposedDate() { Date = DateTime.Today.AddDays(7).AddHours(15)},
-                new ProposedDate() {Date = DateTime.Today.AddDays(10).AddHours(13).AddMinutes(30) }, new ProposedDate() {Date = DateTime.Today.AddDays(15).AddHours(13) } },
+                ProposedDates = new List<ProposedDate>() { 
+                    new ProposedDate() { Date = DateTime.Today.AddDays(7).AddHours(15), DateTo = DateTime.Today.AddDays(7).AddHours(17)},
+                    new ProposedDate() { Date = DateTime.Today.AddDays(10).AddHours(13).AddMinutes(30), DateTo = DateTime.Today.AddDays(10).AddHours(15).AddMinutes(30) }, 
+                    new ProposedDate() { Date = DateTime.Today.AddDays(15).AddHours(13), DateTo = DateTime.Today.AddDays(17).AddHours(13) } 
+                },
                 DateStatus = EventDateStatus.Voting,
                 Description = "I want to ride my bicycle",
                 Where = "Somewhere over the rainbow",
@@ -171,11 +177,12 @@ namespace Teamy.Server.Data.Seed
                 CreatedById = garuda.Entity.Id,
                 Title = "Hacking night",
                 EventDate = DateTime.Now.AddDays(20).AddHours(20),
+                EventDateTo = DateTime.Now.AddDays(20).AddHours(23).AddMinutes(59),
                 DateStatus = EventDateStatus.Locked,
                 Description = "Creating cool stuff and Banja right after",
                 Where = "YogaLab countryside workshop facility",
                 CoverImage = new ImageModel() { Url = "https://i.pinimg.com/originals/71/85/0c/71850c4d6cd020d740e21c0b2b030acb.jpg" }
-            });
+            }); ;
 
             db.Participation.Add(new Participation
             {

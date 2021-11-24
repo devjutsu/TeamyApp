@@ -65,7 +65,11 @@ else
     {
         EditingEvent = new EventVM();
         EditingEvent.EventDate = null;
-        EditingEvent.ProposedDates = new List<ProposedDateVM>() {new ProposedDateVM() {Date = DateTime.Today.AddDays(1) }};
+        EditingEvent.EventDateTo = null;
+        EditingEvent.ProposedDates = new List<ProposedDateVM>() {
+            new ProposedDateVM() {Date = DateTime.Today.AddDays(1).AddHours(18),
+                DateTo = DateTime.Today.AddDays(1).AddHours(20)}
+        };
     }
 
     async Task Finished(EventVM editedVM)
@@ -73,6 +77,7 @@ else
         if(editedVM.ProposedDates != null && editedVM.ProposedDates.Count == 1)
         {
             editedVM.EventDate = editedVM.ProposedDates.First()?.Date;
+            editedVM.EventDateTo = editedVM.ProposedDates.First()?.DateTo;
             editedVM.DateStatus = EventDateStatus.Locked;
         }
         var createdId = await EventService.Create(editedVM);

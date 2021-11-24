@@ -17,7 +17,7 @@
                 {
                     <button class="btn btn-outline-secondary d-inline" @onclick="(() => UnlockDate())"><span class="oi oi-lock-locked" /></button>
                 }
-                <div class="d-inline" style="margin-left:1rem;">@CurrentEvent.EventDate.Value.ToLongDateString()</div>
+                <div class="d-inline" style="margin-left:1rem;">@CurrentEvent.EventDate.Value.ToShortDateString() @CurrentEvent.EventDate.Value.ToShortTimeString() - @CurrentEvent.EventDateTo.Value.ToShortTimeString()</div>
                 <div>
                     <a class="btn btn-link" href=@GoogleCalEntry target="_blank">Add to Google calendar</a>
                 </div>
@@ -35,7 +35,7 @@
                         {
                             <button class="btn btn-outline-secondary" @onclick="(() => LockDate(date))"><span class="oi oi-lock-unlocked" /></button>
                         }
-                        <button class="btn btn-link form-check form-check-inline" @onclick="(() => VoteDate(date))" disabled=@CanNotVoteDate(date)>@date.Date.ToLongDateString()</button>
+                        <button class="btn btn-link form-check form-check-inline" @onclick="(() => VoteDate(date))" disabled=@CanNotVoteDate(date)>@date.Date.ToShortDateString() @date.Date.ToShortTimeString() - @date.DateTo.ToShortTimeString()</button>
 
                         <div class="progress">
                             <div class="progress-bar" role="progressbar" style="width: @PercentDate(date)%;" aria-valuenow="@PercentDate(date)" aria-valuemin="0" aria-valuemax="100">
@@ -137,7 +137,7 @@
     string GoogleCalEntry => $"https://calendar.google.com/calendar/r/eventedit?text={GoogleCalTitle}&dates={GoogleCalDateFrom}/{GoogleCalDateTo}&details={GoogleCalDetails}&location={GoogleCalLocation}";
     string GoogleCalTitle => $"{CurrentEvent.Title.CalSlugify()}";
     string GoogleCalDateFrom => $"{CurrentEvent.EventDate.Value.ToString("yyyyMMddTHHmm00Z")}";
-    string GoogleCalDateTo => $"{CurrentEvent.EventDate.Value.AddHours(2).ToString("yyyyMMddTHHmm00Z")}";
+    string GoogleCalDateTo => $"{CurrentEvent.EventDateTo.Value.ToString("yyyyMMddTHHmm00Z")}";
     string GoogleCalDetails => $"{CurrentEvent.Description.CalSlugify()} {Nav.BaseUri}Event/{CurrentEvent.Id}";
     string GoogleCalLocation => $"{CurrentEvent.Where.CalSlugify()}";
     string CalendarIcsLink => $"{Nav.BaseUri}Events/ClendarFile";
@@ -219,6 +219,7 @@
     void LockDate(ProposedDateVM date)
     {
         CurrentEvent.EventDate = date.Date;
+        CurrentEvent.EventDateTo = date.DateTo;
         CurrentEvent.DateStatus = EventDateStatus.Locked;
         date.EventId = CurrentEvent.Id;
         PollService.LockDate(date);
@@ -226,8 +227,9 @@
 
     void UnlockDate()
     {
-        var date = new ProposedDateVM() { Date = CurrentEvent.EventDate.Value, EventId = CurrentEvent.Id };
+        var date = new ProposedDateVM() { Date = CurrentEvent.EventDate.Value, DateTo = CurrentEvent.EventDateTo.Value, EventId = CurrentEvent.Id };
         CurrentEvent.EventDate = null;
+        CurrentEvent.EventDateTo = null;
         CurrentEvent.DateStatus = EventDateStatus.Voting;
         PollService.UnlockDate(date);
     }

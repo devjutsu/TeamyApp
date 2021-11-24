@@ -12,7 +12,7 @@
             <h4>@CurrentEvent.Title</h4>
             @if (@CurrentEvent.DateStatus == EventDateStatus.Locked || @CurrentEvent.ProposedDates.Count == 1)
             {
-                <div>@CurrentEvent.EventDate.Value.ToLongDateString()</div>
+                <div>@CurrentEvent.EventDate.Value.ToShortDateString() - @CurrentEvent.EventDateTo.Value.ToShortTimeString()</div>
             }
             else
             {

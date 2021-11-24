@@ -12,7 +12,7 @@ using Teamy.Server.Data;
 namespace Teamy.Server.Data.Migrations
 {
     [DbContext(typeof(TeamyDbContext))]
-    [Migration("20211124200459_001")]
+    [Migration("20211124204919_001")]
     partial class _001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -194,15 +194,15 @@ namespace Teamy.Server.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "61cbc24f-03ab-4737-997a-7af5a29ded3e",
-                            ConcurrencyStamp = "338e8ab2-2edd-4802-805f-bae22ca8a950",
+                            Id = "474f9851-041a-4a2a-a081-6502b73fcae3",
+                            ConcurrencyStamp = "9c62983a-d29d-4ab7-9a45-c7075f2ae1d4",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "a19f7df4-ce66-4dd0-acad-a5795f5b74e1",
-                            ConcurrencyStamp = "b0affef9-45bc-4a48-8feb-4855e33c05c2",
+                            Id = "b019c958-c261-4c9b-a1fe-3382134166e9",
+                            ConcurrencyStamp = "dc4b2f79-fea5-47cf-aac7-9400c9a03b14",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -672,6 +672,9 @@ namespace Teamy.Server.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateTo")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("EventId")

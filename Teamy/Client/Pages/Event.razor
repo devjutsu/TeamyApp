@@ -104,6 +104,7 @@
             if (editedVM.ProposedDates.Count == 1)
             {
                 editedVM.EventDate = editedVM.ProposedDates.First()?.Date;
+                editedVM.EventDateTo = editedVM.ProposedDates.First()?.DateTo;
                 editedVM.DateStatus = EventDateStatus.Locked;
             }
         }
