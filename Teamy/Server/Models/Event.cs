@@ -20,6 +20,7 @@ namespace Teamy.Server.Models
         public List<ProposedDate> ProposedDates { get; set; } = new List<ProposedDate>();
         public EventDateStatus DateStatus { get; set; }
         public DateTime? EventDate { get; set; }
+        public DateTime? EventDateTo { get; set; }
     }
 
     public class EventConfiguration : IEntityTypeConfiguration<Event>

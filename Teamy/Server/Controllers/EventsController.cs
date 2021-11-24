@@ -85,6 +85,7 @@ namespace Teamy.Server.Controllers
                 existingEvent.Title = eventVM.Title;
                 existingEvent.Description = eventVM.Description;
                 existingEvent.EventDate = eventVM.EventDate;
+                existingEvent.EventDateTo = eventVM.EventDateTo;
                 existingEvent.Where = eventVM.Where;
                 existingEvent.DateStatus = eventVM.DateStatus;
 
@@ -158,13 +159,11 @@ namespace Teamy.Server.Controllers
             { throw; }
         }
 
-        [AllowAnonymous]
         [HttpGet("Invited")]
-        public async Task<EventVM> Invited()
+        public async Task<EventVM> Invited([FromBody] string inviteCode)
         {
             try
             {
-                var inviteCode = "d8e1f7b0";
                 var evt = await _db.Events
                                 .Include(_ => _.Participants)
                                 .ThenInclude(z => z.User)
