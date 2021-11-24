@@ -1,0 +1,38 @@
+﻿<style>
+    .notification-text {
+        margin-bottom: 1rem;
+    }
+
+    .confirm-btn {
+        margin: .5rem;
+    }
+</style>
+
+<div @onkeydown="(e => KeyPressed(e))">
+    <div class="notification-text">@Message</div>
+    <div>
+        <input type="date" @bind=@DateFrom @bind:format="yyyy-MM-dd" class="form-control event-text-input event-input-date">
+    </div>
+    <div>
+        <input @bind=@TimeFrom @bind:format="HH:mm" class="form-control event-text-input event-input-date">
+    </div>
+    <div class="d-flex justify-content-center">
+        <button @onclick="Close" class="btn btn-primary confirm-btn">Ok</button>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
+    [Parameter] public string Message { get; set; }
+    public DateTime DateFrom { get; set; } = DateTime.Today.AddDays(1);
+    public DateTime TimeFrom { get; set; } = DateTime.Today.AddDays(1).AddHours(18);
+
+    async Task Close() => await BlazoredModal.CloseAsync(ModalResult.Ok(true));
+    async Task Cancel() => await BlazoredModal.CancelAsync();
+
+    async Task KeyPressed(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape")
+            await Cancel();
+    }
+}
