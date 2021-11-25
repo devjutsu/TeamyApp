@@ -102,7 +102,7 @@ namespace Teamy.Server.Controllers
         }
 
         [HttpGet("Upcoming/{count}")]
-        public List<EventVM> Upcoming(int count = 9)
+        public List<EventVM> Upcoming()
         {
             try
             {
@@ -121,7 +121,6 @@ namespace Teamy.Server.Controllers
                                 .ThenInclude(_ => _.Votes)
                                 .Where(_ => _.CreatedById == currentUserId || _.Participants.Any(p => p.UserId == currentUserId))
                                 .OrderBy(_ => _.EventDate)
-                                .Take(count)
                                 .ToList();
 
                 var vms = _mapper.Map<List<Event>, List<EventVM>>(events);
