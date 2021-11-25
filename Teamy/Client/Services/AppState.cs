@@ -15,8 +15,8 @@ namespace Teamy.Client.Services
         public string UserDisplayName { get; private set; }
         public bool IsLoggedIn => User?.Identity.IsAuthenticated ?? false;
         public List<EventVM> StoredEvents { get; private set; }
-        public List<EventVM> FutureEvents => StoredEvents.Where(e => e.EventDate.Value > DateTime.Now).ToList();
-        public List<EventVM> PastEvents => StoredEvents.Where(e => e.EventDate.Value < DateTime.Now).OrderByDescending(o => o.EventDate).ToList();
+        public List<EventVM> FutureEvents => StoredEvents.Where(e => e.EventDate == null || e.EventDate > DateTime.Now).ToList();
+        public List<EventVM> PastEvents => StoredEvents.Where(e => e.EventDate < DateTime.Now).OrderByDescending(o => o.EventDate).ToList();
         public ParticipationVM? LatestParticipation { get; private set; }
 
         public AppState(AuthenticationStateProvider authStateProvider)

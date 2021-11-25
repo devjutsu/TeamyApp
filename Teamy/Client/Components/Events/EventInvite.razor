@@ -1,7 +1,7 @@
 ﻿@inject IJSRuntime JSRuntime
 
 <div class="dummy-block">
-    <h5>Invite</h5>
+    <div><span style="font-weight:bold;">Invite</span></div>
     <div class="d-flex flex-row">
         <div><input @ref="inviteLink" class="form-control" value="@publicInviteLink" readonly="readonly" size=25 /></div>
         <div><button class="btn btn-outline-secondary" @onclick="CopyTextToClipboard">Copy link</button></div>
