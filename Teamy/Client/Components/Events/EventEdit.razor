@@ -242,7 +242,7 @@
         var options = new ModalOptions() { Class = "date-edit-modal" };
         var parameters = new ModalParameters();
         parameters.Add(nameof(DateEditModal.DateTimeFrom), date.Date);
-        parameters.Add(nameof(DateEditModal.DateTimeTo), date.Date.AddHours(2));
+        parameters.Add(nameof(DateEditModal.DateTimeTo), date.DateTo);
         var messageModal = Modal.Show<DateEditModal>("Add date and time", parameters, options);
         var result = await messageModal.Result;
         if (!result.Cancelled)
