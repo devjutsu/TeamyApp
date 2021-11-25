@@ -71,14 +71,14 @@
 
                         @foreach (var choice in poll.Choices)
                         {
-                            @*@if (poll.MultiChoice)
-                                {
-                                <input type="checkbox" class="form-check-input" style="margin-top:.7rem;" @bind="() => hz(poll, choice)" />
-                                }
-                                else
-                                {
-                                <input type="radio" name=@poll.Question class="form-check-input" id=@choice.Id style="margin-top:.7rem;" />
-                                }*@
+                            @if (poll.MultiChoice)
+                            {
+                                <input type="checkbox" class="form-check-input" value="@(() => VotedChoice(choice))" @onchange="(() => Vote(poll, choice))" style="margin-top:.7rem;" />
+                            }
+                            else
+                            { 
+                                <input type="radio" name=@poll.Question class="form-check-input" checked=@(VotedChoice(choice)) @onchange="(() => Vote(poll, choice))" disabled=@CanNotVote(poll, choice) style="margin-top:.7rem;" />
+                            }
                             <button class="btn btn-link" @onclick="(() => Vote(poll, choice))" disabled=@CanNotVote(poll, choice)>@choice.Choice</button>
 
                             <div class="progress">
@@ -144,7 +144,7 @@
 
     async Task CallDownload()
     {
-        await JS.InvokeVoidAsync("DownloadFile", "event.ics","text/calendar", CurrentEvent.CalendarFile(Nav.BaseUri));
+        await JS.InvokeVoidAsync("DownloadFile", "event.ics", "text/calendar", CurrentEvent.CalendarFile(Nav.BaseUri));
     }
 
     async Task Vote(PollVM poll, PollChoiceVM choice)
@@ -153,7 +153,10 @@
     }
 
     async Task ResetAnswers(PollVM poll)
-        => await PollService.ResetAnswers(poll);
+    {
+        await PollService.ResetAnswers(poll);
+        StateHasChanged();
+    }
 
     int Percent(PollVM poll, PollChoiceVM choice)
     {
@@ -161,6 +164,13 @@
         return totalVotes > 0
                 ? ChoiceTotalVotes(choice) * (100 / totalVotes)
                 : 0;
+    }
+
+    bool VotedChoice(PollChoiceVM choice)
+    {
+        var result = choice.Answers.Any(c => c.UserId == AppState.UserId);
+        Console.WriteLine($"{choice.Choice} : {result}");
+        return result;
     }
 
     int PollTotalVotes(PollVM poll)
