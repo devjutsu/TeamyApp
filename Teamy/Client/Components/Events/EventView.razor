@@ -73,7 +73,7 @@
                         {
                             @if (poll.MultiChoice)
                             {
-                                <input type="checkbox" class="form-check-input" value="@(() => VotedChoice(choice))" @onchange="(() => Vote(poll, choice))" style="margin-top:.7rem;" />
+                                <input type="checkbox" class="form-check-input" checked=@(VotedChoice(choice)) disabled=@CanNotVote(poll, choice) @onchange="(() => Vote(poll, choice))" style="margin-top:.7rem;" />
                             }
                             else
                             { 
@@ -155,7 +155,7 @@
     async Task ResetAnswers(PollVM poll)
     {
         await PollService.ResetAnswers(poll);
-        StateHasChanged();
+        //StateHasChanged();
     }
 
     int Percent(PollVM poll, PollChoiceVM choice)
