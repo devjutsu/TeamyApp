@@ -101,7 +101,7 @@ namespace Teamy.Server.Controllers
             { throw; }
         }
 
-        [HttpGet("Upcoming/{count}")]
+        [HttpGet("Upcoming")]
         public List<EventVM> Upcoming()
         {
             try

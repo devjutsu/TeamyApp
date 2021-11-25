@@ -40,7 +40,7 @@ namespace Teamy.Client.Services
         {
             if (AppState.IsLoggedIn)
             {
-                var events = await Http.GetFromJsonAsync<List<EventVM>>("Events/Upcoming/9");
+                var events = await Http.GetFromJsonAsync<List<EventVM>>("Events/Upcoming");
                 AppState.UpdateEvents(null, events);
             }
         }

@@ -138,12 +138,12 @@
     [CascadingParameter] public IModalService Modal { get; set; }
     [Parameter] public EventVM CurrentEvent { get; set; }
     [Parameter] public EventCallback SwitchToEdit { get; set; }
-    string GoogleCalEntry => $"https://calendar.google.com/calendar/r/eventedit?text={GoogleCalTitle}&dates={GoogleCalDateFrom}/{GoogleCalDateTo}&details={GoogleCalDetails}&location={GoogleCalLocation}";
+    string GoogleCalEntry => $"https://calendar.google.com/calendar/r/eventedit?text={GoogleCalTitle}&dates={GoogleCalDateFrom}/{GoogleCalDateTo}&details={GoogleCalDetails ?? string.Empty}&location={GoogleCalLocation ?? string.Empty}";
     string GoogleCalTitle => $"{CurrentEvent.Title.CalSlugify()}";
     string GoogleCalDateFrom => $"{CurrentEvent.EventDate.Value.ToString("yyyyMMddTHHmm00Z")}";
     string GoogleCalDateTo => $"{CurrentEvent.EventDateTo.Value.ToString("yyyyMMddTHHmm00Z")}";
-    string GoogleCalDetails => $"{CurrentEvent.Description.CalSlugify()} {Nav.BaseUri}Event/{CurrentEvent.Id}";
-    string GoogleCalLocation => $"{CurrentEvent.Where.CalSlugify()}";
+    string GoogleCalDetails => $"{CurrentEvent.Description?.CalSlugify()} {Nav.BaseUri}Event/{CurrentEvent.Id}";
+    string GoogleCalLocation => $"{CurrentEvent.Where?.CalSlugify()}";
     string CalendarIcsLink => $"{Nav.BaseUri}Events/ClendarFile";
 
     async Task CallDownload()
@@ -173,7 +173,6 @@
     bool VotedChoice(PollChoiceVM choice)
     {
         var result = choice.Answers.Any(c => c.UserId == AppState.UserId);
-        Console.WriteLine($"{choice.Choice} : {result}");
         return result;
     }
 
