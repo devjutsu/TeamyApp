@@ -92,14 +92,14 @@
                                 <input class="form-check-input" type="checkbox" @bind=@poll.MultiChoice>
                                 <label class="form-check-label" for="inlineCheckbox1">Multi choice</label>
                             </div>
-                            <div class="form-check form-check-inline">
+                            @*<div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" @bind=@poll.FreeTextOption>
                                 <label class="form-check-label" for="inlineCheckbox2">Type other</label>
-                            </div>
-                            <button class="btn btn-outline-success" @onclick="() => AddChoice(poll)">
+                            </div>*@
+                            <button class="btn btn-sm btn-outline-success" @onclick="() => AddChoice(poll)">
                                 <span class="oi oi-plus" />
                             </button>
-                            <button class="btn btn-link" @onclick="(() => DeleteEventVote(poll))">
+                            <button class="btn btn-sm btn-link" @onclick="(() => DeleteEventVote(poll))">
                                 <span class="oi oi-trash" />
                             </button>
                         </div>

@@ -10,12 +10,23 @@
         <RedirectToLogin />
     </NotAuthorized>
     <Authorized>
-        <div>Hello, @AppState.UserDisplayName</div>
 
         @if (AppState.StoredEvents != null)
         {
+            <div>Upcoming:</div>
             <div class="d-flex flex-wrap">
-                @foreach (var evt in AppState.StoredEvents)
+                @foreach (var evt in AppState.FutureEvents)
+                {
+                    <div @onclick="() => GoEvent(evt)">
+                        <EventCard Evt="@evt"></EventCard>
+                    </div>
+                }
+            </div>
+
+            <p>&nbsp;</p>
+            <div>Past:</div>
+            <div class="d-flex flex-wrap">
+                @foreach (var evt in AppState.PastEvents)
                 {
                     <div @onclick="() => GoEvent(evt)">
                         <EventCard Evt="@evt"></EventCard>
@@ -31,11 +42,6 @@
     {
         //var cookieEventId = await JS.InvokeAsync<string>("ReadCookie.ReadCookie", "participationEventId");
         //var cookieParticipation = await JS.InvokeAsync<string>("ReadCookie.ReadCookie", "participationStatus");
-
-        //if(cookieEventId != null && cookieParticipation != null)
-        //{
-
-        //}
     }
 
     protected override void OnInitialized()
