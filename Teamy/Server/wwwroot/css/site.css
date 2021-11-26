@@ -1,6 +1,8 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\
 for details on configuring this project to bundle and minify static web assets. */
 
+@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -80,4 +82,15 @@ body {
   overflow: scroll;
   white-space: nowrap;
   line-height: 60px;
+}
+.user-profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: .1rem;
+    font-weight: bold;
+    background-color: rgb(200, 200, 200);
 }
