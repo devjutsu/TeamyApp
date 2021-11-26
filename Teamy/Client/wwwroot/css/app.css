@@ -59,3 +59,25 @@ a,
   max-width: 30rem;
   min-width: 30%;
 }
+.user-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.1rem;
+  font-weight: bold;
+}
+.user-profile {
+  background-color: #c8c8c8;
+}
+.user-creator {
+  background-color: gold;
+}
+.user-accepted {
+  background-color: #24a527;
+}
+.user-rejected {
+  background-color: #bd3432;
+}
