@@ -81,3 +81,28 @@ a,
 .user-rejected {
   background-color: #bd3432;
 }
+.btn-sm-lock {
+  width: 2rem;
+}
+.img-container {
+  position: relative;
+}
+.btn-img-remove {
+  right: 1rem;
+  top: 1rem;
+  border: 0;
+  background-color: rgba(200, 200, 200, 0.7);
+  color: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  width: 33px;
+  height: 33px;
+  padding: 6px 0px;
+  border-radius: 25px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.42857;
+}
+.btn-img-remove:hover {
+  background-color: #c8c8c8;
+  color: black;
+}

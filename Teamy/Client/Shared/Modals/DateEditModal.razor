@@ -1,4 +1,5 @@
-﻿<style>
+﻿@inject IModalService ModalService
+<style>
     .notification-text {
         margin-bottom: 1rem;
     }
@@ -25,8 +26,7 @@
 </div>
 
 @code {
-    [CascadingParameter] 
-    BlazoredModalInstance BlazoredModal { get; set; }
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
     [Parameter] 
     public string Message { get; set; }
     [Parameter]
@@ -39,19 +39,48 @@
 
     protected override void OnInitialized()
     {
-        TimeFrom = DateTime.Today.AddHours(DateTimeFrom.Hour).AddMinutes(DateTimeFrom.Minute);
+        TimeFrom = DateTimeFrom;
+        Console.WriteLine(DateTimeFrom);
+        Console.WriteLine(DateTimeTo);
+        Console.WriteLine("---");
     }
 
     async Task KeyPressed(KeyboardEventArgs e)
     {
         if (e.Key == "Escape")
             await Cancel();
+        else if (e.Key == "Enter")
+            await Close();
     }
 
     async Task Close()
     {
-        var realDateFrom = DateTimeFrom.Date.AddHours(TimeFrom.Hour).AddMinutes(TimeFrom.Minute);
-        var proposed = new ProposedDateVM() { Date = realDateFrom, DateTo = DateTimeTo };
+        var Hours = DateTimeTo.Hour;
+        var Minutes = DateTimeTo.Minute;
+        DateTimeFrom = DateTimeFrom.Date.AddHours(TimeFrom.Hour).AddMinutes(TimeFrom.Minute);
+        DateTimeTo = DateTimeFrom.Date.AddHours(Hours).AddMinutes(Minutes);
+        Console.WriteLine(DateTimeFrom);
+        Console.WriteLine(DateTimeTo);
+        Console.WriteLine("=====");
+
+        if (!(await ValiDate()))
+            return;
+
+        var proposed = new ProposedDateVM() { Date = DateTimeFrom, DateTo = DateTimeTo };
         await BlazoredModal.CloseAsync(ModalResult.Ok(proposed));
+    }
+
+    async Task<bool> ValiDate()
+    {
+        if (DateTimeFrom >= DateTimeTo)
+        {
+            var options = new ModalOptions() { Class = "default-modal" };
+            var parameters = new ModalParameters();
+            parameters.Add("Message", "Please, input time proper time interval");
+            var messageModal = ModalService.Show<NotifyModal>("Information", parameters, options);
+            var result = await messageModal.Result;
+            return false;
+        }
+        return true;
     }
 }

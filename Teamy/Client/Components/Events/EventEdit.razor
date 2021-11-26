@@ -12,13 +12,8 @@
                 <div />
                 @if (EditedEvent.DateStatus == EventDateStatus.Locked && date.Date == EditedEvent.EventDate && date.DateTo == EditedEvent.EventDateTo)
                 {
-                    <button class="btn btn-sm" disabled>
-                        <span class="oi oi-lock-locked" />
-                    </button>
+                    <button class="btn btn-sm btn-outline-secondary d-inline btn-sm-lock" @onclick="(() => UnlockDate())"><span class="oi oi-lock-locked" /></button>
                     @DatePeriod(date)
-                    <button class="btn btn-sm" disabled>
-                        <span class="oi oi-lock-locked" />
-                    </button>
                 }
                 else
                 {
@@ -173,6 +168,15 @@
 
     async Task DoneEdit()
     {
+        if (string.IsNullOrWhiteSpace(EditedEvent.Title))
+        {
+            var options = new ModalOptions() { Class = "default-modal" };
+            var parameters = new ModalParameters();
+            parameters.Add("Message", "Please, input non-empty event title.");
+            var messageModal = Modal.Show<NotifyModal>("Information", parameters, options);
+            var result = await messageModal.Result;
+            return;
+        }
         if (EditedEvent.Polls?.Any(o => string.IsNullOrEmpty(o.Question)) ?? false)
         {
             var options = new ModalOptions() { Class = "default-modal" };
@@ -251,5 +255,14 @@
             var index = EditedEvent.ProposedDates.IndexOf(date);
             EditedEvent.ProposedDates[index] = proposed;
         }
+    }
+
+    void UnlockDate()
+    {
+        var date = new ProposedDateVM() { Date = EditedEvent.EventDate.Value, DateTo = EditedEvent.EventDateTo.Value, EventId = EditedEvent.Id };
+        EditedEvent.EventDate = null;
+        EditedEvent.EventDateTo = null;
+        EditedEvent.DateStatus = EventDateStatus.Voting;
+        PollService.UnlockDate(date);
     }
 }
