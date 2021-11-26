@@ -12,26 +12,32 @@
     <Authorized>
         @if (AppState.StoredEvents != null)
         {
-            <div>Upcoming:</div>
-            <div class="d-flex flex-wrap">
-                @foreach (var evt in AppState.FutureEvents)
-                {
-                    <div @onclick="() => GoEvent(evt)">
-                        <EventCard Evt="@evt"></EventCard>
-                    </div>
-                }
-            </div>
+            @if (AppState.FutureEvents.Any())
+            {
+                <div>Upcoming:</div>
+                <div class="d-flex flex-wrap">
+                    @foreach (var evt in AppState.FutureEvents)
+                    {
+                        <div @onclick="() => GoEvent(evt)">
+                            <EventCard Evt="@evt"></EventCard>
+                        </div>
+                    }
+                </div>
+            }
 
-            <p>&nbsp;</p>
-            <div>Past:</div>
-            <div class="d-flex flex-wrap">
-                @foreach (var evt in AppState.PastEvents)
-                {
-                    <div @onclick="() => GoEvent(evt)">
-                        <EventCard Evt="@evt"></EventCard>
-                    </div>
-                }
-            </div>
+            @if (AppState.PastEvents.Any())
+            {
+                <p>&nbsp;</p>
+                <div>Past:</div>
+                <div class="d-flex flex-wrap">
+                    @foreach (var evt in AppState.PastEvents)
+                    {
+                        <div @onclick="() => GoEvent(evt)">
+                            <EventCard Evt="@evt"></EventCard>
+                        </div>
+                    }
+                </div>
+            }
         }
         else
         {

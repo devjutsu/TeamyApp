@@ -15,7 +15,7 @@
             {
                 @if (UserCanModifyEvent())
                 {
-                    <button class="btn btn-outline-secondary d-inline" @onclick="(() => UnlockDate())"><span class="oi oi-lock-locked" /></button>
+                    <button class="btn btn-sm btn-outline-secondary d-inline btn-sm-lock" @onclick="(() => UnlockDate())"><span class="oi oi-lock-locked" /></button>
                 }
                 <div class="d-inline" style="margin-left:1rem;">@CurrentEvent.EventDate.Value.ToShortDateString() @CurrentEvent.EventDate.Value.ToShortTimeString() - @CurrentEvent.EventDateTo.Value.ToShortTimeString()</div>
                 <div>
@@ -33,7 +33,7 @@
                     {
                         @if (UserCanModifyEvent())
                         {
-                            <button class="btn btn-outline-secondary" @onclick="(() => LockDate(date))"><span class="oi oi-lock-unlocked" /></button>
+                            <button class="btn btn-sm btn-outline-secondary btn-sm-lock" @onclick="(() => LockDate(date))"><span class="oi oi-lock-unlocked" /></button>
                         }
                         <button class="btn btn-link form-check form-check-inline" @onclick="(() => VoteDate(date))" disabled=@CanNotVoteDate(date)>@date.Date.ToShortDateString() @date.Date.ToShortTimeString() - @date.DateTo.ToShortTimeString()</button>
 
