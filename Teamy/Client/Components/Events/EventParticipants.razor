@@ -1,15 +1,17 @@
 ﻿<div class="dummy-block">
-<h5>Participants</h5>
+    <h5>Participants</h5>
 
-<div>Creator: @CurrentEvent.CreatedByName</div>
-@if (CurrentEvent.Participants.Any(o => o.Status == ParticipationStatus.Accept))
-{
-    <div>Accepted: @string.Join(", ", CurrentEvent.Participants.Where(o => o.Status == ParticipationStatus.Accept).Select(o => o.Name))</div>
-}
-@if (CurrentEvent.Participants.Any(o => o.Status == ParticipationStatus.Reject))
-{
-    <div>Rejected: @string.Join(", ", CurrentEvent.Participants.Where(o => o.Status == ParticipationStatus.Reject).Select(o => o.Name))</div>
-}
+    <span class="user-circle user-creator" title="@CurrentEvent.CreatedByName (Creator)">@CurrentEvent.CreatedByName.First()</span>
+    @foreach(var user in CurrentEvent.Participants.Where(o => o.Status == ParticipationStatus.Accept))
+    {
+        <span class="user-circle user-accepted" title="@user.Name (Accepted)">@user.Name.First()</span>
+    }
+
+    @foreach(var user in CurrentEvent.Participants.Where(o => o.Status == ParticipationStatus.Reject))
+    {
+        <span class="user-circle user-rejected" title="@user.Name (Rejected)">@user.Name.First()</span>
+    }
+
 </div>
 
 @code {
