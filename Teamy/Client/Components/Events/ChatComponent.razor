@@ -10,8 +10,8 @@
             {
                 <div>
                     <span class="oi oi-envelope-closed" style="font-size:small;"
-                      title="@(message.SentAt.Value.ToShortDateString() + " - " + message.SentAt.Value.ToLongTimeString())"
-                      @onclick="() => OnClickEnvelope(message)">
+              title="@(message.SentAt.Value.ToShortDateString() + " - " + message.SentAt.Value.ToLongTimeString())"
+              @onclick="() => OnClickEnvelope(message)">
                     </span>
                     <span style="font-size:small;">
                         @message.SentBy
@@ -24,8 +24,11 @@
             }
 
         }
-        <input class="form-control" @bind-value="MessageToSend" @ref="inputMessage" placeholder="Type your comment" />
+        <input class="form-control" @bind="MessageToSend" @bind:event="oninput" @ref="inputMessage"
+                placeholder="Type your comment" @onkeydown="@(e => KeyPressed(e))" />
+
         <button class="btn btn-primary" @onclick="Send" style="margin-top:1rem;">Send</button>
+        <div>@MessageToSend</div>
     }
 </div>
 
@@ -57,10 +60,19 @@
         });
     }
 
+    async Task KeyPressed(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+            await Send();
+    }
+
     async Task Send()
     {
-        await ChatService.Post(new ChatMessageVM() { EventId = CurrentEvent.Id.Value, Text = MessageToSend });
-        MessageToSend = "";
+        if (!string.IsNullOrWhiteSpace(MessageToSend))
+        {
+            await ChatService.Post(new ChatMessageVM() { EventId = CurrentEvent.Id.Value, Text = MessageToSend });
+            MessageToSend = "";
+        }
     }
 
     async Task OnClickEnvelope(ChatMessageVM message)
