@@ -1,13 +1,12 @@
 ﻿@inject IManageInvites InviteService
 
-
 @if (Participation() == ParticipationStatus.NotSet)
 {
     <div class="dummy-block">
         <div>Are you coming?</div>
         <div class="form-inline">
-            <button @onclick="() => Respond(accept:true)" class="btn btn-success" disabled="@DisableRespond">Yes</button>
-            <button @onclick="() => Respond(accept:false)" class="btn btn-danger" disabled="@DisableRespond">No</button>
+            <button @onclick="() => Respond(accept:true)" class="btn btn-success">Yes</button>
+            <button @onclick="() => Respond(accept:false)" class="btn btn-danger">No</button>
         </div>
     </div>
 }
@@ -17,26 +16,28 @@ else
     {
         <div class="dummy-block">
             <div>You're in!</div>
-            <button class="btn btn-link" @onclick="ChangeResponse">Change my response</button>
+            <button class="btn btn-link" @onclick="ChangeResponse">Change response</button>
         </div>
     }
     else if (Participation() == ParticipationStatus.Reject)
     {
         <div class="dummy-block">
             <div>You're not going :(</div>
-            <button class="btn btn-link" @onclick="ChangeResponse">Change attendance</button>
+            <button class="btn btn-link" @onclick="ChangeResponse">Change response</button>
         </div>
     }
 }
 
 @code {
+    [CascadingParameter]
+    IModalService Modal { get; set; }
     [Parameter]
     public EventVM CurrentEvent { get; set; }
     [Parameter]
     public string UserId { get; set; }
     [Parameter]
     public EventCallback NavigateTo { get; set; }
-    bool DisableRespond => false;
+    List<ParticipationVM> PrevParticipation { get; set; } = new List<ParticipationVM>();
 
     ParticipationStatus Participation()
         => CurrentEvent.CreatedById == UserId
@@ -46,12 +47,42 @@ else
 
     async Task Respond(bool accept)
     {
-        var participation = await InviteService.Respond(CurrentEvent.Id.Value, accept, "", CurrentEvent.InviteCode);
-        CurrentEvent.Participants.Add(participation);
+        if (PrevParticipation?.First(o => o.UserId == UserId).Status == ParticipationStatus.Accept && accept == false)
+        {
+            if(CurrentEvent.Polls.Any(o => o.Choices.Any(c => c.Answers.Any(a => a.UserId == UserId))))
+            {
+                var options = new ModalOptions() { Class = "default-modal" };
+                var parameters = new ModalParameters();
+                parameters.Add("Message", "Your votes for this event will be deleted!");
+                var messageModal = Modal.Show<ConfirmModal>("Cancel participation?", parameters, options);
+                var result = await messageModal.Result;
+                if (!result.Cancelled)
+                {
+                    await ChangeParticipation(accept);
+                }
+            }
+            else
+            {
+                await ChangeParticipation(accept);
+            }
+        }
+        else
+        {
+            await ChangeParticipation(accept);
+        }
+    }
 
-        await NavigateTo.InvokeAsync();
+    async Task ChangeParticipation(bool accept)
+    {
+        var participation = await InviteService.Respond(CurrentEvent.Id.Value, accept, "", CurrentEvent.InviteCode);
+            CurrentEvent.Participants.Add(participation);
+
+            await NavigateTo.InvokeAsync();
     }
 
     void ChangeResponse()
-        => CurrentEvent.Participants?.RemoveAll(o => o.UserId == UserId);
+    {
+        PrevParticipation = CurrentEvent.Participants?.ToList() ?? new List<ParticipationVM>();
+        CurrentEvent.Participants?.RemoveAll(o => o.UserId == UserId);
+    }
 }
