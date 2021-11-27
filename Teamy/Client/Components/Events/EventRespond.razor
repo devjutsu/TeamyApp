@@ -47,7 +47,7 @@ else
 
     async Task Respond(bool accept)
     {
-        if (PrevParticipation?.First(o => o.UserId == UserId).Status == ParticipationStatus.Accept && accept == false)
+        if (PrevParticipation?.FirstOrDefault(o => o.UserId == UserId)?.Status == ParticipationStatus.Accept && accept == false)
         {
             if(CurrentEvent.Polls.Any(o => o.Choices.Any(c => c.Answers.Any(a => a.UserId == UserId))))
             {
