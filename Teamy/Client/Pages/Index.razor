@@ -10,7 +10,7 @@
         <RedirectToLogin />
     </NotAuthorized>
     <Authorized>
-        @if (AppState.StoredEvents != null)
+        @if (AppState.StoredEvents != null && AppState.StoredEvents.Count > 0)
         {
             @if (AppState.FutureEvents.Any())
             {
