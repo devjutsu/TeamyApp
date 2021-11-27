@@ -109,7 +109,8 @@
 </div>
 
 @code {
-    [CascadingParameter] IModalService Modal { get; set; }
+    [CascadingParameter] 
+    IModalService Modal { get; set; }
     [Parameter]
     public EventVM InitialEvent { get; set; }
     [Parameter]
