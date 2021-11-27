@@ -10,7 +10,7 @@
     <div class="d-flex justify-content-between">
         <div>
             <h4>@CurrentEvent.Title</h4>
-            @if (@CurrentEvent.DateStatus == EventDateStatus.Locked || @CurrentEvent.ProposedDates.Count == 1)
+            @if (@CurrentEvent.DateStatus == EventDateStatus.Locked && @CurrentEvent.ProposedDates.Count == 1)
             {
                 <div>@CurrentEvent.EventDate.Value.ToShortDateString() @CurrentEvent.EventDate.Value.ToShortTimeString() - @CurrentEvent.EventDateTo.Value.ToShortTimeString()</div>
             }
