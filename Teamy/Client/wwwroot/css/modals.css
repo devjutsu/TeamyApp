@@ -31,6 +31,9 @@
   max-width: 1000px;
   border-radius: 20px;
 }
+.modal-backdrop.show {
+  opacity: 0.8 !important;
+}
 .default-modal-header {
   color: #FFFFFF;
   margin: 1rem 1rem 2rem 0;
