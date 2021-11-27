@@ -8,17 +8,39 @@
     }
 </style>
 
-<div @onkeydown="(e => KeyPressed(e))">
+<div class="modal fade show d-block" tabindex="-1" role="dialog">
+    <div class="modal-backdrop fade show" @onclick="Cancel"></div>
+    <div class="modal-dialog" style="z-index: 1050">
+        <!-- Pop it above the backdrop -->
+        <div class="modal-content default-modal">
+            <div><span class="oi oi-warning" style="font-size: x-large; color:#EE725A;" /></div>
+            <div class="default-modal-header"><h4 class="modal-title">@BlazoredModal.Title</h4></div>
+            <div @onkeydown="(e => KeyPressed(e))">
+                @if (!string.IsNullOrWhiteSpace(Message))
+                {
+                    <div>@Message</div>
+                }
+                <div class="d-flex justify-content-around modal-buttons">
+                    <button @onclick="Cancel" class="btn btn-secondary modal-btn">No</button>
+                    <button @onclick="Close" class="btn btn-primary modal-btn">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div @onkeydown="(e => KeyPressed(e))">
+    <button class="btn btn-success">placeholder</button>
     <div class="question">Are you sure?</div>
     @if (!string.IsNullOrWhiteSpace(Message))
     {
-        <div>@Message</div>
+    <div>@Message</div>
     }
     <div class="d-flex justify-content-center">
-        <button @onclick="Close" class="btn btn-primary confirm-btn">Yes</button>
-        <button @onclick="Cancel" class="btn btn-secondary confirm-btn">No</button>
+    <button @onclick="Close" class="btn btn-primary confirm-btn">Yes</button>
+    <button @onclick="Cancel" class="btn btn-secondary confirm-btn">No</button>
     </div>
-</div>
+    </div>*@
 
 @code {
     [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }

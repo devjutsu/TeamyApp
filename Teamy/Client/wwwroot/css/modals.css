@@ -1,18 +1,22 @@
 ﻿.default-modal {
-  background-color: #fafafa !important;
-  padding: 1.5rem 2.5rem 1.5rem 2rem;
+  background-color: #191B1F !important;
+  color: #D7DADA;
+  padding: 2.5rem 2.5rem 1.5rem 2.5rem;
   z-index: 102;
   min-width: 300px;
   max-width: 1000px;
-  text-align: center;
+  /*text-align: center;*/
+  border-radius: 20px;
+  font-size: 16px;
 }
 .event-edit-modal {
-  background-color: #fafafa !important;
+  background-color: #191B1F !important;
   padding: 1.5rem 2.5rem 1.5rem 2rem;
   min-width: 95%;
   min-height: 95%;
   max-height: 95%;
   z-index: 102;
+  border-radius: 20px;
 }
 .blazored-modal-content {
   background-color: rgba(5, 0, 50, 0.2) !important;
@@ -20,9 +24,30 @@
   overflow-y: auto;
 }
 .date-edit-modal {
-  background-color: #fafafa !important;
+  background-color: #191B1F !important;
   padding: 1.5rem 2.5rem 1.5rem 2rem;
   z-index: 102;
   min-width: 300px;
   max-width: 1000px;
+  border-radius: 20px;
+}
+.default-modal-header {
+  color: #FFFFFF;
+  margin: 1rem 1rem 2rem 0;
+}
+.modal-buttons {
+  margin-top: 2rem;
+}
+.btn-primary {
+  background-color: #4347F3 !important;
+}
+.btn-secondary {
+  background-color: #303137 !important;
+}
+.modal-btn {
+  padding: 0.6rem 3rem 0.6rem 3rem;
+}
+.btn {
+  border-radius: 10px;
+  border: none;
 }
