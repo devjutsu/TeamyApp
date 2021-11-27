@@ -256,9 +256,10 @@
 
     async Task DeleteEvent()
     {
-        var modal = Modal.Show<ConfirmModal>("Are you sure you want to delete this event?", new ModalOptions { Class = "default-modal" });
+        var parameters = new ModalParameters();
+        parameters.Add("Message", "Are you sure about deleting this event? Other participants will be notified.\nYou can not undo this.");
+        var modal = Modal.Show<ConfirmModal>("Delete this event?", parameters, new ModalOptions { Class = "default-modal", UseCustomLayout = true });
         var result = await modal.Result;
-
         if (!result.Cancelled)
         {
             await EventService.Delete(CurrentEvent.Id.Value);

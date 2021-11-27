@@ -134,9 +134,8 @@
 
     async Task DeleteEventVote(PollVM poll)
     {
-        var options = new ModalOptions() { Class = "default-modal" };
-        var messageModal = Modal.Show<ConfirmModal>("Delete poll", options);
-        var result = await messageModal.Result;
+        var response = Modal.Show<ConfirmModal>("Delete poll", new ModalOptions() { Class = "default-modal" });
+        var result = await response.Result;
         if (!result.Cancelled)
         {
             EditedEvent.Polls.Remove(poll);
@@ -170,39 +169,35 @@
     {
         if (string.IsNullOrWhiteSpace(EditedEvent.Title))
         {
-            var options = new ModalOptions() { Class = "default-modal" };
             var parameters = new ModalParameters();
             parameters.Add("Message", "Please, input non-empty event title.");
-            var messageModal = Modal.Show<NotifyModal>("Information", parameters, options);
-            var result = await messageModal.Result;
+            var response = Modal.Show<NotifyModal>("Information", parameters, new ModalOptions() { Class = "default-modal" });
+            var result = await response.Result;
             return;
         }
         if (EditedEvent.Polls?.Any(o => string.IsNullOrEmpty(o.Question)) ?? false)
         {
-            var options = new ModalOptions() { Class = "default-modal" };
             var parameters = new ModalParameters();
             parameters.Add("Message", "Please, input non-empty poll question.");
-            var messageModal = Modal.Show<NotifyModal>("Information", parameters, options);
-            var result = await messageModal.Result;
+            var response = Modal.Show<NotifyModal>("Information", parameters, new ModalOptions() { Class = "default-modal" });
+            var result = await response.Result;
             return;
         }
         else if (EditedEvent.Polls?.Any(o => BadPollChoices(o)) ?? false)
         {
-            var options = new ModalOptions() { Class = "default-modal" };
             var parameters = new ModalParameters();
             parameters.Add("Message", "Polls should have 2 or more non-empty choices.");
-            var messageModal = Modal.Show<NotifyModal>("Information", parameters, options);
-            var result = await messageModal.Result;
+            var response = Modal.Show<NotifyModal>("Information", parameters, new ModalOptions() { Class = "default-modal" });
+            var result = await response.Result;
             return;
         }
 
         if (EditedEvent.ProposedDates.Count == 0)
         {
-            var options = new ModalOptions() { Class = "default-modal" };
             var parameters = new ModalParameters();
             parameters.Add("Message", "Please, add at least one Date proposition for your event");
-            var messageModal = Modal.Show<NotifyModal>("Information", parameters, options);
-            var result = await messageModal.Result;
+            var response = Modal.Show<NotifyModal>("Information", parameters, new ModalOptions() { Class = "default-modal" });
+            var result = await response.Result;
             return;
         }
 
@@ -224,12 +219,11 @@
 
     async Task AddDate()
     {
-        var options = new ModalOptions() { Class = "date-edit-modal" };
         var parameters = new ModalParameters();
         parameters.Add(nameof(DateEditModal.DateTimeFrom), DateTime.Today.AddDays(1).AddHours(18));
         parameters.Add(nameof(DateEditModal.DateTimeTo), DateTime.Today.AddDays(1).AddHours(20));
-        var messageModal = Modal.Show<DateEditModal>("Add date and time", parameters, options);
-        var result = await messageModal.Result;
+        var response = Modal.Show<DateEditModal>("Add date and time", parameters, new ModalOptions() { Class = "date-edit-modal" });
+        var result = await response.Result;
         if (!result.Cancelled)
         {
             var proposed = (ProposedDateVM)result.Data;
@@ -243,12 +237,11 @@
 
     async Task EditDate(ProposedDateVM date)
     {
-        var options = new ModalOptions() { Class = "date-edit-modal" };
         var parameters = new ModalParameters();
         parameters.Add(nameof(DateEditModal.DateTimeFrom), date.Date);
         parameters.Add(nameof(DateEditModal.DateTimeTo), date.DateTo);
-        var messageModal = Modal.Show<DateEditModal>("Add date and time", parameters, options);
-        var result = await messageModal.Result;
+        var response = Modal.Show<DateEditModal>("Add date and time", parameters, new ModalOptions() { Class = "date-edit-modal" });
+        var result = await response.Result;
         if (!result.Cancelled)
         {
             var proposed = (ProposedDateVM)result.Data;
@@ -259,11 +252,10 @@
 
     async Task UnlockDate()
     {
-        var options = new ModalOptions() { Class = "default-modal" };
         var parameters = new ModalParameters();
         parameters.Add("Message", "The Date is already set, do you want to allow changing it?");
-        var messageModal = Modal.Show<ConfirmModal>("Unlock date?", parameters, options);
-        var result = await messageModal.Result;
+        var response = Modal.Show<ConfirmModal>("Unlock date?", parameters, new ModalOptions() { Class = "default-modal" });
+        var result = await response.Result;
         if (!result.Cancelled)
         {
             var date = new ProposedDateVM() { Date = EditedEvent.EventDate.Value, DateTo = EditedEvent.EventDateTo.Value, EventId = EditedEvent.Id };
