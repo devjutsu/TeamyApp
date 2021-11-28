@@ -1,9 +1,9 @@
 ﻿@inject IJSRuntime JSRuntime
 
 <div class="dummy-block">
-    <div><span style="font-weight:bold;">Invite</span></div>
+    <h5>Invite people by sharing a link:</h5>
     <div class="d-flex flex-row">
-        <div><input @ref="inviteLink" class="form-control" value="@publicInviteLink" readonly="readonly" size=25 /></div>
+        <div><input @ref="inviteLink" class="form-control invite-link-field" value="@publicInviteLink" readonly="readonly" size=25 /></div>
         <div><button class="btn btn-outline-secondary" @onclick="CopyTextToClipboard">Copy link</button></div>
     </div>
 
