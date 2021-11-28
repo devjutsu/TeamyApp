@@ -1,17 +1,20 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
+    <NavMenu />
     <main>
-        <div class="top-row px-4 auth">
+        @*<div class="top-row px-4 auth">
             <LoginDisplay />
-        </div>
+            </div>*@
 
         <article class="content px-4">
             @Body
         </article>
     </main>
 </div>
+
+<footer class="border-top footer text-muted fixed-bottom">
+    <div class="container mt-3 mb-3">
+        &copy; 2022 Teamy.one
+    </div>
+</footer>

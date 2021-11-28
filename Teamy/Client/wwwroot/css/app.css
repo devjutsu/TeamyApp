@@ -3,6 +3,18 @@ html,
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
+body {
+  background-color: #1B1D22 !important;
+  color: #D7DADA;
+  padding-top: 100px;
+  padding-bottom: 50px;
+}
+.navbar {
+  background-color: #191B1F !important;
+}
+.nav-item {
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem !important;
+}
 h1:focus {
   outline: none;
 }
@@ -11,9 +23,14 @@ a,
   color: #0077cc;
 }
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+  background-color: #4347F3 !important;
+}
+.btn-secondary {
+  background-color: #303137 !important;
+}
+.btn {
+  border-radius: 10px;
+  border: none;
 }
 .content {
   padding-top: 1.1rem;
