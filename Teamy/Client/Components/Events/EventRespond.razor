@@ -2,7 +2,7 @@
 
 @if (Participation() == ParticipationStatus.NotSet)
 {
-    <div class="dummy-block">
+    <div class="default-block">
         <div>Are you coming?</div>
         <div class="form-inline">
             <button @onclick="() => Respond(accept:true)" class="btn btn-success">Yes</button>
@@ -14,14 +14,14 @@ else
 {
     @if (Participation() == ParticipationStatus.Accept)
     {
-        <div class="dummy-block">
+        <div class="default-block">
             <div>You're in!</div>
             <button class="btn btn-link" @onclick="ChangeResponse">Change response</button>
         </div>
     }
     else if (Participation() == ParticipationStatus.Reject)
     {
-        <div class="dummy-block">
+        <div class="default-block">
             <div>You're not going :(</div>
             <button class="btn btn-link" @onclick="ChangeResponse">Change response</button>
         </div>

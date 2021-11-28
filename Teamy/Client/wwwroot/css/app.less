@@ -20,10 +20,17 @@ body {
 .nav-item {
     padding: .5rem .5rem .5rem .5rem !important;
 }
-.dummy-block {
+.default-block {
     background-color: #1B1D22;
     border-radius: 16px;
 
+    margin: .5rem;
+    padding: 1rem;
+    max-width: 30rem;
+    min-width: 45%;
+}
+.dark-block {
+    border-radius: 16px;
     margin: .5rem;
     padding: 1rem;
     max-width: 30rem;
@@ -156,7 +163,7 @@ a, .btn-link {
 
 .progress {
     background-color: #323338;
-    height: .6rem;
+    height: .5rem;
 }
 
 .progress-bar {
@@ -164,4 +171,37 @@ a, .btn-link {
 }
 .invite-link-field {
     background-color: #D7DADA !important;
+    border-radius: 4px;
+}
+.invite-link-copy-btn {
+    background-color: #121212;
+    color: #D7DADA;
+    border: 1px solid #D7DADA33;
+    border-radius: 4px;
+}
+.invite-link-copy-btn:hover {
+    background-color: #303030;
+    color: #D7DADA;
+}
+.invite-link-copy-btn:active {
+    background-color: #505050;
+    color: #D7DADA;
+}
+.invite-link-div {
+    margin: 1rem 0 1rem 0;
+}
+
+.poll-question {
+    margin: .5rem;
+    font-weight: bold;
+}
+.poll-button {
+    margin: .5rem;
+}
+.poll-progress-container {
+    width: 300px;
+    margin: .5rem;
+}
+.poll-percent {
+    padding: .6rem;
 }
