@@ -10,18 +10,37 @@ body {
     padding-top: 100px;
     padding-bottom: 50px;
 }
-
+.container {
+    background-color: #121212;
+}
 .navbar {
-    background-color: #191B1F !important;
+    background-color: #121212 !important;
 }
 .nav-item {
     padding: .5rem .5rem .5rem .5rem !important;
+}
+.dummy-block {
+    background-color: #1B1D22;
+    border-radius: 20px;
+
+    margin: .5rem;
+    padding: 1rem;
+    max-width: 30rem;
+    min-width: 30%;
 }
 
 h1:focus {
     outline: none;
 }
-
+h1,
+h2,
+h3,
+h4,
+h5,
+h6
+{
+    color: #78A9EA;
+}
 a, .btn-link {
     color: #0077cc;
 }
@@ -81,14 +100,6 @@ a, .btn-link {
 
 .blazor-error-boundary::after {
     content: "An error has occurred."
-}
-
-.dummy-block {
-    margin: 1rem 0 1rem 0;
-    border: 1px dotted black;
-    padding: 1rem;
-    max-width: 30rem;
-    min-width:30%;
 }
 
 .user-circle {
