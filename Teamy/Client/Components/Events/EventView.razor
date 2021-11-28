@@ -6,14 +6,12 @@
 
 <div>
     <img src=@CurrentEvent.ImageUrl />
+    <h4>@CurrentEvent.Title</h4>
+    <div><span style="font-weight:bold;">Details: </span>@CurrentEvent.Description</div>
 
     <div class="d-flex flex-wrap" style="width:100%; padding:0;">
-        <div class="dummy-block">
-            <h4>@CurrentEvent.Title</h4>
-            <div><span style="font-weight:bold;">Details: </span>@CurrentEvent.Description</div>
-        </div>
 
-        <div class="dummy-block">
+        <div class="default-block">
             <h4>Date and time</h4>
             @if (@CurrentEvent.DateStatus == EventDateStatus.Locked)
             {
@@ -52,7 +50,7 @@
             }
         </div>
 
-        <div class="dummy-block">
+        <div class="default-block">
             <h4>Location: </h4>
             <div>@CurrentEvent.Where</div>
         </div>
@@ -76,9 +74,9 @@
         {
             @foreach (var poll in CurrentEvent.Polls)
             {
-                <div class="dummy-block">
+                <div class="default-block">
                     <h4>Poll</h4>
-                    <div style="font-weight:bold;">@poll.Question</div>
+                    <div class="poll-question">@poll.Question</div>
                     @if (AlreadyVotedPoll(poll))
                     {
                         <button class="btn btn-link float-end" @onclick=@(() => ResetAnswers(poll))>Reset answer</button>
@@ -86,18 +84,24 @@
 
                     @foreach (var choice in poll.Choices)
                     {
-                        @if (poll.MultiChoice)
-                        {
-                            <input type="checkbox" class="form-check-input" checked=@(VotedChoice(choice)) disabled=@CanNotVote(poll, choice) @onchange="(() => Vote(poll, choice))" style="margin-top:.7rem;" />
-                        }
-                        else
-                        {
-                            <input type="radio" name=@poll.Question class="form-check-input" checked=@(VotedChoice(choice)) @onchange="(() => Vote(poll, choice))" disabled=@CanNotVote(poll, choice) style="margin-top:.7rem;" />
-                        }
-                        <button class="btn btn-link" @onclick="(() => Vote(poll, choice))" disabled=@CanNotVote(poll, choice)>@choice.Choice</button>
+                        <div class="d-flex">
+                            @if (poll.MultiChoice)
+                            {
+                                <input type="checkbox" class="form-check-input poll-button" checked=@(VotedChoice(choice)) disabled=@CanNotVote(poll, choice) @onchange="(() => Vote(poll, choice))" style="margin-top:.7rem;" />
+                            }
+                            else
+                            {
+                                <input type="radio" name=@poll.Question class="form-check-input" checked=@(VotedChoice(choice)) @onchange="(() => Vote(poll, choice))" disabled=@CanNotVote(poll, choice) style="margin-top:.7rem;" />
+                            }
 
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: @Percent(poll, choice)%;" aria-valuenow="@Percent(poll, choice)" aria-valuemin="0" aria-valuemax="100">
+                            <div class="poll-progress-container">
+                                <div class="poll-choice" @onclick="(() => Vote(poll, choice))">@choice.Choice</div>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: @Percent(poll, choice)%;" aria-valuenow="@Percent(poll, choice)" aria-valuemin="0" aria-valuemax="100">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="poll-percent">
                                 @if (ChoiceTotalVotes(choice) > 0)
                                 {
                                     <span>@Percent(poll, choice)% (@ChoiceTotalVotes(choice))</span>
@@ -155,7 +159,10 @@
 
     async Task Vote(PollVM poll, PollChoiceVM choice)
     {
-        await PollService.Vote(poll, choice);
+        if (!CanNotVote(poll, choice))
+        {
+            await PollService.Vote(poll, choice);
+        }
     }
 
     async Task ResetAnswers(PollVM poll)
