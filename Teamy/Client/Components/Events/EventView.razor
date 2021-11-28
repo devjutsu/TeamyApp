@@ -5,12 +5,16 @@
 @implements IDisposable
 
 <div>
+    <img src=@CurrentEvent.ImageUrl />
+
     <div class="d-flex flex-wrap" style="width:100%; padding:0;">
         <div class="dummy-block">
             <h4>@CurrentEvent.Title</h4>
             <div><span style="font-weight:bold;">Details: </span>@CurrentEvent.Description</div>
-            <p></p>
-            @* add different logic: if one event then no voting. *@
+        </div>
+
+        <div class="dummy-block">
+            <h4>Date and time</h4>
             @if (@CurrentEvent.DateStatus == EventDateStatus.Locked)
             {
                 @if (UserCanModifyEvent())
@@ -27,53 +31,53 @@
             }
             else
             {
-                <div style="margin:1rem 0 1rem 0; padding: 1rem; border: 1px dotted black; max-width: 30rem;">
-                    <div style="font-weight:bold;">Date selection:</div>
-                    @foreach (var date in CurrentEvent.ProposedDates)
+                <div style="font-weight:bold;">Date selection:</div>
+                @foreach (var date in CurrentEvent.ProposedDates)
+                {
+                    @if (UserCanModifyEvent())
                     {
-                        @if (UserCanModifyEvent())
-                        {
-                            <button class="btn btn-sm btn-outline-secondary btn-sm-lock" @onclick="(() => LockDate(date))"><span class="oi oi-lock-unlocked" /></button>
-                        }
-                        <button class="btn btn-link form-check form-check-inline" @onclick="(() => VoteDate(date))" disabled=@CanNotVoteDate(date)>@date.Date.ToShortDateString() @date.Date.ToShortTimeString() - @date.DateTo.ToShortTimeString()</button>
-
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: @PercentDate(date)%;" aria-valuenow="@PercentDate(date)" aria-valuemin="0" aria-valuemax="100">
-                                @if (ChoiceTotalVotesDate(date) > 0)
-                                {
-                                    <span>@PercentDate(date)% (@ChoiceTotalVotesDate(date))</span>
-                                }
-                            </div>
-                        </div>
+                        <button class="btn btn-sm btn-outline-secondary btn-sm-lock" @onclick="(() => LockDate(date))"><span class="oi oi-lock-unlocked" /></button>
                     }
-                </div>
-            }
-            <div><span style="font-weight:bold;">Location: </span>@CurrentEvent.Where</div>
+                    <button class="btn btn-link form-check form-check-inline" @onclick="(() => VoteDate(date))" disabled=@CanNotVoteDate(date)>@date.Date.ToShortDateString() @date.Date.ToShortTimeString() - @date.DateTo.ToShortTimeString()</button>
 
-            @if (UserCanModifyEvent())
-            {
-                <div style="margin:1rem 1rem 1rem 0;">
-                    <button class="btn btn-warning" @onclick="() => EditEvent()">Edit</button>
-                    <button class="btn btn-danger" @onclick="() => DeleteEvent()">Delete</button>
-                    <p>&nbsp;</p>
-                </div>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: @PercentDate(date)%;" aria-valuenow="@PercentDate(date)" aria-valuemin="0" aria-valuemax="100">
+                            @if (ChoiceTotalVotesDate(date) > 0)
+                            {
+                                <span>@PercentDate(date)% (@ChoiceTotalVotesDate(date))</span>
+                            }
+                        </div>
+                    </div>
+                }
             }
-
         </div>
+
+        <div class="dummy-block">
+            <h4>Location: </h4>
+            <div>@CurrentEvent.Where</div>
+        </div>
+
+        @if (UserCanModifyEvent())
+        {
+            <div style="margin:1rem 1rem 1rem 0;">
+                <button class="btn btn-warning" @onclick="() => EditEvent()">Edit</button>
+                <button class="btn btn-danger" @onclick="() => DeleteEvent()">Delete</button>
+                <p>&nbsp;</p>
+            </div>
+        }
+
         @if (UserCanModifyEvent())
         {
             <EventInvite CurrentEvent=@CurrentEvent />
         }
-        <div class="dummy-block"><img src=@CurrentEvent.ImageUrl width="400" /></div>
-        @* </div>
 
-            <p>&nbsp;</p>
-            <div class="d-flex flex-wrap" style="width:100%; padding:0;">*@
+
         @if (CurrentEvent.Polls != null)
         {
             @foreach (var poll in CurrentEvent.Polls)
             {
                 <div class="dummy-block">
+                    <h4>Poll</h4>
                     <div style="font-weight:bold;">@poll.Question</div>
                     @if (AlreadyVotedPoll(poll))
                     {
