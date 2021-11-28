@@ -41,16 +41,6 @@
 .modal-buttons {
   margin-top: 2rem;
 }
-.btn-primary {
-  background-color: #4347F3 !important;
-}
-.btn-secondary {
-  background-color: #303137 !important;
-}
 .modal-btn {
   padding: 0.6rem 3rem 0.6rem 3rem;
-}
-.btn {
-  border-radius: 10px;
-  border: none;
 }
