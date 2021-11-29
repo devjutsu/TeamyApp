@@ -4,15 +4,10 @@
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
 
-<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark box-shadow fixed-top">
+<nav class="navbar navbar-dark bg-dark box-shadow fixed-top">
     <div class="container">
 
-        <button class="navbar-toggler" @onclick="ToggleNavMenu" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="@NavMenuCssClass navbar-collapse d-sm-inline-flex" @onclick="CollapseNavMenu">
+        <div class="d-sm-inline-flex" >
             <nav class="d-flex bd-highlight">
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
@@ -46,19 +41,6 @@
 </nav>
 
 @code {
-    private bool collapseNavMenu = true;
-
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-    void CollapseNavMenu()
-    {
-        collapseNavMenu = true;
-    }
-
     private async Task BeginSignOut(MouseEventArgs args)
     {
         await SignOutManager.SetSignOutState();
