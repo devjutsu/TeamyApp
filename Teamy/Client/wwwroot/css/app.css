@@ -49,6 +49,15 @@ a,
 .btn-link {
   color: #0077cc;
 }
+.event-title {
+  font-size: 36px;
+  font-weight: bold;
+  margin-top: -6rem;
+  margin-left: 2rem;
+}
+.event-details {
+  margin-left: 2rem;
+}
 .btn-primary {
   background-color: #4347F3 !important;
 }
