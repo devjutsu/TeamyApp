@@ -5,7 +5,8 @@
 @implements IDisposable
 
 <div>
-    <img src=@CurrentEvent.ImageUrl />
+    <div class="img-viewblock" style="background-image: url(@CurrentEvent.ImageUrl);"></div>
+    @*<img src=@CurrentEvent.ImageUrl />*@
     <h4>@CurrentEvent.Title</h4>
     <div><span style="font-weight:bold;">Details: </span>@CurrentEvent.Description</div>
 
