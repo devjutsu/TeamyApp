@@ -1,5 +1,7 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
+@blue: #4347F3;
+
 html, body {
     font-family: 'Roboto', sans-serif;
 }
@@ -13,6 +15,7 @@ body {
 .container {
     background-color: #121212;
     border-radius: 16px;
+    height: 100%;
 }
 .navbar {
     background-color: #121212 !important;
@@ -50,7 +53,10 @@ h6
     color: #78A9EA;
 }
 a, .btn-link {
-    color: #0077cc;
+    color: @blue;
+}
+.oi-person {
+    color: @blue;
 }
 .event-title {
     font-size: 36px;
@@ -62,7 +68,7 @@ a, .btn-link {
     margin-left: 2rem;
 }
 .btn-primary {
-    background-color: #4347F3 !important;
+    background-color: @blue !important;
 }
 
 .btn-secondary {
@@ -71,6 +77,7 @@ a, .btn-link {
 .btn {
     border-radius: 10px;
     border: none;
+    padding: .5rem 2rem .5rem 2rem;
 }
 
 .content {
