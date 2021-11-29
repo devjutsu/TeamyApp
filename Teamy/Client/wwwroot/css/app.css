@@ -6,8 +6,7 @@ body {
 body {
   background-color: #1B1D22 !important;
   color: #D7DADA;
-  padding-top: 100px;
-  padding-bottom: 50px;
+  padding-top: 70px;
 }
 .container {
   background-color: #121212;
@@ -19,6 +18,9 @@ body {
 }
 .nav-item {
   padding: 0.5rem 0.5rem 0.5rem 0.5rem !important;
+}
+.head-spacer {
+  height: 50px;
 }
 .default-block {
   background-color: #1B1D22;
