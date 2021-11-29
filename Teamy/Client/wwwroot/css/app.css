@@ -121,6 +121,17 @@ a,
 .btn-sm-lock {
   width: 2rem;
 }
+.img-viewblock {
+  border-radius: 16px;
+  margin-left: -32px;
+  margin-right: -25px;
+  margin-top: -17px;
+  min-height: 35rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding: 0rem;
+}
 .img-container {
   position: relative;
 }
@@ -177,9 +188,8 @@ a,
 }
 .poll-button {
   margin: 0.5rem;
-  width: 20px;
-  height: 20px;
-  -webkit-appearance: none;
+  width: 25px;
+  height: 25px;
   background-color: #fafafa;
   border: 1px solid #cacece;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
@@ -190,17 +200,21 @@ a,
 }
 .poll-button:checked {
   background-color: #4AAAE8;
-  border: 1px solid #adb8c0;
+  border: none;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05), inset 15px 10px -12px rgba(255, 255, 255, 0.1);
   color: #99a1a7;
+  opacity: 1;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 .poll-button:checked:after {
-  content: '\2714';
+  /*content: '\2714';*/
+  /*color: #99a1a7;*/
   font-size: 14px;
   position: absolute;
   top: 0px;
   left: 3px;
-  color: #99a1a7;
 }
 .poll-choice-container {
   width: 300px;
