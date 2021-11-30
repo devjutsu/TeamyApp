@@ -1,62 +1,63 @@
 ﻿@inject IManagePolls PollService
 
 <div>
-    <div class="d-flex flex-wrap justify-content-between">
-        <div>
-            <label>What</label>
-            <input class="text-input" @bind-value="@EditedEvent.Title" @ref="titleRef" />
-            <label>When</label>
+    <input class="event-edit-title" @bind-value="@EditedEvent.Title" @ref="titleRef" placeholder="Event title" />
+    <div class="row">
+        <div class="col-md-6">
 
-            @foreach (var date in EditedEvent.ProposedDates ?? new List<ProposedDateVM>())
-            {
-                <div />
-                @if (EditedEvent.DateStatus == EventDateStatus.Locked && date.Date == EditedEvent.EventDate && date.DateTo == EditedEvent.EventDateTo)
+            <div class="default-block">
+                <div>
+                    <h5>Description</h5>
+                    <textarea rows=2 @bind="@EditedEvent.Description" class="" />
+                </div>
+
+                <h5>Date and time</h5>
+                @foreach (var date in EditedEvent.ProposedDates ?? new List<ProposedDateVM>())
                 {
-                    <button class="btn btn-sm btn-outline-secondary d-inline btn-sm-lock" @onclick="(() => UnlockDate())"><span class="oi oi-lock-locked" /></button>
-                    @DatePeriod(date)
+                    <div />
+                    @if (EditedEvent.DateStatus == EventDateStatus.Locked && date.Date == EditedEvent.EventDate && date.DateTo == EditedEvent.EventDateTo)
+                    {
+                        <button class="btn btn-sm btn-outline-secondary d-inline btn-sm-lock" @onclick="(() => UnlockDate())"><span class="oi oi-lock-locked" /></button>
+                        @DatePeriod(date)
+                    }
+                    else
+                    {
+                        <button class="btn btn-outline-danger btn-sm" @onclick="() => RemoveDate(date)">
+                            <span class="oi oi-minus" />
+                        </button>
+                        @DatePeriod(date)
+                        <button class="btn btn-outline-primary btn-sm" @onclick="() => EditDate(date)">
+                            <span class="oi oi-pencil" />
+                        </button>
+                    }
                 }
-                else
-                {
-                    <button class="btn btn-outline-danger btn-sm" @onclick="() => RemoveDate(date)">
-                        <span class="oi oi-minus" />
-                    </button>
-                    @DatePeriod(date)
-                    <button class="btn btn-outline-primary btn-sm" @onclick="() => EditDate(date)">
-                        <span class="oi oi-pencil" />
-                    </button>
-                }
-            }
 
-            <button class="btn btn-outline-success btn-sm" @onclick="() => AddDate()">
-                <span class="oi oi-plus" />
-            </button>
+                <button class="btn btn-outline-success btn-sm" @onclick="() => AddDate()">
+                    <span class="oi oi-plus" />
+                </button>
 
-            <div>
-                <label>Details</label>
-            </div>
-            <div>
-                <textarea rows=2 @bind="@EditedEvent.Description" class="" />
-            </div>
-            <div>
-                <label>Where</label>
-            </div>
-            <div>
-                <input class="text-input" @bind-value="@EditedEvent.Where" />
+
+                <div>
+                    <h5>Location</h5>
+                    <input class="text-input" @bind-value="@EditedEvent.Where" />
+                </div>
             </div>
         </div>
-        <div>
-            <EditImg DeleteConfirmation=true ImgUrl=@EditedEvent.ImageUrl OnChange=@ImageChange />
+        <div class="col-md-6">
+            <div class="default-block">
+                <EditImg DeleteConfirmation=true ImgUrl=@EditedEvent.ImageUrl OnChange=@ImageChange />
+            </div>
         </div>
     </div>
 
-    <div>
-        <h5>Polls</h5>
+    <div class="row">
+        <h5>Poll</h5>
         @if (EditedEvent?.Polls != null && EditedEvent.Polls.Count > 0)
         {
             @foreach (var poll in EditedEvent.Polls)
             {
-                <div>
-                    <div class="d-flex justify-content-between" style="margin-bottom:1rem;">
+                <div class="col-md-6">
+                    <div class="default-block">
                         <div>
                             <div class="input-group">
                                 <input type="text" @bind-value="@poll.Question" class="text-input" />
@@ -86,10 +87,6 @@
                                 <input class="form-check-input" type="checkbox" @bind=@poll.MultiChoice>
                                 <label class="form-check-label" for="inlineCheckbox1">Multi choice</label>
                             </div>
-                            @*<div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" @bind=@poll.FreeTextOption>
-                                <label class="form-check-label" for="inlineCheckbox2">Type other</label>
-                            </div>*@
                             <button class="btn btn-sm btn-outline-success" @onclick="() => AddChoice(poll)">
                                 <span class="oi oi-plus" />
                             </button>
@@ -109,7 +106,7 @@
 </div>
 
 @code {
-    [CascadingParameter] 
+    [CascadingParameter]
     IModalService Modal { get; set; }
     [Parameter]
     public EventVM InitialEvent { get; set; }
