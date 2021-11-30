@@ -40,10 +40,9 @@ body {
     background-color: @gray;
     border-radius: 16px;
 
-    margin: 1rem;
+    /*margin: .5rem;*/
+    margin-top: 1rem;
     padding: 1rem;
-    max-width: 30rem;
-    min-width: 45%;
 }
 .dark-block {
     border-radius: 16px;
@@ -75,14 +74,14 @@ a, .btn-link {
 .oi-person {
     color: @violet;
 }
-.event-title {
-    font-size: 36px;
-    font-weight: bold;
+.event-titleblock {
     margin-top: -6rem;
     margin-left: 2rem;
 }
+.event-title {
+    font-size: 36px;
+}
 .event-details {
-    margin-left: 2rem;
 }
 .btn-primary {
     background-color: @violet !important;
@@ -365,11 +364,18 @@ input[type='radio']:checked:after {
 }
 
 .event-card-container {
+    margin-right: -1rem;
 }
 .event-card {
-    margin-bottom: 1rem; 
+    margin-bottom: 1rem;
+    margin-left: -1rem;
     width: 100%;
     height: 200px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.event-card:hover {
+    background: linear-gradient(0deg, #FF000010, #0000FF15);
 }
 
 .event-card-img {
@@ -381,10 +387,14 @@ input[type='radio']:checked:after {
 }
 .event-card-data {
     width: 50%;
-    padding: 1rem 1rem 1rem 0;
+    padding: 1rem;
 }
 .event-card-title {
     font-size: 32px;
+    font-weight: bold;
+}
+.event-card-xs-title {
+    font-size: 22px;
     font-weight: bold;
 }
 .event-card-date {
@@ -392,7 +402,36 @@ input[type='radio']:checked:after {
 }
 
 .template-card {
-    margin-bottom: 1rem; 
+    margin-bottom: 1rem;
+    margin-left: -1rem;
     width: 100%;
     height: 140px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.template-card:hover {
+    background: linear-gradient(0deg, #FF000010, #0000FF15);
+}
+
+.event-edit-title {
+    background-color: @darkdark;
+    color: @lightlight;
+    height: 3.5rem;
+    border: 1px solid @bluesoft;
+    text-indent: 10px;
+    font-size: 42px;
+
+    border-width: 0 0 2px;
+}
+.event-edit-title:focus {
+    border: none;
+}
+.event-view-btnblock {
+
+}
+.btn-event-edit {
+    background-color: @violet;
+}
+.btn-event-delete {
+    background-color: @red;
 }
