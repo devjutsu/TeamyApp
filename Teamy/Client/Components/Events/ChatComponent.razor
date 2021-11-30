@@ -25,7 +25,7 @@
 
         }
         <div class="d-flex">
-            <input class="text-input" @bind="MessageToSend" @bind:event="oninput" @ref="inputMessage"
+            <input class="text-input chat-input" @bind="MessageToSend" @bind:event="oninput" @ref="inputMessage"
                 placeholder="Type your comment" @onkeydown="@(e => KeyPressed(e))" />
             <button class="btn btn-primary" @onclick="Send">
                 Send

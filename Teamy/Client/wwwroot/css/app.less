@@ -9,6 +9,7 @@
 @gold: gold;
 @green: rgb(36, 165, 39);
 @red: rgb(189, 52, 50);
+@green: #10B665;
 
 
 html, body {
@@ -93,15 +94,23 @@ a, .btn-link {
     padding-left: 1rem;
     padding-right: 1rem;
 }
+.btn-outline-success {
+    color: @green !important;
+    border: 1px solid @green !important;
+}
 .text-input {
     background-color: @darkdark;
     color: @lightlight;
     height: 2.5rem;
     border-radius: 4px;
     border: 1px solid @bluesoft;
+    text-indent: 10px;
 }
 .text-input:disabled {
     border: 1px dashed @bluesoft;
+}
+.chat-input {
+    min-width: 20rem;
 }
 textarea{
     background-color: @darkdark;
@@ -115,53 +124,53 @@ input[type='checkbox'] {
     background-color: #323338;
     border: 1px solid #4C4E52;
     opacity: 1;
-    width: 25px;
-    height: 25px;
+    width: 22px;
+    height: 22px;
 }
 input[type='checkbox']:after {
     background-color: #323338;
     border: 1px solid #4C4E52;
-    width: 25px;
-    height: 25px;
+    width: 22px;
+    height: 22px;
     content: '';
     display: inline-block;
     visibility: visible;
 }
 input[type='checkbox']:checked:after {
-    width: 25px;
-    height: 25px;
+    width: 22px;
+    height: 22px;
     background-color: @darkdark;
     display: inline-block;
     visibility: visible;
-    border: 7px solid @bluestrong;
+    border: 6px solid @bluestrong;
 }
 
 input[type='radio'] {
     background-color: #323338;
     border: 1px solid #4C4E52;
     opacity: 1;
-    width: 25px;
-    height: 25px;
+    width: 22px;
+    height: 22px;
     border-radius: 25px;
 }
 input[type='radio']:after {
     background-color: #323338;
     border: 1px solid #4C4E52;
-    width: 25px;
-    height: 25px;
+    width: 22px;
+    height: 22px;
     border-radius: 25px;
     content: '';
     display: inline-block;
     visibility: visible;
 }
 input[type='radio']:checked:after {
-    width: 25px;
-    height: 25px;
+    width: 22px;
+    height: 22px;
     border-radius: 25px;
     background-color: @darkdark;
     display: inline-block;
     visibility: visible;
-    border: 7px solid @bluestrong;
+    border: 6px solid @bluestrong;
 }
 .content {
     padding-top: 1.1rem;
@@ -241,6 +250,39 @@ input[type='radio']:checked:after {
     margin-right: -24px;
     margin-top: -17px;
     min-height: 35rem;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    padding: 0rem;
+}
+.img-xs-viewblock {
+    margin-top: -6px;
+    margin-left: -24px;
+    margin-right: -24px;
+    min-height: 14rem;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    padding: 0rem;
+    // border: 5px solid lime;
+}
+.noimg-viewblock {
+    border-radius: 16px;
+    margin-left: -32px;
+    margin-right: -24px;
+    margin-top: -17px;
+    min-height: 9rem;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    padding: 0rem;
+}
+.noimg-xs-viewblock {
+    border-radius: 16px;
+    margin-left: -32px;
+    margin-right: -24px;
+    margin-top: -17px;
+    min-height: 6rem;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
