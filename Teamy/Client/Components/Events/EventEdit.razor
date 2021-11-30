@@ -4,7 +4,7 @@
     <div class="d-flex flex-wrap justify-content-between">
         <div>
             <label>What</label>
-            <input class="form-control" @bind-value="@EditedEvent.Title" @ref="titleRef" />
+            <input class="text-input" @bind-value="@EditedEvent.Title" @ref="titleRef" />
             <label>When</label>
 
             @foreach (var date in EditedEvent.ProposedDates ?? new List<ProposedDateVM>())
@@ -35,13 +35,13 @@
                 <label>Details</label>
             </div>
             <div>
-                <textarea rows=2 @bind="@EditedEvent.Description" class="form-control" />
+                <textarea rows=2 @bind="@EditedEvent.Description" class="" />
             </div>
             <div>
                 <label>Where</label>
             </div>
             <div>
-                <input class="form-control" @bind-value="@EditedEvent.Where" />
+                <input class="text-input" @bind-value="@EditedEvent.Where" />
             </div>
         </div>
         <div>
@@ -59,7 +59,7 @@
                     <div class="d-flex justify-content-between" style="margin-bottom:1rem;">
                         <div>
                             <div class="input-group">
-                                <input type="text" @bind-value="@poll.Question" class="form-control" />
+                                <input type="text" @bind-value="@poll.Question" class="text-input" />
                                 <div>
                                     <button class="btn btn-outline-danger" @onclick="() => RemovePoll(poll)" type="button">
                                         <span class="oi oi-minus" />
@@ -72,7 +72,7 @@
                                 {
                                     <li>
                                         <div class="input-group">
-                                            <input type="text" @bind-value="@ans.Choice" class="form-control">
+                                            <input type="text" @bind-value="@ans.Choice" class="text-input">
                                             <div class="">
                                                 <button class="btn btn-outline-secondary" type="button" @onclick="() => RemoveChoice(poll, ans)">
                                                     <span class="oi oi-minus" />

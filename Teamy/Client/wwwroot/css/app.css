@@ -73,7 +73,79 @@ a,
 .btn {
   border-radius: 10px;
   border: none;
-  padding: 0.5rem 2rem 0.5rem 2rem;
+  height: 2.5rem;
+  min-width: 6rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.text-input {
+  background-color: #121212;
+  color: #D7DADA;
+  height: 2.5rem;
+  border-radius: 4px;
+  border: 1px solid #78A9EA;
+}
+.text-input:disabled {
+  border: 1px dashed #78A9EA;
+}
+textarea {
+  background-color: #121212;
+  color: #D7DADA;
+  border-radius: 4px;
+  border: 1px solid #78A9EA;
+}
+input[type='checkbox'] {
+  position: relative;
+  cursor: pointer;
+  background-color: #323338;
+  border: 1px solid #4C4E52;
+  opacity: 1;
+  width: 25px;
+  height: 25px;
+}
+input[type='checkbox']:after {
+  background-color: #323338;
+  border: 1px solid #4C4E52;
+  width: 25px;
+  height: 25px;
+  content: '';
+  display: inline-block;
+  visibility: visible;
+}
+input[type='checkbox']:checked:after {
+  width: 25px;
+  height: 25px;
+  background-color: #121212;
+  display: inline-block;
+  visibility: visible;
+  border: 7px solid #4AAAE8;
+}
+input[type='radio'] {
+  background-color: #323338;
+  border: 1px solid #4C4E52;
+  opacity: 1;
+  width: 25px;
+  height: 25px;
+  border-radius: 25px;
+}
+input[type='radio']:after {
+  background-color: #323338;
+  border: 1px solid #4C4E52;
+  width: 25px;
+  height: 25px;
+  border-radius: 25px;
+  content: '';
+  display: inline-block;
+  visibility: visible;
+}
+input[type='radio']:checked:after {
+  width: 25px;
+  height: 25px;
+  border-radius: 25px;
+  background-color: #121212;
+  display: inline-block;
+  visibility: visible;
+  border: 7px solid #4AAAE8;
 }
 .content {
   padding-top: 1.1rem;
@@ -140,7 +212,7 @@ a,
 .img-viewblock {
   border-radius: 16px;
   margin-left: -32px;
-  margin-right: -25px;
+  margin-right: -24px;
   margin-top: -17px;
   min-height: 35rem;
   background-repeat: no-repeat;
@@ -178,10 +250,6 @@ a,
   background-color: #4AAAE8;
   border-radius: 5px;
 }
-.invite-link-field {
-  background-color: #D7DADA !important;
-  border-radius: 4px;
-}
 .invite-link-copy-btn {
   background-color: #121212;
   color: #D7DADA;
@@ -203,35 +271,9 @@ a,
   margin: 0.5rem;
   font-weight: bold;
 }
-.poll-button {
-  margin: 0.5rem;
-  width: 25px;
-  height: 25px;
-  background-color: #fafafa;
-  border: 1px solid #cacece;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
-  padding: 9px;
-  border-radius: 3px;
-  display: inline-block;
+.poll-btn-container {
   position: relative;
-}
-.poll-button:checked {
-  background-color: #4AAAE8;
-  border: none;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05), inset 15px 10px -12px rgba(255, 255, 255, 0.1);
-  color: #99a1a7;
-  opacity: 1;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
-.poll-button:checked:after {
-  /*content: '\2714';*/
-  /*color: #99a1a7;*/
-  font-size: 14px;
-  position: absolute;
-  top: 0px;
-  left: 3px;
+  margin: 0.5rem;
 }
 .poll-choice-container {
   width: 300px;
