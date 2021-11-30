@@ -118,7 +118,7 @@
                                 else
                                 {
                                     <div style="position:relative;">
-                                        <input type="radio" name=@poll.Question class="poll-btn-container" checked=@(VotedChoice(choice)) @onchange="(() => Vote(poll, choice))" disabled=@CanNotVote(poll, choice) style="margin-top:.7rem;" />
+                                        <input type="radio" name=@poll.Question checked=@(VotedChoice(choice)) @onchange="(() => Vote(poll, choice))" disabled=@CanNotVote(poll, choice) style="margin-top:.7rem;" />
                                     </div>
                                 }
 

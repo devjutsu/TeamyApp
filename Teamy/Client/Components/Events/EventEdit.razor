@@ -50,8 +50,8 @@
         </div>
     </div>
 
+    <h4 style="margin-top: 2rem;">Poll</h4>
     <div class="row">
-        <h5>Poll</h5>
         @if (EditedEvent?.Polls != null && EditedEvent.Polls.Count > 0)
         {
             @foreach (var poll in EditedEvent.Polls)
@@ -59,30 +59,25 @@
                 <div class="col-md-6">
                     <div class="default-block">
                         <div>
-                            <div class="input-group">
-                                <input type="text" @bind-value="@poll.Question" class="text-input" />
-                                <div>
-                                    <button class="btn btn-outline-danger" @onclick="() => RemovePoll(poll)" type="button">
-                                        <span class="oi oi-minus" />
-                                    </button>
-                                </div>
+                            <div class="event-edit-poll-question">
+                                <input type="text" @bind-value="@poll.Question" class="text-input poll-input-question" />
+                                <button class="btn btn-outline-danger btn-input-right" @onclick="() => RemovePoll(poll)" type="button">
+                                    <span class="oi oi-trash" />
+                                </button>
                             </div>
 
-                            <ul>
-                                @foreach (var ans in poll.Choices)
-                                {
-                                    <li>
-                                        <div class="input-group">
-                                            <input type="text" @bind-value="@ans.Choice" class="text-input">
-                                            <div class="">
-                                                <button class="btn btn-outline-secondary" type="button" @onclick="() => RemoveChoice(poll, ans)">
-                                                    <span class="oi oi-minus" />
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                }
-                            </ul>
+                            @foreach (var ans in poll.Choices)
+                            {
+                                <div class="event-edit-poll-answer">
+                                    <input type="text" @bind-value="@ans.Choice" class="text-input poll-input-answer">
+                                    <div class="btn-input-right">
+                                        <button class="btn btn-outline-secondary" type="button" @onclick="() => RemoveChoice(poll, ans)">
+                                            <span class="oi oi-x" />
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" @bind=@poll.MultiChoice>
                                 <label class="form-check-label" for="inlineCheckbox1">Multi choice</label>
