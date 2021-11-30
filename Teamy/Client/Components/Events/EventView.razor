@@ -92,11 +92,15 @@
                         <div class="d-flex">
                             @if (poll.MultiChoice)
                             {
-                                <input type="checkbox" class="form-check-input poll-button" checked=@(VotedChoice(choice)) disabled=@CanNotVote(poll, choice) @onchange="(() => Vote(poll, choice))" style="margin-top:.7rem;" />
+                                <div style="position:relative;">
+                                <input type="checkbox" class="poll-btn-container" checked=@(VotedChoice(choice)) disabled=@CanNotVote(poll, choice) @onchange="(() => Vote(poll, choice))" style="margin-top:.7rem;" />
+                                </div>
                             }
                             else
                             {
-                                <input type="radio" name=@poll.Question class="form-check-input poll-button" checked=@(VotedChoice(choice)) @onchange="(() => Vote(poll, choice))" disabled=@CanNotVote(poll, choice) style="margin-top:.7rem;" />
+                                <div style="position:relative;">
+                                <input type="radio" name=@poll.Question class="poll-btn-container" checked=@(VotedChoice(choice)) @onchange="(() => Vote(poll, choice))" disabled=@CanNotVote(poll, choice) style="margin-top:.7rem;" />
+                                </div>
                             }
 
                             <div class="poll-choice-container">

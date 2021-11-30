@@ -10,8 +10,8 @@
             {
                 <div>
                     <span class="oi oi-envelope-closed" style="font-size:small;"
-              title="@(message.SentAt.Value.ToShortDateString() + " - " + message.SentAt.Value.ToLongTimeString())"
-              @onclick="() => OnClickEnvelope(message)">
+                        title="@(message.SentAt.Value.ToShortDateString() + " - " + message.SentAt.Value.ToLongTimeString())"
+                        @onclick="() => OnClickEnvelope(message)">
                     </span>
                     <span style="font-size:small;">
                         @message.SentBy
@@ -24,10 +24,13 @@
             }
 
         }
-        <input class="form-control" @bind="MessageToSend" @bind:event="oninput" @ref="inputMessage"
+        <div class="d-flex">
+            <input class="text-input" @bind="MessageToSend" @bind:event="oninput" @ref="inputMessage"
                 placeholder="Type your comment" @onkeydown="@(e => KeyPressed(e))" />
-
-        <button class="btn btn-primary" @onclick="Send" style="margin-top:1rem;">Send</button>
+            <button class="btn btn-primary" @onclick="Send">
+                Send
+            </button>
+        </div>
     }
 </div>
 
