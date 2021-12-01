@@ -1,0 +1,142 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\
+for details on configuring this project to bundle and minify static web assets. */
+
+@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
+@violet: #4347F3;
+@bluestrong: #4AAAE8;
+@bluesoft: #78A9EA;
+@darkdark: #121212;
+@gray: #1B1D22;
+@lightlight: #D7DADA;
+@gold: gold;
+@green: rgb(36, 165, 39);
+@red: rgb(189, 52, 50);
+@green: #10B665;
+@samarine: #4347F3;
+@dangerred: #EE725A;
+
+html, body {
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: @gray !important;
+    color: @lightlight;
+    padding-top: 50px;
+}
+
+.container {
+    background-color: @darkdark;
+    border-radius: 16px;
+    height: 100%;
+}
+.main {
+    margin-top: 0rem !important;
+}
+.navbar {
+    background-color: @darkdark !important;
+}
+.navbar a {
+    color: @bluesoft;
+}
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+a {
+    color: #0077cc;
+}
+
+.form-control:focus {
+    border-color: #0077cc;
+    box-shadow: 0 0 0 0.2rem #0077cc;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.btn-link.nav-link:focus {
+    outline: black auto 1px;
+}
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.container {
+    max-width: 960px;
+}
+
+.pricing-header {
+    max-width: 700px;
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+    background-color: @darkdark !important;
+}
+
+.user-profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: .1rem;
+    font-weight: bold;
+    background-color: rgb(200, 200, 200);
+}
+input {
+    background-color: @darkdark !important;
+    color: @lightlight !important;
+}
