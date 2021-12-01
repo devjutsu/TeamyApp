@@ -78,6 +78,13 @@ a,
 .btn-primary {
   background-color: #4347F3 !important;
 }
+.btn-outline-primary {
+  color: #4AAAE8 !important;
+}
+.btn-outline-primary:hover {
+  border: 1px solid #78A9EA;
+  background-color: #00000000;
+}
 .btn-secondary {
   background-color: #303137 !important;
 }
@@ -89,6 +96,17 @@ a,
   padding-left: 1rem;
   padding-right: 1rem;
 }
+.btn-outline-danger {
+  color: #EE725A !important;
+}
+.btn-outline-danger:hover {
+  border: 1px solid #EE725A;
+  background-color: #00000000;
+}
+/*.btn-outline-danger:hover {
+    background-color: @dangerred !important;
+    color: @darkdark !important;
+}*/
 .btn-outline-success {
   color: #10B665 !important;
   border: 1px solid #10B665 !important;
@@ -114,7 +132,10 @@ a,
   border: 1px dotted #1B1D22;
 }
 .chat-input {
-  min-width: 20rem;
+  min-width: 100%;
+}
+.chat-input-btn {
+  width: 100% !important;
 }
 textarea {
   background-color: #323338;
@@ -444,4 +465,10 @@ input[type='radio']:checked:after {
 }
 .poll-input-answer {
   min-width: 100%;
+}
+.fillspace {
+  width: 100%;
+}
+.chat-message {
+  margin: 0.5rem;
 }

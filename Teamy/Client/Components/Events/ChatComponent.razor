@@ -8,10 +8,10 @@
         {
             @foreach (var message in ChatMessages)
             {
-                <div>
+                <div class="chat-message">
                     <span class="oi oi-envelope-closed" style="font-size:small;"
-                        title="@(message.SentAt.Value.ToShortDateString() + " - " + message.SentAt.Value.ToLongTimeString())"
-                        @onclick="() => OnClickEnvelope(message)">
+              title="@(message.SentAt.Value.ToShortDateString() + " - " + message.SentAt.Value.ToLongTimeString())"
+              @onclick="() => OnClickEnvelope(message)">
                     </span>
                     <span style="font-size:small;">
                         @message.SentBy
@@ -20,16 +20,18 @@
                         : @message.Text
                     </span>
                 </div>
-
             }
-
         }
         <div class="d-flex">
-            <input class="text-input chat-input" @bind="MessageToSend" @bind:event="oninput" @ref="inputMessage"
-                placeholder="Type your comment" @onkeydown="@(e => KeyPressed(e))" />
-            <button class="btn btn-primary" @onclick="Send">
-                Send
-            </button>
+            <div class="fillspace">
+                <input class="text-input chat-input" @bind="MessageToSend" @bind:event="oninput" @ref="inputMessage"
+                   placeholder="Type your comment" @onkeydown="@(e => KeyPressed(e))" />
+            </div>
+            <div>
+                <button class="btn btn-primary chat-input-btn" @onclick="Send">
+                    Send
+                </button>
+            </div>
         </div>
     }
 </div>
