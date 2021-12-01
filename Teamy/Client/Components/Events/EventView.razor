@@ -17,21 +17,36 @@
     }
 
     <div class="event-titleblock">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="event-title">@CurrentEvent.Title</div>
-                <div class="event-details">@CurrentEvent.Description</div>
-            </div>
-            @if (UserCanModifyEvent())
-            {
-                <div class="col-md-6">
-                    <div class="event-view-btnblock align-middle">
-                        <button class="btn btn-event-edit" @onclick="() => EditEvent()">Edit</button>
-                        <button class="btn btn-event-delete" @onclick="() => DeleteEvent()">Delete</button>
-                    </div>
-                </div>
-            }
+        <div class="">
+            <div class="event-title">@CurrentEvent.Title</div>
+            <div class="event-details">@CurrentEvent.Description</div>
         </div>
+        @if (UserCanModifyEvent())
+        {
+            <div class="event-view-btnblock align-middle d-none d-sm-block">
+                <button class="btn btn-outline-primary" @onclick="() => EditEvent()">
+                    <span class="oi oi-pencil"></span>
+                    Edit
+                </button>
+                <button class="btn btn-outline-danger" @onclick="() => DeleteEvent()">
+                    <span class="oi oi-trash"></span>
+                </button>
+            </div>
+
+            <div class="d-block d-sm-none">
+                @*<div class="col-md-6">*@
+                <button class="btn btn-outline-primary" style="padding:0; min-width: 4rem;" @onclick="() => EditEvent()">
+                    <span class="oi oi-pencil"></span>
+                    Edit
+                </button>
+                @*</div>*@
+                @*<div class="col-md-6">*@
+                <button class="btn btn-outline-danger" style="padding:0; min-width: 3rem;" @onclick="() => DeleteEvent()">
+                    <span class="oi oi-trash"></span>
+                </button>
+                @*</div>*@
+            </div>
+        }
     </div>
 
     <div class="row">
