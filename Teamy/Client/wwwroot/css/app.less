@@ -11,6 +11,7 @@
 @red: rgb(189, 52, 50);
 @green: #10B665;
 @samarine: #4347F3;
+@dangerred: #EE725A;
 
 .t1 {
     background-color: #00a17a7b;
@@ -95,6 +96,13 @@ a, .btn-link {
 .btn-primary {
     background-color: @violet !important;
 }
+.btn-outline-primary {
+    color: @bluestrong !important;
+}
+.btn-outline-primary:hover {
+    border: 1px solid @bluesoft;
+    background-color: #00000000;
+}
 
 .btn-secondary {
     background-color: #303137 !important;
@@ -107,6 +115,17 @@ a, .btn-link {
     padding-left: 1rem;
     padding-right: 1rem;
 }
+.btn-outline-danger {
+    color: @dangerred !important;
+}
+.btn-outline-danger:hover {
+    border: 1px solid @dangerred;
+    background-color: #00000000;
+}
+/*.btn-outline-danger:hover {
+    background-color: @dangerred !important;
+    color: @darkdark !important;
+}*/
 .btn-outline-success {
     color: @green !important;
     border: 1px solid @green !important;
@@ -132,7 +151,10 @@ a, .btn-link {
     border: 1px dotted @gray;
 }
 .chat-input {
-    min-width: 20rem;
+    min-width:100%;
+}
+.chat-input-btn {
+    width: 100% !important;
 }
 textarea {
     background-color: #323338;
@@ -483,4 +505,10 @@ input[type='radio']:checked:after {
 }
 .poll-input-answer {
     min-width: 100%;
+}
+.fillspace {
+    width: 100%;
+}
+.chat-message {
+    margin: .5rem;
 }
