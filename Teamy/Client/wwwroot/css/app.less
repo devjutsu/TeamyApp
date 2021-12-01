@@ -12,7 +12,15 @@
 @green: #10B665;
 @samarine: #4347F3;
 
-
+.t1 {
+    background-color: #00a17a7b;
+}
+.t2 {
+    background-color: #a7000079;
+}
+.t3 {
+    background-color: #aeff007f;
+}
 html, body {
     font-family: 'Roboto', sans-serif;
 }
@@ -76,7 +84,8 @@ a, .btn-link {
 }
 .event-titleblock {
     margin-top: -6rem;
-    margin-left: 2rem;
+    margin-left: 1rem;
+    position: relative;
 }
 .event-title {
     font-size: 36px;
@@ -109,13 +118,14 @@ a, .btn-link {
     border-radius: 4px;
     border: none;
     text-indent: 10px;
+    box-sizing: border-box;
 }
 .text-input:focus {
     background-color: @darkdark;
     color: @lightlight;
     height: 2.5rem;
     border-radius: 4px;
-    border: 1px solid @bluesoft !important;
+    border: 1px solid @bluestrong;
     text-indent: 10px;
 }
 .text-input:disabled {
@@ -124,7 +134,13 @@ a, .btn-link {
 .chat-input {
     min-width: 20rem;
 }
-textarea{
+textarea {
+    background-color: #323338;
+    color: @lightlight;
+    border-radius: 4px;
+    border: none;
+}
+textarea:focus {
     background-color: @darkdark;
     color: @lightlight;
     border-radius: 4px;
@@ -433,7 +449,9 @@ input[type='radio']:checked:after {
     border: none;
 }
 .event-view-btnblock {
-
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
 }
 .btn-event-edit {
     background-color: @violet;
@@ -444,6 +462,10 @@ input[type='radio']:checked:after {
 .event-edit-poll-question {
     margin: .5rem 0 1rem 0;
     position: relative;
+}
+.fullwidth-input {
+    margin: .5rem 0 1rem 0;
+    min-width: 100%;
 }
 .btn-input-right {
     position: absolute;
