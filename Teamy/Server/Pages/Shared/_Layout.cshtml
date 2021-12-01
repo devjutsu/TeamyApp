@@ -23,14 +23,11 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-dark bg-dark box-shadow fixed-top">
+
             <div class="container">
                 <a class="navbar-brand" href="~/">Teamy.one</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <div class="d-sm-inline-flex flex-sm-row-reverse">
                     @{
                         var result = Engine.FindView(ViewContext, "_LoginPartial", isMainPage: false);
                     }
@@ -41,23 +38,27 @@
                     else
                     {
                         throw new InvalidOperationException("The default Identity UI layout requires a partial view '_LoginPartial' " +
-                            "usually located at '/Pages/_LoginPartial' or at '/Views/Shared/_LoginPartial' to work. Based on your configuration " +
-                            $"we have looked at it in the following locations: {System.Environment.NewLine}{string.Join(System.Environment.NewLine, result.SearchedLocations)}.");
+                        "usually located at '/Pages/_LoginPartial' or at '/Views/Shared/_LoginPartial' to work. Based on your configuration " +
+                        $"we have looked at it in the following locations: {System.Environment.NewLine}{string.Join(System.Environment.NewLine, result.SearchedLocations)}.");
                     }
                 </div>
             </div>
         </nav>
     </header>
 
-    <div class="container">
+    <div class="d-none d-sm-block" style="height: 3rem;"></div>
+
+    <div class="container main">
         <partial name="_CookieConsentPartial" optional />
         <main role="main" class="pb-1">
             @RenderBody()
         </main>
+        <p>&nbsp;</p>
     </div>
-    <footer class="footer border-top pl-3 text-muted">
+
+    <footer class="footer pl-3 text-muted">
         <div class="container">
-        &copy; 2022 - Teamy.one
+            &copy; 2022 - Teamy.one
             @{
                 var foundPrivacy = Url.Page("/Privacy", new { area = "" });
             }
