@@ -32,7 +32,6 @@ body {
     padding-top: 70px;
 }
 .content {
-    padding-top: 2rem !important;
 }
 @media (max-width: 768px) {
     body {
@@ -82,6 +81,9 @@ h6
 {
     color: @bluesoft;
 }
+h2 {
+    padding-top: 2rem !important;
+}
 .pagetitle {
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -119,10 +121,11 @@ a, .btn-link {
 .btn {
     border-radius: 10px;
     border: none;
-    height: 2.5rem;
+    /*height: 2.5rem;*/
     min-width: 6rem;
     padding-left: 1rem;
     padding-right: 1rem;
+    vertical-align: middle;
 }
 .btn-outline-danger {
     color: @dangerred !important;
@@ -415,6 +418,7 @@ input[type='radio']:checked:after {
 
 .event-card-container {
     margin-right: -1rem;
+    margin-top: 3rem !important;
 }
 .event-card {
     margin-bottom: 1rem;

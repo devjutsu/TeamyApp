@@ -1,5 +1,5 @@
 ﻿<div class="default-block">
-    <h5>Participants</h5>
+    <h4>Participants</h4>
 
     <span class="user-circle user-creator" title="@CurrentEvent.CreatedByName (Creator)">@CurrentEvent.CreatedByName.First()</span>
     @foreach(var user in CurrentEvent.Participants.Where(o => o.Status == ParticipationStatus.Accept))
