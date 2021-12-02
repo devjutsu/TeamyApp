@@ -7,7 +7,7 @@
 <nav class="navbar navbar-dark bg-dark box-shadow fixed-top">
     <div class="container">
 
-        <div class="d-sm-inline-flex" >
+        <div class="d-sm-inline-flex">
             <nav class="d-flex bd-highlight">
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
@@ -29,12 +29,14 @@
                 </NavLink>
             </Authorized>
             <NotAuthorized>
-                <NavLink class="nav-link p-2" href="authentication/profile">
-                     <a href="authentication/register">Register</a>
-                </NavLink>
-                <NavLink class="nav-link p-2" href="authentication/profile">
-                    <a href="authentication/login">Log in</a>
-                </NavLink>
+             @*   <div class="d-flex">
+                    <navlink class="nav-link p-2" href="authentication/profile">
+                        <a href="authentication/register">register</a>
+                    </navlink>
+                    <navlink class="nav-link p-2" href="authentication/profile">
+                        <a href="authentication/login">log in</a>
+                    </navlink>
+                </div>*@
             </NotAuthorized>
         </AuthorizeView>
     </div>
