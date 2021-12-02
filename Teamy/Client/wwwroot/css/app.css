@@ -345,6 +345,27 @@ input[type='radio']:checked:after {
   background-color: #4AAAE8;
   border-radius: 5px;
 }
+.datevote-progress {
+  background-color: #323338;
+  position: relative;
+  height: 3rem;
+  width: 100%;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.datevote-progress-bar {
+  background-color: #78A9EA;
+  height: 3rem;
+}
+.datevote-element {
+  position: absolute;
+  /*background-color: #FF000055;*/
+  height: 3rem;
+  vertical-align: middle !important;
+  cursor: pointer;
+  width: 100%;
+  padding: 0.8rem;
+}
 .invite-link-copy-btn {
   background-color: #121212;
   color: #D7DADA;
