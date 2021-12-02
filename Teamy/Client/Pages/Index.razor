@@ -14,7 +14,7 @@
         {
             @if (AppState.FutureEvents.Any())
             {
-                <h4>Upcoming events:</h4>
+                <h2>Upcoming events:</h2>
                 <div class="row event-card-container">
                     @foreach (var evt in AppState.FutureEvents)
                     {
@@ -27,7 +27,7 @@
 
             @if (AppState.PastEvents.Any())
             {
-                <h4>Past events:</h4>
+                <h2>Past events:</h2>
                 <div class="row event-card-container">
                     @foreach (var evt in AppState.PastEvents)
                     {
@@ -40,10 +40,9 @@
         }
         else
         {
-            <h4>You currently have no events</h4>
+            <h2>You currently have no events</h2>
             <a href="/create" class="btn btn-primary" style="margin-top:1rem;"><span class="oi oi-plus" /> Create one</a>
         }
-
         <p>&nbsp;</p>
     </Authorized>
 </AuthorizeView>
