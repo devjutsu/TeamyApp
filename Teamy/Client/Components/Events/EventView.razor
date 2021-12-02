@@ -73,18 +73,25 @@
                     <div style="font-weight:bold;">Date selection:</div>
                     @foreach (var date in CurrentEvent.ProposedDates)
                     {
-                        @if (UserCanModifyEvent())
-                        {
-                            <button class="btn btn-sm btn-outline-secondary btn-sm-lock" @onclick="(() => LockDate(date))"><span class="oi oi-lock-unlocked" /></button>
-                        }
-                        <button class="btn btn-link form-check form-check-inline" @onclick="(() => VoteDate(date))" disabled=@CanNotVoteDate(date)>@date.Date.ToShortDateString() @date.Date.ToShortTimeString() - @date.DateTo.ToShortTimeString()</button>
-
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: @PercentDate(date)%;" aria-valuenow="@PercentDate(date)" aria-valuemin="0" aria-valuemax="100">
-                                @if (ChoiceTotalVotesDate(date) > 0)
+                        <div>
+                            @*style="border: 1px dotted lime;"*@
+                            @*@if (UserCanModifyEvent())
                                 {
-                                    <span>@PercentDate(date)% (@ChoiceTotalVotesDate(date))</span>
-                                }
+                                <button class="btn btn-sm btn-outline-secondary btn-sm-lock" @onclick="(() => LockDate(date))"><span class="oi oi-lock-unlocked" /></button>
+                                }*@
+
+                            <div class="datevote-progress">
+                                @*<button class="btn btn-link form-check form-check-inline datevote-element" @onclick="(() => VoteDate(date))" disabled=@CanNotVoteDate(date)>@date.Date.ToShortDateString() @date.Date.ToShortTimeString() - @date.DateTo.ToShortTimeString()</button>*@
+                                <div class="datevote-element" @onclick="(() => VoteDate(date))">
+                                    @date.Date.ToShortDateString() @date.Date.ToShortTimeString() - @date.DateTo.ToShortTimeString()
+
+                                    @*@if (ChoiceTotalVotesDate(date) > 0)
+                                    {
+                                        <span>@PercentDate(date)% (@ChoiceTotalVotesDate(date))</span>
+                                    }*@
+                                </div>
+                                <div class="datevote-progress-bar" role="progressbar" style="width: @PercentDate(date)%;" aria-valuenow="@PercentDate(date)" aria-valuemin="0" aria-valuemax="100">
+                                </div>
                             </div>
                         </div>
                     }

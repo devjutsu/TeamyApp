@@ -6,6 +6,8 @@
 @darkdark: #121212;
 @gray: #1B1D22;
 @lightlight:#D7DADA;
+@lightgray: #F5F5F5;
+@darkmedium:#323338;
 @gold: gold;
 @green: rgb(36, 165, 39);
 @red: rgb(189, 52, 50);
@@ -381,6 +383,27 @@ input[type='radio']:checked:after {
 .progress-bar {
     background-color: @bluestrong;
     border-radius: 5px;
+}
+.datevote-progress {
+    background-color: @darkmedium;
+    position: relative;
+    height: 3rem;
+    width: 100%;
+    margin-top:.5rem;
+    margin-bottom: .5rem;
+}
+.datevote-progress-bar {
+    background-color: @bluesoft;
+    height: 3rem;
+}
+.datevote-element {
+    position: absolute;
+    /*background-color: #FF000055;*/
+    height: 3rem;
+    vertical-align: middle !important;
+    cursor: pointer;
+    width: 100%;
+    padding: .8rem;
 }
 .invite-link-copy-btn {
     background-color: @darkdark;
