@@ -354,7 +354,7 @@ input[type='radio']:checked:after {
   margin-bottom: 0.5rem;
 }
 .datevote-progress-bar {
-  background-color: #78A9EA;
+  background-color: #78A9EA7F;
   height: 3rem;
 }
 .datevote-element {
@@ -363,7 +363,6 @@ input[type='radio']:checked:after {
   vertical-align: middle !important;
   cursor: pointer;
   width: 100%;
-  padding: 0.8rem;
 }
 .invite-link-copy-btn {
   background-color: #121212;
