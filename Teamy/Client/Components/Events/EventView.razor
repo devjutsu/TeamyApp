@@ -81,15 +81,22 @@
                                 }*@
 
                             <div class="datevote-progress">
-                                @*<button class="btn btn-link form-check form-check-inline datevote-element" @onclick="(() => VoteDate(date))" disabled=@CanNotVoteDate(date)>@date.Date.ToShortDateString() @date.Date.ToShortTimeString() - @date.DateTo.ToShortTimeString()</button>*@
                                 <div class="datevote-element" @onclick="(() => VoteDate(date))">
-                                    @date.Date.ToShortDateString() @date.Date.ToShortTimeString() - @date.DateTo.ToShortTimeString()
+                                    @*<div style="position:relative;">
+                                        <input type="checkbox" class="poll-btn-container" style="margin-top:.7rem;" />
+                                        </div>*@
 
-                                    @*@if (ChoiceTotalVotesDate(date) > 0)
-                                    {
-                                        <span>@PercentDate(date)% (@ChoiceTotalVotesDate(date))</span>
-                                    }*@
+                                    <div>
+                                        @date.Date.ToShortDateString() @date.Date.ToShortTimeString() - @date.DateTo.ToShortTimeString()
+                                    </div>
+
                                 </div>
+                                @*<button class="btn btn-link form-check form-check-inline datevote-element" @onclick="(() => VoteDate(date))" disabled=@CanNotVoteDate(date)>@date.Date.ToShortDateString() @date.Date.ToShortTimeString() - @date.DateTo.ToShortTimeString()</button>*@
+
+                                @*@if (ChoiceTotalVotesDate(date) > 0)
+                                    {
+                                    <span>@PercentDate(date)% (@ChoiceTotalVotesDate(date))</span>
+                                    }*@
                                 <div class="datevote-progress-bar" role="progressbar" style="width: @PercentDate(date)%;" aria-valuenow="@PercentDate(date)" aria-valuemin="0" aria-valuemax="100">
                                 </div>
                             </div>

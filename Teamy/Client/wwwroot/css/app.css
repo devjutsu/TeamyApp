@@ -359,7 +359,6 @@ input[type='radio']:checked:after {
 }
 .datevote-element {
   position: absolute;
-  /*background-color: #FF000055;*/
   height: 3rem;
   vertical-align: middle !important;
   cursor: pointer;
