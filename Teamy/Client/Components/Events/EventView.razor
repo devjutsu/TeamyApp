@@ -80,14 +80,17 @@
                                 <button class="btn btn-sm btn-outline-secondary btn-sm-lock" @onclick="(() => LockDate(date))"><span class="oi oi-lock-unlocked" /></button>
                                 }*@
 
-                            <div class="datevote-progress">
-                                <div class="datevote-element" @onclick="(() => VoteDate(date))">
-                                    @*<div style="position:relative;">
-                                        <input type="checkbox" class="poll-btn-container" style="margin-top:.7rem;" />
-                                        </div>*@
+                            <div class="datevote-progress d-flex">
+                                <div class="datevote-element d-flex" @onclick="(() => VoteDate(date))">
+                                    <div style="position:relative;">
+                                        <input type="checkbox" style="margin-top:.7rem; " />
+                                    </div>
 
-                                    <div>
-                                        @date.Date.ToShortDateString() @date.Date.ToShortTimeString() - @date.DateTo.ToShortTimeString()
+                                    <div style="padding:.8rem;">
+                                        @date.Date.ToShortDateString()
+                                    </div>
+                                    <div style="padding:.8rem;">
+                                        @date.Date.ToShortTimeString() - @date.DateTo.ToShortTimeString()
                                     </div>
 
                                 </div>
