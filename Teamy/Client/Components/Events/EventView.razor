@@ -82,15 +82,18 @@
 
                             <div class="datevote-progress d-flex">
                                 <div class="datevote-element d-flex" @onclick="(() => VoteDate(date))">
-                                    <div style="position:relative;">
-                                        <input type="checkbox" style="margin-top:.7rem; " />
+                                    <div style="position:relative; margin-left: .5rem;">
+                                        <input type="checkbox" style="margin-top:.8rem; " />
                                     </div>
 
-                                    <div style="padding:.8rem;">
-                                        @date.Date.ToShortDateString()
-                                    </div>
-                                    <div style="padding:.8rem;">
-                                        @date.Date.ToShortTimeString() - @date.DateTo.ToShortTimeString()
+  
+                                    <div class="d-flex flex-wrap justify-content-between" style="width:100%; margin-right: 10px; ">  @*border: 1px dotted lime;*@
+                                        <div style="vertical-align: middle; padding:.8rem;">
+                                            @date.Date.ToString("ddd, dd MMM")
+                                        </div>
+                                        <div style="padding:.8rem;">
+                                            @date.Date.ToString("HH:mm") - @date.DateTo.ToString("HH:mm")
+                                        </div>
                                     </div>
 
                                 </div>

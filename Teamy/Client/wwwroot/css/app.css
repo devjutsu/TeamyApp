@@ -347,17 +347,24 @@ input[type='radio']:checked:after {
   background-color: #323338;
   position: relative;
   height: 3rem;
-  width: 100%;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  /*width: 66%;*/
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+}
+@media (min-width: 1200px) {
+  .datevote-progress {
+    width: 66%;
+  }
 }
 .datevote-progress-bar {
   background-color: #78A9EA7F;
   height: 3rem;
+  border-radius: 5px;
 }
 .datevote-element {
   position: absolute;
-  height: 3rem;
+  min-height: 3rem;
   vertical-align: middle !important;
   cursor: pointer;
   width: 100%;
