@@ -6,9 +6,9 @@
 @bluesofthalf: #78A9EA7F;
 @darkdark: #121212;
 @gray: #1B1D22;
-@lightlight:#D7DADA;
+@lightlight: #D7DADA;
 @lightgray: #F5F5F5;
-@darkmedium:#323338;
+@darkmedium: #323338;
 @gold: gold;
 @green: rgb(36, 165, 39);
 @red: rgb(189, 52, 50);
@@ -19,12 +19,15 @@
 .t1 {
     background-color: #00a17a7b;
 }
+
 .t2 {
     background-color: #a7000079;
 }
+
 .t3 {
     background-color: #aeff007f;
 }
+
 html, body {
     font-family: 'Roboto', sans-serif;
 }
@@ -34,8 +37,10 @@ body {
     color: @lightlight;
     padding-top: 70px;
 }
+
 .content {
 }
+
 @media (max-width: 768px) {
     body {
         background-color: @darkdark !important;
@@ -47,23 +52,27 @@ body {
     border-radius: 16px;
     height: 100%;
 }
+
 .navbar {
     background-color: @darkdark !important;
 }
+
 .nav-item {
     padding: .5rem .5rem .5rem .5rem !important;
 }
+
 .head-spacer {
     height: 50px;
 }
+
 .default-block {
     background-color: @gray;
     border-radius: 16px;
-
     /*margin: .5rem;*/
     margin-top: 1rem;
     padding: 1rem;
 }
+
 .dark-block {
     border-radius: 16px;
     margin: .5rem;
@@ -75,44 +84,54 @@ body {
 h1:focus {
     outline: none;
 }
+
 h1,
 h2,
 h3,
 h4,
 h5,
-h6
-{
+h6 {
     color: @bluesoft;
 }
+
 h2 {
     padding-top: 2rem !important;
 }
+
 .pagetitle {
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
+
 a, .btn-link {
     color: @violet;
 }
+
 .oi-person {
     color: @violet;
 }
+
 .event-titleblock {
     margin-top: -6rem;
     margin-left: 1rem;
     position: relative;
 }
+
 .event-title {
     font-size: 36px;
 }
+
 .event-details {
 }
+
 .btn-primary {
     background-color: @violet !important;
 }
+
 .btn-outline-primary {
     color: @bluestrong !important;
 }
+
 .btn-outline-primary:hover {
     border: 1px solid @bluesoft;
     background-color: #00000000;
@@ -121,6 +140,7 @@ a, .btn-link {
 .btn-secondary {
     background-color: #303137 !important;
 }
+
 .btn {
     border-radius: 10px;
     border: none;
@@ -130,9 +150,11 @@ a, .btn-link {
     padding-right: 1rem;
     vertical-align: middle;
 }
+
 .btn-outline-danger {
     color: @dangerred !important;
 }
+
 .btn-outline-danger:hover {
     border: 1px solid @dangerred;
     background-color: #00000000;
@@ -145,6 +167,7 @@ a, .btn-link {
     color: @green !important;
     border: 1px solid @green !important;
 }
+
 .text-input {
     background-color: #323338;
     color: @lightlight;
@@ -154,6 +177,7 @@ a, .btn-link {
     text-indent: 10px;
     box-sizing: border-box;
 }
+
 .text-input:focus {
     background-color: @darkdark;
     color: @lightlight;
@@ -162,21 +186,26 @@ a, .btn-link {
     border: 1px solid @bluestrong;
     text-indent: 10px;
 }
+
 .text-input:disabled {
     border: 1px dotted @gray;
 }
+
 .chat-input {
-    min-width:100%;
+    min-width: 100%;
 }
+
 .chat-input-btn {
     width: 100% !important;
 }
+
 textarea {
     background-color: #323338;
     color: @lightlight;
     border-radius: 4px;
     border: none;
 }
+
 textarea:focus {
     background-color: @darkdark;
     color: @lightlight;
@@ -222,6 +251,7 @@ input[type='radio'] {
     height: 24px;
     border-radius: 25px;
 }
+
 input[type='radio']:after {
     background-color: #323338;
     border: 1px solid #4C4E52;
@@ -232,6 +262,7 @@ input[type='radio']:after {
     display: inline-block;
     visibility: visible;
 }
+
 input[type='radio']:checked:after {
     width: 24px;
     height: 24px;
@@ -291,7 +322,7 @@ input[type='radio']:checked:after {
     align-items: center;
     justify-content: center;
     margin: .1rem;
-    font-weight:bold;
+    font-weight: bold;
 }
 
 .user-profile {
@@ -301,15 +332,19 @@ input[type='radio']:checked:after {
 .user-creator {
     background-color: @gold;
 }
+
 .user-accepted {
     background-color: @green;
 }
+
 .user-rejected {
     background-color: @red;
 }
+
 .btn-sm-lock {
     width: 2rem;
 }
+
 .img-viewblock {
     border-radius: 16px;
     margin-left: -32px;
@@ -321,6 +356,7 @@ input[type='radio']:checked:after {
     background-size: cover;
     padding: 0rem;
 }
+
 .img-xs-viewblock {
     margin-top: -6px;
     margin-left: -24px;
@@ -332,6 +368,7 @@ input[type='radio']:checked:after {
     padding: 0rem;
     // border: 5px solid lime;
 }
+
 .noimg-viewblock {
     border-radius: 16px;
     margin-left: -32px;
@@ -343,6 +380,7 @@ input[type='radio']:checked:after {
     background-size: cover;
     padding: 0rem;
 }
+
 .noimg-xs-viewblock {
     border-radius: 16px;
     margin-left: -32px;
@@ -354,16 +392,17 @@ input[type='radio']:checked:after {
     background-size: cover;
     padding: 0rem;
 }
+
 .img-container {
     position: relative;
 }
+
 .btn-img-remove {
     right: 1rem;
     top: 1rem;
     border: 0;
     background-color: rgba(200, 200, 200, .7);
     color: rgba(0,0,0,.8);
-    
     position: absolute;
     width: 33px;
     height: 33px;
@@ -373,6 +412,7 @@ input[type='radio']:checked:after {
     font-size: 12px;
     line-height: 1.42857;
 }
+
 .btn-img-remove:hover {
     background-color: rgba(200, 200, 200, 1);
     color: black;
@@ -387,39 +427,54 @@ input[type='radio']:checked:after {
     background-color: @bluestrong;
     border-radius: 5px;
 }
+
 .datevote-progress {
     background-color: @darkmedium;
     position: relative;
     height: 3rem;
-    width: 100%;
-    margin-top:.5rem;
-    margin-bottom: .5rem;
+    /*width: 66%;*/
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
 }
+
+@media (min-width: 1200px) {
+    .datevote-progress {
+        width: 66%;
+    }
+}
+
 .datevote-progress-bar {
     background-color: @bluesofthalf;
     height: 3rem;
+    border-radius: 5px;
 }
+
 .datevote-element {
     position: absolute;
-    height: 3rem;
+    min-height: 3rem;
     vertical-align: middle !important;
     cursor: pointer;
     width: 100%;
 }
+
 .invite-link-copy-btn {
     background-color: @darkdark;
     color: #D7DADA;
     border: 1px solid #D7DADA33;
     border-radius: 4px;
 }
+
 .invite-link-copy-btn:hover {
     background-color: #303030;
     color: #D7DADA;
 }
+
 .invite-link-copy-btn:active {
     background-color: #505050;
     color: #D7DADA;
 }
+
 .invite-link-div {
     margin: 1rem 0 1rem 0;
 }
@@ -428,13 +483,16 @@ input[type='radio']:checked:after {
     margin: .5rem;
     font-weight: bold;
 }
+
 .poll-choice-container {
     width: 300px;
     margin: .5rem;
 }
+
 .poll-choice {
     margin-bottom: .3rem;
 }
+
 .poll-percent {
     padding: .6rem;
     white-space: nowrap;
@@ -444,6 +502,7 @@ input[type='radio']:checked:after {
     margin-right: -1rem;
     margin-top: 3rem !important;
 }
+
 .event-card {
     margin-bottom: 1rem;
     margin-left: -1rem;
@@ -452,6 +511,7 @@ input[type='radio']:checked:after {
     cursor: pointer;
     border-radius: 4px;
 }
+
 .event-card:hover {
     background: linear-gradient(0deg, #FF000010, #0000FF15);
 }
@@ -463,18 +523,22 @@ input[type='radio']:checked:after {
     background-position: center;
     background-size: cover;
 }
+
 .event-card-data {
     width: 50%;
     padding: 1rem;
 }
+
 .event-card-title {
     font-size: 32px;
     font-weight: bold;
 }
+
 .event-card-xs-title {
     font-size: 22px;
     font-weight: bold;
 }
+
 .event-card-date {
     color: @samarine;
 }
@@ -487,6 +551,7 @@ input[type='radio']:checked:after {
     cursor: pointer;
     border-radius: 4px;
 }
+
 .template-card:hover {
     background: linear-gradient(0deg, #FF000010, #0000FF15);
 }
@@ -498,51 +563,62 @@ input[type='radio']:checked:after {
     border: 1px solid @bluesoft;
     text-indent: 10px;
     font-size: 42px;
-
     border-width: 0 0 2px;
 }
+
 .event-edit-title:focus {
     border: none;
 }
+
 .event-view-btnblock {
     position: absolute;
     right: 1rem;
     bottom: 1rem;
 }
+
 .btn-event-edit {
     background-color: @violet;
 }
+
 .btn-event-delete {
     background-color: @red;
 }
+
 .event-edit-poll-question {
     margin: .5rem 0 1rem 0;
     position: relative;
 }
+
 .fullwidth-input {
     margin: .5rem 0 1rem 0;
     min-width: 100%;
 }
+
 .btn-input-right {
     position: absolute;
     right: 0;
     bottom: 0;
 }
+
 .event-edit-poll-answer {
     margin: .5rem 0 .5rem 2rem;
     position: relative;
     padding-right: 6rem;
 }
+
 .poll-input-question {
     min-width: 100%;
     font-weight: bold;
 }
+
 .poll-input-answer {
     min-width: 100%;
 }
+
 .fillspace {
     width: 100%;
 }
+
 .chat-message {
     margin: .5rem;
 }
