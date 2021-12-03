@@ -178,11 +178,6 @@ input[type=checkbox]:after {
   content: '';
   visibility: visible;
   display: inline-block;
-  /*
-    margin-left: 10px;
-    padding-bottom: 5px;
-    padding-left: 3px;
-    border-radius: 5px;*/
 }
 input[type=checkbox]:checked:after {
   content: "\2714";
@@ -193,28 +188,28 @@ input[type='radio'] {
   background-color: #323338;
   border: 1px solid #4C4E52;
   opacity: 1;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border-radius: 25px;
 }
 input[type='radio']:after {
   background-color: #323338;
   border: 1px solid #4C4E52;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border-radius: 25px;
   content: '';
   display: inline-block;
   visibility: visible;
 }
 input[type='radio']:checked:after {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border-radius: 25px;
-  background-color: #121212;
+  background-color: #4AAAE8;
   display: inline-block;
   visibility: visible;
-  border: 6px solid #4AAAE8;
+  border: 7px solid #323338;
 }
 .valid.modified:not([type=checkbox]) {
   outline: 1px solid #26b050;
