@@ -410,6 +410,13 @@ input[type='radio']:checked:after {
   background-color: #4AAAE8;
   border-radius: 5px;
 }
+.dateview-container {
+  background-color: #28292D;
+  height: 3rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+}
 .datevote-progress {
   background-color: #28292D;
   position: relative;

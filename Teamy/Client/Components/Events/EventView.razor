@@ -56,11 +56,13 @@
                 <h4>Date and time</h4>
                 @if (@CurrentEvent.DateStatus == EventDateStatus.Locked)
                 {
-                    @if (UserCanModifyEvent())
-                    {
-                        <button class="btn btn-sm btn-outline-secondary d-inline btn-sm-lock" @onclick="(() => UnlockDate())"><span class="oi oi-lock-locked" /></button>
-                    }
-                    <div class="d-inline" style="margin-left:1rem;">@CurrentEvent.EventDate.Value.ToShortDateString() @CurrentEvent.EventDate.Value.ToShortTimeString() - @CurrentEvent.EventDateTo.Value.ToShortTimeString()</div>
+                    <div class="dateview-container">
+                        <div class="d-inline" style="margin-left:1rem;">@CurrentEvent.EventDate.Value.ToShortDateString() @CurrentEvent.EventDate.Value.ToShortTimeString() - @CurrentEvent.EventDateTo.Value.ToShortTimeString()</div>
+                        @if (UserCanModifyEvent())
+                        {
+                            <button class="btn btn-sm btn-outline-secondary d-inline datevote-lock" @onclick="(() => UnlockDate())"><span class="oi oi-lock-locked" /></button>
+                        }
+                    </div>
                     <div>
                         <a class="btn btn-link" href=@GoogleCalEntry target="_blank">Add to Google calendar</a>
                     </div>
