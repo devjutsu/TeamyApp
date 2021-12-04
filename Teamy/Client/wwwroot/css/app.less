@@ -1,11 +1,8 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
-@bluesoft: #78A9EA;
-@bluesofthalf: #78A9EA7F;
-@darkdark: #121212;
-
-@lightlight: #D7DADA;
-@lightgray: #F5F5F5;
+/*@bluesoft: #78A9EA;*/
+/*@bluesofthalf: #78A9EA7F;*/
+/*@darkdark: #121212;*/
 
 @Dark1: #101214; // where used?
 @Dark2: #1B1D22; // ex @gray
@@ -13,10 +10,11 @@
 @Dark4: #303137;
 @Dark5: #4C4E52;
 
-/*@LightGrey3: #86888A;
-@LightGrey3: #D7DADA;
-@LightGrey3: #F5F5F5;*/
-@White: #FFFFFF;
+@LightGrey1: #86888A;
+@LightGrey2: #D7DADA;
+@LightGrey3: #F5F5F5; // where used?
+@White: #FFFFFF; // where used?
+
 @Green: #10B665;
 @Coral: #EE725A;
 @Samarine: #4347F3;
@@ -42,7 +40,7 @@ html, body {
 
 body {
     background-color: @Dark2 !important;
-    color: @lightlight;
+    color: @LightGrey2;
     padding-top: 70px;
 }
 
@@ -51,18 +49,18 @@ body {
 
 @media (max-width: 768px) {
     body {
-        background-color: @darkdark !important;
+        background-color: @Dark1 !important;
     }
 }
 
 .container {
-    background-color: @darkdark;
+    background-color: @Dark1;
     border-radius: 16px;
     height: 100%;
 }
 
 .navbar {
-    background-color: @darkdark !important;
+    background-color: @Dark1 !important;
 }
 
 .nav-item {
@@ -99,7 +97,7 @@ h3,
 h4,
 h5,
 h6 {
-    color: @bluesoft;
+    color: @BrightBlue;
 }
 
 h2 {
@@ -141,8 +139,12 @@ a, .btn-link {
 }
 
 .btn-outline-primary:hover {
-    border: 1px solid @bluesoft;
+    border: 1px solid @BrightBlue;
     background-color: #00000000;
+}
+
+.btn-outline-secondary:hover {
+    background-color: @Dark5;
 }
 
 .btn-secondary {
@@ -152,8 +154,7 @@ a, .btn-link {
 .btn {
     border-radius: 10px;
     border: none;
-    /*height: 2.5rem;*/
-    min-width: 6rem;
+    min-width: 4rem;
     padding-left: 1rem;
     padding-right: 1rem;
     vertical-align: middle;
@@ -178,7 +179,7 @@ a, .btn-link {
 
 .text-input {
     background-color: #323338;
-    color: @lightlight;
+    color: @LightGrey2;
     height: 2.5rem;
     border-radius: 4px;
     border: none;
@@ -187,8 +188,8 @@ a, .btn-link {
 }
 
 .text-input:focus {
-    background-color: @darkdark;
-    color: @lightlight;
+    background-color: @Dark1;
+    color: @LightGrey2;
     height: 2.5rem;
     border-radius: 4px;
     border: 1px solid @BrightBlue;
@@ -209,16 +210,16 @@ a, .btn-link {
 
 textarea {
     background-color: #323338;
-    color: @lightlight;
+    color: @LightGrey2;
     border-radius: 4px;
     border: none;
 }
 
 textarea:focus {
-    background-color: @darkdark;
-    color: @lightlight;
+    background-color: @Dark1;
+    color: @LightGrey2;
     border-radius: 4px;
-    border: 1px solid @bluesoft;
+    border: 1px solid @BrightBlue;
 }
 
 /*input[type=checkbox] {
@@ -509,19 +510,16 @@ input[type='radio']:checked:after {
     margin-bottom: 1rem;
     border-radius: 5px;
 }
-
 @media (min-width: 1200px) {
     .datevote-progress {
         width: 66%;
     }
 }
-
-/*.datevote-progress-bar {
+.datevote-progress:hover {
     background-color: @Dark5;
-    height: 3rem;
-    border-radius: 5px;
-}*/
-// delete it
+}
+
+
 
 .datevote-element {
     position: absolute;
@@ -534,8 +532,21 @@ input[type='radio']:checked:after {
     background-color: @Dark5;
 }
 
+.datevote-lock {
+    position: relative;
+    height: 3rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+}
+.datevote-lock-btn {
+    background-color: @Dark3;
+    height: 3rem;
+    margin-left: 1rem;
+}
+
 .invite-link-copy-btn {
-    background-color: @darkdark;
+    background-color: @Dark1;
     color: #D7DADA;
     border: 1px solid #D7DADA33;
     border-radius: 4px;
@@ -636,10 +647,10 @@ input[type='radio']:checked:after {
 }
 
 .event-edit-title {
-    background-color: @darkdark;
-    color: @lightlight;
+    background-color: @Dark1;
+    color: @LightGrey2;
     height: 3.5rem;
-    border: 1px solid @bluesoft;
+    border: 1px solid @BrightBlue;
     text-indent: 10px;
     font-size: 42px;
     border-width: 0 0 2px;
