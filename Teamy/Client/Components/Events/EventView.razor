@@ -82,8 +82,9 @@
 
                             <div class="datevote-progress d-flex">
                                 <div class="datevote-element d-flex" @onclick="(() => VoteDate(date))">
-                                    <div style="position:relative; margin-left: .5rem;">
+                                    <div class="check-container" style="position:relative; margin-left: .5rem;">
                                         <input type="checkbox" style="margin-top:.8rem; " checked=@(DateVoted(date)) />
+                                        <span class="checkmark" />
                                     </div>
 
 
@@ -144,11 +145,12 @@
 
                         @foreach (var choice in poll.Choices)
                         {
-                            <div class="d-flex">
+                            <div class="d-flex poll-main" @onclick="(() => Vote(poll, choice))">
                                 @if (poll.MultiChoice)
                                 {
-                                    <div style="position:relative;">
-                                        <input type="checkbox" class="poll-btn-container" checked=@(VotedChoice(choice)) disabled=@CanNotVote(poll, choice) @onchange="(() => Vote(poll, choice))" style="margin-top:.7rem;" />
+                                    <div class="check-container">
+                                        <input type="checkbox"  checked=@(VotedChoice(choice)) @onchange="(() => Vote(poll, choice))" style="margin-top:.7rem;" />
+                                        <span class="checkmark" />
                                     </div>
                                 }
                                 else
@@ -159,7 +161,7 @@
                                 }
 
                                 <div class="poll-choice-container">
-                                    <div class="poll-choice" @onclick="(() => Vote(poll, choice))">@choice.Choice</div>
+                                    <div class="poll-choice">@choice.Choice</div>
                                     <div class="progress">
                                         <div class="progress-bar" role="progressbar" style="width: @Percent(poll, choice)%;" aria-valuenow="@Percent(poll, choice)" aria-valuemin="0" aria-valuemax="100">
                                         </div>

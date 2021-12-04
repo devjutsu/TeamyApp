@@ -158,30 +158,92 @@ textarea:focus {
   border-radius: 4px;
   border: 1px solid #78A9EA;
 }
-input[type=checkbox] {
-  margin: 0.5rem;
-  position: relative;
-  cursor: pointer;
-  background-color: #323338;
-  width: 24px;
-  height: 24px;
-  font-size: 22px;
-  visibility: hidden;
+/*input[type=checkbox] {
+    margin: .5rem;
+    position: relative;
+    cursor: pointer;
+    background-color: #323338;
+    width: 24px;
+    height: 24px;
+    font-size: 22px;
+    visibility: hidden;
 }
+
 input[type=checkbox]:after {
-  background-color: #323338;
+    background-color: #323338;
+    border-radius: 4px;
+    color: @bluestrong;
+    border: 1px solid #4C4E52;
+    width: 24px;
+    height: 24px;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    display: inline-block;
+}*/
+.check-container {
+  margin: 0.8rem;
+  left: 0.5rem;
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+/* Hide the browser's default checkbox */
+.check-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.checkmark {
   border-radius: 4px;
-  color: #4AAAE8;
-  border: 1px solid #4C4E52;
-  width: 24px;
+  position: absolute;
+  top: 0;
+  left: 0;
   height: 24px;
-  content: '';
-  visibility: visible;
-  display: inline-block;
+  width: 24px;
+  /*background-color: #eee;*/
+  border: 1px dotted #404144;
+}
+.check-container:hover input ~ .checkmark {
+  background-color: #404045;
+}
+/* When the checkbox is checked, add a blue background */
+.check-container input:checked ~ .checkmark {
+  background-color: #323338;
+}
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+/* Show the checkmark when checked */
+.check-container input:checked ~ .checkmark:after {
+  display: block;
+}
+/* Style the checkmark/indicator */
+.check-container .checkmark:after {
+  left: 7px;
+  top: 2px;
+  width: 8px;
+  height: 16px;
+  border: solid #4AAAE8;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }
 input[type=checkbox]:checked:after {
-  content: "\2714";
-  font-weight: bold;
+  /*content: "\2714";*/
+  /*font-weight: bold;*/
 }
 input[type='radio'] {
   margin: 0.5rem;
@@ -385,6 +447,9 @@ input[type='radio']:checked:after {
 }
 .invite-link-div {
   margin: 1rem 0 1rem 0;
+}
+.poll-main {
+  cursor: pointer;
 }
 .poll-question {
   margin: 0.5rem;
