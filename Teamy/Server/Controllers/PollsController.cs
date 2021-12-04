@@ -84,12 +84,16 @@ namespace Teamy.Server.Controllers
                                     .Where(o => o.Id == date.EventId)
                                     .FirstAsync();
 
-            var toRemove = proposed.ProposedDates
-                                    .SelectMany(o => o.Votes)
-                                    .Where(o => o.UserId == currentUserId);
+            var alradyVoted = proposed.ProposedDates.SelectMany(o => o.Votes).Where(o => o.UserId == currentUserId && date.Id == o.ProposedDateId);
 
-            _db.DateVotes.RemoveRange(toRemove);
-            _db.DateVotes.Add(new DateVote() { UserId = currentUserId, ProposedDateId = date.Id });
+            if(alradyVoted.Count() > 0)
+            {
+                _db.DateVotes.RemoveRange(alradyVoted);
+            }
+            else
+            {
+                _db.DateVotes.Add(new DateVote() { UserId = currentUserId, ProposedDateId = date.Id });
+            }
 
             await _db.SaveChangesAsync();
 
