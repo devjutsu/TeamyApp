@@ -398,7 +398,7 @@ input[type='radio']:checked:after {
   color: black;
 }
 .progress {
-  background-color: #323338;
+  background-color: #28292D;
   height: 0.5rem;
 }
 .progress-bar {
@@ -406,7 +406,7 @@ input[type='radio']:checked:after {
   border-radius: 5px;
 }
 .datevote-progress {
-  background-color: #323338;
+  background-color: #28292D;
   position: relative;
   height: 3rem;
   /*width: 66%;*/
@@ -420,7 +420,7 @@ input[type='radio']:checked:after {
   }
 }
 .datevote-progress-bar {
-  background-color: #4AAAE830;
+  background-color: #4C4E52;
   height: 3rem;
   border-radius: 5px;
 }
