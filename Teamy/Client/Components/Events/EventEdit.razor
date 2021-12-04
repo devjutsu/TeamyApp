@@ -17,8 +17,8 @@
                     <div />
                     @if (EditedEvent.DateStatus == EventDateStatus.Locked && date.Date == EditedEvent.EventDate && date.DateTo == EditedEvent.EventDateTo)
                     {
-                        <button class="btn btn-sm btn-outline-secondary d-inline btn-sm-lock" @onclick="(() => UnlockDate())"><span class="oi oi-lock-locked" /></button>
                         @DatePeriod(date)
+                        <button class="btn btn-sm btn-outline-secondary d-inline btn-sm-lock" @onclick="(() => UnlockDate())"><span class="oi oi-lock-locked" /></button>
                     }
                     else
                     {
@@ -29,6 +29,8 @@
                         <button class="btn btn-outline-primary btn-sm" @onclick="() => EditDate(date)">
                             <span class="oi oi-pencil" />
                         </button>
+
+                        <button class="btn btn-sm btn-outline-secondary d-inline btn-sm-unlock" ><span class="oi oi-lock-locked" /></button>
                     }
                 }
 

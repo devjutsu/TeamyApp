@@ -1,7 +1,7 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
-/*@LightGrey3: #86888A;
-@LightGrey3: #D7DADA;
-@LightGrey3: #F5F5F5;*/
+/*@bluesoft: #78A9EA;*/
+/*@bluesofthalf: #78A9EA7F;*/
+/*@darkdark: #121212;*/
 .t1 {
   background-color: #00a17a7b;
 }
@@ -22,16 +22,16 @@ body {
 }
 @media (max-width: 768px) {
   body {
-    background-color: #121212 !important;
+    background-color: #101214 !important;
   }
 }
 .container {
-  background-color: #121212;
+  background-color: #101214;
   border-radius: 16px;
   height: 100%;
 }
 .navbar {
-  background-color: #121212 !important;
+  background-color: #101214 !important;
 }
 .nav-item {
   padding: 0.5rem 0.5rem 0.5rem 0.5rem !important;
@@ -62,7 +62,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #78A9EA;
+  color: #4AAAE8;
 }
 h2 {
   padding-top: 2rem !important;
@@ -93,8 +93,11 @@ a,
   color: #4AAAE8 !important;
 }
 .btn-outline-primary:hover {
-  border: 1px solid #78A9EA;
+  border: 1px solid #4AAAE8;
   background-color: #00000000;
+}
+.btn-outline-secondary:hover {
+  background-color: #4C4E52;
 }
 .btn-secondary {
   background-color: #303137 !important;
@@ -102,8 +105,7 @@ a,
 .btn {
   border-radius: 10px;
   border: none;
-  /*height: 2.5rem;*/
-  min-width: 6rem;
+  min-width: 4rem;
   padding-left: 1rem;
   padding-right: 1rem;
   vertical-align: middle;
@@ -133,7 +135,7 @@ a,
   box-sizing: border-box;
 }
 .text-input:focus {
-  background-color: #121212;
+  background-color: #101214;
   color: #D7DADA;
   height: 2.5rem;
   border-radius: 4px;
@@ -156,10 +158,10 @@ textarea {
   border: none;
 }
 textarea:focus {
-  background-color: #121212;
+  background-color: #101214;
   color: #D7DADA;
   border-radius: 4px;
-  border: 1px solid #78A9EA;
+  border: 1px solid #4AAAE8;
 }
 /*input[type=checkbox] {
     margin: .5rem;
@@ -186,10 +188,10 @@ input[type=checkbox]:after {
 }*/
 .check-container {
   margin: 0.8rem;
-  left: 0.5rem;
+  left: 0rem;
   display: block;
   position: relative;
-  padding-left: 35px;
+  padding-left: 15px;
   cursor: pointer;
   font-size: 22px;
   -webkit-user-select: none;
@@ -408,6 +410,13 @@ input[type='radio']:checked:after {
   background-color: #4AAAE8;
   border-radius: 5px;
 }
+.dateview-container {
+  background-color: #28292D;
+  height: 3rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+}
 .datevote-progress {
   background-color: #28292D;
   position: relative;
@@ -421,11 +430,9 @@ input[type='radio']:checked:after {
     width: 66%;
   }
 }
-/*.datevote-progress-bar {
-    background-color: @Dark5;
-    height: 3rem;
-    border-radius: 5px;
-}*/
+.datevote-progress:hover {
+  background-color: #4C4E52;
+}
 .datevote-element {
   position: absolute;
   min-height: 3rem;
@@ -436,8 +443,20 @@ input[type='radio']:checked:after {
 .datevote-element-selected {
   background-color: #4C4E52;
 }
+.datevote-lock {
+  position: relative;
+  height: 3rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+}
+.datevote-lock-btn {
+  background-color: #28292D;
+  height: 3rem;
+  margin-left: 1rem;
+}
 .invite-link-copy-btn {
-  background-color: #121212;
+  background-color: #101214;
   color: #D7DADA;
   border: 1px solid #D7DADA33;
   border-radius: 4px;
@@ -520,10 +539,10 @@ input[type='radio']:checked:after {
   background: linear-gradient(0deg, #FF000010, #0000FF15);
 }
 .event-edit-title {
-  background-color: #121212;
+  background-color: #101214;
   color: #D7DADA;
   height: 3.5rem;
-  border: 1px solid #78A9EA;
+  border: 1px solid #4AAAE8;
   text-indent: 10px;
   font-size: 42px;
   border-width: 0 0 2px;

@@ -56,11 +56,13 @@
                 <h4>Date and time</h4>
                 @if (@CurrentEvent.DateStatus == EventDateStatus.Locked)
                 {
-                    @if (UserCanModifyEvent())
-                    {
-                        <button class="btn btn-sm btn-outline-secondary d-inline btn-sm-lock" @onclick="(() => UnlockDate())"><span class="oi oi-lock-locked" /></button>
-                    }
-                    <div class="d-inline" style="margin-left:1rem;">@CurrentEvent.EventDate.Value.ToShortDateString() @CurrentEvent.EventDate.Value.ToShortTimeString() - @CurrentEvent.EventDateTo.Value.ToShortTimeString()</div>
+                    <div class="dateview-container">
+                        <div class="d-inline" style="margin-left:1rem;">@CurrentEvent.EventDate.Value.ToShortDateString() @CurrentEvent.EventDate.Value.ToShortTimeString() - @CurrentEvent.EventDateTo.Value.ToShortTimeString()</div>
+                        @if (UserCanModifyEvent())
+                        {
+                            <button class="btn btn-sm btn-outline-secondary d-inline datevote-lock" @onclick="(() => UnlockDate())"><span class="oi oi-lock-locked" /></button>
+                        }
+                    </div>
                     <div>
                         <a class="btn btn-link" href=@GoogleCalEntry target="_blank">Add to Google calendar</a>
                     </div>
@@ -73,11 +75,8 @@
                     <div style="font-weight:bold;">Date selection:</div>
                     @foreach (var date in CurrentEvent.ProposedDates)
                     {
-                        <div>
-                            @*@if (UserCanModifyEvent())
-                                {
-                                <button class="btn btn-sm btn-outline-secondary btn-sm-lock" @onclick="(() => LockDate(date))"><span class="oi oi-lock-unlocked" /></button>
-                                }*@
+                        <div class="d-flex">
+
 
                             <div class="datevote-progress @DatevoteElementSelected(date) d-flex">
                                 <div class="datevote-element d-flex" @onclick="(() => VoteDate(date))">
@@ -97,7 +96,16 @@
                                     </div>
 
                                 </div>
+
+
                             </div>
+                            @if (UserCanModifyEvent())
+                            {
+                                <div class="datevote-lock">
+                                    <button class="btn btn-sm btn-outline-secondary datevote-lock-btn" @onclick="(() => LockDate(date))"><span class="oi oi-lock-unlocked" /></button>
+                                </div>
+                            }
+
                         </div>
                     }
                 }
@@ -213,8 +221,8 @@
     string GoogleCalLocation => $"{CurrentEvent.Where?.CalSlugify()}";
     string CalendarIcsLink => $"{Nav.BaseUri}Events/ClendarFile";
 
-    string DatevoteElementSelected(ProposedDateVM date) 
-        => date.Votes.Any(o => o.UserId == AppState.UserId) 
+    string DatevoteElementSelected(ProposedDateVM date)
+        => date.Votes.Any(o => o.UserId == AppState.UserId)
                     ? "datevote-element-selected" : string.Empty;
 
     async Task CallDownload()
