@@ -1,4 +1,7 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+/*@LightGrey3: #86888A;
+@LightGrey3: #D7DADA;
+@LightGrey3: #F5F5F5;*/
 .t1 {
   background-color: #00a17a7b;
 }
@@ -321,13 +324,13 @@ input[type='radio']:checked:after {
   background-color: #c8c8c8;
 }
 .user-creator {
-  background-color: gold;
+  background-color: #F4D35E;
 }
 .user-accepted {
   background-color: #10B665;
 }
 .user-rejected {
-  background-color: #bd3432;
+  background-color: #EE725A;
 }
 .btn-sm-lock {
   width: 2rem;
@@ -409,7 +412,6 @@ input[type='radio']:checked:after {
   background-color: #28292D;
   position: relative;
   height: 3rem;
-  /*width: 66%;*/
   margin-top: 1rem;
   margin-bottom: 1rem;
   border-radius: 5px;
@@ -419,17 +421,20 @@ input[type='radio']:checked:after {
     width: 66%;
   }
 }
-.datevote-progress-bar {
-  background-color: #4C4E52;
-  height: 3rem;
-  border-radius: 5px;
-}
+/*.datevote-progress-bar {
+    background-color: @Dark5;
+    height: 3rem;
+    border-radius: 5px;
+}*/
 .datevote-element {
   position: absolute;
   min-height: 3rem;
   vertical-align: middle !important;
   cursor: pointer;
   width: 100%;
+}
+.datevote-element-selected {
+  background-color: #4C4E52;
 }
 .invite-link-copy-btn {
   background-color: #121212;
@@ -535,7 +540,7 @@ input[type='radio']:checked:after {
   background-color: #4347F3;
 }
 .btn-event-delete {
-  background-color: #bd3432;
+  background-color: #EE725A;
 }
 .event-edit-poll-question {
   margin: 0.5rem 0 1rem 0;

@@ -1,21 +1,28 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
-@violet: #4347F3;
-@bluestrong: #4AAAE8;
 @bluesoft: #78A9EA;
 @bluesofthalf: #78A9EA7F;
 @darkdark: #121212;
-@gray: #1B1D22;
-@dark3: #28292D;
-@dark6: #4C4E52;
+
 @lightlight: #D7DADA;
 @lightgray: #F5F5F5;
-@gold: gold;
-@green: rgb(36, 165, 39);
-@red: rgb(189, 52, 50);
-@green: #10B665;
-@samarine: #4347F3;
-@dangerred: #EE725A;
+
+@Dark1: #101214; // where used?
+@Dark2: #1B1D22; // ex @gray
+@Dark3: #28292D;
+@Dark4: #303137;
+@Dark5: #4C4E52;
+
+/*@LightGrey3: #86888A;
+@LightGrey3: #D7DADA;
+@LightGrey3: #F5F5F5;*/
+@White: #FFFFFF;
+@Green: #10B665;
+@Coral: #EE725A;
+@Samarine: #4347F3;
+@BrightBlue: #4AAAE8;
+@Yellow: #F4D35E;
+
 
 .t1 {
     background-color: #00a17a7b;
@@ -34,7 +41,7 @@ html, body {
 }
 
 body {
-    background-color: @gray !important;
+    background-color: @Dark2 !important;
     color: @lightlight;
     padding-top: 70px;
 }
@@ -67,7 +74,7 @@ body {
 }
 
 .default-block {
-    background-color: @gray;
+    background-color: @Dark2;
     border-radius: 16px;
     /*margin: .5rem;*/
     margin-top: 1rem;
@@ -105,11 +112,11 @@ h2 {
 }
 
 a, .btn-link {
-    color: @violet;
+    color: @Samarine;
 }
 
 .oi-person {
-    color: @violet;
+    color: @Samarine;
 }
 
 .event-titleblock {
@@ -126,11 +133,11 @@ a, .btn-link {
 }
 
 .btn-primary {
-    background-color: @violet !important;
+    background-color: @Samarine !important;
 }
 
 .btn-outline-primary {
-    color: @bluestrong !important;
+    color: @BrightBlue !important;
 }
 
 .btn-outline-primary:hover {
@@ -139,7 +146,7 @@ a, .btn-link {
 }
 
 .btn-secondary {
-    background-color: #303137 !important;
+    background-color: @Dark4 !important;
 }
 
 .btn {
@@ -153,11 +160,11 @@ a, .btn-link {
 }
 
 .btn-outline-danger {
-    color: @dangerred !important;
+    color: @Coral !important;
 }
 
 .btn-outline-danger:hover {
-    border: 1px solid @dangerred;
+    border: 1px solid @Coral;
     background-color: #00000000;
 }
 /*.btn-outline-danger:hover {
@@ -165,8 +172,8 @@ a, .btn-link {
     color: @darkdark !important;
 }*/
 .btn-outline-success {
-    color: @green !important;
-    border: 1px solid @green !important;
+    color: @Green !important;
+    border: 1px solid @Green !important;
 }
 
 .text-input {
@@ -184,12 +191,12 @@ a, .btn-link {
     color: @lightlight;
     height: 2.5rem;
     border-radius: 4px;
-    border: 1px solid @bluestrong;
+    border: 1px solid @BrightBlue;
     text-indent: 10px;
 }
 
 .text-input:disabled {
-    border: 1px dotted @gray;
+    border: 1px dotted @Dark2;
 }
 
 .chat-input {
@@ -296,7 +303,7 @@ input[type=checkbox]:after {
     top: 2px;
     width: 8px;
     height: 16px;
-    border: solid @bluestrong;
+    border: solid @BrightBlue;
     border-width: 0 3px 3px 0;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
@@ -333,7 +340,7 @@ input[type='radio']:checked:after {
     width: 24px;
     height: 24px;
     border-radius: 25px;
-    background-color: @bluestrong;
+    background-color: @BrightBlue;
     display: inline-block;
     visibility: visible;
     border: 7px solid #323338;
@@ -396,15 +403,15 @@ input[type='radio']:checked:after {
 }
 
 .user-creator {
-    background-color: @gold;
+    background-color: @Yellow;
 }
 
 .user-accepted {
-    background-color: @green;
+    background-color: @Green;
 }
 
 .user-rejected {
-    background-color: @red;
+    background-color: @Coral;
 }
 
 .btn-sm-lock {
@@ -485,20 +492,19 @@ input[type='radio']:checked:after {
 }
 
 .progress {
-    background-color: @dark3;
+    background-color: @Dark3;
     height: .5rem;
 }
 
 .progress-bar {
-    background-color: @bluestrong;
+    background-color: @BrightBlue;
     border-radius: 5px;
 }
 
 .datevote-progress {
-    background-color: @dark3;
+    background-color: @Dark3;
     position: relative;
     height: 3rem;
-    /*width: 66%;*/
     margin-top: 1rem;
     margin-bottom: 1rem;
     border-radius: 5px;
@@ -510,11 +516,12 @@ input[type='radio']:checked:after {
     }
 }
 
-.datevote-progress-bar {
-    background-color: @dark6;
+/*.datevote-progress-bar {
+    background-color: @Dark5;
     height: 3rem;
     border-radius: 5px;
-}
+}*/
+// delete it
 
 .datevote-element {
     position: absolute;
@@ -522,6 +529,9 @@ input[type='radio']:checked:after {
     vertical-align: middle !important;
     cursor: pointer;
     width: 100%;
+}
+.datevote-element-selected {
+    background-color: @Dark5;
 }
 
 .invite-link-copy-btn {
@@ -609,7 +619,7 @@ input[type='radio']:checked:after {
 }
 
 .event-card-date {
-    color: @samarine;
+    color: @Samarine;
 }
 
 .template-card {
@@ -646,11 +656,11 @@ input[type='radio']:checked:after {
 }
 
 .btn-event-edit {
-    background-color: @violet;
+    background-color: @Samarine;
 }
 
 .btn-event-delete {
-    background-color: @red;
+    background-color: @Coral;
 }
 
 .event-edit-poll-question {

@@ -74,13 +74,12 @@
                     @foreach (var date in CurrentEvent.ProposedDates)
                     {
                         <div>
-                            @*style="border: 1px dotted lime;"*@
                             @*@if (UserCanModifyEvent())
                                 {
                                 <button class="btn btn-sm btn-outline-secondary btn-sm-lock" @onclick="(() => LockDate(date))"><span class="oi oi-lock-unlocked" /></button>
                                 }*@
 
-                            <div class="datevote-progress d-flex">
+                            <div class="datevote-progress @DatevoteElementSelected(date) d-flex">
                                 <div class="datevote-element d-flex" @onclick="(() => VoteDate(date))">
                                     <div class="check-container" style="position:relative; margin-left: .5rem;">
                                         <input type="checkbox" style="margin-top:.8rem; " checked=@(DateVoted(date)) />
@@ -89,7 +88,6 @@
 
 
                                     <div class="d-flex flex-wrap justify-content-between" style="width:100%; margin-right: 10px; ">
-                                        @*border: 1px dotted lime;*@
                                         <div style="vertical-align: middle; padding:.8rem;">
                                             @date.Date.ToString("ddd, dd MMM")
                                         </div>
@@ -98,14 +96,6 @@
                                         </div>
                                     </div>
 
-                                </div>
-                                @*<button class="btn btn-link form-check form-check-inline datevote-element" @onclick="(() => VoteDate(date))" disabled=@CanNotVoteDate(date)>@date.Date.ToShortDateString() @date.Date.ToShortTimeString() - @date.DateTo.ToShortTimeString()</button>*@
-
-                                @*@if (ChoiceTotalVotesDate(date) > 0)
-                                    {
-                                    <span>@PercentDate(date)% (@ChoiceTotalVotesDate(date))</span>
-                                    }*@
-                                <div class="datevote-progress-bar" role="progressbar" style="width: @PercentDate(date)%;" aria-valuenow="@PercentDate(date)" aria-valuemin="0" aria-valuemax="100">
                                 </div>
                             </div>
                         </div>
@@ -149,7 +139,7 @@
                                 @if (poll.MultiChoice)
                                 {
                                     <div class="check-container">
-                                        <input type="checkbox"  checked=@(VotedChoice(choice)) @onchange="(() => Vote(poll, choice))" style="margin-top:.7rem;" />
+                                        <input type="checkbox" checked=@(VotedChoice(choice)) @onchange="(() => Vote(poll, choice))" style="margin-top:.7rem;" />
                                         <span class="checkmark" />
                                     </div>
                                 }
@@ -223,6 +213,10 @@
     string GoogleCalLocation => $"{CurrentEvent.Where?.CalSlugify()}";
     string CalendarIcsLink => $"{Nav.BaseUri}Events/ClendarFile";
 
+    string DatevoteElementSelected(ProposedDateVM date) 
+        => date.Votes.Any(o => o.UserId == AppState.UserId) 
+                    ? "datevote-element-selected" : string.Empty;
+
     async Task CallDownload()
     {
         await JS.InvokeVoidAsync("DownloadFile", "event.ics", "text/calendar", CurrentEvent.CalendarFile(Nav.BaseUri));
@@ -294,11 +288,6 @@
     {
         date.EventId = CurrentEvent.Id.Value;
         await PollService.VoteDate(date);
-    }
-
-    bool CanNotVoteDate(ProposedDateVM date)
-    {
-        return false;
     }
 
     bool DateVoted(ProposedDateVM date)
