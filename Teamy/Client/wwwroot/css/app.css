@@ -358,7 +358,7 @@ input[type='radio']:checked:after {
   }
 }
 .datevote-progress-bar {
-  background-color: #78A9EA7F;
+  background-color: #4AAAE830;
   height: 3rem;
   border-radius: 5px;
 }
