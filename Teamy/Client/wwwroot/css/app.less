@@ -224,29 +224,6 @@ textarea:focus {
     border: 1px solid @BrightBlue;
 }
 
-/*input[type=checkbox] {
-    margin: .5rem;
-    position: relative;
-    cursor: pointer;
-    background-color: #323338;
-    width: 24px;
-    height: 24px;
-    font-size: 22px;
-    visibility: hidden;
-}
-
-input[type=checkbox]:after {
-    background-color: #323338;
-    border-radius: 4px;
-    color: @bluestrong;
-    border: 1px solid #4C4E52;
-    width: 24px;
-    height: 24px;
-    content: '';
-    display: inline-block;
-    visibility: visible;
-    display: inline-block;
-}*/
 .check-container {
     margin: .8rem;
     margin-right: 1.4rem;
@@ -320,36 +297,72 @@ input[type=checkbox]:checked:after {
     /*content: "\2714";*/
     /*font-weight: bold;*/
 }
-
-input[type='radio'] {
-    margin: .5rem;
-    background-color: #323338;
-    border: 1px solid #4C4E52;
-    opacity: 1;
-    width: 24px;
-    height: 24px;
-    border-radius: 25px;
+// radio next ---------------------------------------------
+.radio-container {
+    margin: .8rem;
+    margin-right: 1.4rem;
+    left: 0rem;
+    display: block;
+    position: relative;
+    padding-left: 15px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-input[type='radio']:after {
-    background-color: #323338;
-    border: 1px solid #4C4E52;
-    width: 24px;
-    height: 24px;
-    border-radius: 25px;
-    content: '';
-    display: inline-block;
-    visibility: visible;
+/* Hide the browser's default checkbox */
+.radio-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
 }
 
-input[type='radio']:checked:after {
-    width: 24px;
+.radiomark {
+    /*border-radius: 4px;*/
+    position: absolute;
+    top: 0;
+    left: 0;
     height: 24px;
-    border-radius: 25px;
-    background-color: @BrightBlue;
-    display: inline-block;
-    visibility: visible;
-    border: 7px solid #323338;
+    width: 24px;
+    background-color: @Dark2;
+    border: 1px solid @Dark4;
+    border-radius: 50%;
+}
+
+.radio-container:hover input ~ .radiomark {
+    background-color: @Dark4;
+}
+
+/* When the checkbox is checked, add a blue background */
+.radio-container input:checked ~ .radiomark {
+    background-color: @Dark2;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.radiomark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.radio-container input:checked ~ .radiomark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.radio-container .radiomark:after {
+    left: 7px;
+    top: 7px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: @BrightBlue;
 }
 
 .valid.modified:not([type=checkbox]) {

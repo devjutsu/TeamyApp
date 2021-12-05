@@ -34,17 +34,13 @@
             </div>
 
             <div class="d-block d-sm-none">
-                @*<div class="col-md-6">*@
                 <button class="btn btn-outline-primary" style="padding:0; min-width: 4rem;" @onclick="() => EditEvent()">
                     <span class="oi oi-pencil"></span>
                     Edit
                 </button>
-                @*</div>*@
-                @*<div class="col-md-6">*@
                 <button class="btn btn-outline-danger" style="padding:0; min-width: 3rem;" @onclick="() => DeleteEvent()">
                     <span class="oi oi-trash"></span>
                 </button>
-                @*</div>*@
             </div>
         }
     </div>
@@ -160,9 +156,15 @@
                                 }
                                 else
                                 {
-                                    <div style="position:relative;">
-                                        <input type="radio" name=@poll.Question checked=@(VotedChoice(choice)) @onchange="(() => Vote(poll, choice))" disabled=@CanNotVote(poll, choice) style="margin-top:.7rem;" />
+                                    <div class="radio-container">
+                                        <input class="" type="radio" name=@poll.Question checked=@(VotedChoice(choice)) @onchange="(() => Vote(poll, choice))" style="margin-top:.7rem;" />
+                                        <span class="radiomark"/>
                                     </div>
+
+
+                                    @*<div style="position:relative;">
+                                        <input type="radio" name=@poll.Question checked=@(VotedChoice(choice)) @onchange="(() => Vote(poll, choice))" disabled=@CanNotVote(poll, choice) style="margin-top:.7rem;" />
+                                    </div>*@
                                 }
 
                                 <div class="poll-choice-container">
