@@ -480,6 +480,11 @@ input[type=checkbox]:checked:after {
   height: 3rem;
   min-width: 2rem;
 }
+.sometext-btn {
+  background-color: #28292D;
+  min-width: 2rem;
+  font-size: 12px;
+}
 .invite-link-copy-btn {
   background-color: #101214;
   color: #D7DADA;
