@@ -424,7 +424,6 @@ input[type=checkbox]:checked:after {
   border-radius: 5px;
 }
 .dateview-container {
-  height: 3rem;
   margin-top: 1rem;
   margin-bottom: 1rem;
   border-radius: 5px;
@@ -432,6 +431,7 @@ input[type=checkbox]:checked:after {
 .dateview-date {
   padding: 0.8rem 0 0.8rem 0;
   margin-left: 0.2rem;
+  font-size: 16px;
 }
 .dateview-lock {
   height: 3rem;
@@ -441,14 +441,12 @@ input[type=checkbox]:checked:after {
 .dateview-lock-btn {
   margin-left: 1rem;
   background-color: #28292D;
-  height: 3rem;
   min-width: 2rem;
 }
 .datevote-progress {
   background-color: #28292D;
   position: relative;
   height: 3rem;
-  /*margin: 1rem;*/
   border-radius: 5px;
   margin-top: 0.1rem;
 }
@@ -466,6 +464,7 @@ input[type=checkbox]:checked:after {
   vertical-align: middle !important;
   cursor: pointer;
   width: 100%;
+  font-size: 16px;
 }
 .datevote-element-selected {
   background-color: #4C4E52;
