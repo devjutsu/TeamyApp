@@ -63,6 +63,7 @@ h4,
 h5,
 h6 {
   color: #4AAAE8;
+  opacity: 0.75;
 }
 h2 {
   padding-top: 2rem !important;
@@ -188,6 +189,7 @@ input[type=checkbox]:after {
 }*/
 .check-container {
   margin: 0.8rem;
+  margin-right: 1.4rem;
   left: 0rem;
   display: block;
   position: relative;
@@ -214,15 +216,15 @@ input[type=checkbox]:after {
   left: 0;
   height: 24px;
   width: 24px;
-  /*background-color: #eee;*/
-  border: 1px dotted #404144;
+  background-color: #1B1D22;
+  border: 1px solid #303137;
 }
 .check-container:hover input ~ .checkmark {
-  background-color: #404045;
+  background-color: #303137;
 }
 /* When the checkbox is checked, add a blue background */
 .check-container input:checked ~ .checkmark {
-  background-color: #323338;
+  background-color: #1B1D22;
 }
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
@@ -421,15 +423,15 @@ input[type='radio']:checked:after {
   background-color: #28292D;
   position: relative;
   height: 3rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  /*margin: 1rem;*/
   border-radius: 5px;
+  margin-top: 0.1rem;
 }
-@media (min-width: 1200px) {
-  .datevote-progress {
-    width: 66%;
-  }
-}
+/*@media (min-width: 1200px) {
+    .datevote-progress {
+        width: 66%;
+    }
+}*/
 .datevote-progress:hover {
   background-color: #4C4E52;
 }
@@ -446,14 +448,15 @@ input[type='radio']:checked:after {
 .datevote-lock {
   position: relative;
   height: 3rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 0.1rem;
   border-radius: 5px;
 }
 .datevote-lock-btn {
   background-color: #28292D;
   height: 3rem;
-  margin-left: 1rem;
+  min-width: 2rem;
+  /*margin: .5rem !important;*/
+  /*margin-left: 1rem;*/
 }
 .invite-link-copy-btn {
   background-color: #101214;
@@ -503,7 +506,8 @@ input[type='radio']:checked:after {
   border-radius: 4px;
 }
 .event-card:hover {
-  background: linear-gradient(0deg, #FF000010, #0000FF15);
+  background: #1B1D22;
+  border: 2px solid #28292D;
 }
 .event-card-img {
   width: 50%;

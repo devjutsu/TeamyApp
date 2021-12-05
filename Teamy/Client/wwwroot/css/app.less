@@ -98,6 +98,7 @@ h4,
 h5,
 h6 {
     color: @BrightBlue;
+    opacity: .75;
 }
 
 h2 {
@@ -247,6 +248,7 @@ input[type=checkbox]:after {
 }*/
 .check-container {
     margin: .8rem;
+    margin-right: 1.4rem;
     left: 0rem;
     display: block;
     position: relative;
@@ -267,6 +269,7 @@ input[type=checkbox]:after {
     height: 0;
     width: 0;
 }
+
 .checkmark {
     border-radius: 4px;
     position: absolute;
@@ -274,16 +277,17 @@ input[type=checkbox]:after {
     left: 0;
     height: 24px;
     width: 24px;
-    /*background-color: #eee;*/
-    border: 1px dotted #404144;
+    background-color: @Dark2;
+    border: 1px solid @Dark4;
 }
+
 .check-container:hover input ~ .checkmark {
-    background-color: #404045;
+    background-color: @Dark4;
 }
 
 /* When the checkbox is checked, add a blue background */
 .check-container input:checked ~ .checkmark {
-    background-color: #323338;
+    background-color: @Dark2;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -514,15 +518,15 @@ input[type='radio']:checked:after {
     background-color: @Dark3;
     position: relative;
     height: 3rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    /*margin: 1rem;*/
     border-radius: 5px;
+    margin-top: .1rem;
 }
-@media (min-width: 1200px) {
+/*@media (min-width: 1200px) {
     .datevote-progress {
         width: 66%;
     }
-}
+}*/
 .datevote-progress:hover {
     background-color: @Dark5;
 }
@@ -536,6 +540,7 @@ input[type='radio']:checked:after {
     cursor: pointer;
     width: 100%;
 }
+
 .datevote-element-selected {
     background-color: @Dark5;
 }
@@ -543,14 +548,16 @@ input[type='radio']:checked:after {
 .datevote-lock {
     position: relative;
     height: 3rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: .1rem;
     border-radius: 5px;
 }
+
 .datevote-lock-btn {
     background-color: @Dark3;
     height: 3rem;
-    margin-left: 1rem;
+    min-width: 2rem;
+    /*margin: .5rem !important;*/
+    /*margin-left: 1rem;*/
 }
 
 .invite-link-copy-btn {
@@ -574,9 +581,10 @@ input[type='radio']:checked:after {
     margin: 1rem 0 1rem 0;
 }
 
-.poll-main{
+.poll-main {
     cursor: pointer;
 }
+
 .poll-question {
     margin: .5rem;
     font-weight: bold;
@@ -611,7 +619,8 @@ input[type='radio']:checked:after {
 }
 
 .event-card:hover {
-    background: linear-gradient(0deg, #FF000010, #0000FF15);
+    background: @Dark2;
+    border: 2px solid @Dark3;
 }
 
 .event-card-img {
