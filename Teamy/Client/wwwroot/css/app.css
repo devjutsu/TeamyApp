@@ -158,7 +158,9 @@ a,
   text-indent: 10px;
 }
 .text-input:disabled {
-  border: 1px dotted #1B1D22;
+  /*border: 1px dotted @LightGrey2;*/
+  background-color: #D7DADA;
+  color: #101214;
 }
 .chat-input {
   min-width: 100%;
@@ -500,6 +502,7 @@ input[type=checkbox]:checked:after {
   color: #D7DADA;
   border: 1px solid #D7DADA33;
   border-radius: 4px;
+  height: 2.5rem;
 }
 .invite-link-copy-btn:hover {
   background-color: #303030;
