@@ -74,10 +74,17 @@ h2 {
 }
 a,
 .btn-link {
-  color: #4347F3;
+  color: #4AAAE8;
+  opacity: 0.75;
+  text-decoration: none;
+}
+.a,
+.btn-link:hover {
+  color: #4AAAE8;
+  opacity: 1;
 }
 .oi-person {
-  color: #4347F3;
+  color: #4AAAE8;
 }
 .event-titleblock {
   margin-top: -6rem;
@@ -95,9 +102,11 @@ a,
 }
 .btn-outline-primary {
   color: #4AAAE8 !important;
+  opacity: 0.75;
 }
 .btn-outline-primary:hover {
-  border: 1px solid #4AAAE8;
+  /*border: 1px solid @BrightBlue;*/
+  opacity: 1;
   background-color: #00000000;
 }
 .btn-outline-secondary:hover {
@@ -116,15 +125,22 @@ a,
 }
 .btn-outline-danger {
   color: #EE725A !important;
+  opacity: 0.75;
 }
 .btn-outline-danger:hover {
-  border: 1px solid #EE725A;
+  /*border: 1px solid @Coral;*/
+  opacity: 1;
   background-color: #00000000;
 }
-/*.btn-outline-danger:hover {
-    background-color: @dangerred !important;
-    color: @darkdark !important;
-}*/
+.btn-outline-info {
+  color: #86888A !important;
+  opacity: 0.75;
+}
+.btn-outline-info:hover {
+  /*border: 1px solid @Coral;*/
+  opacity: 1;
+  background-color: #00000000;
+}
 .btn-outline-success {
   color: #10B665 !important;
   border: 1px solid #10B665 !important;
@@ -147,7 +163,9 @@ a,
   text-indent: 10px;
 }
 .text-input:disabled {
-  border: 1px dotted #1B1D22;
+  /*border: 1px dotted @LightGrey2;*/
+  background-color: #D7DADA;
+  color: #101214;
 }
 .chat-input {
   min-width: 100%;
@@ -417,14 +435,13 @@ input[type=checkbox]:checked:after {
 }
 .progress {
   background-color: #28292D;
-  height: 0.5rem;
+  height: 6px;
 }
 .progress-bar {
   background-color: #4AAAE8;
   border-radius: 5px;
 }
 .dateview-container {
-  height: 3rem;
   margin-top: 1rem;
   margin-bottom: 1rem;
   border-radius: 5px;
@@ -432,6 +449,7 @@ input[type=checkbox]:checked:after {
 .dateview-date {
   padding: 0.8rem 0 0.8rem 0;
   margin-left: 0.2rem;
+  font-size: 16px;
 }
 .dateview-lock {
   height: 3rem;
@@ -441,14 +459,12 @@ input[type=checkbox]:checked:after {
 .dateview-lock-btn {
   margin-left: 1rem;
   background-color: #28292D;
-  height: 3rem;
   min-width: 2rem;
 }
 .datevote-progress {
   background-color: #28292D;
   position: relative;
   height: 3rem;
-  /*margin: 1rem;*/
   border-radius: 5px;
   margin-top: 0.1rem;
 }
@@ -466,6 +482,7 @@ input[type=checkbox]:checked:after {
   vertical-align: middle !important;
   cursor: pointer;
   width: 100%;
+  font-size: 16px;
 }
 .datevote-element-selected {
   background-color: #4C4E52;
@@ -480,11 +497,17 @@ input[type=checkbox]:checked:after {
   height: 3rem;
   min-width: 2rem;
 }
+.sometext-btn {
+  background-color: #28292D;
+  min-width: 2rem;
+  font-size: 12px;
+}
 .invite-link-copy-btn {
   background-color: #101214;
   color: #D7DADA;
   border: 1px solid #D7DADA33;
   border-radius: 4px;
+  height: 2.5rem;
 }
 .invite-link-copy-btn:hover {
   background-color: #303030;
@@ -550,7 +573,7 @@ input[type=checkbox]:checked:after {
   font-weight: bold;
 }
 .event-card-date {
-  color: #4347F3;
+  color: #4C4E52;
 }
 .template-card {
   margin-bottom: 1rem;

@@ -111,11 +111,17 @@ h2 {
 }
 
 a, .btn-link {
-    color: @Samarine;
+    color: @BrightBlue;
+    opacity: .75;
+    text-decoration: none;
+}
+.a, .btn-link:hover {
+    color: @BrightBlue;
+    opacity: 1;
 }
 
 .oi-person {
-    color: @Samarine;
+    color: @BrightBlue;
 }
 
 .event-titleblock {
@@ -138,10 +144,12 @@ a, .btn-link {
 
 .btn-outline-primary {
     color: @BrightBlue !important;
+    opacity: .75;
 }
 
 .btn-outline-primary:hover {
-    border: 1px solid @BrightBlue;
+    /*border: 1px solid @BrightBlue;*/
+    opacity: 1;
     background-color: #00000000;
 }
 
@@ -164,16 +172,26 @@ a, .btn-link {
 
 .btn-outline-danger {
     color: @Coral !important;
+    opacity: .75;
 }
 
 .btn-outline-danger:hover {
-    border: 1px solid @Coral;
+    /*border: 1px solid @Coral;*/
+    opacity: 1;
     background-color: #00000000;
 }
-/*.btn-outline-danger:hover {
-    background-color: @dangerred !important;
-    color: @darkdark !important;
-}*/
+
+.btn-outline-info {
+    color: @LightGrey1 !important;
+    opacity: .75;
+}
+
+.btn-outline-info:hover {
+    /*border: 1px solid @Coral;*/
+    opacity: 1;
+    background-color: #00000000;
+}
+
 .btn-outline-success {
     color: @Green !important;
     border: 1px solid @Green !important;
@@ -199,7 +217,9 @@ a, .btn-link {
 }
 
 .text-input:disabled {
-    border: 1px dotted @Dark2;
+    /*border: 1px dotted @LightGrey2;*/
+    background-color: @LightGrey2;
+    color: @Dark1;
 }
 
 .chat-input {
@@ -512,7 +532,7 @@ input[type=checkbox]:checked:after {
 
 .progress {
     background-color: @Dark3;
-    height: .5rem;
+    height:  6px; //.5rem;
 }
 
 .progress-bar {
@@ -521,7 +541,6 @@ input[type=checkbox]:checked:after {
 }
 
 .dateview-container {
-    height: 3rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
     border-radius: 5px;
@@ -530,6 +549,7 @@ input[type=checkbox]:checked:after {
 .dateview-date {
     padding: .8rem 0 .8rem 0;
     margin-left: .2rem;
+    font-size: 16px;
 }
 
 .dateview-lock {
@@ -541,7 +561,6 @@ input[type=checkbox]:checked:after {
 .dateview-lock-btn {
     margin-left: 1rem;
     background-color: @Dark3;
-    height: 3rem;
     min-width: 2rem;
 }
 
@@ -549,7 +568,6 @@ input[type=checkbox]:checked:after {
     background-color: @Dark3;
     position: relative;
     height: 3rem;
-    /*margin: 1rem;*/
     border-radius: 5px;
     margin-top: .1rem;
 }
@@ -568,6 +586,7 @@ input[type=checkbox]:checked:after {
     vertical-align: middle !important;
     cursor: pointer;
     width: 100%;
+    font-size: 16px;
 }
 
 .datevote-element-selected {
@@ -586,11 +605,18 @@ input[type=checkbox]:checked:after {
     min-width: 2rem;
 }
 
+.sometext-btn {
+    background-color: @Dark3;
+    min-width: 2rem;
+    font-size: 12px;
+}
+
 .invite-link-copy-btn {
     background-color: @Dark1;
     color: #D7DADA;
     border: 1px solid #D7DADA33;
     border-radius: 4px;
+    height: 2.5rem;
 }
 
 .invite-link-copy-btn:hover {
@@ -672,7 +698,7 @@ input[type=checkbox]:checked:after {
 }
 
 .event-card-date {
-    color: @Samarine;
+    color: @Dark5;
 }
 
 .template-card {
