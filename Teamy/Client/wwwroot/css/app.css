@@ -87,6 +87,9 @@ a,
 .event-title {
   font-size: 36px;
 }
+.event-details {
+  font-size: 18px;
+}
 .btn-primary {
   background-color: #4347F3 !important;
 }
@@ -489,8 +492,7 @@ input[type='radio']:checked:after {
 .poll-main {
   cursor: pointer;
 }
-.poll-question {
-  margin: 0.5rem;
+.bold {
   font-weight: bold;
 }
 .poll-choice-container {
