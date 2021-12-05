@@ -135,10 +135,10 @@
                     <div class="default-block">
                         <div class="d-flex justify-content-between">
                             <h4>Poll</h4>
-                            @if (AlreadyVotedPoll(poll))
+                            @*@if (AlreadyVotedPoll(poll))
                             {
                                 <button class="btn btn-link" @onclick=@(() => ResetAnswers(poll))>Reset answer</button>
-                            }
+                            }*@
                         </div>
 
                         <div class="bold">@poll.Question</div>
@@ -160,11 +160,6 @@
                                         <input class="" type="radio" name=@poll.Question checked=@(VotedChoice(choice)) @onchange="(() => Vote(poll, choice))" style="margin-top:.7rem;" />
                                         <span class="radiomark"/>
                                     </div>
-
-
-                                    @*<div style="position:relative;">
-                                        <input type="radio" name=@poll.Question checked=@(VotedChoice(choice)) @onchange="(() => Vote(poll, choice))" disabled=@CanNotVote(poll, choice) style="margin-top:.7rem;" />
-                                    </div>*@
                                 }
 
                                 <div class="poll-choice-container">
@@ -182,28 +177,7 @@
                                 </div>
                             </div>
                         }
-                        @*@if (poll.FreeTextOption)
-                            {
-                            <div class="input-group" style="margin-top:1rem;">
-                            @if (poll.MultiChoice)
-                            {
-                            <div class="form-check form-check-inline" style="margin-top:.3rem; margin-right:0;">
-                            <input class="form-check-input" type="checkbox" value="option1">
-                            </div>
-                            }
-                            else
-                            {
-                            <input type="radio" class="form-check-input" style="margin-top:.6rem;" />
-                            }
-
-                            <input type="text" class="form-control" style="border-radius:5px; ">
-                            <div class="">
-                            <button class="btn btn-outline-secondary" type="button">
-                            <span class="oi oi-minus" />
-                            </button>
-                            </div>
-                            </div>
-                            }*@
+                        
                     </div>
                 </div>
             }
@@ -241,10 +215,7 @@
 
     async Task Vote(PollVM poll, PollChoiceVM choice)
     {
-        if (!CanNotVote(poll, choice))
-        {
-            await PollService.Vote(poll, choice);
-        }
+        await PollService.Vote(poll, choice);
     }
 
     async Task ResetAnswers(PollVM poll)
@@ -283,23 +254,6 @@
 
     bool UserCanModifyEvent()
         => (CurrentEvent.CreatedById == AppState.UserId);
-
-    bool CanNotVote(PollVM poll, PollChoiceVM choice)
-    {
-        var currentUserId = AppState.UserId;
-        if (CurrentEvent.CreatedById == currentUserId)
-        {
-            return AlreadyVotedChoice(poll, choice);
-        }
-
-        var currentUserParticipation = CurrentEvent.Participants.FirstOrDefault(o => o.UserId == currentUserId)?.Status;
-        if (currentUserParticipation == ParticipationStatus.Accept)
-        {
-            return AlreadyVotedChoice(poll, choice);
-        }
-
-        return true;
-    }
 
     async Task VoteDate(ProposedDateVM date)
     {

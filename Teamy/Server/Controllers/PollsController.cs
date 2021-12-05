@@ -41,18 +41,40 @@ namespace Teamy.Server.Controllers
 
             var poll = await _db.Polls.FindAsync(choice.PollId);
             var answer = new PollAnswer() { PollChoiceId = choice.Id.Value, UserId = currentUserId };
+
+
+            
+
             if (poll.MultiChoice)
             {
-                _db.PollAnswers.Add(answer);
+                var myAnswerToDelete = await _db.PollAnswers.Where(o => o.PollChoiceId == choice.Id.Value && o.UserId == currentUserId).FirstOrDefaultAsync();
+                if (myAnswerToDelete != null)
+                {
+                    _db.PollAnswers.Remove(myAnswerToDelete);
+                }
+                else
+                {
+                    _db.PollAnswers.Add(answer);
+                }
             }
             else
             {
-                var myAnswers = await _db.PollAnswers.Where(o => o.UserId == currentUserId
-                                                        && o.PollChoiceId == choice.PollId)
-                                                .ToListAsync();
+                //var p = await _db.Polls.Where(o => o.Id == choice.PollId).Include(o => o.Choices).ThenInclude(o => o.Answers).FirstOrDefaultAsync();
+                var myAnswers = await _db.PollAnswers
+                            .Include(o => o.PollChoice)
+                            .Where(o => o.PollChoice.PollId == choice.PollId && o.UserId == currentUserId)
+                            .ToListAsync();
+
+                //var myAnswers = await _db.PollAnswers  
+                //                            .Include(o => o.)
+                //    .Where(o => o.UserId == currentUserId
+                //                                    && o.PollChoiceId == choice.PollId)
+                //                            .ToListAsync();
+
                 _db.PollAnswers.RemoveRange(myAnswers);
                 _db.PollAnswers.Add(answer);
             }
+
             await _db.SaveChangesAsync();
             await _hub.EventUpdated(poll.EventId);
 
@@ -86,7 +108,7 @@ namespace Teamy.Server.Controllers
 
             var alradyVoted = proposed.ProposedDates.SelectMany(o => o.Votes).Where(o => o.UserId == currentUserId && date.Id == o.ProposedDateId);
 
-            if(alradyVoted.Count() > 0)
+            if (alradyVoted.Count() > 0)
             {
                 _db.DateVotes.RemoveRange(alradyVoted);
             }
