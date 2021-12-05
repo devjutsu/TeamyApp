@@ -74,10 +74,17 @@ h2 {
 }
 a,
 .btn-link {
-  color: #4347F3;
+  color: #4AAAE8;
+  opacity: 0.75;
+  text-decoration: none;
+}
+.a,
+.btn-link:hover {
+  color: #4AAAE8;
+  opacity: 1;
 }
 .oi-person {
-  color: #4347F3;
+  color: #4AAAE8;
 }
 .event-titleblock {
   margin-top: -6rem;
