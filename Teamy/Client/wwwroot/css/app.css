@@ -132,10 +132,15 @@ a,
   opacity: 1;
   background-color: #00000000;
 }
-/*.btn-outline-danger:hover {
-    background-color: @dangerred !important;
-    color: @darkdark !important;
-}*/
+.btn-outline-info {
+  color: #86888A !important;
+  opacity: 0.75;
+}
+.btn-outline-info:hover {
+  /*border: 1px solid @Coral;*/
+  opacity: 1;
+  background-color: #00000000;
+}
 .btn-outline-success {
   color: #10B665 !important;
   border: 1px solid #10B665 !important;
@@ -430,7 +435,7 @@ input[type=checkbox]:checked:after {
 }
 .progress {
   background-color: #28292D;
-  height: 0.5rem;
+  height: 6px;
 }
 .progress-bar {
   background-color: #4AAAE8;
@@ -568,7 +573,7 @@ input[type=checkbox]:checked:after {
   font-weight: bold;
 }
 .event-card-date {
-  color: #4347F3;
+  color: #4C4E52;
 }
 .template-card {
   margin-bottom: 1rem;
