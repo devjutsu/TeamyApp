@@ -102,9 +102,11 @@ a,
 }
 .btn-outline-primary {
   color: #4AAAE8 !important;
+  opacity: 0.75;
 }
 .btn-outline-primary:hover {
-  border: 1px solid #4AAAE8;
+  /*border: 1px solid @BrightBlue;*/
+  opacity: 1;
   background-color: #00000000;
 }
 .btn-outline-secondary:hover {
@@ -123,9 +125,11 @@ a,
 }
 .btn-outline-danger {
   color: #EE725A !important;
+  opacity: 0.75;
 }
 .btn-outline-danger:hover {
-  border: 1px solid #EE725A;
+  /*border: 1px solid @Coral;*/
+  opacity: 1;
   background-color: #00000000;
 }
 /*.btn-outline-danger:hover {
