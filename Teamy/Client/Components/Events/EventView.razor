@@ -75,33 +75,33 @@
                     <div style="font-weight:bold;">Date selection:</div>
                     @foreach (var date in CurrentEvent.ProposedDates)
                     {
-                        <div class="d-flex">
+                        <div class="row" style="margin-top: .6rem;">
 
-
-                            <div class="datevote-progress @DatevoteElementSelected(date) d-flex">
-                                <div class="datevote-element d-flex" @onclick="(() => VoteDate(date))">
-                                    <div class="check-container" style="position:relative; margin-left: .5rem;">
-                                        <input type="checkbox" style="margin-top:.8rem; " checked=@(DateVoted(date)) />
-                                        <span class="checkmark" />
-                                    </div>
-
-
-                                    <div class="d-flex flex-wrap justify-content-between" style="width:100%; margin-right: 10px; ">
-                                        <div style="vertical-align: middle; padding:.8rem;">
-                                            @date.Date.ToString("ddd, dd MMM")
+                            <div class="col-12 col-sm-10 col-md-12 col-lg-10 col-xl-8">
+                                <div class="datevote-progress @DatevoteElementSelected(date) d-flex">
+                                    <div class="datevote-element d-flex" @onclick="(() => VoteDate(date))">
+                                        <div class="check-container" style="position:relative; margin-left: .5rem;">
+                                            <input type="checkbox" style="margin-top:.8rem; " checked=@(DateVoted(date)) />
+                                            <span class="checkmark" />
                                         </div>
-                                        <div style="padding:.8rem;">
-                                            @date.Date.ToString("HH:mm") - @date.DateTo.ToString("HH:mm")
-                                        </div>
-                                    </div>
 
+
+                                        <div class="d-flex flex-wrap justify-content-between" style="width:100%; margin-right: 1rem; ">
+                                            <div style="vertical-align: middle; padding:.8rem 0 .8rem 0;">
+                                                @date.Date.ToString("ddd, dd MMM")
+                                            </div>
+                                            <div style="padding:.8rem 0 .8rem 0;">
+                                                @date.Date.ToString("HH:mm") - @date.DateTo.ToString("HH:mm")
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
-
 
                             </div>
                             @if (UserCanModifyEvent())
                             {
-                                <div class="datevote-lock">
+                                <div class="datevote-lock col-12 col-sm-2 col-lg-2 col-xl-4">
                                     <button class="btn btn-sm btn-outline-secondary datevote-lock-btn" @onclick="(() => LockDate(date))"><span class="oi oi-lock-unlocked" /></button>
                                 </div>
                             }
