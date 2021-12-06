@@ -58,7 +58,7 @@
         {
             if (changedEventId == CurrentEvent.Id)
             {
-                var options = new ModalOptions() { Class = "default-modal" };
+                var options = new ModalOptions { Class = "default-modal", UseCustomLayout = true };
                 var parameters = new ModalParameters();
                 parameters.Add("Message", "This event was deleted!");
                 var messageModal = Modal.Show<NotifyModal>("Information", parameters, options);

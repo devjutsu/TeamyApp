@@ -74,7 +74,7 @@
     {
         if (DateTimeFrom >= DateTimeTo)
         {
-            var options = new ModalOptions() { Class = "default-modal" };
+            var options = new ModalOptions { Class = "default-modal", UseCustomLayout = true };
             var parameters = new ModalParameters();
             parameters.Add("Message", "Please, input time proper time interval");
             var messageModal = ModalService.Show<NotifyModal>("Information", parameters, options);
