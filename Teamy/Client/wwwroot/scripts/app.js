@@ -1,4 +1,11 @@
-﻿function showAlert(message) {
+﻿function focusLastElementByClass(classname) {
+    var searchQueryTBs = document.getElementsByClassName(classname),
+        searchQueryTB = searchQueryTBs && searchQueryTBs[searchQueryTBs.length-1];
+
+    searchQueryTB && searchQueryTB.focus();
+}
+
+function showAlert(message) {
     alert(message);
 }
 
