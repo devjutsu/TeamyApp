@@ -163,9 +163,10 @@
     {
         if (string.IsNullOrWhiteSpace(EditedEvent.Title))
         {
+            var options = new ModalOptions { Class = "default-modal", UseCustomLayout = true };
             var parameters = new ModalParameters();
             parameters.Add("Message", "Please, input non-empty event title.");
-            var response = Modal.Show<NotifyModal>("Information", parameters, new ModalOptions() { Class = "default-modal" });
+            var response = Modal.Show<NotifyModal>("Information", parameters, options);
             var result = await response.Result;
             return;
         }

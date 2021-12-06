@@ -42,9 +42,6 @@ namespace Teamy.Server.Controllers
             var poll = await _db.Polls.FindAsync(choice.PollId);
             var answer = new PollAnswer() { PollChoiceId = choice.Id.Value, UserId = currentUserId };
 
-
-            
-
             if (poll.MultiChoice)
             {
                 var myAnswerToDelete = await _db.PollAnswers.Where(o => o.PollChoiceId == choice.Id.Value && o.UserId == currentUserId).FirstOrDefaultAsync();
@@ -59,17 +56,10 @@ namespace Teamy.Server.Controllers
             }
             else
             {
-                //var p = await _db.Polls.Where(o => o.Id == choice.PollId).Include(o => o.Choices).ThenInclude(o => o.Answers).FirstOrDefaultAsync();
                 var myAnswers = await _db.PollAnswers
                             .Include(o => o.PollChoice)
                             .Where(o => o.PollChoice.PollId == choice.PollId && o.UserId == currentUserId)
                             .ToListAsync();
-
-                //var myAnswers = await _db.PollAnswers  
-                //                            .Include(o => o.)
-                //    .Where(o => o.UserId == currentUserId
-                //                                    && o.PollChoiceId == choice.PollId)
-                //                            .ToListAsync();
 
                 _db.PollAnswers.RemoveRange(myAnswers);
                 _db.PollAnswers.Add(answer);
