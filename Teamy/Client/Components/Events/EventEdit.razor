@@ -1,4 +1,5 @@
 ﻿@inject IManagePolls PollService
+@inject IJSRuntime JS
 
 <div>
     <input class="event-edit-title" @bind-value="@EditedEvent.Title" @ref="titleRef" placeholder="Event title" />
@@ -38,7 +39,6 @@
                     <span class="oi oi-plus" />
                 </button>
 
-
                 <div>
                     <h5>Location</h5>
                     <input class="text-input fullwidth-input" @bind-value="@EditedEvent.Where" />
@@ -62,8 +62,8 @@
                     <div class="default-block">
                         <div>
                             <div class="event-edit-poll-question">
-                                <input type="text" @bind-value="@poll.Question" class="text-input poll-input-question" placeholder="Type your question to participants" />
-                                <button class="btn btn-outline-danger btn-input-right" @onclick="() => RemovePoll(poll)" type="button">
+                                <input type="text" @bind-value="@poll.Question" class="text-input poll-input-question" placeholder="Type your question to participants"  />
+                                <button class="btn btn-outline-danger btn-input-right" @onclick="() => RemovePoll(poll)" type="button" tabindex="98">
                                     <span class="oi oi-trash" />
                                 </button>
                             </div>
@@ -73,7 +73,7 @@
                                 <div class="event-edit-poll-answer">
                                     <input type="text" @bind-value="@ans.Choice" class="text-input poll-input-answer" placeholder="Input answer choice" >
                                     <div class="btn-input-right">
-                                        <button class="btn btn-outline-secondary" type="button" @onclick="() => RemoveChoice(poll, ans)">
+                                        <button class="btn btn-outline-secondary" type="button" @onclick="() => RemoveChoice(poll, ans)" tabindex="99">
                                             <span class="oi oi-x" />
                                         </button>
                                     </div>
@@ -111,6 +111,7 @@
     public EventCallback<EventVM> DoneEditing { get; set; }
     public EventVM EditedEvent { get; set; }
 
+    string FocusClass = string.Empty;
     ElementReference titleRef;
 
     public string DatePeriod(ProposedDateVM date)
@@ -136,17 +137,27 @@
         }
     }
 
-    void AddPoll()
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if(!firstRender)
+        {
+            JS.InvokeVoidAsync("focusLastElementByClass", FocusClass);
+        }
+    }
+
+    async Task AddPoll()
     {
         if (EditedEvent.Polls == null)
             EditedEvent.Polls = new List<PollVM>();
 
         EditedEvent.Polls.Add(PollService.NewPoll());
+        FocusClass = "poll-input-question";
     }
 
     void AddChoice(PollVM poll)
     {
         poll.Choices.Add(new PollChoiceVM() { Answers = new List<PollAnswerVM>() });
+        FocusClass = "poll-input-answer";
     }
 
     void RemoveChoice(PollVM poll, PollChoiceVM choice)
