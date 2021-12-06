@@ -29,19 +29,6 @@
     </div>
 </div>
 
-@*<div @onkeydown="(e => KeyPressed(e))">
-    <button class="btn btn-success">placeholder</button>
-    <div class="question">Are you sure?</div>
-    @if (!string.IsNullOrWhiteSpace(Message))
-    {
-    <div>@Message</div>
-    }
-    <div class="d-flex justify-content-center">
-    <button @onclick="Close" class="btn btn-primary confirm-btn">Yes</button>
-    <button @onclick="Cancel" class="btn btn-secondary confirm-btn">No</button>
-    </div>
-    </div>*@
-
 @code {
     [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
     [Parameter] public string? Message { get; set; }
