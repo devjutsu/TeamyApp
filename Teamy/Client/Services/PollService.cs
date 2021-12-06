@@ -34,11 +34,11 @@ namespace Teamy.Client.Services
             {
                 new PollChoiceVM()
                 {
-                    Choice = "Type poll choice text",
+                    Choice = String.Empty,
                     Answers = new List<PollAnswerVM>()
                 }
             },
-            Question = "Type Question",
+            Question = String.Empty,
             MultiChoice = true,
             FreeTextOption = true
         };

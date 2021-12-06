@@ -62,7 +62,7 @@
                     <div class="default-block">
                         <div>
                             <div class="event-edit-poll-question">
-                                <input type="text" @bind-value="@poll.Question" class="text-input poll-input-question" />
+                                <input type="text" @bind-value="@poll.Question" class="text-input poll-input-question" placeholder="Type your question to participants" />
                                 <button class="btn btn-outline-danger btn-input-right" @onclick="() => RemovePoll(poll)" type="button">
                                     <span class="oi oi-trash" />
                                 </button>
@@ -71,7 +71,7 @@
                             @foreach (var ans in poll.Choices)
                             {
                                 <div class="event-edit-poll-answer">
-                                    <input type="text" @bind-value="@ans.Choice" class="text-input poll-input-answer">
+                                    <input type="text" @bind-value="@ans.Choice" class="text-input poll-input-answer" placeholder="Input answer choice" >
                                     <div class="btn-input-right">
                                         <button class="btn btn-outline-secondary" type="button" @onclick="() => RemoveChoice(poll, ans)">
                                             <span class="oi oi-x" />
