@@ -35,9 +35,11 @@
                     }
                 }
 
-                <button class="btn btn-outline-success btn-sm" @onclick="() => AddDate()">
-                    <span class="oi oi-plus" />
-                </button>
+                <div class="add-date-btn">
+                    <button class="btn btn-outline-success btn-sm" @onclick="() => AddDate()">
+                        <span class="oi oi-plus small" /> &nbsp;date and time
+                    </button>
+                </div>
 
                 <div>
                     <h5>Location</h5>
@@ -63,7 +65,7 @@
                         <div>
                             <div class="event-edit-poll-question">
                                 <input type="text" value="@poll.Question" class="text-input poll-input-question"
-                                    placeholder="Type your question to participants" @onchange="@((e) => SetQuestion(e, poll))" />
+                               placeholder="Type your question to participants" @onchange="@((e) => SetQuestion(e, poll))" />
 
                                 <button class="btn btn-outline-danger btn-input-right" @onclick="() => RemovePoll(poll)" type="button" tabindex="98">
                                     <span class="oi oi-trash" />
@@ -74,7 +76,7 @@
                             {
                                 <div class="event-edit-poll-answer">
                                     <input type="text" value="@ans.Choice" class="text-input poll-input-answer" id=@ans.InputId
-                                        placeholder="Input answer choice" @onchange="@((e) => SetChoice(e, poll, ans))" />
+                               placeholder="Input answer choice" @onchange="@((e) => SetChoice(e, poll, ans))" />
                                     <div class="btn-input-right">
                                         <button class="btn btn-outline-secondary" type="button" @onclick="() => RemoveChoice(poll, ans)" tabindex="99">
                                             <span class="oi oi-x" />
@@ -83,23 +85,34 @@
                                 </div>
                             }
 
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" @bind=@poll.MultiChoice>
-                                <label class="form-check-label" for="inlineCheckbox1">Multi choice</label>
+                            <div class="d-flex align-middle">
+                                <button class="btn btn-sm btn-outline-success add-choice-btn" @onclick="() => AddChoice(poll)">
+                                    <span class="oi oi-plus small" /> &nbsp;choice
+                                </button>
+
+                                @*<div class="check-container" style="position:relative;">
+                                    <input type="checkbox" style="margin-top:.8rem; " @bind-value=@poll.MultiChoice />
+                                    <span class="checkmark" />
+                                    </div>
+                                    <div class="t2">Multi choice</div>*@
+
+                                <div class="check-container" style="margin-top:.8rem;" @onclick="@(() => poll.MultiChoice = !poll.MultiChoice)">
+                                    <input type="checkbox" checked=@poll.MultiChoice>
+                                    <span class="checkmark" />
+                                </div>
+                                <label class="multi-choice-lbl" style="margin-top:.9rem;">Multi-choice</label>
                             </div>
-                            <button class="btn btn-sm btn-outline-success" @onclick="() => AddChoice(poll)">
-                                <span class="oi oi-plus" />
-                            </button>
-                            <button class="btn btn-sm btn-link" @onclick="(() => DeleteEventVote(poll))">
-                                <span class="oi oi-trash" />
-                            </button>
                         </div>
                     </div>
                 </div>
             }
         }
+    </div>
 
-        <button class="btn btn-outline-success" @onclick="AddPoll">Add question</button>
+    <div class="d-flex justify-content-center add-poll-div">
+        <button class="btn btn-outline-success" @onclick="AddPoll">
+            <span class="oi oi-plus small" /> &nbsp; poll question
+        </button>
     </div>
     <p>&nbsp;</p>
     <button class="btn btn-primary" @onclick="() => DoneEdit()">Save and Proceed <span class="oi oi-arrow-right" /></button>
@@ -146,7 +159,7 @@
     {
         if (!firstRender)
         {
-            if(CurrentEditingPoll == null)
+            if (CurrentEditingPoll == null)
             {
                 await JS.InvokeVoidAsync("focusLastElementByClass", FocusClass);
                 CurrentEditingPoll = null;
@@ -165,7 +178,7 @@
     async Task AddPoll()
     {
         if (EditedEvent.Polls == null)
-            EditedEvent.Polls = new List<PollVM>() ;
+            EditedEvent.Polls = new List<PollVM>();
 
         EditedEvent.Polls.Add(PollService.NewPoll());
         FocusClass = "poll-input-question";
@@ -194,7 +207,7 @@
 
     async Task DoneEdit()
     {
-        foreach(var p in EditedEvent.Polls)
+        foreach (var p in EditedEvent.Polls)
         {
             p.Choices = p.Choices.Where(o => !string.IsNullOrWhiteSpace(o.Choice)).ToList();
         }
