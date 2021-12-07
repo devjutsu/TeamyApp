@@ -195,6 +195,13 @@ a, .btn-link {
 .btn-outline-success {
     color: @Green !important;
     border: 1px solid @Green !important;
+    opacity: .75;
+}
+
+.btn-outline-success:hover {
+    background-color: @Green;
+    color: @Dark1 !important;
+    opacity: 1;
 }
 
 .text-input {
@@ -761,7 +768,7 @@ input[type=checkbox]:checked:after {
 .event-edit-poll-answer {
     margin: .5rem 0 .5rem 2rem;
     position: relative;
-    padding-right: 6rem;
+    padding-right: 4rem;
 }
 
 .poll-input-question {
@@ -779,4 +786,16 @@ input[type=checkbox]:checked:after {
 
 .chat-message {
     margin: .5rem;
+}
+.add-date-btn {
+    margin: .5rem .5rem 1rem 1rem;
+}
+.small {
+    font-size:small;
+}
+.add-choice-btn {
+    margin: .5rem 1rem 1rem 2rem;
+}
+.add-poll-div {
+    margin: 1rem;
 }
