@@ -30,14 +30,7 @@ namespace Teamy.Client.Services
         public PollVM NewPoll()
         => new PollVM()
         {
-            Choices = new List<PollChoiceVM>()
-            {
-                new PollChoiceVM()
-                {
-                    Choice = String.Empty,
-                    Answers = new List<PollAnswerVM>()
-                }
-            },
+            Choices = new List<PollChoiceVM>(),
             Question = String.Empty,
             MultiChoice = true,
             FreeTextOption = true
