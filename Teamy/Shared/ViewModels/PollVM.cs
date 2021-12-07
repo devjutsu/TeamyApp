@@ -27,6 +27,7 @@ namespace Teamy.Shared.ViewModels
         public string Choice { get; set; }
         public Guid? PollId { get; set; }
         public List<PollAnswerVM>? Answers { get; set; }
+        public string? InputId { get; set; }
 
         public object Clone()
         {

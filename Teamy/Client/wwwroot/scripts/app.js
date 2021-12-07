@@ -5,6 +5,11 @@
     searchQueryTB && searchQueryTB.focus();
 }
 
+function elementFocus(elementId) {
+    console.log(elementId);
+    document.getElementById(elementId).focus();
+}
+
 function showAlert(message) {
     alert(message);
 }

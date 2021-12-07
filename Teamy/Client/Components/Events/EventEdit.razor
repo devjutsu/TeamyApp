@@ -63,7 +63,7 @@
                         <div>
                             <div class="event-edit-poll-question">
                                 <input type="text" value="@poll.Question" class="text-input poll-input-question"
-                               placeholder="Type your question to participants" @onchange="@((e) => SetQuestion(e, poll))" />
+                                    placeholder="Type your question to participants" @onchange="@((e) => SetQuestion(e, poll))" />
 
                                 <button class="btn btn-outline-danger btn-input-right" @onclick="() => RemovePoll(poll)" type="button" tabindex="98">
                                     <span class="oi oi-trash" />
@@ -73,8 +73,8 @@
                             @foreach (var ans in poll.Choices)
                             {
                                 <div class="event-edit-poll-answer">
-                                    <input type="text" value="@ans.Choice" class="text-input poll-input-answer"
-                               placeholder="Input answer choice" @onchange="@((e) => SetChoice(e, poll, ans))" />
+                                    <input type="text" value="@ans.Choice" class="text-input poll-input-answer" id=@ans.InputId
+                                        placeholder="Input answer choice" @onchange="@((e) => SetChoice(e, poll, ans))" />
                                     <div class="btn-input-right">
                                         <button class="btn btn-outline-secondary" type="button" @onclick="() => RemoveChoice(poll, ans)" tabindex="99">
                                             <span class="oi oi-x" />
@@ -117,6 +117,7 @@
     string FocusClass = string.Empty;
     ElementReference titleRef;
     PollVM? CurrentEditingPoll { get; set; } = null;
+    string? FocusChoiceInputId { get; set; } = string.Empty;
 
     public string DatePeriod(ProposedDateVM date)
     => $"{date.Date.ToShortDateString()} {@date.Date.ToShortTimeString()} - {@date.DateTo.ToShortTimeString()}";
@@ -143,28 +144,42 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!firstRender && CurrentEditingPoll == null)
+        if (!firstRender)
         {
-            Console.WriteLine("Focusing");
-            await JS.InvokeVoidAsync("focusLastElementByClass", FocusClass);
+            if(CurrentEditingPoll == null)
+            {
+                await JS.InvokeVoidAsync("focusLastElementByClass", FocusClass);
+                CurrentEditingPoll = null;
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(FocusChoiceInputId))
+                {
+                    await JS.InvokeVoidAsync("elementFocus", FocusChoiceInputId);
+                }
+                FocusChoiceInputId = null;
+            }
         }
     }
 
     async Task AddPoll()
     {
         if (EditedEvent.Polls == null)
-            EditedEvent.Polls = new List<PollVM>();
+            EditedEvent.Polls = new List<PollVM>() ;
 
         EditedEvent.Polls.Add(PollService.NewPoll());
         FocusClass = "poll-input-question";
         CurrentEditingPoll = null;
+
     }
 
     void AddChoice(PollVM poll)
     {
-        poll.Choices.Add(new PollChoiceVM() { Answers = new List<PollAnswerVM>() });
+        var newInputId = Guid.NewGuid().ToString();
+        poll.Choices.Add(new PollChoiceVM() { Answers = new List<PollAnswerVM>(), InputId = newInputId });
         FocusClass = "poll-input-answer";
         CurrentEditingPoll = poll;
+        FocusChoiceInputId = newInputId;
     }
 
     void RemoveChoice(PollVM poll, PollChoiceVM choice)
