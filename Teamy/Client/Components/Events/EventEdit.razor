@@ -194,6 +194,11 @@
 
     async Task DoneEdit()
     {
+        foreach(var p in EditedEvent.Polls)
+        {
+            p.Choices = p.Choices.Where(o => !string.IsNullOrWhiteSpace(o.Choice)).ToList();
+        }
+
         if (string.IsNullOrWhiteSpace(EditedEvent.Title))
         {
             var options = new ModalOptions { Class = "default-modal", UseCustomLayout = true };
