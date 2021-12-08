@@ -2,14 +2,14 @@
 @inject IJSRuntime JS
 
 <div>
-    <input class="event-edit-title" @bind-value="@EditedEvent.Title" @ref="titleRef" placeholder="Event title" />
+    <input class="event-edit-title" @bind-value="@EditedEvent.Title" placeholder="Event title" tabindex="0" id="title-input" />
     <div class="row">
         <div class="col-md-6">
 
             <div class="default-block">
                 <div>
                     <h5>Description</h5>
-                    <textarea rows=2 @bind="@EditedEvent.Description" class="fullwidth-input" />
+                    <textarea rows=2 @bind="@EditedEvent.Description" class="fullwidth-input" tabindex="0" />
                 </div>
 
                 <h5>Date and time</h5>
@@ -19,31 +19,35 @@
                     @if (EditedEvent.DateStatus == EventDateStatus.Locked && date.Date == EditedEvent.EventDate && date.DateTo == EditedEvent.EventDateTo)
                     {
                         @DatePeriod(date)
-                        <button class="btn btn-sm btn-outline-secondary d-inline btn-sm-lock" @onclick="(() => UnlockDate())"><span class="oi oi-lock-locked" /></button>
+                        <button class="btn btn-sm btn-outline-secondary d-inline btn-sm-lock" @onclick="(() => UnlockDate())" tabindex="-1">
+                            <span class="oi oi-lock-locked" />
+                        </button>
                     }
                     else
                     {
-                        <button class="btn btn-outline-danger btn-sm" @onclick="() => RemoveDate(date)">
+                        <button class="btn btn-outline-danger btn-sm" @onclick="() => RemoveDate(date)" tabindex="-1">
                             <span class="oi oi-minus" />
                         </button>
                         @DatePeriod(date)
-                        <button class="btn btn-outline-primary btn-sm" @onclick="() => EditDate(date)">
+                        <button class="btn btn-outline-primary btn-sm" @onclick="() => EditDate(date)" tabindex="-1">
                             <span class="oi oi-pencil" />
                         </button>
 
-                        <button class="btn btn-sm btn-outline-secondary d-inline btn-sm-unlock"><span class="oi oi-lock-locked" /></button>
+                        <button class="btn btn-sm btn-outline-secondary d-inline btn-sm-unlock" tabindex="-1">
+                            <span class="oi oi-lock-locked" />
+                        </button>
                     }
                 }
 
                 <div class="add-date-btn">
-                    <button class="btn btn-outline-success btn-sm" @onclick="() => AddDate()">
+                    <button class="btn btn-outline-success btn-sm" @onclick="() => AddDate()" tabindex="0">
                         <span class="oi oi-plus small" /> &nbsp;date and time
                     </button>
                 </div>
 
                 <div>
                     <h5>Location</h5>
-                    <input class="text-input fullwidth-input" @bind-value="@EditedEvent.Where" />
+                    <input class="text-input fullwidth-input" @bind-value="@EditedEvent.Where" tabindex="0" />
                 </div>
             </div>
         </div>
@@ -64,10 +68,10 @@
                     <div class="default-block">
                         <div>
                             <div class="event-edit-poll-question">
-                                <input type="text" value="@poll.Question" class="text-input poll-input-question"
+                                <input type="text" value="@poll.Question" class="text-input poll-input-question" tabindex="0"
                                placeholder="Type your question to participants" @onchange="@((e) => SetQuestion(e, poll))" />
 
-                                <button class="btn btn-outline-secondary btn-nohover btn-input-right" @onclick="() => RemovePoll(poll)" type="button" tabindex="98">
+                                <button class="btn btn-outline-secondary btn-nohover btn-input-right" @onclick="() => RemovePoll(poll)" type="button" tabindex="-1">
                                     <span class="oi oi-trash" />
                                 </button>
                             </div>
@@ -75,10 +79,10 @@
                             @foreach (var ans in poll.Choices)
                             {
                                 <div class="event-edit-poll-answer">
-                                    <input type="text" value="@ans.Choice" class="text-input poll-input-answer" id=@ans.InputId
+                                    <input type="text" value="@ans.Choice" class="text-input poll-input-answer" id=@ans.InputId tabindex="0"
                                placeholder="Input answer choice" @onchange="@((e) => SetChoice(e, poll, ans))" />
                                     <div class="btn-input-right">
-                                        <button class="btn btn-outline-secondary btn-nohover" type="button" @onclick="() => RemoveChoice(poll, ans)" tabindex="99">
+                                        <button class="btn btn-outline-secondary btn-nohover" type="button" @onclick="() => RemoveChoice(poll, ans)" tabindex="-1">
                                             <span class="oi oi-x small" />
                                         </button>
                                     </div>
@@ -86,12 +90,13 @@
                             }
 
                             <div class="d-flex align-middle">
-                                <button class="btn btn-sm btn-outline-success add-choice-btn" @onclick="() => AddChoice(poll)">
+                                <button class="btn btn-sm btn-outline-success add-choice-btn" @onclick="() => AddChoice(poll)" tabindex="-1">
                                     <span class="oi oi-plus small" /> &nbsp;choice
                                 </button>
 
-                                <div class="check-container" style="margin-top:.7rem; position:relative;" @onclick="@(() => poll.MultiChoice = !poll.MultiChoice)">
-                                    <input type="checkbox" checked=@poll.MultiChoice>
+                                <div class="check-container" style="margin-top:.7rem; position:relative;" 
+                                        @onclick="@(() => poll.MultiChoice = !poll.MultiChoice)">
+                                    <input type="checkbox" checked=@poll.MultiChoice tabindex="0">
                                     <span class="checkmark" />
                                     <label class="multi-choice-lbl">Allow multiple choice</label>
                                 </div>
@@ -105,12 +110,12 @@
     </div>
 
     <div class="d-flex justify-content-center add-poll-div">
-        <button class="btn btn-outline-success" @onclick="AddPoll">
+        <button class="btn btn-outline-success" @onclick="AddPoll" tabindex="0">
             <span class="oi oi-plus small" /> &nbsp; poll question
         </button>
     </div>
     <p>&nbsp;</p>
-    <button class="btn btn-primary" @onclick="() => DoneEdit()">Save and Proceed <span class="oi oi-arrow-right" /></button>
+    <button class="btn btn-primary" @onclick="() => DoneEdit()" tabindex="0"> Save and Proceed <span class="oi oi-arrow-right" /></button>
 </div>
 
 @code {
@@ -123,7 +128,6 @@
     public EventVM EditedEvent { get; set; }
 
     string FocusClass = string.Empty;
-    ElementReference titleRef;
     PollVM? CurrentEditingPoll { get; set; } = null;
     string? FocusChoiceInputId { get; set; } = string.Empty;
 
@@ -152,6 +156,10 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("elementFocus", "title-input");
+        }
         if (!firstRender)
         {
             if (CurrentEditingPoll == null)

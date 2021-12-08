@@ -6,7 +6,7 @@
 }
 
 function elementFocus(elementId) {
-    console.log(elementId);
+    console.log("focusing: " + elementId);
     document.getElementById(elementId).focus();
 }
 
