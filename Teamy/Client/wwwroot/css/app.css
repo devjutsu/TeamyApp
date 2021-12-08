@@ -663,3 +663,19 @@ textarea:focus {
 .add-poll-div {
   margin: 1rem;
 }
+.editdate-container {
+  background-color: #28292D;
+  /*position: relative;*/
+  /*height: 3rem;*/
+  border-radius: 5px;
+  border: 1px dotted lime;
+}
+.editdate-element {
+  /*position: absolute;*/
+  /*min-height: 3rem;*/
+  vertical-align: middle !important;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  border: 1px dotted orangered;
+}
