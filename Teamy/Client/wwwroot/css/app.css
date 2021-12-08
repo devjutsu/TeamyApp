@@ -112,6 +112,9 @@ a,
 .btn-outline-secondary:hover {
   background-color: #4C4E52;
 }
+.btn-nohover:hover {
+  background-color: #00000000;
+}
 .btn-secondary {
   background-color: #303137 !important;
 }
@@ -252,9 +255,11 @@ textarea:focus {
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-input[type=checkbox]:checked:after {
-  /*content: "\2714";*/
-  /*font-weight: bold;*/
+.multi-choice-lbl {
+  font-size: 14px;
+  display: block;
+  margin-left: 1rem;
+  padding-top: 2px;
 }
 .radio-container {
   margin: 0.8rem;
