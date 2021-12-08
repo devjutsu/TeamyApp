@@ -16,10 +16,10 @@
                 <div class="editdate-container">
                     @foreach (var date in EditedEvent.ProposedDates ?? new List<ProposedDateVM>())
                     {
-                        <div />
+                        <div class="d-flex editdate-element">
                         @if (EditedEvent.DateStatus == EventDateStatus.Locked && date.Date == EditedEvent.EventDate && date.DateTo == EditedEvent.EventDateTo)
                         {
-                            <div class="editdate-element t1">
+                            <div class="editdate-element">
                                 @DatePeriod(date)
                             </div>
                             <button class="btn btn-sm btn-outline-secondary d-inline btn-sm-lock" @onclick="(() => UnlockDate())" tabindex="-1">
@@ -28,20 +28,33 @@
                         }
                         else
                         {
-                            <div class="editdate-element t2">
+                            @*<div class="editdate-element d-inline t2">
                                 @DatePeriod(date)
+                                </div>*@
+
+                            <div class="d-flex flex-nowrap justify-content-between editdate-element" style="">
+                                <div class="" style="padding:.7rem 0 .7rem 0;">
+                                    @date.Date.ToString("ddd, dd MMM")
+                                </div>
+                                <div class="" style="padding:.7rem 0 .7rem 0;">
+                                    @date.Date.ToString("HH:mm") - @date.DateTo.ToString("HH:mm")
+                                </div>
                             </div>
-                            <button class="btn btn-outline-danger btn-sm" @onclick="() => RemoveDate(date)" tabindex="-1">
-                                <span class="oi oi-minus" />
-                            </button>
-                            <button class="btn btn-outline-primary btn-sm" @onclick="() => EditDate(date)" tabindex="-1">
+
+                            <button class="btn btn-outline-secondary btn-nohover btn-sm" @onclick="() => EditDate(date)" tabindex="-1"
+                                style="min-width:.5rem; padding-top:.7rem">
                                 <span class="oi oi-pencil" />
+                            </button>
+                            <button class="btn btn-outline-secondary btn-nohover btn-sm" @onclick="() => RemoveDate(date)" tabindex="-1"
+                                style="min-width:.5rem; padding-top:.7rem">
+                                <span class="oi oi-x" />
                             </button>
 
                             @*<button class="btn btn-sm btn-outline-secondary d-inline btn-sm-unlock" tabindex="-1">
                                 <span class="oi oi-lock-locked" />
                                 </button>*@
                         }
+                        </div>
                     }
                 </div>
 
