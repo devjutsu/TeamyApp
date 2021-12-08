@@ -13,31 +13,37 @@
                 </div>
 
                 <h5>Date and time</h5>
-                @foreach (var date in EditedEvent.ProposedDates ?? new List<ProposedDateVM>())
-                {
-                    <div />
-                    @if (EditedEvent.DateStatus == EventDateStatus.Locked && date.Date == EditedEvent.EventDate && date.DateTo == EditedEvent.EventDateTo)
+                <div class="editdate-container">
+                    @foreach (var date in EditedEvent.ProposedDates ?? new List<ProposedDateVM>())
                     {
-                        @DatePeriod(date)
-                        <button class="btn btn-sm btn-outline-secondary d-inline btn-sm-lock" @onclick="(() => UnlockDate())" tabindex="-1">
-                            <span class="oi oi-lock-locked" />
-                        </button>
-                    }
-                    else
-                    {
-                        <button class="btn btn-outline-danger btn-sm" @onclick="() => RemoveDate(date)" tabindex="-1">
-                            <span class="oi oi-minus" />
-                        </button>
-                        @DatePeriod(date)
-                        <button class="btn btn-outline-primary btn-sm" @onclick="() => EditDate(date)" tabindex="-1">
-                            <span class="oi oi-pencil" />
-                        </button>
+                        <div />
+                        @if (EditedEvent.DateStatus == EventDateStatus.Locked && date.Date == EditedEvent.EventDate && date.DateTo == EditedEvent.EventDateTo)
+                        {
+                            <div class="editdate-element t1">
+                                @DatePeriod(date)
+                            </div>
+                            <button class="btn btn-sm btn-outline-secondary d-inline btn-sm-lock" @onclick="(() => UnlockDate())" tabindex="-1">
+                                <span class="oi oi-lock-locked" />
+                            </button>
+                        }
+                        else
+                        {
+                            <div class="editdate-element t2">
+                                @DatePeriod(date)
+                            </div>
+                            <button class="btn btn-outline-danger btn-sm" @onclick="() => RemoveDate(date)" tabindex="-1">
+                                <span class="oi oi-minus" />
+                            </button>
+                            <button class="btn btn-outline-primary btn-sm" @onclick="() => EditDate(date)" tabindex="-1">
+                                <span class="oi oi-pencil" />
+                            </button>
 
-                        <button class="btn btn-sm btn-outline-secondary d-inline btn-sm-unlock" tabindex="-1">
-                            <span class="oi oi-lock-locked" />
-                        </button>
+                            @*<button class="btn btn-sm btn-outline-secondary d-inline btn-sm-unlock" tabindex="-1">
+                                <span class="oi oi-lock-locked" />
+                                </button>*@
+                        }
                     }
-                }
+                </div>
 
                 <div class="add-date-btn">
                     <button class="btn btn-outline-success btn-sm" @onclick="() => AddDate()" tabindex="0">
@@ -58,7 +64,7 @@
         </div>
     </div>
 
-    <h4 style="margin-top: 2rem;">Poll</h4>
+    <h4 style="margin-top: 2rem;">Polls</h4>
     <div class="row">
         @if (EditedEvent?.Polls != null && EditedEvent.Polls.Count > 0)
         {
@@ -94,9 +100,9 @@
                                     <span class="oi oi-plus small" /> &nbsp;choice
                                 </button>
 
-                                <div class="check-container" style="margin-top:.7rem; position:relative;" 
-                                        @onclick="@(() => poll.MultiChoice = !poll.MultiChoice)">
-                                    <input type="checkbox" checked=@poll.MultiChoice tabindex="0">
+                                <div class="check-container" style="margin-top:.7rem; position:relative;"
+                             @onclick="@(() => poll.MultiChoice = !poll.MultiChoice)">
+                                    <input type="checkbox" checked=@poll.MultiChoice tabindex="-1">
                                     <span class="checkmark" />
                                     <label class="multi-choice-lbl">Allow multiple choice</label>
                                 </div>
@@ -114,8 +120,10 @@
             <span class="oi oi-plus small" /> &nbsp; poll question
         </button>
     </div>
-    <p>&nbsp;</p>
-    <button class="btn btn-primary" @onclick="() => DoneEdit()" tabindex="0"> Save and Proceed <span class="oi oi-arrow-right" /></button>
+
+    <div class="d-flex justify-content-center add-poll-div">
+        <button class="btn btn-primary" @onclick="() => DoneEdit()" tabindex="0"> Save and Proceed <span class="oi oi-arrow-right" /></button>
+    </div>
 </div>
 
 @code {
