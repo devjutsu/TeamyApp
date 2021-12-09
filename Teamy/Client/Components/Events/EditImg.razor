@@ -58,7 +58,8 @@
     {
         if (DeleteConfirmation)
         {
-            var modal = Modal.Show<ConfirmModal>("Delete image", new ModalOptions { Class = "default-modal" });
+            var options = new ModalOptions { Class = "default-modal", UseCustomLayout = true };
+            var modal = Modal.Show<ConfirmModal>("Delete image", options);
             var result = await modal.Result;
 
             if (!result.Cancelled)

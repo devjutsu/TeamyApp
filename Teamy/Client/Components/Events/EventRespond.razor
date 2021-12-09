@@ -51,9 +51,10 @@ else
         {
             if(CurrentEvent.Polls.Any(o => o.Choices.Any(c => c.Answers.Any(a => a.UserId == UserId))))
             {
+                var options = new ModalOptions { Class = "default-modal", UseCustomLayout = true };
                 var parameters = new ModalParameters();
                 parameters.Add("Message", "Your votes for this event will be deleted!");
-                var messageModal = Modal.Show<ConfirmModal>("Cancel participation?", parameters, new ModalOptions() { Class = "default-modal" });
+                var messageModal = Modal.Show<ConfirmModal>("Cancel participation?", parameters, options);
                 var result = await messageModal.Result;
                 if (!result.Cancelled)
                 {
