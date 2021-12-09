@@ -30,26 +30,6 @@
 
     <div class="row">
 
-        @* <div class="d-flex justify-content-between">
-            <div>
-            @if (@CurrentEvent.DateStatus == EventDateStatus.Locked && @CurrentEvent.ProposedDates.Count == 1)
-            {
-            <div>@CurrentEvent.EventDate.Value.ToShortDateString() @CurrentEvent.EventDate.Value.ToShortTimeString() - @CurrentEvent.EventDateTo.Value.ToShortTimeString()</div>
-            }
-            else
-            {
-            <div style="margin:1rem 0 1rem 0; border: 1px dotted black; max-width: 30rem;">
-            <div style="font-weight:bold;">Date choice:</div>
-            @foreach (var date in CurrentEvent.ProposedDates)
-            {
-            <div>@date.Date.ToLongDateString()</div>
-            }
-            </div>
-            }
-            </div>
-
-            </div>*@
-
         <div class="col-md-6">
             <div class="default-block">
                 <h4>Date and time</h4>
@@ -129,39 +109,13 @@
             @foreach (var poll in CurrentEvent.Polls)
             {
                 <div class="col-md-6">
-                    @*<div class="default-block">
-                        <div style="font-weight:bold;">@poll.Question</div>
-
-                        <div style="margin:0;padding:0 1rem 1rem 1rem;">
-                            @foreach (var choice in poll.Choices)
-                            {
-                                <div>
-                                    @choice.Choice
-                                </div>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: @Percent(poll, choice)%;" aria-valuenow="@Percent(poll, choice)" aria-valuemin="0" aria-valuemax="100">
-                                        @if (ChoiceTotalVotes(choice) > 0)
-                                        {
-                                            <span>@Percent(poll, choice)% (@ChoiceTotalVotes(choice))</span>
-                                        }
-                                    </div>
-                                </div>
-
-                            }
-                        </div>
-                    </div>*@
 
                     <div class="default-block">
                         <div class="d-flex justify-content-between">
                             <h4>Poll</h4>
-                            @*@if (AlreadyVotedPoll(poll))
-                            {
-                                <button class="btn btn-link" @onclick=@(() => ResetAnswers(poll))>Reset answer</button>
-                            }*@
                         </div>
 
                         <div class="bold">@poll.Question</div>
-
 
                         @foreach (var choice in poll.Choices)
                         {
