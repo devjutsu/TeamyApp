@@ -1,4 +1,10 @@
 ﻿@inherits LayoutComponentBase
+@using Blazored.Toast.Configuration
+
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="10"
+                ShowProgressBar="true"
+                SuccessClass="success-toast-override" />
 
 <div class="page">
     <NavMenu />

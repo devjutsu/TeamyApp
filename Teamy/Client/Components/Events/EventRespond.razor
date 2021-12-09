@@ -3,10 +3,10 @@
 @if (Participation() == ParticipationStatus.NotSet)
 {
     <div class="default-block">
-        <div>Are you coming?</div>
-        <div class="form-inline">
-            <button @onclick="() => Respond(accept:true)" class="btn btn-success">Yes</button>
-            <button @onclick="() => Respond(accept:false)" class="btn btn-danger">No</button>
+        <h4>Are you coming?</h4>
+        <div class="d-flex justify-content-center participate-btns">
+            <button @onclick="() => Respond(accept:true)" class="btn btn-patcitipate-yes">Yes</button>
+            <button @onclick="() => Respond(accept:false)" class="btn btn-patcitipate-no">No</button>
         </div>
     </div>
 }
@@ -15,15 +15,19 @@ else
     @if (Participation() == ParticipationStatus.Accept)
     {
         <div class="default-block">
-            <div>You're in!</div>
-            <button class="btn btn-link" @onclick="ChangeResponse">Change response</button>
+            <h4>You're in :)</h4>
+            <div class="d-flex justify-content-center participate-btns">
+                <button class="btn btn-secondary btn-change-participation" @onclick="ChangeResponse">Change response</button>
+            </div>
         </div>
     }
     else if (Participation() == ParticipationStatus.Reject)
     {
         <div class="default-block">
-            <div>You're not going :(</div>
-            <button class="btn btn-link" @onclick="ChangeResponse">Change response</button>
+            <h4>You're not going :(</h4>
+            <div class="d-flex justify-content-center participate-btns">
+                <button class="btn btn-secondary btn-change-participation" @onclick="ChangeResponse">Change response</button>
+            </div>
         </div>
     }
 }
@@ -49,7 +53,7 @@ else
     {
         if (PrevParticipation?.FirstOrDefault(o => o.UserId == UserId)?.Status == ParticipationStatus.Accept && accept == false)
         {
-            if(CurrentEvent.Polls.Any(o => o.Choices.Any(c => c.Answers.Any(a => a.UserId == UserId))))
+            if (CurrentEvent.Polls.Any(o => o.Choices.Any(c => c.Answers.Any(a => a.UserId == UserId))))
             {
                 var options = new ModalOptions { Class = "default-modal", UseCustomLayout = true };
                 var parameters = new ModalParameters();
@@ -75,9 +79,9 @@ else
     async Task ChangeParticipation(bool accept)
     {
         var participation = await InviteService.Respond(CurrentEvent.Id.Value, accept, "", CurrentEvent.InviteCode);
-            CurrentEvent.Participants.Add(participation);
+        CurrentEvent.Participants.Add(participation);
 
-            await NavigateTo.InvokeAsync();
+        await NavigateTo.InvokeAsync();
     }
 
     void ChangeResponse()
