@@ -418,7 +418,7 @@ textarea:focus {
   margin-left: -32px;
   margin-right: -24px;
   margin-top: -17px;
-  min-height: 6rem;
+  min-height: 7rem;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -429,8 +429,8 @@ textarea:focus {
 }
 .btn-img-remove {
   right: 2rem;
-  top: 2rem;
-  background-color: #1012147A;
+  top: 1rem;
+  background-color: #1012149A;
   color: #F5F5F5;
   position: absolute !important;
   /*width: 33px;
@@ -444,7 +444,7 @@ textarea:focus {
   min-width: 0.5rem;
 }
 .btn-img-remove:hover {
-  background-color: #1012147A;
+  background-color: #1012149A;
   color: #FFFFFF;
   opacity: 1;
 }
@@ -608,10 +608,15 @@ textarea:focus {
   border: 1px solid #4AAAE8;
   text-indent: 10px;
   font-size: 42px;
-  border-width: 0 0 2px;
+  border-width: 0 0 1px;
 }
 .event-edit-title:focus {
-  border: none;
+  border: none !important;
+  border-width: 0 0 1px;
+}
+.event-edit-title:active {
+  border: none !important;
+  border-width: 0 0 1px;
 }
 .event-view-btnblock {
   position: absolute;
@@ -688,4 +693,27 @@ textarea:focus {
 .editdate-element-selected {
   background-color: #86888A;
   color: #FFFFFF;
+}
+.btn-back {
+  background-color: #1012149A !important;
+  color: #F5F5F5 !important;
+  opacity: 0.75;
+  position: absolute !important;
+  top: 3.2rem !important;
+  z-index: 100 !important;
+  font-size: 16px !important;
+}
+.btn-back:hover {
+  background-color: #1012149A !important;
+  color: #FFFFFF !important;
+  opacity: 1 !important;
+}
+.btn-xs-back {
+  background-color: #1012149A !important;
+  color: #F5F5F5 !important;
+  opacity: 0.75;
+  position: absolute !important;
+  top: 1rem !important;
+  z-index: 100 !important;
+  font-size: 16px !important;
 }
