@@ -34,15 +34,20 @@
                     </div>
                 }
             </div>
-
-
         }
     </div>
     <p>&nbsp;</p>
 }
 else
 {
-    <button class="btn btn-link" @onclick="() => GoBack()">Back</button>
+    <button class="btn btn-back d-none d-sm-block" @onclick="() => GoBack()">
+        <span class="oi oi-arrow-left" />
+        &nbsp;Back
+    </button>
+    <button class="btn btn-xs-back d-block d-sm-none" @onclick="() => GoBack()">
+        <span class="oi oi-arrow-left" />
+        &nbsp;Back
+    </button>
     <EventEdit InitialEvent=@EditingEvent DoneEditing=@Finished></EventEdit>
 }
 

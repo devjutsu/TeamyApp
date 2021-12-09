@@ -7,9 +7,9 @@
 
     @if (string.IsNullOrEmpty(ImgUrl))
     {
-        <div class="align-right" style="border: 1px dashed yellow;">
-            <h5 class="" style="padding-left:1rem;">Image</h5>
-            <InputFile OnChange="@HandleSelected" class="" />
+        <div class="d-flex justify-content-end">
+            <h5 class="float-right" style="padding:.2rem 1rem .2rem 1rem;">Image:</h5>
+            <InputFile OnChange="@HandleSelected" class="float-right" />
         </div>
     }
     else

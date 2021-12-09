@@ -1,10 +1,16 @@
 ﻿@inject IManagePolls PollService
 @inject IJSRuntime JS
 
-<div style="border: 1px dotted orange;">
+<div>
+    @if (string.IsNullOrEmpty(@EditedEvent.ImageUrl))
+    {
+        <div class="d-block d-sm-none" style="height:50px;"></div>
+    }
     <EditImg DeleteConfirmation=true ImgUrl=@EditedEvent.ImageUrl OnChange=@ImageChange />
 
-    <input class="event-edit-title" @bind-value="@EditedEvent.Title" placeholder="Event title" tabindex="0" id="title-input" />
+    <input class="event-edit-title d-none d-sm-block" @bind-value="@EditedEvent.Title" placeholder="Event title" tabindex="0" id="title-input" />
+    <input class="event-edit-title d-block d-sm-none" @bind-value="@EditedEvent.Title" placeholder="Event title" tabindex="0" id="title-input"
+           style="font-size: 22px;" />
     <div class="row">
         <div class="col-md-6">
 
@@ -77,7 +83,7 @@
         </div>
     </div>
 
-    <h4 style="margin-top: 2rem;">Polls</h4>
+    <h4 style="margin-top: 2rem; margin-left: 1rem;">Polls</h4>
     <div class="row">
         @if (EditedEvent?.Polls != null && EditedEvent.Polls.Count > 0)
         {
@@ -146,6 +152,7 @@
     public EventVM InitialEvent { get; set; }
     [Parameter]
     public EventCallback<EventVM> DoneEditing { get; set; }
+
     public EventVM EditedEvent { get; set; }
 
     string FocusClass = string.Empty;

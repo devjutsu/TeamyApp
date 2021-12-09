@@ -21,7 +21,7 @@
 @BrightBlue: #4AAAE8;
 @Yellow: #F4D35E;
 
-@HalfTransparent: #1012147A;
+@HalfTransparent: #1012149A;
 @Transparent: #00000000;
 
 
@@ -515,7 +515,7 @@ textarea:focus {
     margin-left: -32px;
     margin-right: -24px;
     margin-top: -17px;
-    min-height: 6rem;
+    min-height: 7rem;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -528,7 +528,7 @@ textarea:focus {
 
 .btn-img-remove {
     right: 2rem;
-    top: 2rem;
+    top: 1rem;
     background-color: @HalfTransparent;
     color: @LightGrey3;
     position: absolute !important;
@@ -740,11 +740,16 @@ textarea:focus {
     border: 1px solid @BrightBlue;
     text-indent: 10px;
     font-size: 42px;
-    border-width: 0 0 2px;
+    border-width: 0 0 1px;
 }
 
 .event-edit-title:focus {
-    border: none;
+    border: none !important;
+    border-width: 0 0 1px;
+}
+.event-edit-title:active {
+    border: none !important;
+    border-width: 0 0 1px;
 }
 
 .event-view-btnblock {
@@ -832,4 +837,27 @@ textarea:focus {
 .editdate-element-selected {
     background-color: @LightGrey1;
     color: @White;
+}
+.btn-back {
+    background-color: @HalfTransparent !important;
+    color: @LightGrey3 !important;
+    opacity: .75;
+    position: absolute !important;
+    top: 3.2rem !important;
+    z-index: 100 !important;
+    font-size: 16px !important;
+}
+.btn-back:hover {
+    background-color: @HalfTransparent !important;
+    color: @White !important;
+    opacity: 1 !important;
+}
+.btn-xs-back {
+    background-color: @HalfTransparent !important;
+    color: @LightGrey3 !important;
+    opacity: .75;
+    position: absolute !important;
+    top: 1rem !important;
+    z-index: 100 !important;
+    font-size: 16px !important;
 }
