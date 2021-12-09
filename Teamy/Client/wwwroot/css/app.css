@@ -683,4 +683,5 @@ textarea:focus {
 }
 .editdate-element-selected {
   background-color: #86888A;
+  color: #FFFFFF;
 }

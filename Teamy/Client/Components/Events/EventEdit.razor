@@ -25,7 +25,6 @@
                                         &nbsp;
                                     </div>
                                     <div class="" style="padding:.8rem 0 .8rem 0;">
-                                        &nbsp;
                                         @date.Date.ToString("HH:mm") - @date.DateTo.ToString("HH:mm")
                                     </div>
                                 </div>
@@ -44,7 +43,6 @@
                                         &nbsp;
                                     </div>
                                     <div class="" style="padding:.8rem 0 .8rem 0;">
-                                        &nbsp;
                                         @date.Date.ToString("HH:mm") - @date.DateTo.ToString("HH:mm")
                                     </div>
                                 </div>
@@ -172,7 +170,8 @@
 
     async Task DeleteEventVote(PollVM poll)
     {
-        var response = Modal.Show<ConfirmModal>("Delete poll", new ModalOptions() { Class = "default-modal" });
+        var options = new ModalOptions { Class = "default-modal", UseCustomLayout = true };
+        var response = Modal.Show<ConfirmModal>("Delete poll", options);
         var result = await response.Result;
         if (!result.Cancelled)
         {
@@ -330,9 +329,10 @@
 
     async Task UnlockDate()
     {
+        var options = new ModalOptions { Class = "default-modal", UseCustomLayout = true };
         var parameters = new ModalParameters();
         parameters.Add("Message", "The Date is already set, do you want to allow changing it?");
-        var response = Modal.Show<ConfirmModal>("Unlock date?", parameters, new ModalOptions() { Class = "default-modal" });
+        var response = Modal.Show<ConfirmModal>("Unlock date?", parameters, options);
         var result = await response.Result;
         if (!result.Cancelled)
         {
