@@ -609,6 +609,7 @@ textarea:focus {
   text-indent: 10px;
   font-size: 42px;
   border-width: 0 0 1px;
+  margin-top: 0.5rem;
 }
 .event-edit-title:focus {
   border: none !important;
