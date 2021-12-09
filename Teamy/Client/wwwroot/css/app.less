@@ -21,6 +21,9 @@
 @BrightBlue: #4AAAE8;
 @Yellow: #F4D35E;
 
+@HalfTransparent: #1012147A;
+@Transparent: #00000000;
+
 
 .t1 {
     background-color: #00a17a7b;
@@ -479,6 +482,7 @@ textarea:focus {
     background-position: center;
     background-size: cover;
     padding: 0rem;
+    position: relative;
 }
 
 .img-xs-viewblock {
@@ -490,6 +494,7 @@ textarea:focus {
     background-position: center;
     background-size: cover;
     padding: 0rem;
+    position: relative;
     // border: 5px solid lime;
 }
 
@@ -522,24 +527,26 @@ textarea:focus {
 }
 
 .btn-img-remove {
-    right: 1rem;
-    top: 1rem;
-    border: 0;
-    background-color: rgba(200, 200, 200, .7);
-    color: rgba(0,0,0,.8);
-    position: absolute;
-    width: 33px;
-    height: 33px;
-    padding: 6px 0px;
+    right: 2rem;
+    top: 2rem;
+    background-color: @HalfTransparent;
+    color: @LightGrey3;
+    position: absolute !important;
+    /*width: 33px;
+    height: 33px;*/
+    padding: .8rem 1rem .8rem 1rem !important;
     border-radius: 25px;
     text-align: center;
-    font-size: 12px;
+    font-size: small;
     line-height: 1.42857;
+    opacity: .75;
+    min-width: .5rem;
 }
 
 .btn-img-remove:hover {
-    background-color: rgba(200, 200, 200, 1);
-    color: black;
+    background-color: @HalfTransparent;
+    color: @White;
+    opacity: 1;
 }
 
 .progress {

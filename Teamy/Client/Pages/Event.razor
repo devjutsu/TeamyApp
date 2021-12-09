@@ -13,8 +13,8 @@
         {
             @if (Editing)
             {
-                <button class="btn btn-link" @onclick="() => GoBack()">Back</button>
                 <EventEdit InitialEvent=@EditingEvent DoneEditing=@Finished></EventEdit>
+                <button class="btn btn-link" @onclick="() => GoBack()">Back</button>
             }
             else
             {
