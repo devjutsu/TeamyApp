@@ -721,23 +721,46 @@ textarea:focus {
 .participate-btns {
   margin: 1rem;
 }
+.btn-change-participation {
+  min-width: 6rem !important;
+  padding: 1rem;
+}
+.btn-change-participation:hover {
+  background-color: #28292D !important;
+  color: #FFFFFF;
+}
 .btn-patcitipate-yes {
   background-color: #4347F3 !important;
-  color: #F5F5F5;
+  color: #D7DADA;
   margin: 0 0.5rem 0 0.5rem;
-  min-width: 4rem;
-  padding: 0.5rem;
+  min-width: 6rem !important;
+  padding: 1rem;
+  opacity: 0.8;
 }
 .btn-patcitipate-yes:hover {
   color: #FFFFFF;
+  opacity: 1;
 }
 .btn-patcitipate-no {
   background-color: #28292D !important;
   color: #D7DADA;
   margin: 0 0.5rem 0 0.5rem;
-  min-width: 4rem;
-  padding: 0.5rem;
+  min-width: 6rem !important;
+  padding: 1rem;
+  opacity: 0.8;
 }
 .btn-patcitipate-no:hover {
   color: #FFFFFF;
+  opacity: 1;
+}
+.blazored-toast-warning {
+  background-color: #4347F395 !important;
+}
+.blazored-toast-message {
+  font-size: 24px !important;
+}
+@media (max-width: 576px) {
+  .blazored-toast-message {
+    font-size: 18px !important;
+  }
 }

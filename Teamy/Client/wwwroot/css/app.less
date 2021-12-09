@@ -21,6 +21,7 @@
 @BrightBlue: #4AAAE8;
 @Yellow: #F4D35E;
 
+@SamarineTransparent: #4347F395;
 @HalfTransparent: #1012149A;
 @Transparent: #00000000;
 
@@ -881,26 +882,49 @@ textarea:focus {
     margin: 1rem;
 }
 
+.btn-change-participation {
+    min-width: 6rem !important;
+    padding: 1rem;
+}
+.btn-change-participation:hover {
+    background-color: @Dark3 !important;
+    color: @White;
+}
 .btn-patcitipate-yes {
     background-color: @Samarine !important;
-    color: @LightGrey3;
+    color: @LightGrey2;
     margin: 0 .5rem 0 .5rem;
-    min-width: 4rem;
-    padding: .5rem;
+    min-width: 6rem !important;
+    padding: 1rem;
+    opacity: .8;
 }
 
 .btn-patcitipate-yes:hover {
     color: @White;
+    opacity: 1;
 }
 
 .btn-patcitipate-no {
     background-color: @Dark3 !important;
     color: @LightGrey2;
     margin: 0 .5rem 0 .5rem;
-    min-width: 4rem;
-    padding: .5rem;
+    min-width: 6rem !important;
+    padding: 1rem;
+    opacity: .8;
 }
 
 .btn-patcitipate-no:hover {
     color: @White;
+    opacity: 1;
+}
+.blazored-toast-warning {
+    background-color: @SamarineTransparent !important;
+}
+.blazored-toast-message {
+    font-size: 24px !important;
+}
+@media (max-width: 576px) {
+    .blazored-toast-message {
+        font-size: 18px !important;
+    }
 }

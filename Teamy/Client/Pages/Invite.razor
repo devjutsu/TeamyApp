@@ -3,6 +3,7 @@
 @inject AppState AppState
 @inject IManageEvents EventService
 @inject IHttpClientFactory HttpClientFactory
+@inject IToastService toastService
 @implements IDisposable
 
 @if (CurrentEvent != null)
@@ -28,7 +29,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" style="margin-bottom:1rem;">
 
         <div class="col-md-6">
             <div class="default-block">
@@ -51,7 +52,7 @@
                         <div class="row" style="margin-top: .6rem;">
 
                             <div class="col-12 col-sm-10 col-md-12 col-lg-10 col-xl-8">
-                                <div class="datevote-progress d-flex">
+                                <div class="datevote-progress d-flex" @onclick=ToastCanNotVote >
                                     <div class="datevote-element d-flex">
                                         <div class="check-container" style="position:relative; margin-left: .5rem;">
                                             <input type="checkbox" style="margin-top:.8rem; " />
@@ -89,7 +90,7 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6 d-none d-sm-block">
             <AuthorizeView>
                 <Authorized>
                     <EventRespond CurrentEvent=@CurrentEvent UserId=@AppState.UserId NavigateTo=@GoToEvent />
@@ -119,19 +120,19 @@
 
                         @foreach (var choice in poll.Choices)
                         {
-                            <div class="d-flex poll-main">
+                            <div class="d-flex poll-main" @onclick=ToastCanNotVote>
                                 @if (poll.MultiChoice)
                                 {
-                                    <div class="check-container">
+                                    <div class="check-container" >
                                         <input type="checkbox" style="margin-top:.7rem;" />
-                                        <span class="checkmark" />
+                                        <span class="checkmark"  />
                                     </div>
                                 }
                                 else
                                 {
                                     <div class="radio-container">
                                         <input class="" type="radio" name=@poll.Question style="margin-top:.7rem;" />
-                                        <span class="radiomark"/>
+                                        <span class="radiomark" />
                                     </div>
                                 }
 
@@ -155,6 +156,17 @@
                 </div>
             }
         }
+
+        <div class="col-md-6 d-block d-sm-none">
+            <AuthorizeView>
+                <Authorized>
+                    <EventRespond CurrentEvent=@CurrentEvent UserId=@AppState.UserId NavigateTo=@GoToEvent />
+                </Authorized>
+                <NotAuthorized>
+                    <EventRespondAnon CurrentEvent=@CurrentEvent InviteCode=@InviteCode Responded=@OnResponded LatestParticipation=@AppState.LatestParticipation />
+                </NotAuthorized>
+            </AuthorizeView>
+        </div>
     </div>
 }
 
@@ -163,6 +175,9 @@
     public string InviteCode { get; set; }
 
     EventVM CurrentEvent { get; set; }
+    private ToastParameters _toastParameters;
+
+
 
     bool UserCanModifyEvent()
         => (CurrentEvent.CreatedById == AppState.UserId);
@@ -211,5 +226,13 @@
     void GoToEvent()
     {
         Nav.NavigateTo($"/event/{CurrentEvent.Id}");
+    }
+
+    void ToastCanNotVote()
+    {
+        RenderFragment message =
+            @<text>Please, <strong>Participate</strong> and <strong>Login</strong> to Vote</text>
+            ;
+        toastService.ShowToast(ToastLevel.Warning, message);
     }
 }

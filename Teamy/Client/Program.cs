@@ -1,4 +1,5 @@
 using Blazored.Modal;
+using Blazored.Toast;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -29,5 +30,6 @@ builder.Services.AddScoped<IManageChats, ChatService>();
 
 
 builder.Services.AddBlazoredModal();
+builder.Services.AddBlazoredToast();
 
 await builder.Build().RunAsync();
