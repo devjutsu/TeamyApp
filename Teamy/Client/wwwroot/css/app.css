@@ -718,3 +718,26 @@ textarea:focus {
   z-index: 100 !important;
   font-size: 16px !important;
 }
+.participate-btns {
+  margin: 1rem;
+}
+.btn-patcitipate-yes {
+  background-color: #4347F3 !important;
+  color: #F5F5F5;
+  margin: 0 0.5rem 0 0.5rem;
+  min-width: 4rem;
+  padding: 0.5rem;
+}
+.btn-patcitipate-yes:hover {
+  color: #FFFFFF;
+}
+.btn-patcitipate-no {
+  background-color: #28292D !important;
+  color: #D7DADA;
+  margin: 0 0.5rem 0 0.5rem;
+  min-width: 4rem;
+  padding: 0.5rem;
+}
+.btn-patcitipate-no:hover {
+  color: #FFFFFF;
+}
