@@ -100,6 +100,17 @@ a,
 .btn-primary {
   background-color: #4347F3 !important;
 }
+.btn-index-create {
+  background-color: #4AAAE8 !important;
+  margin-top: 1rem;
+  padding: 1rem 2rem 1rem 2rem !important;
+  min-width: 8rem !important;
+  font-size: 18px;
+  opacity: 0.8;
+}
+.btn-index-create:hover {
+  opacity: 1;
+}
 .btn-outline-primary {
   color: #4AAAE8 !important;
   opacity: 0.75;
@@ -763,4 +774,11 @@ textarea:focus {
   .blazored-toast-message {
     font-size: 18px !important;
   }
+}
+.blazored-toast-info {
+  background-color: #4AAAE8 !important;
+  color: #D7DADA !important;
+}
+.blazored-toast-info .blazored-toast-heading {
+  color: #4347F3;
 }
