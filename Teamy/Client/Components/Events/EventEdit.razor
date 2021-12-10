@@ -108,7 +108,7 @@
                             </div>
                         }
 
-                        
+
 
                     }
                 </div>
@@ -345,43 +345,22 @@
 
     async Task AddDate()
     {
-        //var parameters = new ModalParameters();
-        //parameters.Add(nameof(DateEditModal.DateTimeFrom), DateTime.Today.AddDays(1).AddHours(18));
-        //parameters.Add(nameof(DateEditModal.DateTimeTo), DateTime.Today.AddDays(1).AddHours(20));
-        //var response = Modal.Show<DateEditModal>("Add date and time", parameters, new ModalOptions() { Class = "date-edit-modal" });
-        //var result = await response.Result;
-        //if (!result.Cancelled)
-        //{
-        //    var proposed = (ProposedDateVM)result.Data;
-
-        //    if (EditedEvent.ProposedDates == null)
-        //        EditedEvent.ProposedDates = new List<ProposedDateVM>();
-
-        //    EditedEvent.ProposedDates.Add(proposed);
-        //}
-
-
-        // @! ADD
+        var date = new ProposedDateVM()
+            {
+                Date = DateTime.Today.AddDays(1).AddHours(18),
+                DateTo = DateTime.Today.AddDays(1).AddHours(20)
+            };
+        EditedEvent.ProposedDates.Add(date);
+        FocusChoiceInputId = "date-input";
+        EditingDate = date;
+        EditingDateSaved = (ProposedDateVM)date.Clone();
     }
 
     async Task EditDate(ProposedDateVM date)
     {
-        //var parameters = new ModalParameters();
-        //parameters.Add(nameof(DateEditModal.DateTimeFrom), date.Date);
-        //parameters.Add(nameof(DateEditModal.DateTimeTo), date.DateTo);
-        //var response = Modal.Show<DateEditModal>("Add date and time", parameters, new ModalOptions() { Class = "date-edit-modal" });
-        //var result = await response.Result;
-        //if (!result.Cancelled)
-        //{
-        //    var proposed = (ProposedDateVM)result.Data;
-        //    var index = EditedEvent.ProposedDates.IndexOf(date);
-        //    EditedEvent.ProposedDates[index] = proposed;
-        //}
-
         FocusChoiceInputId = "date-input";
         EditingDate = date;
         EditingDateSaved = (ProposedDateVM)date.Clone();
-        Console.WriteLine($"Editing: {date.Date.ToShortDateString()} {date.Date.ToShortTimeString()} - {date.DateTo.ToShortTimeString()}");
     }
 
     async Task UnlockDate()
@@ -425,9 +404,6 @@
 
     void CancelEditDate(ProposedDateVM date)
     {
-        Console.WriteLine("Cancel date edit");
-        Console.WriteLine($"Editing: {date.Date.ToShortDateString()} {date.Date.ToShortTimeString()} - {date.DateTo.ToShortTimeString()}");
-        Console.WriteLine($"Saved: {EditingDate.Date.ToShortDateString()} {EditingDate.Date.ToShortTimeString()} - {EditingDate.DateTo.ToShortTimeString()}");
         EditingDate = null;
         date.Date = EditingDateSaved.Date;
         date.DateTo = EditingDateSaved.DateTo;
@@ -435,7 +411,6 @@
 
     void DateEditDone()
     {
-        Console.WriteLine("Done date edit");
         EditingDate = null;
     }
 }
