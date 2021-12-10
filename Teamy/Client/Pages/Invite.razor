@@ -3,7 +3,7 @@
 @inject AppState AppState
 @inject IManageEvents EventService
 @inject IHttpClientFactory HttpClientFactory
-@inject IToastService toastService
+@inject IToastService Toast
 @implements IDisposable
 
 @if (CurrentEvent != null)
@@ -175,8 +175,6 @@
     public string InviteCode { get; set; }
 
     EventVM CurrentEvent { get; set; }
-    private ToastParameters _toastParameters;
-
 
 
     bool UserCanModifyEvent()
@@ -233,6 +231,6 @@
         RenderFragment message =
             @<text>Please, <strong>Participate</strong> and <strong>Login</strong> to Vote</text>
             ;
-        toastService.ShowToast(ToastLevel.Warning, message);
+        Toast.ShowToast(ToastLevel.Warning, message);
     }
 }

@@ -1,6 +1,7 @@
 ﻿@page "/event/{Id:guid}"
 @inject AppState AppState
 @inject IManageEvents EventService
+@inject IToastService Toast
 @implements IDisposable
 @using Microsoft.AspNetCore.SignalR.Client
 
@@ -22,7 +23,6 @@
                     &nbsp;Back
                 </button>
                 <EventEdit InitialEvent=@EditingEvent DoneEditing=@Finished></EventEdit>
-                @*<button class="btn btn-link" @onclick="() => GoBack()">Back</button>*@
             }
             else
             {
@@ -66,12 +66,7 @@
         {
             if (changedEventId == CurrentEvent.Id)
             {
-                var options = new ModalOptions { Class = "default-modal", UseCustomLayout = true };
-                var parameters = new ModalParameters();
-                parameters.Add("Message", "This event was deleted!");
-                var messageModal = Modal.Show<NotifyModal>("Information", parameters, options);
-                var result = await messageModal.Result;
-                Nav.NavigateTo("");
+                Toast.ShowInfo("Event was deleted.");
             }
         });
     }
