@@ -946,3 +946,83 @@ textarea:focus {
 .blazored-toast-info .blazored-toast-heading {
     color: @Samarine;
 }
+.datepicker-toggle {
+    /*display: inline-block;*/
+    /*position: relative;*/
+    /*width: 0px;
+    height: 0px;*/
+}
+
+.datepicker-toggle-button {
+    /*position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;*/
+}
+.datepicker-input {
+    border-radius: 4px;
+    background-color: @Dark3;
+    color: @LightGrey3;
+    min-height: 4.2rem;
+    max-width: 9rem;
+    padding-left: .5rem;
+    border: none;
+    margin-top: .2rem;
+    /*position: absolute;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+    box-sizing: border-box;*/
+    /*width: 100%;
+    height: 100%;*/
+    /*opacity: 0;*/
+}
+
+.datepicker-input::-webkit-calendar-picker-indicator {
+    background-color: @Dark3 !important;
+    color: @LightGrey3 !important;
+    /*position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;*/
+}
+.datepicker-input:active {
+    background-color: @Dark4 !important;
+}
+.datepicker-input:focus {
+    /*background-color: blue !important;*/
+    /*border: none !important;*/
+    background-color: @Dark2 !important;
+    border: 1px dotted @BrightBlue !important;
+    border-width: 0 0 1px;
+}
+.btn-datepicker-ok {
+    color: @Green;
+    max-width: 1rem !important;
+    min-width: 1rem !important;
+    opacity: .7;
+}
+.btn-datepicker-ok:hover {
+    background-color: @Transparent !important;
+    color: @Green !important;
+    opacity: 1;
+}
+
+.time-edit {
+    height: 2rem;
+    background-color: @Dark3;
+    color: @LightGrey3;
+    border-radius: 4px;
+    margin-left: .2rem;
+    padding-left: 1rem;
+    border: none !important;
+    margin-top: .2rem;
+}
+.time-edit:focus {
+    background-color: @Dark2 !important;
+}
