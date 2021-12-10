@@ -100,7 +100,7 @@ a,
 .btn-primary {
   background-color: #4347F3 !important;
 }
-.btn-index-create {
+.btn-main {
   background-color: #4AAAE8 !important;
   margin-top: 1rem;
   padding: 1rem 2rem 1rem 2rem !important;
@@ -108,7 +108,7 @@ a,
   font-size: 18px;
   opacity: 0.8;
 }
-.btn-index-create:hover {
+.btn-main:hover {
   opacity: 1;
 }
 .btn-outline-primary {
@@ -192,6 +192,13 @@ a,
 }
 .chat-input-btn {
   width: 100% !important;
+  height: 100% !important;
+  border-radius: 4px;
+  margin-left: 0.1rem;
+  opacity: 0.8;
+}
+.chat-input-btn:hover {
+  opacity: 1;
 }
 textarea {
   background-color: #323338;

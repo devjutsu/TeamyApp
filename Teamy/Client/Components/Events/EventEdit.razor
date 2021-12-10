@@ -149,7 +149,7 @@
                             {
                                 <div class="event-edit-poll-answer">
                                     <input type="text" value="@ans.Choice" class="text-input poll-input-answer" id=@ans.InputId tabindex="0"
-                               placeholder="Input answer choice" @onchange="@((e) => SetChoice(e, poll, ans))" />
+                                            placeholder="Input answer choice" @onchange="@((e) => SetChoice(e, poll, ans))" />
                                     <div class="btn-input-right">
                                         <button class="btn btn-outline-secondary btn-nohover" type="button" @onclick="() => RemoveChoice(poll, ans)" tabindex="-1">
                                             <span class="oi oi-x small" />
@@ -164,7 +164,7 @@
                                 </button>
 
                                 <div class="check-container" style="margin-top:.7rem; position:relative;"
-                             @onclick="@(() => poll.MultiChoice = !poll.MultiChoice)">
+                                            @onclick="@(() => poll.MultiChoice = !poll.MultiChoice)">
                                     <input type="checkbox" checked=@poll.MultiChoice tabindex="-1">
                                     <span class="checkmark" />
                                     <label class="multi-choice-lbl">Allow multiple choice</label>
@@ -185,7 +185,7 @@
     </div>
 
     <div class="d-flex justify-content-center add-poll-div">
-        <button class="btn btn-primary" @onclick="() => DoneEdit()" tabindex="0"> Save and Proceed <span class="oi oi-arrow-right" /></button>
+        <button class="btn btn-main" @onclick="() => DoneEdit()" tabindex="0"> Save and Proceed <span class="oi oi-arrow-right" /></button>
     </div>
 </div>
 
