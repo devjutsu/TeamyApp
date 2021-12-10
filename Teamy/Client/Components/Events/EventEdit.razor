@@ -26,7 +26,8 @@
                     {
                         @if (EditingDate == date)
                         {
-                            <div class="d-flex editdate-element">
+                            @*display*@
+                            <div class="d-flex editdate-element editdate-element-inactive">
                                 <div class="d-flex flex-nowrap justify-content-between">
                                     <div class="" style="padding:.8rem 0 .8rem 0;">
                                         @date.Date.ToString("ddd, dd MMM")
@@ -37,9 +38,9 @@
                                     </div>
                                 </div>
 
-                                <button class="btn btn-outline-secondary btn-nohover btn-sm" @onclick="() => EditDate(date)" tabindex="-1"
+                                <button class="btn btn-outline-secondary btn-nohover btn-sm" @onclick="() => CancelEditDate(date)" tabindex="-1"
                                 style="min-width:.5rem; padding-top:.5rem">
-                                    <span class="oi oi-pencil small" />
+                                    <span class="oi oi-action-undo small" />
                                 </button>
                                 <button class="btn btn-outline-secondary btn-nohover btn-sm" @onclick="() => RemoveDate(date)" tabindex="-1"
                                 style="min-width:.5rem; padding-top:.rem">
@@ -47,6 +48,7 @@
                                 </button>
                             </div>
 
+                            @*picker*@
                             <div class="d-flex">
                                 <span class="datepicker-toggle">
                                     <span class="datepicker-toggle-button"></span>
@@ -55,10 +57,10 @@
 
                                 <div>
                                     <div>
-                                        <input type="time" id="timeFrom" required class="time-edit" @bind=date.Date @bind:format="HH:mm" />
+                                        <input type="time" id="timeFrom" required class="time-edit" @bind-value=date.Date />
                                     </div>
                                     <div>
-                                        <input type="time" id="timeTo" required class="time-edit" @bind=date.DateTo @bind:format="HH:mm" />
+                                        <input type="time" id="timeTo" required class="time-edit" @bind-value=date.DateTo />
                                     </div>
                                 </div>
                                 <button class="btn btn-outline-secondary btn-datepicker-ok" @onclick="@(() => DateEditDone())"><span class="oi oi-check" /></button>
@@ -106,7 +108,7 @@
                             </div>
                         }
 
-                        
+
 
                     }
                 </div>
@@ -188,6 +190,7 @@
 </div>
 
 @code {
+
     [CascadingParameter]
     IModalService Modal { get; set; }
     [Parameter]
@@ -198,6 +201,7 @@
     public EventVM EditedEvent { get; set; }
 
     ProposedDateVM? EditingDate { get; set; }
+    ProposedDateVM? EditingDateSaved { get; set; }
 
     string FocusClass = string.Empty;
     PollVM? CurrentEditingPoll { get; set; } = null;
@@ -341,42 +345,22 @@
 
     async Task AddDate()
     {
-        //var parameters = new ModalParameters();
-        //parameters.Add(nameof(DateEditModal.DateTimeFrom), DateTime.Today.AddDays(1).AddHours(18));
-        //parameters.Add(nameof(DateEditModal.DateTimeTo), DateTime.Today.AddDays(1).AddHours(20));
-        //var response = Modal.Show<DateEditModal>("Add date and time", parameters, new ModalOptions() { Class = "date-edit-modal" });
-        //var result = await response.Result;
-        //if (!result.Cancelled)
-        //{
-        //    var proposed = (ProposedDateVM)result.Data;
-
-        //    if (EditedEvent.ProposedDates == null)
-        //        EditedEvent.ProposedDates = new List<ProposedDateVM>();
-
-        //    EditedEvent.ProposedDates.Add(proposed);
-        //}
-
-
-        // @! ADD
+        var date = new ProposedDateVM()
+            {
+                Date = DateTime.Today.AddDays(1).AddHours(18),
+                DateTo = DateTime.Today.AddDays(1).AddHours(20)
+            };
+        EditedEvent.ProposedDates.Add(date);
+        FocusChoiceInputId = "date-input";
+        EditingDate = date;
+        EditingDateSaved = (ProposedDateVM)date.Clone();
     }
 
     async Task EditDate(ProposedDateVM date)
     {
-        //var parameters = new ModalParameters();
-        //parameters.Add(nameof(DateEditModal.DateTimeFrom), date.Date);
-        //parameters.Add(nameof(DateEditModal.DateTimeTo), date.DateTo);
-        //var response = Modal.Show<DateEditModal>("Add date and time", parameters, new ModalOptions() { Class = "date-edit-modal" });
-        //var result = await response.Result;
-        //if (!result.Cancelled)
-        //{
-        //    var proposed = (ProposedDateVM)result.Data;
-        //    var index = EditedEvent.ProposedDates.IndexOf(date);
-        //    EditedEvent.ProposedDates[index] = proposed;
-        //}
-
         FocusChoiceInputId = "date-input";
         EditingDate = date;
-        Console.WriteLine($"Editing: {date.Date.ToShortDateString()} {date.Date.ToShortTimeString()} - {date.DateTo.ToShortTimeString()}");
+        EditingDateSaved = (ProposedDateVM)date.Clone();
     }
 
     async Task UnlockDate()
@@ -413,15 +397,20 @@
 
         if (poll.Choices.Last() == choice)
         {
-            Console.WriteLine("Last");
             AddChoice(poll);
             CurrentEditingPoll = poll;
         }
     }
 
+    void CancelEditDate(ProposedDateVM date)
+    {
+        EditingDate = null;
+        date.Date = EditingDateSaved.Date;
+        date.DateTo = EditingDateSaved.DateTo;
+    }
+
     void DateEditDone()
     {
-        Console.WriteLine("Done date edit");
         EditingDate = null;
     }
 }
