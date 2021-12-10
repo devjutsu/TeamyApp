@@ -79,7 +79,9 @@ else
         EditingEvent.EventDateTo = null;
         EditingEvent.ProposedDates = new List<ProposedDateVM>() {
             new ProposedDateVM() {Date = DateTime.Today.AddDays(1).AddHours(18),
-                DateTo = DateTime.Today.AddDays(1).AddHours(20)}
+                DateTo = DateTime.Today.AddDays(1).AddHours(20)},
+            new ProposedDateVM() {Date = DateTime.Today.AddDays(2).AddHours(18),
+                DateTo = DateTime.Today.AddDays(1).AddHours(20)},
         };
     }
 
