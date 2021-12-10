@@ -1,4 +1,6 @@
-﻿@inject IManagePolls PollService
+﻿@using System.Globalization
+@inject IManagePolls PollService
+@inject IToastService Toast
 @inject IJSRuntime JS
 
 <div>
@@ -48,22 +50,26 @@
                                 </button>
                             </div>
 
-                            @*picker*@
                             <div class="d-flex">
                                 <span class="datepicker-toggle">
                                     <span class="datepicker-toggle-button"></span>
-                                    <input type="date" class="datepicker-input" id="date-input" @bind=date.Date>
+                                    <input type="date" class="datepicker-input" id="date-input" value="@date.Date.ToString("yyyy-MM-dd")"
+                                   @onchange="@((e) => SetDate(date, (string)e.Value))">
                                 </span>
 
                                 <div>
                                     <div>
-                                        <input type="time" id="timeFrom" required class="time-edit" @bind-value=date.Date />
+                                        <input type="time" id="timeFrom" required class="time-edit" value="@date.Date.ToString("HH:mm")"
+                                       @onchange="@((e) => SetTime(date, (string)e.Value))" />
                                     </div>
                                     <div>
-                                        <input type="time" id="timeTo" required class="time-edit" @bind-value=date.DateTo />
+                                        <input type="time" id="timeTo" required class="time-edit" value="@date.DateTo.ToString("HH:mm")"
+                                       @onchange="@((e) => SetTimeTo(date, (string)e.Value))" />
                                     </div>
                                 </div>
-                                <button class="btn btn-outline-secondary btn-datepicker-ok" @onclick="@(() => DateEditDone())"><span class="oi oi-check" /></button>
+                                <button class="btn btn-outline-secondary btn-datepicker-ok" @onclick="@(() => DateEditDone())">
+                                    <span class="oi oi-check" />
+                                </button>
                             </div>
                         }
                         else if (EditedEvent.DateStatus == EventDateStatus.Locked && date.Date == EditedEvent.EventDate && date.DateTo == EditedEvent.EventDateTo)
@@ -149,7 +155,7 @@
                             {
                                 <div class="event-edit-poll-answer">
                                     <input type="text" value="@ans.Choice" class="text-input poll-input-answer" id=@ans.InputId tabindex="0"
-                                            placeholder="Input answer choice" @onchange="@((e) => SetChoice(e, poll, ans))" />
+                               placeholder="Input answer choice" @onchange="@((e) => SetChoice(e, poll, ans))" />
                                     <div class="btn-input-right">
                                         <button class="btn btn-outline-secondary btn-nohover" type="button" @onclick="() => RemoveChoice(poll, ans)" tabindex="-1">
                                             <span class="oi oi-x small" />
@@ -164,7 +170,7 @@
                                 </button>
 
                                 <div class="check-container" style="margin-top:.7rem; position:relative;"
-                                            @onclick="@(() => poll.MultiChoice = !poll.MultiChoice)">
+                             @onclick="@(() => poll.MultiChoice = !poll.MultiChoice)">
                                     <input type="checkbox" checked=@poll.MultiChoice tabindex="-1">
                                     <span class="checkmark" />
                                     <label class="multi-choice-lbl">Allow multiple choice</label>
@@ -412,5 +418,40 @@
     void DateEditDone()
     {
         EditingDate = null;
+    }
+
+    void SetDate(ProposedDateVM date, string s)
+    {
+        var newDate = DateTime.ParseExact(s, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+        date.Date = newDate.Date.AddHours(date.Date.Hour).AddMinutes(date.Date.Minute);
+    }
+
+    void SetTime(ProposedDateVM date, string s)
+    {
+        var delta = (date.DateTo - date.Date);
+        var newTime = DateTime.ParseExact(s, "HH:mm:ss", CultureInfo.InvariantCulture);
+        date.Date = date.Date.Date.AddHours(newTime.Hour).AddMinutes(newTime.Minute);
+
+        date.DateTo = date.Date + delta;
+    }
+
+    void SetTimeTo(ProposedDateVM date, string s)
+    {
+        var newTime = DateTime.ParseExact(s, "HH:mm:ss", CultureInfo.InvariantCulture);
+        var newFullDate = date.Date.Date.AddHours(newTime.Hour).AddMinutes(newTime.Minute);
+        date.DateTo = date.Date.Date.AddHours(date.DateTo.Hour).AddMinutes(date.DateTo.Minute);
+
+        if (newFullDate > date.DateTo)
+        {
+            Console.WriteLine("good date");
+            Console.WriteLine($"{date.DateTo.ToShortDateString()} {date.DateTo.ToShortTimeString()}");
+            Console.WriteLine($"{newFullDate.ToShortDateString()} {newFullDate.ToShortTimeString()}");
+            date.DateTo = newFullDate;
+        }
+        else
+        {
+            Toast.ShowWarning("Time till not valid.");
+            date.DateTo = date.DateTo.AddHours(1);
+        }
     }
 }
