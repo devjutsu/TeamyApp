@@ -7,6 +7,7 @@ using Teamy.Shared.ViewModels;
 using Teamy.Shared.Common;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json;
+using Microsoft.JSInterop;
 
 namespace Teamy.Client.Services
 {
@@ -21,12 +22,14 @@ namespace Teamy.Client.Services
         HttpClient Http { get; set; }
         AppState AppState { get; set; }
         NavigationManager Nav { get; set; }
+        IJSRuntime JS { get; set; }
 
-        public InviteService(IHttpClientFactory httpClientFactory, HttpClient http, AppState appState, NavigationManager nav)
+        public InviteService(IHttpClientFactory httpClientFactory, HttpClient http, AppState appState, NavigationManager nav, IJSRuntime js)
         {
             AppState = appState;
             Http = AppState.IsLoggedIn ? http : httpClientFactory.CreateClient("public");
             Nav = nav;
+            JS = js;
         }
 
         public async Task<ParticipationVM> Respond(Guid eventId, bool accept, string participantName, string inviteCode)
@@ -47,6 +50,8 @@ namespace Teamy.Client.Services
                 var id = JsonSerializer.Deserialize<Guid>(content);
                 participation.Id = id;
             }
+            AppState.SetInvite(null, null);
+            await JS.InvokeAsync<object>("WriteCookie.WriteCookie", "participationEventId", participation.EventId, DateTime.Now.AddMinutes(600));
             return participation;
         }
 
@@ -67,7 +72,7 @@ namespace Teamy.Client.Services
                 var id = JsonSerializer.Deserialize<Guid>(content);
                 participation.Id = id;
             }
-
+            await JS.InvokeAsync<object>("WriteCookie.WriteCookie", "participationEventId", participation.EventId, DateTime.Now.AddMinutes(600));
             return participation;
         }
     }

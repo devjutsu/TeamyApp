@@ -2,9 +2,9 @@
 
 @if (Participation() == ParticipationStatus.NotSet)
 {
-    <div class="default-block">
+    <div class="default-block invite-participation-block">
         <h4>Are you coming?</h4>
-        <div class="d-flex justify-content-center participate-btns">
+        <div class="d-flex justify-content-center participate-btns invite-participation-inside">
             <button @onclick="() => Respond(accept:true)" class="btn btn-patcitipate-yes">Yes</button>
             <button @onclick="() => Respond(accept:false)" class="btn btn-patcitipate-no">No</button>
         </div>
@@ -14,18 +14,18 @@ else
 {
     @if (Participation() == ParticipationStatus.Accept)
     {
-        <div class="default-block">
+        <div class="default-block invite-participation-block">
             <h4>You're in :)</h4>
-            <div class="d-flex justify-content-center participate-btns">
+            <div class="d-flex justify-content-center participate-btns invite-participation-inside">
                 <button class="btn btn-secondary btn-change-participation" @onclick="ChangeResponse">Change response</button>
             </div>
         </div>
     }
     else if (Participation() == ParticipationStatus.Reject)
     {
-        <div class="default-block">
+        <div class="default-block invite-participation-block">
             <h4>You're not going :(</h4>
-            <div class="d-flex justify-content-center participate-btns">
+            <div class="d-flex justify-content-center participate-btns invite-participation-inside">
                 <button class="btn btn-secondary btn-change-participation" @onclick="ChangeResponse">Change response</button>
             </div>
         </div>

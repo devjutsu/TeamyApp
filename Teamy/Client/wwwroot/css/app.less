@@ -120,9 +120,13 @@ a, .btn-link {
     text-decoration: none;
 }
 
-.a, .btn-link:hover {
-    color: @BrightBlue;
-    opacity: 1;
+a:hover {
+    color: @BrightBlue !important;
+    opacity: 1 !important;
+}
+.btn-link:hover {
+    color: @BrightBlue !important;
+    opacity: 1 !important;
 }
 
 .oi-person {
@@ -158,6 +162,7 @@ a, .btn-link {
 }
 .btn-main:hover {
     opacity: 1;
+    color: @White !important;
 }
 .btn-outline-primary {
     color: @BrightBlue !important;
@@ -1011,4 +1016,13 @@ textarea:focus {
 }
 .time-edit:focus {
     background-color: @Dark2 !important;
+}
+.invite-participation-block {
+    min-height: 12rem;
+}
+.invite-participation-inside {
+    margin-top: 2rem;
+}
+.invite-participation-login {
+    margin-top:4rem;
 }
