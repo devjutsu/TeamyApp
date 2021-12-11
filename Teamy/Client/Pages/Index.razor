@@ -7,7 +7,20 @@
 
 <AuthorizeView>
     <NotAuthorized>
-        <RedirectToLogin />
+
+
+        @if (AppState.Invite != null)
+        {
+            <h2>You are invited to:</h2>
+            <div @onclick="GoToInvite">
+                <EventCard Evt=AppState.Invite />
+            </div>
+        }
+        else
+        {
+            <h2>You currently have no events</h2>
+            <a href="/create" class="btn btn-main"><span class="oi oi-plus" style="font-size:16px;" />&nbsp;&nbsp;&nbsp;Create one</a>
+        }
     </NotAuthorized>
     <Authorized>
         @if (AppState.StoredEvents != null && AppState.StoredEvents.Count > 0)
@@ -19,7 +32,7 @@
                     @foreach (var evt in AppState.FutureEvents)
                     {
                         <div @onclick="() => GoEvent(evt)" class="col-md-6">
-                            <EventCard Evt="@evt"></EventCard>
+                            <EventCard Evt="@evt" />
                         </div>
                     }
                 </div>
@@ -32,7 +45,7 @@
                     @foreach (var evt in AppState.PastEvents)
                     {
                         <div @onclick="() => GoEvent(evt)" class="col-md-6">
-                            <EventCard Evt="@evt"></EventCard>
+                            <EventCard Evt="@evt" />
                         </div>
                     }
                 </div>
@@ -73,5 +86,10 @@
     void GoEvent(EventVM e)
     {
         Nav.NavigateTo($"/event/{e.Id}");
+    }
+
+    void GoToInvite()
+    {
+        Nav.NavigateTo($"{Nav.BaseUri}i/{AppState.Invite.InviteCode}");
     }
 }

@@ -67,6 +67,7 @@ namespace Teamy.Client.Services
                 var id = JsonSerializer.Deserialize<Guid>(content);
                 participation.Id = id;
             }
+
             return participation;
         }
     }
