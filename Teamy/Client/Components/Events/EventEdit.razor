@@ -297,39 +297,23 @@
 
         if (string.IsNullOrWhiteSpace(EditedEvent.Title))
         {
-            var options = new ModalOptions { Class = "default-modal", UseCustomLayout = true };
-            var parameters = new ModalParameters();
-            parameters.Add("Message", "Please, input non-empty event title.");
-            var response = Modal.Show<NotifyModal>("Information", parameters, options);
-            var result = await response.Result;
+            Toast.ShowWarning("Please, input non-empty event title.");
             return;
         }
         if (EditedEvent.Polls?.Any(o => string.IsNullOrEmpty(o.Question)) ?? false)
         {
-            var options = new ModalOptions { Class = "default-modal", UseCustomLayout = true };
-            var parameters = new ModalParameters();
-            parameters.Add("Message", "Please, input non-empty poll question.");
-            var response = Modal.Show<NotifyModal>("Information", parameters, options);
-            var result = await response.Result;
+            Toast.ShowWarning("Please, input non-empty poll question.");
             return;
         }
         else if (EditedEvent.Polls?.Any(o => BadPollChoices(o)) ?? false)
         {
-            var options = new ModalOptions { Class = "default-modal", UseCustomLayout = true };
-            var parameters = new ModalParameters();
-            parameters.Add("Message", "Polls should have 2 or more non-empty choices.");
-            var response = Modal.Show<NotifyModal>("Information", parameters, options);
-            var result = await response.Result;
+            Toast.ShowWarning("Polls should have 2 or more non-empty choices.");
             return;
         }
 
         if (EditedEvent.ProposedDates.Count == 0)
         {
-            var options = new ModalOptions { Class = "default-modal", UseCustomLayout = true };
-            var parameters = new ModalParameters();
-            parameters.Add("Message", "Please, add at least one Date proposition for your event");
-            var response = Modal.Show<NotifyModal>("Information", parameters, options);
-            var result = await response.Result;
+            Toast.ShowWarning("Please, add at least one Date for your event.");
             return;
         }
 
