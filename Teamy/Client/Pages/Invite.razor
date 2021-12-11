@@ -101,7 +101,7 @@
             </AuthorizeView>
         </div>
 
-        @if (CurrentEvent.Polls != null)
+        @if (CurrentEvent.Polls != null && CurrentEvent.Polls.Count > 0)
         {
             <div style="margin-left: 1rem; margin-top: 2rem;">
                 <h4>Event has polls:</h4>
@@ -183,7 +183,10 @@
     protected override async Task OnInitializedAsync()
     {
         CurrentEvent = await EventService.Invited(InviteCode);
-        Console.WriteLine($"init: {CurrentEvent.ProposedDates.Count()}");
+        if(CurrentEvent != null)
+        {
+            AppState.SetInvite(this, CurrentEvent);
+        }
     }
 
     int Percent(PollVM poll, PollChoiceVM choice)
@@ -217,7 +220,6 @@
 
     void OnResponded(ParticipationVM participation)
     {
-        Console.WriteLine($"Responded: {participation.InviteCode} {participation.Name} {participation.Status.ToString()}");
         AppState.SetParticipation(this, participation);
     }
 
