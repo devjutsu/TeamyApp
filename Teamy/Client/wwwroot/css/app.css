@@ -107,6 +107,7 @@ a,
   min-width: 8rem !important;
   font-size: 18px;
   opacity: 0.8;
+  color: #FFFFFF !important;
 }
 .btn-main:hover {
   opacity: 1;
