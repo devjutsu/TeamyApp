@@ -26,6 +26,9 @@
 @Transparent: #00000000;
 
 
+.t0 {
+    background-color: #fcff007b;
+}
 .t1 {
     background-color: #00a17a7b;
 }
@@ -768,9 +771,14 @@ textarea:focus {
     height: 3.5rem;
     border: 1px solid @BrightBlue;
     text-indent: 10px;
-    font-size: 42px;
+    font-size: 34px !important;
     border-width: 0 0 1px;
     margin-top: .5rem;
+}
+@media (max-width: 576px) {
+    .event-edit-title {
+        font-size: 24px !important;
+    }
 }
 
 .event-edit-title:focus {
@@ -970,7 +978,7 @@ textarea:focus {
 }
 .datepicker-input {
     border-radius: 4px;
-    background-color: @Dark3;
+    background-color: @Dark4;
     color: @LightGrey3;
     min-height: 4.2rem;
     max-width: 12rem;
@@ -982,11 +990,11 @@ textarea:focus {
 }
 
 .datepicker-input::-webkit-calendar-picker-indicator {
-    background-color: @Dark3 !important;
+    background-color: @Dark4 !important;
     color: @LightGrey3 !important;
 }
 .datepicker-input:active {
-    background-color: @Dark4 !important;
+    background-color: @Dark5 !important;
 }
 .datepicker-input:focus {
     background-color: @Dark2 !important;
@@ -995,7 +1003,6 @@ textarea:focus {
 }
 .btn-datepicker-ok {
     color: @Green;
-    min-width: 1rem !important;
     opacity: .7;
 }
 .btn-datepicker-ok:hover {
@@ -1003,10 +1010,26 @@ textarea:focus {
     color: @Green !important;
     opacity: 1;
 }
+.btn-datepicker-cancel {
+    color: @BrightBlue;
+    opacity: .7;
+}
+.btn-datepicker-cancel:hover {
+    color: @BrightBlue;
+    opacity: 1;
+}
+.btn-datepicker-delete {
+    color: @LightGrey3;
+    opacity: .7;
+}
+.btn-datepicker-delete:hover {
+    color: @LightGrey3;
+    opacity: 1;
+}
 
 .time-edit {
     height: 2rem;
-    background-color: @Dark3;
+    background-color: @Dark4;
     color: @LightGrey3;
     border-radius: 4px;
     margin-left: .2rem;

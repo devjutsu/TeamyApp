@@ -40,14 +40,7 @@
                                     </div>
                                 </div>
 
-                                <button class="btn btn-outline-secondary btn-nohover btn-sm" @onclick="() => CancelEditDate(date)" tabindex="-1"
-                                style="min-width:.5rem; padding-top:.5rem">
-                                    <span class="oi oi-action-undo small" />
-                                </button>
-                                <button class="btn btn-outline-secondary btn-nohover btn-sm" @onclick="() => RemoveDate(date)" tabindex="-1"
-                                style="min-width:.5rem; padding-top:.rem">
-                                    <span class="oi oi-x small" />
-                                </button>
+
                             </div>
 
                             <div class="d-flex">
@@ -67,7 +60,18 @@
                                        @onchange="@((e) => SetTimeTo(date, (string)e.Value))" />
                                     </div>
                                 </div>
-                                <button class="btn btn-outline-secondary btn-datepicker-ok" @onclick="@(() => DateEditDone())">
+
+                            </div>
+
+                            <div class="">
+                                <button class="btn btn-datepicker-cancel" @onclick="() => CancelEditDate(date)">
+                                    <span class="oi oi-x small action-undo" />
+                                </button>
+                                <button class="btn btn-datepicker-delete" @onclick="() => RemoveDate(date)">
+                                    <span class="oi oi-trash small" />
+                                </button>
+
+                                <button class="btn btn-datepicker-ok" @onclick="@(() => DateEditDone())">
                                     <span class="oi oi-check" />
                                 </button>
                             </div>
@@ -108,8 +112,8 @@
                                     <span class="oi oi-pencil small" />
                                 </button>
                                 <button class="btn btn-outline-secondary btn-nohover btn-sm" @onclick="() => RemoveDate(date)" tabindex="-1"
-                                style="min-width:.5rem; padding-top:.rem">
-                                    <span class="oi oi-x small" />
+                                style="min-width:.5rem; padding-top:.5rem">
+                                    <span class="oi oi-trash small" />
                                 </button>
                             </div>
                         }
