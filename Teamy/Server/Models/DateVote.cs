@@ -7,6 +7,7 @@ namespace Teamy.Server.Models
     {
         public Guid Id { get; set; }
         public string UserId { get; set; }
+        public AppUser User { get; set; }
         public Guid ProposedDateId { get; set; }
         public ProposedDate ProposedDate { get; set; }
     }
@@ -17,6 +18,7 @@ namespace Teamy.Server.Models
         {
             builder.HasIndex(o => o.Id);
             builder.HasIndex(o => o.UserId);
+            builder.HasOne(o => o.User).WithMany().OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }
