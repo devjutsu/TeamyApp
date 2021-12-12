@@ -389,7 +389,10 @@ textarea:focus {
   align-items: center;
   justify-content: center;
   margin: 0.1rem;
-  font-weight: bold;
+}
+.user-date-voted {
+  background-color: #4347F395;
+  color: #D7DADA;
 }
 .user-profile {
   background-color: #c8c8c8;
