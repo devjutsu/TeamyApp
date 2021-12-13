@@ -70,6 +70,7 @@ namespace Teamy.Server.Controllers
                                     .ThenInclude(_ => _.Choices)
                                     .ThenInclude(_ => _.Answers)
                                     .Include(_ => _.CoverImage)
+                                    .Include(_ => _.ProposedDates)
                                     .First(_ => _.Id == eventVM.Id);
 
                 var newEvent = _mapper.Map<Event>(eventVM);
@@ -81,7 +82,16 @@ namespace Teamy.Server.Controllers
                         existingEvent.CoverImage = new ImageModel() { Url = eventVM.ImageUrl };
                 }
                 existingEvent.Polls = newEvent.Polls;
+
+                foreach (var date in newEvent.ProposedDates)
+                {
+                    foreach (var vote in date.Votes)
+                    {
+                        vote.User = null;
+                    }
+                }
                 existingEvent.ProposedDates = newEvent.ProposedDates;
+
                 existingEvent.Title = eventVM.Title;
                 existingEvent.Description = eventVM.Description;
                 existingEvent.EventDate = eventVM.EventDate;
@@ -93,6 +103,7 @@ namespace Teamy.Server.Controllers
                 _db.ProposedDates.RemoveRange(existingProposedDates);
 
                 var e = _db.Events.Update(existingEvent);
+                //_db.ChangeTracker.Entries<AppUser>().ToList().ForEach(p => p.State = EntityState.Unchanged);
                 await _db.SaveChangesAsync();
                 await _hub.EventUpdated(e.Entity.Id);
                 return Ok($"{e.Entity.Id}");
@@ -119,6 +130,7 @@ namespace Teamy.Server.Controllers
                                 .Include(_ => _.CreatedBy)
                                 .Include(_ => _.ProposedDates)
                                 .ThenInclude(_ => _.Votes)
+                                .ThenInclude(_ => _.User)
                                 .Where(_ => _.CreatedById == currentUserId || _.Participants.Any(p => p.UserId == currentUserId))
                                 .OrderBy(_ => _.EventDate)
                                 .ToList();
@@ -148,6 +160,7 @@ namespace Teamy.Server.Controllers
                                 .Include(_ => _.CreatedBy)
                                 .Include(_ => _.ProposedDates)
                                 .ThenInclude(_ => _.Votes)
+                                .ThenInclude(_ => _.User)
                                 .Where(_ => _.CreatedById == currentUserId || _.Participants.Any(p => p.UserId == currentUserId))
                                 .FirstAsync(o => o.Id == id);
 
