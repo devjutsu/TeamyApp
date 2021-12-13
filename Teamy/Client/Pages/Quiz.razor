@@ -1,0 +1,25 @@
+﻿@page "/q/{Code}"
+
+<h3>Quiz</h3>
+
+@if (CurrentQuiz == null)
+{
+    <div>Incorrect code</div>
+}
+else
+{
+    <div>@Code</div>
+}
+
+@code {
+    [Parameter]
+    public string Code { get; set; }
+
+    public QuizVM CurrentQuiz {get; set;}
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(Code.Length == 6)
+            CurrentQuiz = new QuizVM();
+    }
+}
