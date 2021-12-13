@@ -105,13 +105,11 @@
 
                         @if (UserCanModifyEvent())
                         {
-                            @*<div class="datevote-lock">*@
-                                <button class="btn btn-sm btn-outline-secondary datevote-lock-btn" @onclick="(() => LockDate(date))"><span class="oi oi-lock-unlocked" /></button>
-                            @*</div>*@
+                            <button class="btn btn-sm btn-outline-secondary datevote-lock-btn" @onclick="(() => LockDate(date))"><span class="oi oi-lock-unlocked" /></button>
                         }
                         @foreach (var vote in date.Votes)
                         {
-                            <span class="user-circle user-date-voted" title="@vote.Name">@vote.Name.First()</span>
+                            <span class="user-circle user-date-voted" title="@vote.Name">@vote.Name?.First()</span>
                         }
                     }
                 }
