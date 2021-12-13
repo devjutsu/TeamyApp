@@ -532,11 +532,6 @@ textarea:focus {
 .datevote-element-selected {
   background-color: #4C4E52;
 }
-.datevote-lock {
-  height: 3rem;
-  margin-top: 0.1rem;
-  border-radius: 5px;
-}
 .datevote-lock-btn {
   background-color: #28292D;
   height: 3rem;
