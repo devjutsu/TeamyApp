@@ -109,10 +109,13 @@
                                     </div>
                                 </div>
 
-                                <button class="btn btn-outline-secondary btn-nohover btn-sm" @onclick="() => EditDate(date)" tabindex="-1"
-                                style="min-width:.5rem; padding-top:-.5rem">
-                                    <span class="oi oi-pencil small" />
-                                </button>
+                                @if (date.Votes == null || date.Votes.Count == 0)
+                                {
+                                    <button class="btn btn-outline-secondary btn-nohover btn-sm" @onclick="() => EditDate(date)" tabindex="-1"
+                                        style="min-width:.5rem; padding-top:-.5rem">
+                                        <span class="oi oi-pencil small" />
+                                    </button>
+                                }
                                 <button class="btn btn-outline-secondary btn-nohover btn-sm" @onclick="() => RemoveDate(date)" tabindex="-1"
                                 style="min-width:.5rem; padding-top:-.5rem">
                                     <span class="oi oi-trash small" />
