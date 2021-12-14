@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Teamy.Shared.Common;
 
 namespace Teamy.Shared.ViewModels
 {
@@ -18,18 +19,8 @@ namespace Teamy.Shared.ViewModels
         public Guid Id { get; set; }
         public int OrderNumber { get; set; }
         public string Question { get; set; }
-
-        public QuestionType Type { get; set; }
-
+        public QuizQuestionType Type { get; set; }
         public string Answer { get; set; }
-    }
-
-    public enum QuestionType
-    {
-        SingleSelect,
-        MultiSelect,
-        Grade,
-        FreeText,
     }
 
     public class QuizAnswerPostVM
