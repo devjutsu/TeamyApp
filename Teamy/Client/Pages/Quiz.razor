@@ -1,4 +1,5 @@
 ﻿@page "/q/{Code}"
+@inject IManageQuiz QuizService
 
 <h3>Quiz</h3>
 
@@ -15,11 +16,15 @@ else
     [Parameter]
     public string Code { get; set; }
 
-    public QuizVM CurrentQuiz {get; set;}
+    public QuizVM CurrentQuiz { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        if(Code.Length == 6)
-            CurrentQuiz = new QuizVM();
+        CurrentQuiz = await QuizService.Get(Code);
+
+
+        await QuizService.Post(new QuizAnswerPostVM());
+
+        await QuizService.Submit(Code);
     }
 }

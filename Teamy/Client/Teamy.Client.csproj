@@ -38,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Components\Quiz\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
