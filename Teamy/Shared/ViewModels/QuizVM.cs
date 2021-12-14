@@ -26,7 +26,7 @@ namespace Teamy.Shared.ViewModels
         FreeText,
     }
 
-    public class AnswerVM
+    public class AnswerOptionVM
     {
         public string Answer { get; set; }
     }
