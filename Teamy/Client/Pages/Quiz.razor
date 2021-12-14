@@ -23,7 +23,7 @@ else
         CurrentQuiz = await QuizService.Get(Code);
 
 
-        await QuizService.Post(new QuizAnswerPostVM());
+        await QuizService.Post(new QuizAnswerVM());
 
         await QuizService.Submit(Code);
     }

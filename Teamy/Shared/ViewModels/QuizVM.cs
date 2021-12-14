@@ -10,23 +10,29 @@ namespace Teamy.Shared.ViewModels
     public class QuizVM
     {
         public Guid Id { get; set; }
-        public List<QuestionVM> Questions { get; set; }
+        public List<QuizQuestionVM> Questions { get; set; }
         public string? UserId { get; set; }
     }
 
-    public class QuestionVM
+    public class QuizQuestionVM
     {
         public Guid Id { get; set; }
-        public int OrderNumber { get; set; }
         public string Question { get; set; }
+        public int OrderNumber { get; set; }
         public QuizQuestionType Type { get; set; }
-        public string Answer { get; set; }
     }
 
-    public class QuizAnswerPostVM
+    public class QuizChoiceVM
+    {
+        public Guid Id { get; set; }
+        public string Choice { get; set; }
+    }
+
+    public class QuizAnswerVM
     {
         public Guid QuizQuestionId { get; set; }
-        public string? Answer { get; set; }
+        public string Answer { get; set; }
         public string QCode { get; set; }
+        public string UserId { get; set; }
     }
 }

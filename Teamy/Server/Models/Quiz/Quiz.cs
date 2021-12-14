@@ -1,13 +1,7 @@
 ﻿using Teamy.Shared.Common;
 
-namespace Teamy.Server.Models
+namespace Teamy.Server.Models.Quiz
 {
-    public class QCode
-    {
-        public string Id { get; set; }
-        public Guid QuizId { get; set; }
-    }
-
     public class Quiz
     {
         public Guid Id { get; set; }
@@ -21,17 +15,18 @@ namespace Teamy.Server.Models
         public Guid QuizId { get; set; }
         public virtual Quiz Quiz { get; set; }
         public string Question { get; set; }
-        public virtual List<QuizChoice> Choices { get; set;}
+        public int OrderNumber { get; set; }
+        public QuizQuestionType Type { get; set; }
+        public virtual List<QuizChoice> Choices { get; set; }
         public virtual List<QuizAnswer> Answers { get; set; }
-        
     }
 
     public class QuizChoice
     {
         public Guid Id { get; set; }
-        public QuizQuestionType Type { get; set; }
         public Guid QuizQuestionId { get; set; }
         public virtual QuizQuestion Question { get; set; }
+        public string Choice { get; set; }
     }
 
     public class QuizAnswer
@@ -46,9 +41,16 @@ namespace Teamy.Server.Models
     public class QuizCompletion
     {
         public Guid Id { get; set; }
-        public Guid QuizId { get; set; }
+        public Guid QuizId { get; set; } // index
         public virtual Quiz Quiz { get; set; }
-        public short Status { get; set; }
-        public string? UserId { get; set; }
+        public QuizCompletionStatus Status { get; set; }
+        public string? UserId { get; set; } // index
+    }
+
+    public enum QuizCompletionStatus
+    {
+        Entered,
+        Answered,
+        Submitted
     }
 }
