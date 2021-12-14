@@ -12,7 +12,7 @@ namespace Teamy.Client.Services
     public interface IManageQuiz
     {
         Task<QuizVM> Get(string qCode);
-        Task<bool> Post(QuizAnswerPostVM answer);
+        Task<bool> Post(QuizAnswerVM answer);
         Task<bool> Submit(string qCode, string? userId = null);
     }
 
@@ -45,9 +45,9 @@ namespace Teamy.Client.Services
             return quiz;
         }
 
-        public async Task<bool> Post(QuizAnswerPostVM answer)
+        public async Task<bool> Post(QuizAnswerVM answer)
         {
-            var result = await Http.PostAsJsonAsync<QuizAnswerPostVM>("Quiz/PostAnswer", answer);
+            var result = await Http.PostAsJsonAsync<QuizAnswerVM>("Quiz/PostAnswer", answer);
             return result.IsSuccessStatusCode;
         }
 
