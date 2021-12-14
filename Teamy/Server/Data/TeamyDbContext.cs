@@ -29,6 +29,9 @@ namespace Teamy.Server.Data
 
         public DbSet<ChatMessage> Chat { get; set; }
 
+        public DbSet<Quiz> Quiz { get; set; }
+        public DbSet<QCode> QCodes { get; set; }
+
         public TeamyDbContext(
             DbContextOptions options,
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)

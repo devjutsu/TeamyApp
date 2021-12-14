@@ -30,6 +30,8 @@ namespace Teamy.Server.Controllers
         [HttpPost("Get")]
         public async Task<QuizVM> Get([FromBody] string qCode)
         {
+            
+
             return new QuizVM();
         }
 
