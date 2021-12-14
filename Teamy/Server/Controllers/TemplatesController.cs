@@ -14,10 +14,10 @@ namespace Teamy.Server.Controllers
     [Route("[controller]")]
     public class TemplatesController : ControllerBase
     {
-        ILogger<EventsController> _logger { get; set; }
+        ILogger<TemplatesController> _logger { get; set; }
         TeamyDbContext _db { get; set; }
         private readonly IMapper _mapper;
-        public TemplatesController(ILogger<EventsController> logger,
+        public TemplatesController(ILogger<TemplatesController> logger,
                                     TeamyDbContext db,
                                     IMapper mapper)
         {

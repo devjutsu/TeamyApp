@@ -11,7 +11,6 @@ namespace Teamy.Shared.ViewModels
         public Guid Id { get; set; }
         public List<QuestionVM> Questions { get; set; }
         public string? UserId { get; set; }
-        public string QCode { get; set; }
     }
 
     public class QuestionVM
@@ -33,9 +32,10 @@ namespace Teamy.Shared.ViewModels
         FreeText,
     }
 
-    public class QuizAnswerVM
+    public class QuizAnswerPostVM
     {
         public Guid QuizQuestionId { get; set; }
         public string? Answer { get; set; }
+        public string QCode { get; set; }
     }
 }
