@@ -66,10 +66,6 @@ namespace Teamy.Server.Controllers
             {
                 if (string.IsNullOrEmpty(request.UserId))
                 {
-                    // @! Create anonymous user
-                    // and return Id with VM
-                    // to save in cookies or local storage
-
                     // HttpContext.Session.SetInt32("userid", userid);
                     // int? id = HttpContext.Session.GetInt32("userid");
 
