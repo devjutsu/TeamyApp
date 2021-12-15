@@ -8,6 +8,7 @@ using Teamy.Server.Data;
 using Teamy.Server.Models;
 using Teamy.Server.Models.Quiz;
 using Teamy.Shared.ViewModels;
+using Teamy.Shared.Common;
 
 namespace Teamy.Server.Controllers
 {
@@ -61,42 +62,76 @@ namespace Teamy.Server.Controllers
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if(currentUserId == null)
+            if (currentUserId == null)
             {
                 // @! Create anonymous user
                 // and return Id with VM
                 // to save in cookies or local storage
+
+                // HttpContext.Session.SetInt32("userid", userid);
+                // int? id = HttpContext.Session.GetInt32("userid");
             }
 
-            var codeQuiz = await _db.QCodes.FirstAsync();
+            var codeQuiz = await _db.QCodes.FindAsync(qCode);
             var quiz = await _db.Quiz
                                     .Include(_ => _.Questions)
                                     .ThenInclude(_ => _.Choices)
+                                    .Include(_ => _.Questions)
+                                    .ThenInclude(_ => _.Answers.Where(z => z.UserId == currentUserId))
                                     .FirstAsync(o => o.Id == codeQuiz.QuizId);
-            var vm = _mapper.Map<Quiz, QuizVM>(quiz);
 
+            var completion = await _db.QuizCompletions.Where(_ => _.QuizId == codeQuiz.QuizId
+                                && _.UserId == currentUserId).FirstOrDefaultAsync();
+            if (completion == null)
+            {
+                await _db.QuizCompletions.AddAsync(new QuizCompletion()
+                {
+                    Status = QuizCompletionStatus.Entered,
+                    UserId = currentUserId,
+                    QuizId = quiz.Id
+                });
+            }
+
+            var vm = _mapper.Map<Quiz, QuizVM>(quiz);
             return vm;
         }
 
         [AllowAnonymous]
         [HttpPost("PostAnswer")]
-        public async Task<IActionResult> Post(QuizAnswerVM answer)
+        public async Task<IActionResult> PostAnswer(QuizAnswerVM answer)
         {
-            var model = _mapper.Map<QuizAnswerVM, QuizAnswer>(answer);
-            _db.QuizAnswers.Add(model);
+            var answerModel = _mapper.Map<QuizAnswerVM, QuizAnswer>(answer);
 
-            var codeQuiz = await _db.QCodes.FindAsync(answer.QCode);
-            if (codeQuiz == null)
-                return BadRequest();
+            var question = await _db.QuizQuestions.FindAsync(answer.QuizQuestionId);
 
-            var completion = await _db.QuizCompletions.Where(_ => _.QuizId == codeQuiz.QuizId
-                                && _.UserId == answer.UserId).FirstAsync();
-            if(completion.Status == QuizCompletionStatus.Entered)
+            switch (question.Type)
             {
-                completion.Status = QuizCompletionStatus.Answered;
-                _db.QuizCompletions.Update(completion);
-            }    
-            
+                case QuizElementType.MultiSelectQuestion:
+                    var myAnswerToDelete = await _db.QuizAnswers
+                                                .Where(o => o.Id == answer.Id && o.UserId == answer.UserId)
+                                                .FirstOrDefaultAsync();
+                    if (myAnswerToDelete != null)
+                        _db.QuizAnswers.Remove(myAnswerToDelete);
+                    else
+                        _db.QuizAnswers.Add(answerModel);
+                    break;
+
+                case QuizElementType.SingleSelectQuestion:
+                case QuizElementType.GradeQuestion:
+                case QuizElementType.FreeTextQuestion:
+                    var myAnswers = await _db.QuizAnswers
+                                            .Include(_ => _.Answer)
+                                            .Where(_ => _.QuizQuestionId == answer.QuizQuestionId && _.UserId == answer.UserId)
+                                            .ToListAsync();
+                    _db.QuizAnswers.RemoveRange(myAnswers);
+                    _db.QuizAnswers.Add(answerModel);
+                    break;
+
+                default:
+                    // no action
+                    break;
+            }
+
             await _db.SaveChangesAsync();
             return Ok();
         }

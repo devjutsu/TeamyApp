@@ -19,7 +19,7 @@ namespace Teamy.Shared.ViewModels
         public Guid Id { get; set; }
         public string Question { get; set; }
         public int OrderNumber { get; set; }
-        public QuizQuestionType Type { get; set; }
+        public QuizElementType Type { get; set; }
     }
 
     public class QuizChoiceVM
@@ -30,8 +30,9 @@ namespace Teamy.Shared.ViewModels
 
     public class QuizAnswerVM
     {
-        public Guid QuizQuestionId { get; set; }
+        public Guid? Id { get; set; }
         public string Answer { get; set; }
+        public Guid QuizQuestionId { get; set; }
         public string QCode { get; set; }
         public string UserId { get; set; }
     }
