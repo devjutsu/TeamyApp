@@ -1,4 +1,4 @@
-﻿@page "/q/{Code}"
+﻿@page "/q/{QCode}"
 @inject IManageQuiz QuizService
 
 <h3>Quiz</h3>
@@ -9,22 +9,22 @@
 }
 else
 {
-    <div>@Code</div>
+    <div>@QCode</div>
 }
 
 @code {
     [Parameter]
-    public string Code { get; set; }
+    public string QCode { get; set; }
 
     public QuizVM CurrentQuiz { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        CurrentQuiz = await QuizService.Get(Code);
+        CurrentQuiz = await QuizService.Get(QCode);
 
 
         await QuizService.Post(new QuizAnswerVM());
 
-        await QuizService.Submit(Code);
+        await QuizService.Submit(QCode);
     }
 }

@@ -15,8 +15,8 @@ namespace Teamy.Server.Models.Quiz
         public Guid QuizId { get; set; }
         public virtual Quiz Quiz { get; set; }
         public string Question { get; set; }
-        public int OrderNumber { get; set; }
-        public QuizQuestionType Type { get; set; }
+        public int Order { get; set; }
+        public QuizElementType Type { get; set; }
         public virtual List<QuizChoice> Choices { get; set; }
         public virtual List<QuizAnswer> Answers { get; set; }
     }
@@ -50,7 +50,6 @@ namespace Teamy.Server.Models.Quiz
     public enum QuizCompletionStatus
     {
         Entered,
-        Answered,
         Submitted
     }
 }
