@@ -7,9 +7,9 @@
 
     @if (string.IsNullOrEmpty(ImgUrl))
     {
-        <div class="d-flex justify-content-end">
-            <h5 class="float-right" style="padding:.2rem 1rem .2rem 1rem;">Image:</h5>
-            <InputFile OnChange="@HandleSelected" class="float-right" />
+        <div class="dropArea">
+            Drag and drop your image here
+            <InputFile OnChange="@HandleSelected" class="align-middle" />
         </div>
     }
     else
