@@ -28,7 +28,7 @@ namespace Teamy.Server.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost("Get")]
+        [HttpPost("Create")]
         public async Task<IActionResult> Create(QuizVM quiz)
         {
             var newQuiz = _mapper.Map<QuizVM, Quiz>(quiz);
@@ -39,7 +39,7 @@ namespace Teamy.Server.Controllers
             return Ok();
         }
 
-        [HttpPost("Get")]
+        [HttpPost("Update")]
         public async Task<IActionResult> Update(QuizVM quiz)
         {
             var existingQuiz = await _db.Quiz.FindAsync(quiz.Id);
@@ -58,41 +58,73 @@ namespace Teamy.Server.Controllers
 
         [AllowAnonymous]
         [HttpPost("Get")]
-        public async Task<QuizVM> Get([FromBody] string qCode)
+        public async Task<QuizVM> Get(QuizCodeVM request)
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (currentUserId == null)
             {
-                // @! Create anonymous user
-                // and return Id with VM
-                // to save in cookies or local storage
-
-                // HttpContext.Session.SetInt32("userid", userid);
-                // int? id = HttpContext.Session.GetInt32("userid");
-            }
-
-            var codeQuiz = await _db.QCodes.FindAsync(qCode);
-            var quiz = await _db.Quiz
-                                    .Include(_ => _.Questions)
-                                    .ThenInclude(_ => _.Choices)
-                                    .Include(_ => _.Questions)
-                                    .ThenInclude(_ => _.Answers.Where(z => z.UserId == currentUserId))
-                                    .FirstAsync(o => o.Id == codeQuiz.QuizId);
-
-            var completion = await _db.QuizCompletions.Where(_ => _.QuizId == codeQuiz.QuizId
-                                && _.UserId == currentUserId).FirstOrDefaultAsync();
-            if (completion == null)
-            {
-                await _db.QuizCompletions.AddAsync(new QuizCompletion()
+                if (string.IsNullOrEmpty(request.UserId))
                 {
-                    Status = QuizCompletionStatus.Entered,
-                    UserId = currentUserId,
-                    QuizId = quiz.Id
-                });
+                    // @! Create anonymous user
+                    // and return Id with VM
+                    // to save in cookies or local storage
+
+                    // HttpContext.Session.SetInt32("userid", userid);
+                    // int? id = HttpContext.Session.GetInt32("userid");
+
+                    var user = await _db.Users.AddAsync(new AppUser()
+                    {
+                        DisplayName = "anonymous"
+                    });
+                    currentUserId = user.Entity.Id;
+                    await _db.SaveChangesAsync();
+                }
+                else
+                {
+                    currentUserId = request.UserId;
+                }
             }
 
-            var vm = _mapper.Map<Quiz, QuizVM>(quiz);
+            //var codeQuiz = await _db.QCodes.FindAsync(request.QCode);
+            //var quiz = await _db.Quiz
+            //                        .Include(_ => _.Questions)
+            //                        .ThenInclude(_ => _.Choices)
+            //                        .Include(_ => _.Questions)
+            //                        .ThenInclude(_ => _.Answers.Where(z => z.UserId == currentUserId))
+            //                        .FirstAsync(o => o.Id == codeQuiz.QuizId);
+
+            //var completion = await _db.QuizCompletions.Where(_ => _.QuizId == codeQuiz.QuizId
+            //                    && _.UserId == currentUserId).FirstOrDefaultAsync();
+            //if (completion == null)
+            //{
+            //    await _db.QuizCompletions.AddAsync(new QuizCompletion()
+            //    {
+            //        Status = QuizCompletionStatus.Entered,
+            //        UserId = currentUserId,
+            //        QuizId = quiz.Id
+            //    });
+            //}
+
+            // var vm = _mapper.Map<Quiz, QuizVM>(quiz);
+
+            var vm = new QuizVM()
+            {
+                UserId = currentUserId,
+                Questions = new List<QuizQuestionVM>()
+                {
+                    new QuizQuestionVM()
+                    {
+                        Question = "Test",
+                        OrderNumber = 5,
+                        Type = QuizElementType.MultiSelectQuestion,
+                        Choices = new List<QuizChoiceVM>() {
+                            new QuizChoiceVM() {Choice = "Hello, World!"},
+                            new QuizChoiceVM() {Choice = "Абыр, абыр!"}
+                        }
+                    }
+                }
+            };
             return vm;
         }
 

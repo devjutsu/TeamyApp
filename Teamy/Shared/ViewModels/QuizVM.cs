@@ -20,6 +20,7 @@ namespace Teamy.Shared.ViewModels
         public string Question { get; set; }
         public int OrderNumber { get; set; }
         public QuizElementType Type { get; set; }
+        public List<QuizChoiceVM> Choices { get; set; }
     }
 
     public class QuizChoiceVM
@@ -35,5 +36,11 @@ namespace Teamy.Shared.ViewModels
         public Guid QuizQuestionId { get; set; }
         public string QCode { get; set; }
         public string UserId { get; set; }
+    }
+
+    public class QuizCodeVM
+    {
+        public string QCode { get; set; }
+        public string? UserId { get; set; }
     }
 }
