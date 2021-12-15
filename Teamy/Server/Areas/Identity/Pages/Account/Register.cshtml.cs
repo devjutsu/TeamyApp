@@ -38,7 +38,7 @@ namespace Teamy.Server.Areas.Identity.Pages.Account
             IUserStore<AppUser> userStore,
             SignInManager<AppUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender, 
+            IEmailSender emailSender,
             TeamyDbContext db)
         {
             _userManager = userManager;
@@ -125,15 +125,36 @@ namespace Teamy.Server.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
+
+            //Http.HttpContext.Request.Cookies.TryGetValue("userId", out string? cookieUserId);
+
+            HttpContext.Request.Cookies.TryGetValue("userId", out string? cookieUserId);
+
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
-                user.DisplayName = Input.DisplayName;
+                var user = _db.Users.FirstOrDefault(u => u.Id == cookieUserId) ?? null;
+                IdentityResult result = null;
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                if (user != null)
+                {
+                    user.DisplayName = Input.DisplayName;
+
+                    await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                    await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                    result = await _userManager.UpdateAsync(user);
+                    await _userManager.AddPasswordAsync(user, Input.Password);
+                }
+                else
+                {
+                    user = CreateUser();
+
+                    user.DisplayName = Input.DisplayName;
+
+                    await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                    await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                    result = await _userManager.CreateAsync(user, Input.Password);
+                }
 
                 if (result.Succeeded)
                 {

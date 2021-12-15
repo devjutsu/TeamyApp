@@ -91,6 +91,8 @@ builder.Services.AddSignalR();
 builder.Services.AddSingleton<IChatHub, ChatHub>();
 builder.Services.AddSingleton<IVoteHub, VoteHub>();
 
+//builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
