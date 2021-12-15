@@ -7,6 +7,8 @@ namespace Teamy.Server.Models.Quiz
         public Guid Id { get; set; }
         public virtual List<QuizQuestion> Questions { get; set; }
         public virtual List<QuizCompletion> Completions { get; set; }
+        public string CreatorId {get; set;}
+        public virtual AppUser Creator { get; set; }
     }
 
     public class QuizQuestion
