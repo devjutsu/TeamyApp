@@ -11,7 +11,7 @@ namespace Teamy.Client.Services
 {
     public interface IManageQuiz
     {
-        Task<QuizVM> Get(string qCode);
+        Task<QuizVM> Get(QuizCodeVM request);
         Task<bool> Post(QuizAnswerVM answer);
         Task<bool> Submit(string qCode, string? userId = null);
     }
@@ -32,13 +32,13 @@ namespace Teamy.Client.Services
             Nav = nav;
         }
 
-        public async Task<QuizVM> Get(string qCode)
+        public async Task<QuizVM> Get(QuizCodeVM request)
         {
-            //var result = await Http.GetFromJsonAsync<QuizVM>(Nav.BaseUri.ToString() + $"Quiz/{qCode}");
-
+            
             var uri = Nav.BaseUri + $"Quiz/Get";
 
-            var result = await Http.PostAsJsonAsync(uri, qCode);
+            var result = await Http.PostAsJsonAsync(uri, request);
+            
             var content = await result.Content.ReadAsStringAsync();
 
             var quiz = JsonSerializer.Deserialize<QuizVM>(content, new JsonSerializerOptions(JsonSerializerDefaults.Web));

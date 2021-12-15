@@ -1,5 +1,8 @@
 ﻿@page "/q/{QCode}"
 @inject IManageQuiz QuizService
+@inject AppState AppState
+@inject IJSRuntime JS;
+@implements IDisposable
 
 <h3>Quiz</h3>
 
@@ -9,7 +12,14 @@
 }
 else
 {
-    <div>@QCode</div>
+    @foreach(var question in CurrentQuiz.Questions)
+    {
+        <div><strong>@question.Question</strong></div>
+        foreach(var choice in question.Choices)
+        {
+            <div>@choice.Choice</div>
+        }
+    }
 }
 
 @code {
@@ -20,11 +30,36 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        CurrentQuiz = await QuizService.Get(QCode);
+        var request = new QuizCodeVM()
+            {
+                QCode = this.QCode,
+                UserId = AppState.UserId ?? await JS.InvokeAsync<string>("ReadCookie.ReadCookie", "userId")
+                // @! for MAUI, go away from Cookies
+            };
+        CurrentQuiz = await QuizService.Get(request);
 
+        if(!AppState.IsLoggedIn)
+        {
+            await JS.InvokeAsync<object>("WriteCookie.WriteCookie", "userId", CurrentQuiz.UserId, DateTime.Now.AddYears(1));
+        }
 
         await QuizService.Post(new QuizAnswerVM());
 
         await QuizService.Submit(QCode);
+    }
+
+    protected override void OnInitialized()
+    {
+        AppState.Statechanged += async (Source, Property) => await AppState_StateChanged(Source, Property);
+    }
+
+    private async Task AppState_StateChanged(ComponentBase source, string Property)
+    {
+        if (source != this) await InvokeAsync(StateHasChanged);
+    }
+
+    void IDisposable.Dispose()
+    {
+        AppState.Statechanged -= async (Source, Property) => await AppState_StateChanged(Source, Property);
     }
 }
