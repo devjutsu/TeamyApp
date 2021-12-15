@@ -28,6 +28,17 @@ namespace Teamy.Server.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet]
+        public async Task<List<QuizVM>> Quizes()
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var quizes = _db.Quiz.Where(_ => _.CreatorId == currentUserId);
+
+            var vms = _mapper.Map<List<QuizVM>>(quizes);
+            return vms;
+        }
+
         [HttpPost("Create")]
         public async Task<IActionResult> Create(QuizVM quiz)
         {
