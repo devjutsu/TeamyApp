@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Teamy.Server.Models;
+using Teamy.Server.Models.Quiz;
 
 namespace Teamy.Server.Data
 {
@@ -28,6 +29,13 @@ namespace Teamy.Server.Data
         public DbSet<DateVote> DateVotes { get; set; }
 
         public DbSet<ChatMessage> Chat { get; set; }
+
+        public DbSet<Quiz> Quiz { get; set; }
+        public DbSet<QCode> QCodes { get; set; }
+        public DbSet<QuizQuestion> QuizQuestions { get; set; }
+        public DbSet<QuizChoice> QuizChoices { get; set; }
+        public DbSet<QuizAnswer> QuizAnswers { get; set; }
+        public DbSet<QuizCompletion> QuizCompletions { get; set; }
 
         public TeamyDbContext(
             DbContextOptions options,

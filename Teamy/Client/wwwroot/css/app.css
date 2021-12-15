@@ -887,6 +887,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .selectable {
   cursor: pointer;
 }
+
 .dropArea {
     border: 2px dashed gray;
     padding: 50px;
@@ -915,4 +916,38 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 .dropAreaDrug {
     background-color: darkcyan;
+
+.btn-main-register {
+  background-color: #4AAAE8 !important;
+  margin: 1rem;
+  padding: 1rem 2rem 1rem 2rem !important;
+  min-width: 8rem !important;
+  font-size: 20px;
+  opacity: 0.8;
+  color: #FFFFFF !important;
+}
+.btn-main-register:hover {
+  opacity: 1;
+  color: #FFFFFF !important;
+}
+.btn-main-login {
+  background-color: #4347F3 !important;
+  margin: 1rem;
+  padding: 1rem 2rem 1rem 2rem !important;
+  min-width: 8rem !important;
+  font-size: 20px;
+  opacity: 0.8;
+  color: #FFFFFF !important;
+}
+.btn-main-login:hover {
+  opacity: 1;
+  color: #FFFFFF !important;
+}
+.index-intro {
+  padding: 3rem 3rem 1rem 5rem;
+}
+@media (max-width: 768px) {
+  .index-intro {
+    padding: 1rem;
+  }
 }

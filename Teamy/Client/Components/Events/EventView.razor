@@ -136,10 +136,6 @@
                     <div class="default-block">
                         <div class="d-flex justify-content-between">
                             <h4>Poll</h4>
-                            @*@if (AlreadyVotedPoll(poll))
-                                {
-                                <button class="btn btn-link" @onclick=@(() => ResetAnswers(poll))>Reset answer</button>
-                                }*@
                         </div>
 
                         <div class="bold">@poll.Question</div>

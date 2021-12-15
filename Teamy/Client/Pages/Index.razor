@@ -18,11 +18,11 @@
         }
         else
         {
-            <h2>You currently have no events</h2>
-            <a href="/create" class="btn btn-main"><span class="oi oi-plus" style="font-size:16px;" />&nbsp;&nbsp;&nbsp;Create one</a>
+            <Intro />
 
-            <div style="margin: 3rem 1rem 3rem 1rem;">
-               <a href="#" @onclick="NavigateToLogin">Login</a> or <a href="#" @onclick="NavigateToRegistration">Register</a>
+            <div class="index-login-block d-flex justify-content-center">
+                <a href="#" @onclick="NavigateToLogin" class="btn btn-main-login">Login</a>
+                <a href="#" @onclick="NavigateToRegistration" class="btn btn-main-register">Register</a>
             </div>
         }
     </NotAuthorized>
@@ -65,8 +65,12 @@
         }
         else
         {
-            <h2>You currently have no events</h2>
-            <a href="/create" class="btn btn-main"><span class="oi oi-plus" style="font-size:16px;" />&nbsp;&nbsp;&nbsp;Create one</a>
+            <Intro />
+
+            <div class="index-intro">
+                <h2>You currently have no events</h2>
+                <a href="/create" class="btn btn-main"><span class="oi oi-plus" style="font-size:16px;" />&nbsp;&nbsp;&nbsp;Create one</a>
+            </div>
         }
         <p>&nbsp;</p>
     </Authorized>
