@@ -1,5 +1,22 @@
 ﻿@page "/qm"
+@inject IManageQuiz QuizService
 
+@if(MyQuizes == null)
+{
+    <div>No quizes</div>
+}
+else
+{
+    @foreach(var quiz in MyQuizes)
+    {
+        <h4>@quiz.Id</h4>
+        @foreach(var question in quiz.Questions)
+        {
+            <div>@question.Question</div>
+        }
+        <div>&nbsp;</div>
+    }
+}
 
 
 @code {
@@ -7,6 +24,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        
+        MyQuizes = await QuizService.List();
     }
 }
