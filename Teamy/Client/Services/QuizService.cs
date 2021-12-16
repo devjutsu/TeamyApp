@@ -14,6 +14,7 @@ namespace Teamy.Client.Services
         Task<QuizVM> Get(QuizCodeVM request);
         Task<bool> Post(QuizAnswerVM answer);
         Task<bool> Submit(string qCode, string? userId = null);
+        Task<List<QuizVM>> List();
     }
 
     public class QuizService : IManageQuiz
@@ -55,6 +56,11 @@ namespace Teamy.Client.Services
         {
             var result = await Http.PostAsJsonAsync<string>($"Quiz/Submit/{qCode}", userId ?? "");
             return result.IsSuccessStatusCode;
+        }
+
+        public async Task<List<QuizVM>> List()
+        {
+            return await Http.GetFromJsonAsync<List<QuizVM>>(Nav.BaseUri.ToString() + "Quiz/List");
         }
     }
 }

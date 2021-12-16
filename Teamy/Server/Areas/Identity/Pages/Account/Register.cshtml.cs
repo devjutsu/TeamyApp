@@ -126,9 +126,12 @@ namespace Teamy.Server.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
 
-            //Http.HttpContext.Request.Cookies.TryGetValue("userId", out string? cookieUserId);
-
-            HttpContext.Request.Cookies.TryGetValue("userId", out string? cookieUserId);
+            HttpContext.Request.Cookies.TryGetValue("userId", out string cookieUserId);
+            if(cookieUserId != null)
+            {
+                HttpContext.Response.Cookies.Delete(cookieUserId);
+                HttpContext.Response.Cookies.Append("userId", cookieUserId, new CookieOptions() { Expires = DateTime.Now.AddYears(-1) });
+            }
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
@@ -136,7 +139,7 @@ namespace Teamy.Server.Areas.Identity.Pages.Account
                 var user = _db.Users.FirstOrDefault(u => u.Id == cookieUserId) ?? null;
                 IdentityResult result = null;
 
-                if (user != null)
+                if (user != null && user.UserName == null && user.PasswordHash == null)
                 {
                     user.DisplayName = Input.DisplayName;
 
