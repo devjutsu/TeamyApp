@@ -33,9 +33,13 @@ namespace Teamy.Server.Controllers
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            var quizes = await _db.Quiz.Where(_ => _.CreatorId == currentUserId).ToListAsync();
+            var quizes = await _db.Quiz
+                                    .Include(_ => _.Questions)
+                                    .ThenInclude(_ => _.Choices)
+                                    .Where(_ => _.CreatorId == currentUserId)
+                                    .ToListAsync();
 
-            var vms = _mapper.Map<List<QuizVM>>(quizes);
+            var vms = _mapper.Map<List<Quiz>, List<QuizVM>>(quizes);
             return vms;
         }
 

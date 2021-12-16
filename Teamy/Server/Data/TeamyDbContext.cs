@@ -77,5 +77,43 @@ namespace Teamy.Server.Data
 
             builder.ApplyConfiguration(new ChatMessageConfiguration());
         }
+
+        public override int SaveChanges()
+        {
+            SetProperties();
+            return base.SaveChanges();
+        }
+
+        public sealed override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            SetProperties();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            SetProperties();
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        private void SetProperties()
+        {
+            foreach (var entity in ChangeTracker.Entries().Where(p => p.State == EntityState.Added))
+            {
+                var created = entity.Entity as IDateCreated;
+                if (created != null)
+                {
+                    created.DateCreated = DateTime.Now;
+                }
+            }
+
+            foreach (var entity in ChangeTracker.Entries().Where(p => p.State == EntityState.Modified))
+            {
+                var updated = entity.Entity as IDateUpdated;
+                if (updated != null)
+                {
+                    updated.DateUpdated = DateTime.Now;
+                }
+            }
+        }
     }
 }
