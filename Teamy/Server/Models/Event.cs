@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Teamy.Shared.Common;
+using Teamy.Server.Models.Polls;
 
 namespace Teamy.Server.Models
 {

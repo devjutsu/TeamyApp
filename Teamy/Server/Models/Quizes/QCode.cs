@@ -1,4 +1,4 @@
-﻿namespace Teamy.Server.Models.Quiz
+﻿namespace Teamy.Server.Models.Quizes
 {
     public class QCode
     {

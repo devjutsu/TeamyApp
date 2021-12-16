@@ -1,4 +1,5 @@
 ﻿using Teamy.Server.Models;
+using Teamy.Server.Models.Polls;
 using Teamy.Shared.Common;
 
 namespace Teamy.Server.Data.Seed

@@ -1,4 +1,5 @@
 ﻿using Teamy.Server.Models;
+using Teamy.Server.Models.Templates;
 
 namespace Teamy.Server.Data.Seed
 {

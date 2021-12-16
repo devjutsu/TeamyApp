@@ -1,6 +1,6 @@
 ﻿using Teamy.Shared.Common;
 
-namespace Teamy.Server.Models.Quiz
+namespace Teamy.Server.Models.Quizes
 {
     public class Quiz
     {

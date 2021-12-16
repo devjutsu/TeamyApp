@@ -1,9 +1,10 @@
 ﻿using System;
 using AutoMapper;
 using Teamy.Server.Models;
-using Teamy.Server.Models.Quiz;
+using Teamy.Server.Models.Quizes;
+using Teamy.Server.Models.Polls;
+using Teamy.Server.Models.Templates;
 using Teamy.Shared.ViewModels;
-using Tmy = Teamy.Server.Models;
 
 namespace Teamy.Server.Data
 {
@@ -29,7 +30,7 @@ namespace Teamy.Server.Data
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.User.DisplayName))
                 .ReverseMap();
 
-            CreateMap<Tmy.Event, EventVM>()
+            CreateMap<Event, EventVM>()
                 .ForMember(dest => dest.Polls, opt => opt.MapFrom(src => src.Polls))
                 .ForMember(dest => dest.Participants, opt => opt.MapFrom(src => src.Participants))
                 .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.CoverImage.Url))
@@ -56,7 +57,7 @@ namespace Teamy.Server.Data
             CreateMap<TemplatePollChoice, PollChoice>()
                 .ForMember(dest => dest.Choice, opt => opt.MapFrom(src => src.Choice));
 
-            CreateMap<Template, Tmy.Event>()
+            CreateMap<Template, Event>()
                 .ForMember(dest => dest.Polls, opt => opt.MapFrom(src => src.Polls));
 
             CreateMap<ProposedDate, ProposedDateVM>()

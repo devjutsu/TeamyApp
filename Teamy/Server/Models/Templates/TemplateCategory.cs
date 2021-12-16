@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Teamy.Server.Models
+namespace Teamy.Server.Models.Templates
 {
     public class TemplateCategory
     {
