@@ -77,9 +77,6 @@ namespace Teamy.Server.Controllers
             {
                 if (string.IsNullOrEmpty(request.UserId))
                 {
-                    // HttpContext.Session.SetInt32("userid", userid);
-                    // int? id = HttpContext.Session.GetInt32("userid");
-
                     var user = await _db.Users.AddAsync(new AppUser()
                     {
                         DisplayName = "anonymous"
@@ -93,45 +90,28 @@ namespace Teamy.Server.Controllers
                 }
             }
 
-            //var codeQuiz = await _db.QCodes.FindAsync(request.QCode);
-            //var quiz = await _db.Quiz
-            //                        .Include(_ => _.Questions)
-            //                        .ThenInclude(_ => _.Choices)
-            //                        .Include(_ => _.Questions)
-            //                        .ThenInclude(_ => _.Answers.Where(z => z.UserId == currentUserId))
-            //                        .FirstAsync(o => o.Id == codeQuiz.QuizId);
+            var codeQuiz = await _db.QCodes.FindAsync(request.QCode);
+            var quiz = await _db.Quiz
+                                    .Include(_ => _.Questions)
+                                    .ThenInclude(_ => _.Choices)
+                                    .Include(_ => _.Questions)
+                                    .ThenInclude(_ => _.Answers.Where(z => z.UserId == currentUserId))
+                                    .FirstAsync(o => o.Id == codeQuiz.QuizId);
 
-            //var completion = await _db.QuizCompletions.Where(_ => _.QuizId == codeQuiz.QuizId
-            //                    && _.UserId == currentUserId).FirstOrDefaultAsync();
-            //if (completion == null)
-            //{
-            //    await _db.QuizCompletions.AddAsync(new QuizCompletion()
-            //    {
-            //        Status = QuizCompletionStatus.Entered,
-            //        UserId = currentUserId,
-            //        QuizId = quiz.Id
-            //    });
-            //}
-
-            // var vm = _mapper.Map<Quiz, QuizVM>(quiz);
-
-            var vm = new QuizVM()
+            var completion = await _db.QuizCompletions.Where(_ => _.QuizId == codeQuiz.QuizId
+                                && _.UserId == currentUserId).FirstOrDefaultAsync();
+            if (completion == null)
             {
-                UserId = currentUserId,
-                Questions = new List<QuizQuestionVM>()
+                await _db.QuizCompletions.AddAsync(new QuizCompletion()
                 {
-                    new QuizQuestionVM()
-                    {
-                        Question = "Test",
-                        OrderNumber = 5,
-                        Type = QuizElementType.MultiSelectQuestion,
-                        Choices = new List<QuizChoiceVM>() {
-                            new QuizChoiceVM() {Choice = "Hello, World!"},
-                            new QuizChoiceVM() {Choice = "Абыр, абыр!"}
-                        }
-                    }
-                }
-            };
+                    Status = QuizCompletionStatus.Entered,
+                    UserId = currentUserId,
+                    QuizId = quiz.Id
+                });
+            }
+
+            var vm = _mapper.Map<Quiz, QuizVM>(quiz);
+            vm.UserId = currentUserId;
             return vm;
         }
 

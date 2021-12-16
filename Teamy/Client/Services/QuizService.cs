@@ -35,15 +35,11 @@ namespace Teamy.Client.Services
 
         public async Task<QuizVM> Get(QuizCodeVM request)
         {
-            
             var uri = Nav.BaseUri + $"Quiz/Get";
-
             var result = await Http.PostAsJsonAsync(uri, request);
-            
             var content = await result.Content.ReadAsStringAsync();
 
-            var quiz = JsonSerializer.Deserialize<QuizVM>(content, new JsonSerializerOptions(JsonSerializerDefaults.Web));
-            return quiz;
+            return JsonSerializer.Deserialize<QuizVM>(content, new JsonSerializerOptions(JsonSerializerDefaults.Web));
         }
 
         public async Task<bool> Post(QuizAnswerVM answer)

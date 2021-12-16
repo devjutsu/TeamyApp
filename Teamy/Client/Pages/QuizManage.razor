@@ -9,7 +9,8 @@ else
 {
     @foreach(var quiz in MyQuizes)
     {
-        <h4>@quiz.Id</h4>
+        <h4>@quiz.Title</h4>
+        <div>&nbsp;</div>
         @foreach(var question in quiz.Questions)
         {
             <div>@question.Question</div>
@@ -17,7 +18,6 @@ else
         <div>&nbsp;</div>
     }
 }
-
 
 @code {
     List<QuizVM> MyQuizes { get; set; }
