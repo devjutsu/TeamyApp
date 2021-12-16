@@ -42,6 +42,11 @@ namespace Teamy.Server.Data
                 new TemplateSeed(db).Seed();
             }
 
+            if(!db.Quiz.Any())
+            {
+                new QuizSeed(db).Seed();
+            }
+
             db.SaveChanges();
         }
     }

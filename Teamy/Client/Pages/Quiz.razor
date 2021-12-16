@@ -4,21 +4,23 @@
 @inject IJSRuntime JS;
 @implements IDisposable
 
-<h3>Quiz</h3>
-
 @if (CurrentQuiz == null)
 {
     <div>Incorrect code</div>
 }
 else
 {
-    @foreach(var question in CurrentQuiz.Questions)
+    <h4>@CurrentQuiz.Title</h4>
+    <div>&nbsp;</div>
+
+    @foreach (var question in CurrentQuiz.Questions)
     {
         <div><strong>@question.Question</strong></div>
-        foreach(var choice in question.Choices)
+        foreach (var choice in question.Choices)
         {
             <div>@choice.Choice</div>
         }
+        <div>&nbsp;</div>
     }
 }
 
@@ -36,16 +38,18 @@ else
                 UserId = AppState.UserId ?? await JS.InvokeAsync<string>("ReadCookie.ReadCookie", "userId")
                 // @! for MAUI, go away from Cookies
             };
+            Console.WriteLine($"Got new UserId: {request.UserId}");
         CurrentQuiz = await QuizService.Get(request);
 
-        if(!AppState.IsLoggedIn)
+        if (!AppState.IsLoggedIn)
         {
+            Console.WriteLine($"Saving cookie: {request.UserId}");
             await JS.InvokeAsync<object>("WriteCookie.WriteCookie", "userId", CurrentQuiz.UserId, DateTime.Now.AddYears(1));
         }
 
-        await QuizService.Post(new QuizAnswerVM());
+        //await QuizService.Post(new QuizAnswerVM());
 
-        await QuizService.Submit(QCode);
+        //await QuizService.Submit(QCode);
     }
 
     protected override void OnInitialized()

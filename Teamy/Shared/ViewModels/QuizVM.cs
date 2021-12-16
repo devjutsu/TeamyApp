@@ -10,6 +10,7 @@ namespace Teamy.Shared.ViewModels
     public class QuizVM
     {
         public Guid Id { get; set; }
+        public string Title { get; set; }
         public List<QuizQuestionVM> Questions { get; set; }
         public string? UserId { get; set; }
     }
