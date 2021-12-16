@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Teamy.Server.Data;
 using Teamy.Server.Models;
-using Teamy.Server.Models.Quiz;
+using Teamy.Server.Models.Quizes;
 using Teamy.Shared.ViewModels;
 using Teamy.Shared.Common;
 

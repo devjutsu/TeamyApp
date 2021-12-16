@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Teamy.Server.Models;
-using Teamy.Server.Models.Quiz;
+using Teamy.Server.Models.Quizes;
+using Teamy.Server.Models.Polls;
+using Teamy.Server.Models.Templates;
 
 namespace Teamy.Server.Data
 {
