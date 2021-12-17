@@ -27,10 +27,6 @@ else
             <div class="event-details">@CurrentQuiz.Details</div>
         </div>
     </div>
-@*    <h2>@CurrentQuiz.Title</h2>
-    <div>&nbsp;</div>
-    <div>@CurrentQuiz.Details</div>
-    <div>&nbsp;</div>*@
 
     <div class="row">
         @foreach (var question in CurrentQuiz.Questions)
@@ -56,7 +52,7 @@ else
                         }
                     </div>
                 }
-                @if (question.Type == QuizElementType.MultiSelectQuestion)
+                else if (question.Type == QuizElementType.MultiSelectQuestion)
                 {
                     <div class="default-block">
                         <div>
@@ -66,9 +62,9 @@ else
                         </div>
                         @foreach (var choice in question.Choices)
                         {
-                            <div>
+                            <div @onclick="@(() => SetChoice(question, choice))">
                                 <div class="check-container" style="margin-top:.7rem; position:relative;">
-                                    <input type="checkbox">
+                                    <input type="checkbox" checked="@(VotedChoice(question, choice))">
                                     <span class="checkmark" />
                                     <label class="multi-choice-lbl" style="padding-left:.8rem;">@choice.Choice</label>
                                 </div>
@@ -76,13 +72,26 @@ else
                         }
                     </div>
                 }
-                @if (question.Type == QuizElementType.FreeTextQuestion)
+                else if (question.Type == QuizElementType.FreeTextQuestion)
                 {
                     <div class="default-block">
                         <h5>
                             @question.Question
                         </h5>
-                        <textarea rows=2 class="fullwidth-input" />
+                        <textarea rows=3 class="fullwidth-input" />
+                    </div>
+                }
+                else if (question.Type == QuizElementType.GradeQuestion)
+                {
+                    
+                    <div class="default-block">
+                        <div>
+                            <h5>
+                                @question.Question
+                            </h5>
+                        </div>
+
+                        <div>grade</div>
                     </div>
                 }
                 else if (question.Type == QuizElementType.Picture)
@@ -109,6 +118,15 @@ else
                 {
                     <div class="default-block">
                         no option
+                        <div>
+                            <h5>
+                                @question.Question
+                            </h5>
+                        </div>
+                        @foreach (var choice in question.Choices)
+                        {
+                            <div style="margin-top:.5rem; margin-bottom:.5rem;">@choice.Choice</div>
+                        }
                     </div>
                 }
 
@@ -126,6 +144,7 @@ else
     public string QCode { get; set; }
 
     public QuizVM CurrentQuiz { get; set; }
+    bool test { get; set; } = true;
 
     protected override async Task OnInitializedAsync()
     {
@@ -145,18 +164,34 @@ else
         }
 
         //await QuizService.Post(new QuizAnswerVM());
-
         //await QuizService.Submit(QCode);
     }
 
-    async Task Vote(QuizQuestionVM question)
+    bool VotedChoice(QuizQuestionVM question, QuizChoiceVM choice)
     {
+        Console.WriteLine("lookin");
+        if(question.Answers.Any(o => o.Answer == choice.Choice))
+        {
+            Console.WriteLine($"Selected: {choice.Choice}");
+        }
+        return test;
+    }
 
+    async Task SetChoice(QuizQuestionVM question, QuizChoiceVM choice)
+    {
+        Console.WriteLine($"Vote for: {choice.Choice}");
+        test = !test;
+    }
+
+    async Task VoteText(ChangeEventArgs e)
+    {
+        Console.WriteLine($"Txt: {e.Value}");
     }
 
     async Task Submit()
     {
-
+        // @! validate necessary answers
+        // add Necessary flag to db + vm
     }
 
     protected override void OnInitialized()

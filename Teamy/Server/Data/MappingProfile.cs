@@ -79,7 +79,8 @@ namespace Teamy.Server.Data
                 .ReverseMap();
             CreateMap<QuizChoice, QuizChoiceVM>()
                 .ReverseMap();
-            CreateMap<QuizAnswerVM, QuizAnswer>();
+            CreateMap<QuizAnswer, QuizAnswerVM>()
+                .ReverseMap();
 
         }
     }

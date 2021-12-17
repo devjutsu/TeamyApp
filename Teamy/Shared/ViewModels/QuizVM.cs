@@ -24,6 +24,7 @@ namespace Teamy.Shared.ViewModels
         public int OrderNumber { get; set; }
         public QuizElementType Type { get; set; }
         public List<QuizChoiceVM> Choices { get; set; }
+        public List<QuizAnswerVM> Answers { get; set; }
     }
 
     public class QuizChoiceVM
