@@ -23,6 +23,8 @@ namespace Teamy.Server.Data.Seed
             {
                 CreatorId = garuda.Id,
                 Title = "First seeded Quiz ever",
+                Image = new ImageModel() { Url = "https://www.incimages.com/uploaded_files/image/1920x1080/getty_495193237_2000148420009280290_181621.jpg" },
+                Details = "Please, answer a few questions to help us improve this tool for your needs.",
                 Questions = new List<QuizQuestion>()
                 {
                     new QuizQuestion()
