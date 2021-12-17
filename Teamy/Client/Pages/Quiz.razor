@@ -21,22 +21,104 @@ else
         <div class="noimg-xs-viewblock d-block d-sm-none"></div>
     }
 
-    <h4>@CurrentQuiz.Title</h4>
+    <div class="event-titleblock">
+        <div class="">
+            <div class="event-title">@CurrentQuiz.Title</div>
+            <div class="event-details">@CurrentQuiz.Details</div>
+        </div>
+    </div>
+@*    <h2>@CurrentQuiz.Title</h2>
     <div>&nbsp;</div>
     <div>@CurrentQuiz.Details</div>
-    <div>&nbsp;</div>
+    <div>&nbsp;</div>*@
 
-    @foreach (var question in CurrentQuiz.Questions)
-    {
-        <div class="default-block">
-            <div><strong>@question.Question</strong></div>
-            foreach (var choice in question.Choices)
-            {
-            <div>@choice.Choice</div>
-            }
-            <div>&nbsp;</div>
-        </div>
-    }
+    <div class="row">
+        @foreach (var question in CurrentQuiz.Questions)
+        {
+            <div class="col-md-6">
+                @if (question.Type == QuizElementType.SingleSelectQuestion)
+                {
+                    <div class="default-block">
+                        <div>
+                            <h5>
+                                @question.Question
+                            </h5>
+                        </div>
+                        @foreach (var choice in question.Choices)
+                        {
+                            <div>
+                                <div class="radio-container" style="margin-top:.7rem; position:relative;">
+                                    <input type="radio">
+                                    <span class="radiomark" />
+                                    <label class="multi-choice-lbl" style="padding-left:.8rem;">@choice.Choice</label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                @if (question.Type == QuizElementType.MultiSelectQuestion)
+                {
+                    <div class="default-block">
+                        <div>
+                            <h5>
+                                @question.Question
+                            </h5>
+                        </div>
+                        @foreach (var choice in question.Choices)
+                        {
+                            <div>
+                                <div class="check-container" style="margin-top:.7rem; position:relative;">
+                                    <input type="checkbox">
+                                    <span class="checkmark" />
+                                    <label class="multi-choice-lbl" style="padding-left:.8rem;">@choice.Choice</label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                @if (question.Type == QuizElementType.FreeTextQuestion)
+                {
+                    <div class="default-block">
+                        <h5>
+                            @question.Question
+                        </h5>
+                        <textarea rows=2 class="fullwidth-input" />
+                    </div>
+                }
+                else if (question.Type == QuizElementType.Picture)
+                {
+                    <div class="silent-block d-flex justify-content-center">
+                        <img src=@question.Question class="quiz-picture" />
+                    </div>
+                }
+                else if (question.Type == QuizElementType.InformationOnly)
+                {
+                    <div class="default-block">
+                        <div>
+                            <h5>
+                                @question.Question
+                            </h5>
+                        </div>
+                        @foreach (var choice in question.Choices)
+                        {
+                            <div style="margin-top:.5rem; margin-bottom:.5rem;">@choice.Choice</div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="default-block">
+                        no option
+                    </div>
+                }
+
+            </div>
+        }
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <button class="btn btn-main" @onclick="(() => Submit())">Submit</button>
+    </div>
 }
 
 @code {
@@ -65,6 +147,16 @@ else
         //await QuizService.Post(new QuizAnswerVM());
 
         //await QuizService.Submit(QCode);
+    }
+
+    async Task Vote(QuizQuestionVM question)
+    {
+
+    }
+
+    async Task Submit()
+    {
+
     }
 
     protected override void OnInitialized()
