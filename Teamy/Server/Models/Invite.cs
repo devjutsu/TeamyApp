@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Teamy.Server.Models
 {
-    public class Invite
+    public class Invite : BaseEntity
     {
         public Guid Id { get; set; }
         public Guid? EventId { get; set; }

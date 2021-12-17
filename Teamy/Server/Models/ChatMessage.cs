@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Teamy.Server.Models
 {
-    public class ChatMessage
+    public class ChatMessage : BaseEntity
     {
         public Guid Id { get; set; }
         public string Text { get; set; }
