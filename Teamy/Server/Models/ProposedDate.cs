@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Teamy.Server.Models
 {
-    public record ProposedDate
+    public class ProposedDate : BaseEntity
     {
         public Guid Id { get; set; }
         public DateTime Date { get; set; }
