@@ -2,7 +2,7 @@
 
 namespace Teamy.Server.Models.Quizes
 {
-    public class Quiz
+    public class Quiz : BaseEntity
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
@@ -12,7 +12,7 @@ namespace Teamy.Server.Models.Quizes
         public virtual AppUser Creator { get; set; }
     }
 
-    public class QuizQuestion
+    public class QuizQuestion : BaseEntity
     {
         public Guid Id { get; set; }
         public Guid QuizId { get; set; }
@@ -24,7 +24,7 @@ namespace Teamy.Server.Models.Quizes
         public virtual List<QuizAnswer> Answers { get; set; }
     }
 
-    public class QuizChoice
+    public class QuizChoice : BaseEntity
     {
         public Guid Id { get; set; }
         public Guid QuizQuestionId { get; set; }
@@ -32,7 +32,7 @@ namespace Teamy.Server.Models.Quizes
         public string Choice { get; set; }
     }
 
-    public class QuizAnswer
+    public class QuizAnswer : BaseEntity
     {
         public Guid Id { get; set; }
         public string? UserId { get; set; }
@@ -41,7 +41,7 @@ namespace Teamy.Server.Models.Quizes
         public string Answer { get; set; }
     }
 
-    public class QuizCompletion
+    public class QuizCompletion : BaseEntity
     {
         public Guid Id { get; set; }
         public Guid QuizId { get; set; } // index

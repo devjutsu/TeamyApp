@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Teamy.Server.Models
 {
-    public class ImageModel
+    public class ImageModel: BaseEntity
     {
         public Guid Id { get; set; }
         public string Url { get; set; }

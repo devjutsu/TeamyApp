@@ -4,7 +4,7 @@ using Teamy.Shared.Common;
 
 namespace Teamy.Server.Models
 {
-    public class Participation
+    public class Participation : BaseEntity
     {
         public Guid Id { get; set; }
         public Guid? EventId { get; set; }

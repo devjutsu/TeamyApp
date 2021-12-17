@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Teamy.Server.Models.Polls
 {
-    public class PollChoice
+    public class PollChoice : BaseEntity
     {
         public Guid Id { get; set; }
         public Guid PollId { get; set; }
