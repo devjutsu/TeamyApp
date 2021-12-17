@@ -36,6 +36,7 @@ namespace Teamy.Server.Controllers
             var quizes = await _db.Quiz
                                     .Include(_ => _.Questions)
                                     .ThenInclude(_ => _.Choices)
+                                    .Include(_ => _.Image)
                                     .Where(_ => _.CreatorId == currentUserId)
                                     .ToListAsync();
 
@@ -100,6 +101,7 @@ namespace Teamy.Server.Controllers
                                     .ThenInclude(_ => _.Choices)
                                     .Include(_ => _.Questions)
                                     .ThenInclude(_ => _.Answers.Where(z => z.UserId == currentUserId))
+                                    .Include(_ => _.Image)
                                     .FirstAsync(o => o.Id == codeQuiz.QuizId);
 
             var completion = await _db.QuizCompletions.Where(_ => _.QuizId == codeQuiz.QuizId

@@ -11,6 +11,8 @@ namespace Teamy.Shared.ViewModels
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
+        public string? ImageUrl { get; set; }
+        public string Details { get; set; }
         public List<QuizQuestionVM> Questions { get; set; }
         public string? UserId { get; set; }
     }
