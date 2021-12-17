@@ -4,9 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Teamy.Server.Models
 {
-    public class AppUser : IdentityUser
+    public class AppUser : IdentityUser, IDateCreated, IDateUpdated
     {
         public string DisplayName { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime DateUpdated { get; set; }
     }
 
     public class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
