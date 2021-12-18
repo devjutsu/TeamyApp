@@ -92,7 +92,6 @@ builder.Services.AddSingleton<IChatHub, ChatHub>();
 builder.Services.AddSingleton<IVoteHub, VoteHub>();
 builder.Configuration.AddUserSecrets<Program>();
 
-
 //builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllersWithViews();
