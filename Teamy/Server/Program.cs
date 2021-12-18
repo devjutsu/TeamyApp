@@ -44,15 +44,15 @@ builder.Services.AddIdentityServer()
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("role");
 
 builder.Services.AddAuthentication()
-    .AddTwitter(twitterOptions =>
-    {
-        twitterOptions.ConsumerKey = builder.Configuration["Integrations:Twitter:ApiKey"];
-        twitterOptions.ConsumerSecret = builder.Configuration["Integrations:Twitter:ApiKeySecret"];
-        twitterOptions.RetrieveUserDetails = true;
-        twitterOptions.SaveTokens = true;
-        twitterOptions.ClaimActions.MapJsonKey("display-name", "name");
-        twitterOptions.ClaimActions.MapJsonKey("profile-image-url", "profile_image_url_https");
-    })
+    //.AddTwitter(twitterOptions =>
+    //{
+    //    twitterOptions.ConsumerKey = builder.Configuration["Integrations:Twitter:ApiKey"];
+    //    twitterOptions.ConsumerSecret = builder.Configuration["Integrations:Twitter:ApiKeySecret"];
+    //    twitterOptions.RetrieveUserDetails = true;
+    //    twitterOptions.SaveTokens = true;
+    //    twitterOptions.ClaimActions.MapJsonKey("display-name", "name");
+    //    twitterOptions.ClaimActions.MapJsonKey("profile-image-url", "profile_image_url_https");
+    //})
     //.AddFacebook(facebookOptions =>
     //{
     //    facebookOptions.AppId = builder.Configuration["Integrations:Facebook:ClientId"];
@@ -61,14 +61,14 @@ builder.Services.AddAuthentication()
     //    facebookOptions.ClaimActions.MapJsonKey("display-name", "name");
     //    facebookOptions.AccessDeniedPath = "/AccessDeniedPathInfo";
     //})
-    .AddGoogle(options =>
-    {
-        IConfigurationSection googleAuthNSection =
-            builder.Configuration.GetSection("Integrations:Google");
+    //.AddGoogle(options =>
+    //{
+    //    IConfigurationSection googleAuthNSection =
+    //        builder.Configuration.GetSection("Integrations:Google");
 
-        options.ClientId = googleAuthNSection["ClientId"];
-        options.ClientSecret = googleAuthNSection["ClientSecret"];
-    })
+    //    options.ClientId = googleAuthNSection["ClientId"];
+    //    options.ClientSecret = googleAuthNSection["ClientSecret"];
+    //})
     .AddIdentityServerJwt();
 
 builder.Services.Configure<GzipCompressionProviderOptions>(options =>
@@ -90,6 +90,7 @@ builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddSignalR();
 builder.Services.AddSingleton<IChatHub, ChatHub>();
 builder.Services.AddSingleton<IVoteHub, VoteHub>();
+builder.Configuration.AddUserSecrets<Program>();
 
 //builder.Services.AddHttpContextAccessor();
 
