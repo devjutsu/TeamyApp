@@ -145,7 +145,6 @@ namespace Teamy.Server.Controllers
                 case QuizElementType.GradeQuestion:
                 case QuizElementType.FreeTextQuestion:
                     var myAnswers = await _db.QuizAnswers
-                                            .Include(_ => _.Answer)
                                             .Where(_ => _.QuizQuestionId == answer.QuizQuestionId && _.UserId == answer.UserId)
                                             .ToListAsync();
                     _db.QuizAnswers.RemoveRange(myAnswers);

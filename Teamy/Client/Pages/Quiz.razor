@@ -42,9 +42,9 @@ else
                         </div>
                         @foreach (var choice in question.Choices)
                         {
-                            <div>
+                            <div @onclick="@(() => SetSingleChoice(question, choice))">
                                 <div class="radio-container" style="margin-top:.7rem; position:relative;">
-                                    <input type="radio">
+                                    <input type="radio" checked="@(VotedChoice(question, choice))">
                                     <span class="radiomark" />
                                     <label class="multi-choice-lbl" style="padding-left:.8rem;">@choice.Choice</label>
                                 </div>
@@ -62,7 +62,7 @@ else
                         </div>
                         @foreach (var choice in question.Choices)
                         {
-                            <div @onclick="@(() => SetChoice(question, choice))">
+                            <div @onclick="@(() => SetMultiChoice(question, choice))">
                                 <div class="check-container" style="margin-top:.7rem; position:relative;">
                                     <input type="checkbox" checked="@(VotedChoice(question, choice))">
                                     <span class="checkmark" />
@@ -78,7 +78,7 @@ else
                         <h5>
                             @question.Question
                         </h5>
-                        <textarea rows=3 class="fullwidth-input" />
+                        <textarea rows=3 class="fullwidth-input" @onchange="((e) => VoteText(e))" />
                     </div>
                 }
                 else if (question.Type == QuizElementType.GradeQuestion)
@@ -176,13 +176,35 @@ else
         return false;
     }
 
-    async Task SetChoice(QuizQuestionVM question, QuizChoiceVM choice)
+    async Task SetSingleChoice(QuizQuestionVM question, QuizChoiceVM choice)
+    {
+        var existingAnswer = question.Answers.FirstOrDefault(o => o.Answer == choice.Choice);
+        if(existingAnswer == null || existingAnswer.Answer.Count() == 0 || choice.Choice != existingAnswer.Answer)
+        {
+            var newAnswer = new QuizAnswerVM() { Answer = choice.Choice, QCode = QCode, UserId = CurrentUserId, QuizQuestionId = question.Id };
+            await QuizService.Post(newAnswer);
+
+            question.Answers.RemoveAll(o => true);
+            question.Answers.Add(newAnswer);
+        }
+    }
+
+    async Task SetMultiChoice(QuizQuestionVM question, QuizChoiceVM choice)
     {
         var existingAnswer = question.Answers.FirstOrDefault(o => o.Answer == choice.Choice);
         if (existingAnswer != null)
+        {
+            existingAnswer.QCode = QCode;
+            await QuizService.Post(existingAnswer);
             question.Answers.Remove(existingAnswer);
+        }
         else
-            question.Answers.Add(new QuizAnswerVM() { Answer = choice.Choice, QCode = QCode, UserId = CurrentUserId });
+        {
+            var newAnswer = new QuizAnswerVM() { Answer = choice.Choice, QCode = QCode, UserId = CurrentUserId, QuizQuestionId = question.Id };
+            await QuizService.Post(newAnswer);
+            question.Answers.Add(newAnswer);
+        }
+
     }
 
     async Task VoteText(ChangeEventArgs e)
