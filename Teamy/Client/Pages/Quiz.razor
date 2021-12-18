@@ -78,7 +78,7 @@ else
                         <h5>
                             @question.Question
                         </h5>
-                        <textarea rows=3 class="fullwidth-input" @onchange="((e) => VoteText(e))" />
+                        <textarea rows=3 class="fullwidth-input" value="@VotedText(question)" @onchange="((e) => VoteText(e, question))" />
                     </div>
                 }
                 else if (question.Type == QuizElementType.GradeQuestion)
@@ -169,6 +169,11 @@ else
         //await QuizService.Submit(QCode);
     }
 
+    string VotedText(QuizQuestionVM question)
+    {
+        return question.Answers.FirstOrDefault()?.Answer ?? "";
+    }
+
     bool VotedChoice(QuizQuestionVM question, QuizChoiceVM choice)
     {
         if (question.Answers.Any(o => o.Answer == choice.Choice))
@@ -207,15 +212,18 @@ else
 
     }
 
-    async Task VoteText(ChangeEventArgs e)
+    async Task VoteText(ChangeEventArgs e, QuizQuestionVM question)
     {
         Console.WriteLine($"Txt: {e.Value}");
+        var newAnswer = new QuizAnswerVM() { Answer = (string)e.Value, QCode = QCode, UserId = CurrentUserId, QuizQuestionId = question.Id };
+        await QuizService.Post(newAnswer);
     }
 
     async Task Submit()
     {
         // @! validate necessary answers
         // add Necessary flag to db + vm
+        await QuizService.Submit(QCode, CurrentUserId);
     }
 
     protected override void OnInitialized()
