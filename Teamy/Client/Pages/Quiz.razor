@@ -83,7 +83,7 @@ else
                 }
                 else if (question.Type == QuizElementType.GradeQuestion)
                 {
-                    
+
                     <div class="default-block">
                         <div>
                             <h5>
@@ -144,14 +144,16 @@ else
     public string QCode { get; set; }
 
     public QuizVM CurrentQuiz { get; set; }
-    bool test { get; set; } = true;
+
+    public string CurrentUserId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        CurrentUserId = AppState.UserId ?? await JS.InvokeAsync<string>("ReadCookie.ReadCookie", "userId");
         var request = new QuizCodeVM()
             {
                 QCode = this.QCode,
-                UserId = AppState.UserId ?? await JS.InvokeAsync<string>("ReadCookie.ReadCookie", "userId")
+                UserId = CurrentUserId,
                 // @! for MAUI, go away from Cookies
             };
         Console.WriteLine($"Got new UserId: {request.UserId}");
@@ -169,18 +171,18 @@ else
 
     bool VotedChoice(QuizQuestionVM question, QuizChoiceVM choice)
     {
-        Console.WriteLine("lookin");
-        if(question.Answers.Any(o => o.Answer == choice.Choice))
-        {
-            Console.WriteLine($"Selected: {choice.Choice}");
-        }
-        return test;
+        if (question.Answers.Any(o => o.Answer == choice.Choice))
+            return true;
+        return false;
     }
 
     async Task SetChoice(QuizQuestionVM question, QuizChoiceVM choice)
     {
-        Console.WriteLine($"Vote for: {choice.Choice}");
-        test = !test;
+        var existingAnswer = question.Answers.FirstOrDefault(o => o.Answer == choice.Choice);
+        if (existingAnswer != null)
+            question.Answers.Remove(existingAnswer);
+        else
+            question.Answers.Add(new QuizAnswerVM() { Answer = choice.Choice, QCode = QCode, UserId = CurrentUserId });
     }
 
     async Task VoteText(ChangeEventArgs e)
