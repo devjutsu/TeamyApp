@@ -109,6 +109,7 @@
 
     void IDisposable.Dispose()
     {
+        _hub.Remove("EventDeleted");
         AppState.Statechanged -= async (Source, Property) => await AppState_StateChanged(Source, Property);
     }
 
