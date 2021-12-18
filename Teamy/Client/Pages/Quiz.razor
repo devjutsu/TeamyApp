@@ -91,7 +91,13 @@ else
                             </h5>
                         </div>
 
-                        <div>grade</div>
+                        <div class="quiz-grade">
+                            @for(int i=1; i<=5; i++)
+                            {
+                                var a = i;
+                                <span class="oi oi-star @VotedGradeCssClass(question, a)" @onclick="@(() => SetGrade(question, a))"></span>
+                            }
+                        </div>
                     </div>
                 }
                 else if (question.Type == QuizElementType.Picture)
@@ -134,7 +140,7 @@ else
         }
     </div>
 
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center quiz-submit-block">
         <button class="btn btn-main" @onclick="(() => Submit())">Submit</button>
     </div>
 }
@@ -169,6 +175,19 @@ else
         //await QuizService.Submit(QCode);
     }
 
+    string VotedGradeCssClass(QuizQuestionVM question, int grade)
+    {
+        var existingAnswer = question.Answers.FirstOrDefault();
+        if(existingAnswer != null)
+        {
+            int.TryParse(existingAnswer.Answer, out int val);
+            if(grade <= val)
+                return "grade-checked";
+        }
+
+        return "grade-empty";
+    }
+
     string VotedText(QuizQuestionVM question)
     {
         return question.Answers.FirstOrDefault()?.Answer ?? "";
@@ -181,10 +200,18 @@ else
         return false;
     }
 
+    async Task SetGrade(QuizQuestionVM question, int grade)
+    {
+        var newAnswer = new QuizAnswerVM() { Answer = grade.ToString(), QCode = QCode, UserId = CurrentUserId, QuizQuestionId = question.Id };
+        await QuizService.Post(newAnswer);
+        question.Answers.RemoveAll(o => true);
+        question.Answers.Add(newAnswer);
+    }
+
     async Task SetSingleChoice(QuizQuestionVM question, QuizChoiceVM choice)
     {
         var existingAnswer = question.Answers.FirstOrDefault(o => o.Answer == choice.Choice);
-        if(existingAnswer == null || existingAnswer.Answer.Count() == 0 || choice.Choice != existingAnswer.Answer)
+        if (existingAnswer == null || existingAnswer.Answer.Count() == 0 || choice.Choice != existingAnswer.Answer)
         {
             var newAnswer = new QuizAnswerVM() { Answer = choice.Choice, QCode = QCode, UserId = CurrentUserId, QuizQuestionId = question.Id };
             await QuizService.Post(newAnswer);
@@ -214,7 +241,6 @@ else
 
     async Task VoteText(ChangeEventArgs e, QuizQuestionVM question)
     {
-        Console.WriteLine($"Txt: {e.Value}");
         var newAnswer = new QuizAnswerVM() { Answer = (string)e.Value, QCode = QCode, UserId = CurrentUserId, QuizQuestionId = question.Id };
         await QuizService.Post(newAnswer);
     }

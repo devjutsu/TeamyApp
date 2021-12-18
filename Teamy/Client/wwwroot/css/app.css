@@ -955,3 +955,25 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .dropAreaDrug {
   background-color: #86888A;
 }
+.quiz-submit-block {
+  margin-bottom: 2rem;
+}
+.quiz-grade {
+  margin: 1rem;
+  font-size: 30px;
+}
+.grade-checked {
+  color: #4AAAE8;
+  opacity: 0.75;
+}
+.grade-checked:hover {
+  color: #4AAAE8;
+  opacity: 0.35;
+}
+.grade-empty {
+  color: #303137;
+}
+.grade-empty:hover {
+  color: #4AAAE8;
+  opacity: 0.35;
+}
