@@ -1137,3 +1137,32 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .quiz-picture {
     max-width: 100%;
 }
+.dropArea {
+    border: 2px dashed gray;
+    padding: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: @Dark1;
+    font-size: 1.5rem;
+    cursor: pointer;
+    position: relative;
+    min-height: 150px;
+}
+
+.dropArea:hover {
+    background-color: @LightGrey2;
+    color: #333;
+}
+
+.dropArea input[type=file] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.dropAreaDrug {
+    background-color: @LightGrey1;
+}
