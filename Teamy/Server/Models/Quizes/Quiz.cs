@@ -54,7 +54,7 @@ namespace Teamy.Server.Models.Quizes
 
     public enum QuizCompletionStatus
     {
-        Entered,
-        Submitted
+        Entered = 0,
+        Submitted = 1
     }
 }
