@@ -4,7 +4,7 @@
 @implements IDisposable
 
 <PageTitle>My Events</PageTitle>
-
+<div class="full-width justify-content-center bg-image" ></div>
 <AuthorizeView>
     <NotAuthorized>
 
@@ -27,6 +27,7 @@
         }
     </NotAuthorized>
     <Authorized>
+
         @if (AppState.Invite != null)
         {
             <h2>You are invited to:</h2>
