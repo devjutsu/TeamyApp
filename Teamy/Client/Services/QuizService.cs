@@ -13,7 +13,7 @@ namespace Teamy.Client.Services
     {
         Task<QuizVM> Get(QuizCodeVM request);
         Task<bool> Post(QuizAnswerVM answer);
-        Task<bool> Submit(string qCode, string? userId = null);
+        Task<bool> Submit(string qCode, string userId);
         Task<List<QuizVM>> List();
     }
 
@@ -48,9 +48,15 @@ namespace Teamy.Client.Services
             return result.IsSuccessStatusCode;
         }
 
-        public async Task<bool> Submit(string qCode, string? userId = null)
+        public async Task<bool> Submit(string qCode, string userId)
         {
-            var result = await Http.PostAsJsonAsync<string>($"Quiz/Submit/{qCode}", userId ?? "");
+            Console.WriteLine($"Submitting: {qCode}, {userId}");
+            var request = new QuizCodeVM()
+            {
+                QCode = qCode,
+                UserId = userId
+            };
+            var result = await Http.PostAsJsonAsync<QuizCodeVM>($"Quiz/Submit", request);
             return result.IsSuccessStatusCode;
         }
 

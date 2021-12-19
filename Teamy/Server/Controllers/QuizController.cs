@@ -114,6 +114,7 @@ namespace Teamy.Server.Controllers
                     UserId = currentUserId,
                     QuizId = quiz.Id
                 });
+                await _db.SaveChangesAsync();
             }
 
             var vm = _mapper.Map<Quiz, QuizVM>(quiz);
@@ -161,18 +162,32 @@ namespace Teamy.Server.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("Submit/{qCode}")]
-        public async Task<IActionResult> Submit([FromQuery] string qCode, string userId)
+        [HttpPost("Submit")]
+        public async Task<IActionResult> Submit(QuizCodeVM request)
         {
-            var codeQuiz = await _db.QCodes.FindAsync(qCode);
+            var codeQuiz = await _db.QCodes.FindAsync(request.QCode);
             if (codeQuiz == null)
                 return BadRequest();
 
             var completion = await _db.QuizCompletions.Where(_ => _.QuizId == codeQuiz.QuizId
-                                && _.UserId == userId).FirstAsync();
+                                && _.UserId == request.UserId).FirstOrDefaultAsync();
 
-            completion.Status = QuizCompletionStatus.Submitted;
-            _db.QuizCompletions.Update(completion);
+            if(completion != null)
+            {
+                completion.Status = QuizCompletionStatus.Submitted;
+                _db.QuizCompletions.Update(completion);
+            }
+            else
+            {
+                completion = new QuizCompletion()
+                {
+                    UserId = request.UserId,
+                    Status = QuizCompletionStatus.Submitted,
+                    QuizId = codeQuiz.QuizId
+                };
+                _db.QuizCompletions.Add(completion);
+            }
+            
             await _db.SaveChangesAsync();
             return Ok();
         }
