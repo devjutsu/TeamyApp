@@ -349,6 +349,51 @@ namespace Teamy.Server.Data.Seed
                 Id = "afafafaf",
                 Quiz = publicQuiz.Entity
             });
+            db.QCodes.Add(new QCode()
+            {
+                Id = Guid.NewGuid().ToString().Substring(0, 8),
+                Quiz = publicQuiz.Entity
+            });
+            db.QCodes.Add(new QCode()
+            {
+                Id = Guid.NewGuid().ToString().Substring(0, 8),
+                Quiz = publicQuiz.Entity
+            });
+            db.QCodes.Add(new QCode()
+            {
+                Id = Guid.NewGuid().ToString().Substring(0, 8),
+                Quiz = publicQuiz.Entity
+            });
+            db.QCodes.Add(new QCode()
+            {
+                Id = Guid.NewGuid().ToString().Substring(0, 8),
+                Quiz = publicQuiz.Entity
+            });
+            db.QCodes.Add(new QCode()
+            {
+                Id = Guid.NewGuid().ToString().Substring(0, 8),
+                Quiz = publicQuiz.Entity
+            });
+            db.QCodes.Add(new QCode()
+            {
+                Id = Guid.NewGuid().ToString().Substring(0, 8),
+                Quiz = publicQuiz.Entity
+            });
+            db.QCodes.Add(new QCode()
+            {
+                Id = Guid.NewGuid().ToString().Substring(0, 8),
+                Quiz = publicQuiz.Entity
+            });
+            db.QCodes.Add(new QCode()
+            {
+                Id = Guid.NewGuid().ToString().Substring(0, 8),
+                Quiz = publicQuiz.Entity
+            });
+            db.QCodes.Add(new QCode()
+            {
+                Id = Guid.NewGuid().ToString().Substring(0, 8),
+                Quiz = publicQuiz.Entity
+            });
         }
     }
 }
