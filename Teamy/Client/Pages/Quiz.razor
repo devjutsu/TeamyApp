@@ -78,7 +78,7 @@ else
                         <h5>
                             @question.Question
                         </h5>
-                        <textarea rows=3 class="fullwidth-input" value="@VotedText(question)" @onchange="((e) => VoteText(e, question))" />
+                        <textarea rows=5 class="fullwidth-input" value="@VotedText(question)" @onchange="((e) => VoteText(e, question))" />
                     </div>
                 }
                 else if (question.Type == QuizElementType.GradeQuestion)
