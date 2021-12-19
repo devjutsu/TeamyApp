@@ -16,8 +16,8 @@ namespace Teamy.Server.Data.Seed
         public void Seed()
         {
             var garuda = db.Users.FirstOrDefault(o => o.UserName == "algarud@gmail.com");
-            var enemy = db.Users.FirstOrDefault(o => o.UserName == "enemy@teamy.one");
-            var slim = db.Users.FirstOrDefault(o => o.UserName == "slim@teamy.one");
+            //var enemy = db.Users.FirstOrDefault(o => o.UserName == "enemy@teamy.one");
+            //var slim = db.Users.FirstOrDefault(o => o.UserName == "slim@teamy.one");
 
             var quiz = db.Quiz.Add(new Quiz()
             {
@@ -46,16 +46,6 @@ namespace Teamy.Server.Data.Seed
                                 Answer = "Mob programming",
                                 UserId = garuda.Id,
                             },
-                            new QuizAnswer()
-                            {
-                                Answer = "Home",
-                                UserId = enemy.Id,
-                            },
-                            new QuizAnswer()
-                            {
-                                Answer = "Party",
-                                UserId = slim.Id,
-                            }
                         },
                     },
                     new QuizQuestion()
@@ -72,8 +62,6 @@ namespace Teamy.Server.Data.Seed
                         Answers= new List<QuizAnswer>()
                         {
                             new QuizAnswer() {Answer = "Depends", UserId = garuda.Id },
-                            new QuizAnswer() {Answer = "No", UserId = enemy.Id },
-                            new QuizAnswer() {Answer = "Yes", UserId = slim.Id },
                         }
                     },
                     new QuizQuestion()
@@ -84,8 +72,6 @@ namespace Teamy.Server.Data.Seed
                         Answers= new List<QuizAnswer>()
                         {
                             new QuizAnswer() { UserId = garuda.Id, Answer = "Hello, World!" },
-                            new QuizAnswer() { UserId = enemy.Id, Answer = "Hello teacher what's my lesson?" },
-                            new QuizAnswer() { UserId = slim.Id, Answer = "Code time!"}
                         }
                     },
                     new QuizQuestion()
@@ -96,8 +82,6 @@ namespace Teamy.Server.Data.Seed
                         Answers = new List<QuizAnswer>()
                         {
                             new QuizAnswer() { UserId = garuda.Id, Answer = "5"},
-                            new QuizAnswer() { UserId = enemy.Id, Answer = "3"},
-                            new QuizAnswer() { UserId = slim.Id, Answer = "4"}
                         }
                     },
                     new QuizQuestion()
@@ -126,16 +110,6 @@ namespace Teamy.Server.Data.Seed
                         Status = QuizCompletionStatus.Submitted,
                         UserId = garuda.Id,
                     },
-                    new QuizCompletion()
-                    {
-                        Status = QuizCompletionStatus.Entered,
-                        UserId = enemy.Id,
-                    },
-                    new QuizCompletion()
-                    {
-                        Status = QuizCompletionStatus.Submitted,
-                        UserId = slim.Id,
-                    }
                 }
             });
 
@@ -172,6 +146,36 @@ namespace Teamy.Server.Data.Seed
                     },
                     new QuizQuestion()
                     {
+                        Order= 14,
+                        Type = QuizElementType.SingleSelectQuestion,
+                        Question = "Do you agree that doing something together leads to better quality communication?",
+                        Choices = new List<QuizChoice>()
+                        {
+                            new QuizChoice() { Choice = "Yes" },
+                            new QuizChoice() { Choice = "No" },
+                            new QuizChoice() { Choice = "Not sure" },
+                        }
+                    },
+                    new QuizQuestion()
+                    {
+                        Order= 15,
+                        Type = QuizElementType.GradeQuestion,
+                        Question = "How much has pandemics affected live communication?",
+                    },
+                    new QuizQuestion()
+                    {
+                        Order= 17,
+                        Type = QuizElementType.SingleSelectQuestion,
+                        Question = "Is it somewhat difficult to find common communication context with new people?",
+                        Choices = new List<QuizChoice>()
+                        {
+                            new QuizChoice() { Choice = "Yes" },
+                            new QuizChoice() { Choice = "No" },
+                            new QuizChoice() { Choice = "Not sure" },
+                        }
+                    },
+                    new QuizQuestion()
+                    {
                         Order= 1,
                         Question = "Do you find it sometimes challenging to plan time together with your family, friends or acquaintances?",
                         Type = QuizElementType.SingleSelectQuestion,
@@ -198,7 +202,7 @@ namespace Teamy.Server.Data.Seed
                             new QuizChoice() { Choice = "It might be complicated to ask questions, discuss or notify everyone " },
                             new QuizChoice() { Choice = "It's hard to plan, because we feel very much disconnected" },
                             new QuizChoice() { Choice = "Difficult, because of other reasons" },
-                            new QuizChoice() { Choice = "Easy to plan, we are often in-touch" },
+                            new QuizChoice() { Choice = "Easy to plan, we are staying in touch" },
                             new QuizChoice() { Choice = "No difficulties, because I only want to meet with people I know very well, and it's easy to arrange" },
                             new QuizChoice() { Choice = "No difficulties, because I just plan and don't ask if someone has different oppinion" },
                             new QuizChoice() { Choice = "No difficulties, because I never plan any activities together" },
@@ -208,7 +212,7 @@ namespace Teamy.Server.Data.Seed
                     new QuizQuestion()
                     {
                         Order = 3,
-                        Question = "Any comments on that?",
+                        Question = "Any comments on that? (optional)",
                         Type = QuizElementType.FreeTextQuestion,
                     },
                     new QuizQuestion()
@@ -231,7 +235,7 @@ namespace Teamy.Server.Data.Seed
                     new QuizQuestion()
                     {
                         Order = 6,
-                        Question = "Want to tell us more?",
+                        Question = "Want to tell us more about how you plan?  (optional)",
                         Type = QuizElementType.FreeTextQuestion,
                     },
                     new QuizQuestion()
@@ -269,14 +273,14 @@ namespace Teamy.Server.Data.Seed
                     new QuizQuestion()
                     {
                         Order = 9,
-                        Question = "Would you share your preferences?",
+                        Question = "What else do you like doing with people?  (optional)",
                         Type = QuizElementType.FreeTextQuestion,
                     },
 
                     new QuizQuestion()
                     {
                         Order = 10,
-                        Question = "How likely would you use our tool to get people together?",
+                        Question = "How likely you will use our tool to get people together?",
                         Type = QuizElementType.GradeQuestion,
                     },
                     new QuizQuestion()
@@ -295,7 +299,7 @@ namespace Teamy.Server.Data.Seed
                     {
                         Order = 13,
                         Question = "Would you prefer using website, mobile app or a chat bot for it?",
-                        Type = QuizElementType.SingleSelectQuestion,
+                        Type = QuizElementType.MultiSelectQuestion,
                         Choices = new List<QuizChoice>()
                         {
                             new QuizChoice() { Choice = "Web" },
@@ -303,24 +307,8 @@ namespace Teamy.Server.Data.Seed
                             new QuizChoice() { Choice = "Chat bot" },
                         }
                     },
-                    new QuizQuestion()
-                    {
-                        Order= 14,
-                        Type = QuizElementType.SingleSelectQuestion,
-                        Question = "Do you agree that doing something together leads to better quality communication?",
-                        Choices = new List<QuizChoice>()
-                        {
-                            new QuizChoice() { Choice = "Yes" },
-                            new QuizChoice() { Choice = "No" },
-                            new QuizChoice() { Choice = "Not sure" },
-                        }
-                    },
-                    new QuizQuestion()
-                    {
-                        Order= 15,
-                        Type = QuizElementType.GradeQuestion,
-                        Question = "How much has pandemics affected live communication?",
-                    },
+                    
+                    
                     new QuizQuestion()
                     {
                         Order= 16,
@@ -333,18 +321,7 @@ namespace Teamy.Server.Data.Seed
                             new QuizChoice() { Choice = "Not sure" },
                         }
                     },
-                    new QuizQuestion()
-                    {
-                        Order= 17,
-                        Type = QuizElementType.SingleSelectQuestion,
-                        Question = "Is it somewhat difficult to find common communication context with new people?",
-                        Choices = new List<QuizChoice>()
-                        {
-                            new QuizChoice() { Choice = "Yes" },
-                            new QuizChoice() { Choice = "No" },
-                            new QuizChoice() { Choice = "Not sure" },
-                        }
-                    },
+                    
                     new QuizQuestion()
                     {
                         Order= 18,
