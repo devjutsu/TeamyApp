@@ -250,6 +250,7 @@ else
         // @! validate necessary answers
         // add Necessary flag to db + vm
         await QuizService.Submit(QCode, CurrentUserId);
+        Nav.NavigateTo("/completed");
     }
 
     protected override void OnInitialized()
