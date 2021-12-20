@@ -162,17 +162,12 @@ else
                 UserId = CurrentUserId,
                 // @! for MAUI, go away from Cookies
             };
-        Console.WriteLine($"Got new UserId: {request.UserId}");
         CurrentQuiz = await QuizService.Get(request);
 
         if (!AppState.IsLoggedIn)
         {
-            Console.WriteLine($"Saving cookie: {request.UserId}");
             await JS.InvokeAsync<object>("WriteCookie.WriteCookie", "userId", CurrentQuiz.UserId, DateTime.Now.AddYears(1));
         }
-
-        //await QuizService.Post(new QuizAnswerVM());
-        //await QuizService.Submit(QCode);
     }
 
     string VotedGradeCssClass(QuizQuestionVM question, int grade)
