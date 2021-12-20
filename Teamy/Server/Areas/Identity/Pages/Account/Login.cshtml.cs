@@ -125,6 +125,32 @@ namespace Teamy.Server.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User logged in.");
 
+                    HttpContext.Request.Cookies.TryGetValue("userId", out string cookieUserId);
+                    if(cookieUserId != null)
+                    {
+                        var currentUserId = _db.Users.Where(o => o.Email == Input.Email).SingleOrDefault().Id;
+                        if(cookieUserId != currentUserId)
+                        {
+                            var createdEvents = _db.Events.Where(e => e.CreatedById == cookieUserId);
+                            if(createdEvents?.Any() ?? false)
+                            {
+                                foreach(var e in createdEvents)
+                                {
+                                    // @! make sure this event belongs to logged in user (and it's totally fresh event)
+
+                                    e.CreatedById = currentUserId;
+                                }
+                                _db.Events.UpdateRange(createdEvents);
+                                _db.SaveChanges();
+                            }
+                        }
+
+                        // @! logic delete cookie user and write down his currentUserId
+
+                        HttpContext.Response.Cookies.Delete(cookieUserId);
+                        HttpContext.Response.Cookies.Append("userId", cookieUserId, new CookieOptions() { Expires = DateTime.Now.AddYears(-1) });
+                    }
+
                     if (!string.IsNullOrEmpty(Input.Participation))
                     {
                         var anonymousParticipation = _db.AnonParticipation.Find(Guid.Parse(Input.Participation));
