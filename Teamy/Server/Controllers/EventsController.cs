@@ -35,26 +35,35 @@ namespace Teamy.Server.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromBody] EventVM eventVM)
+        public async Task<EventCreatedVM> Create([FromBody] EventVM eventVM)
         {
-            try
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId == null)
             {
-                var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                var displayName = (await _userManager.FindByIdAsync(currentUserId)).DisplayName;
-
-                var evt = _mapper.Map<Event>(eventVM);
-                evt.CreatedById = currentUserId;
-                evt.CreatedBy = await _db.Users.FindAsync(currentUserId);
-                evt.Invites = new List<Invite>() { new Invite() { InviteCode = GenerateInvite(), InvitedById = currentUserId, Public = true } };
-                if (string.IsNullOrEmpty(eventVM.ImageUrl))
-                    evt.CoverImage = null;
-
-                var addedEvt = _db.Events.Add(evt);
+                var user = await _db.Users.AddAsync(new AppUser()
+                {
+                    DisplayName = "anonymous"
+                });
+                currentUserId = user.Entity.Id;
                 await _db.SaveChangesAsync();
-                return Ok($"{addedEvt.Entity.Id}");
             }
-            catch (Exception ex)
-            { throw; }
+
+            var displayName = (await _userManager.FindByIdAsync(currentUserId)).DisplayName;
+
+            var evt = _mapper.Map<Event>(eventVM);
+            evt.CreatedById = currentUserId;
+            evt.CreatedBy = null;
+            evt.Invites = new List<Invite>() { new Invite() { InviteCode = GenerateInvite(), InvitedById = currentUserId, Public = true } };
+            if (string.IsNullOrEmpty(eventVM.ImageUrl))
+                evt.CoverImage = null;
+
+            var addedEvt = _db.Events.Add(evt);
+            await _db.SaveChangesAsync();
+            return new EventCreatedVM()
+            {
+                EventId = addedEvt.Entity.Id,
+                UserId = currentUserId,
+            };
         }
 
         [HttpPost("Update")]

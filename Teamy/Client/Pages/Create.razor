@@ -48,7 +48,7 @@ else
         <span class="oi oi-arrow-left" />
         &nbsp;Back
     </button>
-    <EventEdit InitialEvent=@EditingEvent DoneEditing=@Finished></EventEdit>
+    <EventEdit InitialEvent=@EditingEvent DoneEditing=@CreateFinished></EventEdit>
 }
 
 @code {
@@ -85,7 +85,7 @@ else
         };
     }
 
-    async Task Finished(EventVM editedVM)
+    async Task CreateFinished(EventVM editedVM)
     {
         if (editedVM.ProposedDates != null && editedVM.ProposedDates.Count == 1)
         {
@@ -93,8 +93,11 @@ else
             editedVM.EventDateTo = editedVM.ProposedDates.First()?.DateTo;
             editedVM.DateStatus = EventDateStatus.Locked;
         }
-        var createdId = await EventService.Create(editedVM);
-        Nav.NavigateTo($"/event/{Guid.Parse(createdId)}");
+        var createdEventVM = await EventService.Create(editedVM);
+
+        Console.WriteLine($"Created {createdEventVM.EventId} as user {createdEventVM.UserId}");
+        //@! save to cookies
+        Nav.NavigateTo($"/event/{createdEventVM.EventId}");
     }
 
     void GoBack()
