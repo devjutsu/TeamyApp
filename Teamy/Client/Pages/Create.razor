@@ -95,9 +95,11 @@ else
             editedVM.EventDateTo = editedVM.ProposedDates.First()?.DateTo;
             editedVM.DateStatus = EventDateStatus.Locked;
         }
+
+        editedVM.CreatedById = AppState.UserId ?? await JS.InvokeAsync<string>("ReadCookie.ReadCookie", "userId");
         var createdEventVM = await EventService.Create(editedVM);
 
-        if(!AppState.IsLoggedIn)
+        if (!AppState.IsLoggedIn)
         {
             await JS.InvokeAsync<object>("WriteCookie.WriteCookie", "userId", createdEventVM.UserId, DateTime.Now.AddYears(1));
         }
@@ -109,7 +111,7 @@ else
         EditingEvent = null;
     }
 
-     protected override void OnInitialized()
+    protected override void OnInitialized()
     {
         AppState.Statechanged += async (Source, Property) => await AppState_StateChanged(Source, Property);
     }

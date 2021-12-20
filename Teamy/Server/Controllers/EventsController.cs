@@ -37,7 +37,7 @@ namespace Teamy.Server.Controllers
         [HttpPost("Create")]
         public async Task<EventCreatedVM> Create([FromBody] EventVM eventVM)
         {
-            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? eventVM.CreatedById;
             if (currentUserId == null)
             {
                 var user = await _db.Users.AddAsync(new AppUser()
