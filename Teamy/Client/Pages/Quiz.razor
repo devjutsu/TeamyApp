@@ -167,6 +167,7 @@ else
         if (!AppState.IsLoggedIn)
         {
             await JS.InvokeAsync<object>("WriteCookie.WriteCookie", "userId", CurrentQuiz.UserId, DateTime.Now.AddYears(1));
+            CurrentUserId = CurrentQuiz.UserId;
         }
     }
 

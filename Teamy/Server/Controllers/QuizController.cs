@@ -80,7 +80,11 @@ namespace Teamy.Server.Controllers
 
             if (currentUserId == null)
             {
-                if (string.IsNullOrEmpty(request.UserId))
+                if (!string.IsNullOrEmpty(request.UserId) && await _db.Users.FindAsync(request.UserId) != null)
+                {
+                    currentUserId = request.UserId;
+                }
+                else
                 {
                     var user = await _db.Users.AddAsync(new AppUser()
                     {
@@ -88,10 +92,6 @@ namespace Teamy.Server.Controllers
                     });
                     currentUserId = user.Entity.Id;
                     await _db.SaveChangesAsync();
-                }
-                else
-                {
-                    currentUserId = request.UserId;
                 }
             }
 
@@ -172,7 +172,7 @@ namespace Teamy.Server.Controllers
             var completion = await _db.QuizCompletions.Where(_ => _.QuizId == codeQuiz.QuizId
                                 && _.UserId == request.UserId).FirstOrDefaultAsync();
 
-            if(completion != null)
+            if (completion != null)
             {
                 completion.Status = QuizCompletionStatus.Submitted;
                 _db.QuizCompletions.Update(completion);
@@ -187,7 +187,7 @@ namespace Teamy.Server.Controllers
                 };
                 _db.QuizCompletions.Add(completion);
             }
-            
+
             await _db.SaveChangesAsync();
             return Ok();
         }

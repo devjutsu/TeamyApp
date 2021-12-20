@@ -122,11 +122,13 @@ namespace Teamy.Server.Controllers
         }
 
         [HttpGet("Upcoming")]
-        public List<EventVM> Upcoming()
+        public async Task<IActionResult> Upcoming()
         {
             try
             {
-                var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (currentUserId == null)
+                    return BadRequest("Please, authenticate!");
 
                 var events = _db.Events
                                 .Include(_ => _.Participants)
@@ -145,16 +147,18 @@ namespace Teamy.Server.Controllers
                                 .ToList();
 
                 var vms = _mapper.Map<List<Event>, List<EventVM>>(events);
-                return vms;
+                return Ok(vms);
             }
             catch (Exception ex)
             { throw; }
         }
 
         [HttpGet("Get/{id}")]
-        public async Task<EventVM> Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId == null)
+                return BadRequest("Please, authenticate!");
 
             try
             {
@@ -174,7 +178,7 @@ namespace Teamy.Server.Controllers
                                 .FirstAsync(o => o.Id == id);
 
                 var vm = _mapper.Map<EventVM>(evt);
-                return vm;
+                return Ok(vm);
             }
             catch (Exception ex)
             { throw; }

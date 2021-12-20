@@ -126,21 +126,43 @@ namespace Teamy.Server.Areas.Identity.Pages.Account
                     _logger.LogInformation("User logged in.");
 
                     HttpContext.Request.Cookies.TryGetValue("userId", out string cookieUserId);
-                    if(cookieUserId != null)
+                    if (cookieUserId != null)
                     {
                         var currentUserId = _db.Users.Where(o => o.Email == Input.Email).SingleOrDefault().Id;
-                        if(cookieUserId != currentUserId)
+                        if (cookieUserId != currentUserId)
                         {
                             var createdEvents = _db.Events.Where(e => e.CreatedById == cookieUserId);
-                            if(createdEvents?.Any() ?? false)
+                            if (createdEvents?.Any() ?? false)
                             {
-                                foreach(var e in createdEvents)
+                                foreach (var e in createdEvents)
                                 {
                                     // @! make sure this event belongs to logged in user (and it's totally fresh event)
 
                                     e.CreatedById = currentUserId;
                                 }
                                 _db.Events.UpdateRange(createdEvents);
+                                _db.SaveChanges();
+                            }
+
+                            // @ Move Completion for cookieUser to currentUserId
+                            var completions = _db.QuizCompletions.Where(e => e.UserId == cookieUserId);
+                            if (completions?.Any() ?? false)
+                            {
+                                foreach(var c in completions)
+                                {
+                                    c.UserId = currentUserId;
+                                }
+                                _db.QuizCompletions.UpdateRange(completions);
+                                var quizAnswers = _db.QuizAnswers.Where(e => e.UserId == cookieUserId);
+                                if(quizAnswers?.Any() ?? false)
+                                {
+                                    foreach(var a in quizAnswers)
+                                    {
+                                        a.UserId = currentUserId;
+                                    }
+                                    _db.QuizAnswers.UpdateRange(quizAnswers);
+                                }
+
                                 _db.SaveChanges();
                             }
                         }
@@ -156,10 +178,10 @@ namespace Teamy.Server.Areas.Identity.Pages.Account
                         var anonymousParticipation = _db.AnonParticipation.Find(Guid.Parse(Input.Participation));
                         var currentUserId = _db.Users.Where(o => o.Email == Input.Email).SingleOrDefault().Id;
 
-                        if(anonymousParticipation != null)
+                        if (anonymousParticipation != null)
                         {
                             var existingAnswers = _db.Participation.Where(o => o.EventId == anonymousParticipation.EventId && o.UserId == currentUserId);
-                            if(existingAnswers.Any())
+                            if (existingAnswers.Any())
                                 _db.Participation.RemoveRange(existingAnswers);
 
                             var realParticipation = new Participation()
