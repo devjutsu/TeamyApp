@@ -13,7 +13,7 @@ namespace Teamy.Client.Services
     {
         Task LoadUpcoming();
         Task<EventVM> Get(Guid id);
-        Task<string> Create(EventVM eventVM);
+        Task<EventCreatedVM> Create(EventVM eventVM);
         Task<string> Update(EventVM eventVM);
         Task<EventVM> Invited(string inviteCode);
         Task Delete(Guid id);
@@ -45,12 +45,11 @@ namespace Teamy.Client.Services
             }
         }
 
-        public async Task<string> Create(EventVM eventVM)
+        public async Task<EventCreatedVM> Create(EventVM eventVM)
         {
             var result = await Http.PostAsJsonAsync<EventVM>("Events/Create", eventVM);
-            if (result.IsSuccessStatusCode)
-                return await result.Content.ReadAsStringAsync();
-            else return string.Empty;
+            var content = await result.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<EventCreatedVM>(content, new JsonSerializerOptions(JsonSerializerDefaults.Web));
         }
 
         public async Task<string> Update(EventVM eventVM)

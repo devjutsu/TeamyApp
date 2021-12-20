@@ -102,7 +102,7 @@ namespace Teamy.Server.Controllers
                                     .Include(_ => _.Questions)
                                     .ThenInclude(_ => _.Answers.Where(z => z.UserId == currentUserId))
                                     .Include(_ => _.Image)
-                                    .FirstAsync(o => o.Id == codeQuiz.QuizId);
+                                    .FirstOrDefaultAsync(o => o.Id == codeQuiz.QuizId);
 
             var completion = await _db.QuizCompletions.Where(_ => _.QuizId == codeQuiz.QuizId
                                 && _.UserId == currentUserId).FirstOrDefaultAsync();
