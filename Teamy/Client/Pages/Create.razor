@@ -1,8 +1,10 @@
 ﻿@page "/create"
 @using Blazored.Modal.Services
+@inject AppState AppState
 @inject IJSRuntime JS
 @inject IManageEvents EventService
 @inject IManageTemplates TemplateService
+@implements IDisposable
 
 @if (EditingEvent == null)
 {
@@ -97,12 +99,31 @@ else
 
         Console.WriteLine($"Created {createdEventVM.EventId} as user {createdEventVM.UserId}");
         //@! save to cookies
+        if(!AppState.IsLoggedIn)
+        {
+            await JS.InvokeAsync<object>("WriteCookie.WriteCookie", "userId", createdEventVM.UserId, DateTime.Now.AddYears(1));
+        }
         Nav.NavigateTo($"/event/{createdEventVM.EventId}");
     }
 
     void GoBack()
     {
         EditingEvent = null;
+    }
+
+     protected override void OnInitialized()
+    {
+        AppState.Statechanged += async (Source, Property) => await AppState_StateChanged(Source, Property);
+    }
+
+    private async Task AppState_StateChanged(ComponentBase source, string Property)
+    {
+        if (source != this) await InvokeAsync(StateHasChanged);
+    }
+
+    void IDisposable.Dispose()
+    {
+        AppState.Statechanged -= async (Source, Property) => await AppState_StateChanged(Source, Property);
     }
 }
 
