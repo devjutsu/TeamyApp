@@ -97,8 +97,6 @@ else
         }
         var createdEventVM = await EventService.Create(editedVM);
 
-        Console.WriteLine($"Created {createdEventVM.EventId} as user {createdEventVM.UserId}");
-        //@! save to cookies
         if(!AppState.IsLoggedIn)
         {
             await JS.InvokeAsync<object>("WriteCookie.WriteCookie", "userId", createdEventVM.UserId, DateTime.Now.AddYears(1));
