@@ -928,6 +928,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 .quiz-picture {
   max-width: 100%;
+  border-radius: 16px;
 }
 .dropArea {
   border: 2px dashed gray;
@@ -976,4 +977,33 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .grade-empty:hover {
   color: #4AAAE8;
   opacity: 0.35;
+}
+.full-width {
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  margin-top: -100px;
+}
+.bg-image {
+  background-image: url("https://images.pexels.com/photos/69743/pexels-photo-69743.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  position: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 1100px;
+}
+.mask-text-over-img {
+  backdrop-filter: blur(1px);
+  background-color: rgba(0, 0, 0, 0.4);
+  margin-top: -100px;
+  margin: -0.5rem;
+  padding: 1rem 2rem 1rem 2rem !important;
+  border-radius: 14px;
+}
+.center-buttons {
+  float: right;
+  width: 500px;
+  padding: 10px;
 }
