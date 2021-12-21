@@ -9,11 +9,11 @@ using Teamy.Server.Data;
 
 #nullable disable
 
-namespace Teamy.Server.Data.Migrations
+namespace Teamy.Server.Migrations
 {
     [DbContext(typeof(TeamyDbContext))]
-    [Migration("20211217174740_009_quiz_image")]
-    partial class _009_quiz_image
+    [Migration("20211221213322_001_init")]
+    partial class _001_init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -194,15 +194,15 @@ namespace Teamy.Server.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2807dd57-492c-4480-8c26-10839d2d02fe",
-                            ConcurrencyStamp = "8e27cd2e-93fa-426d-9e80-650bf07a9e7b",
+                            Id = "82247243-c9a6-4017-aa43-a990b195cd9b",
+                            ConcurrencyStamp = "88f25f20-c816-4741-9fd8-29045bf4397f",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "1c2728af-6eab-4e8d-aa2b-e6384912aeb6",
-                            ConcurrencyStamp = "bc9a3793-d1f4-4ed3-a3cc-33e66c400d5c",
+                            Id = "afd7d4fb-6f57-486a-8e91-889c54375c0f",
+                            ConcurrencyStamp = "7a476dfe-4e55-4b69-963e-189e63e5ef46",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -764,6 +764,10 @@ namespace Teamy.Server.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
@@ -773,7 +777,13 @@ namespace Teamy.Server.Data.Migrations
                     b.Property<Guid>("QuizId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Id");
 
                     b.HasIndex("QuizId");
 
@@ -840,6 +850,8 @@ namespace Teamy.Server.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id");
+
                     b.HasIndex("QuizQuestionId");
 
                     b.ToTable("QuizAnswers");
@@ -883,8 +895,9 @@ namespace Teamy.Server.Data.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("QuizId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("QCodeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -894,7 +907,9 @@ namespace Teamy.Server.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuizId");
+                    b.HasIndex("Id");
+
+                    b.HasIndex("QCodeId");
 
                     b.ToTable("QuizCompletions");
                 });
@@ -1203,7 +1218,7 @@ namespace Teamy.Server.Data.Migrations
             modelBuilder.Entity("Teamy.Server.Models.Quizes.QCode", b =>
                 {
                     b.HasOne("Teamy.Server.Models.Quizes.Quiz", "Quiz")
-                        .WithMany()
+                        .WithMany("QCodes")
                         .HasForeignKey("QuizId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1252,13 +1267,13 @@ namespace Teamy.Server.Data.Migrations
 
             modelBuilder.Entity("Teamy.Server.Models.Quizes.QuizCompletion", b =>
                 {
-                    b.HasOne("Teamy.Server.Models.Quizes.Quiz", "Quiz")
+                    b.HasOne("Teamy.Server.Models.Quizes.QCode", "QCode")
                         .WithMany("Completions")
-                        .HasForeignKey("QuizId")
+                        .HasForeignKey("QCodeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Quiz");
+                    b.Navigation("QCode");
                 });
 
             modelBuilder.Entity("Teamy.Server.Models.Quizes.QuizQuestion", b =>
@@ -1339,9 +1354,14 @@ namespace Teamy.Server.Data.Migrations
                     b.Navigation("Votes");
                 });
 
-            modelBuilder.Entity("Teamy.Server.Models.Quizes.Quiz", b =>
+            modelBuilder.Entity("Teamy.Server.Models.Quizes.QCode", b =>
                 {
                     b.Navigation("Completions");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Quizes.Quiz", b =>
+                {
+                    b.Navigation("QCodes");
 
                     b.Navigation("Questions");
                 });

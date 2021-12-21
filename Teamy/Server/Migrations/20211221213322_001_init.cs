@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Teamy.Server.Data.Migrations
+namespace Teamy.Server.Migrations
 {
-    public partial class _001 : Migration
+    public partial class _001_init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +17,9 @@ namespace Teamy.Server.Data.Migrations
                     EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     InviteId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UnregisteredName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false)
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,6 +46,8 @@ namespace Teamy.Server.Data.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -88,7 +92,9 @@ namespace Teamy.Server.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false)
+                    Url = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -259,7 +265,9 @@ namespace Teamy.Server.Data.Migrations
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     SentById = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    SentAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    SentAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -283,7 +291,9 @@ namespace Teamy.Server.Data.Migrations
                     CoverImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     DateStatus = table.Column<int>(type: "int", nullable: false),
                     EventDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    EventDateTo = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    EventDateTo = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -297,6 +307,34 @@ namespace Teamy.Server.Data.Migrations
                     table.ForeignKey(
                         name: "FK_Events_Images_CoverImageId",
                         column: x => x.CoverImageId,
+                        principalTable: "Images",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Quiz",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Details = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Quiz", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Quiz_AspNetUsers_CreatorId",
+                        column: x => x.CreatorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Quiz_Images_ImageId",
+                        column: x => x.ImageId,
                         principalTable: "Images",
                         principalColumn: "Id");
                 });
@@ -337,7 +375,9 @@ namespace Teamy.Server.Data.Migrations
                     EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     InvitedById = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Public = table.Column<bool>(type: "bit", nullable: false),
-                    InviteCode = table.Column<string>(type: "nchar(8)", fixedLength: true, maxLength: 8, nullable: false)
+                    InviteCode = table.Column<string>(type: "nchar(8)", fixedLength: true, maxLength: 8, nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -358,7 +398,9 @@ namespace Teamy.Server.Data.Migrations
                     EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     InviteId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false)
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -384,7 +426,9 @@ namespace Teamy.Server.Data.Migrations
                     EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Question = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     MultiChoice = table.Column<bool>(type: "bit", nullable: false),
-                    FreeTextOption = table.Column<bool>(type: "bit", nullable: false)
+                    FreeTextOption = table.Column<bool>(type: "bit", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -404,7 +448,9 @@ namespace Teamy.Server.Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateTo = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -413,6 +459,51 @@ namespace Teamy.Server.Data.Migrations
                         name: "FK_ProposedDates_Events_EventId",
                         column: x => x.EventId,
                         principalTable: "Events",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QCodes",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    QuizId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QCodes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QCodes_Quiz_QuizId",
+                        column: x => x.QuizId,
+                        principalTable: "Quiz",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuizQuestions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    QuizId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Question = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Order = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuizQuestions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuizQuestions_Quiz_QuizId",
+                        column: x => x.QuizId,
+                        principalTable: "Quiz",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -444,7 +535,9 @@ namespace Teamy.Server.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PollId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Choice = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false)
+                    Choice = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -463,15 +556,88 @@ namespace Teamy.Server.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProposedDateId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ProposedDateId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DateVotes", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_DateVotes_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_DateVotes_ProposedDates_ProposedDateId",
                         column: x => x.ProposedDateId,
                         principalTable: "ProposedDates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuizCompletions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    QCodeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuizCompletions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuizCompletions_QCodes_QCodeId",
+                        column: x => x.QCodeId,
+                        principalTable: "QCodes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuizAnswers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    QuizQuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Answer = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuizAnswers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuizAnswers_QuizQuestions_QuizQuestionId",
+                        column: x => x.QuizQuestionId,
+                        principalTable: "QuizQuestions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuizChoices",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    QuizQuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Choice = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuizChoices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuizChoices_QuizQuestions_QuizQuestionId",
+                        column: x => x.QuizQuestionId,
+                        principalTable: "QuizQuestions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -501,7 +667,9 @@ namespace Teamy.Server.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PollChoiceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    PollChoiceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -517,12 +685,12 @@ namespace Teamy.Server.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "474f9851-041a-4a2a-a081-6502b73fcae3", "9c62983a-d29d-4ab7-9a45-c7075f2ae1d4", "User", "USER" });
+                values: new object[] { "82247243-c9a6-4017-aa43-a990b195cd9b", "88f25f20-c816-4741-9fd8-29045bf4397f", "User", "USER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "b019c958-c261-4c9b-a1fe-3382134166e9", "dc4b2f79-fea5-47cf-aac7-9400c9a03b14", "Admin", "ADMIN" });
+                values: new object[] { "afd7d4fb-6f57-486a-8e91-889c54375c0f", "7a476dfe-4e55-4b69-963e-189e63e5ef46", "Admin", "ADMIN" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -706,6 +874,56 @@ namespace Teamy.Server.Data.Migrations
                 column: "EventId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_QCodes_Id",
+                table: "QCodes",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QCodes_QuizId",
+                table: "QCodes",
+                column: "QuizId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Quiz_CreatorId",
+                table: "Quiz",
+                column: "CreatorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Quiz_ImageId",
+                table: "Quiz",
+                column: "ImageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuizAnswers_Id",
+                table: "QuizAnswers",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuizAnswers_QuizQuestionId",
+                table: "QuizAnswers",
+                column: "QuizQuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuizChoices_QuizQuestionId",
+                table: "QuizChoices",
+                column: "QuizQuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuizCompletions_Id",
+                table: "QuizCompletions",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuizCompletions_QCodeId",
+                table: "QuizCompletions",
+                column: "QCodeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuizQuestions_QuizId",
+                table: "QuizQuestions",
+                column: "QuizId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TemplatePollChoices_Id",
                 table: "TemplatePollChoices",
                 column: "Id");
@@ -781,6 +999,15 @@ namespace Teamy.Server.Data.Migrations
                 name: "PollAnswers");
 
             migrationBuilder.DropTable(
+                name: "QuizAnswers");
+
+            migrationBuilder.DropTable(
+                name: "QuizChoices");
+
+            migrationBuilder.DropTable(
+                name: "QuizCompletions");
+
+            migrationBuilder.DropTable(
                 name: "TemplatePollChoices");
 
             migrationBuilder.DropTable(
@@ -793,10 +1020,19 @@ namespace Teamy.Server.Data.Migrations
                 name: "PollChoices");
 
             migrationBuilder.DropTable(
+                name: "QuizQuestions");
+
+            migrationBuilder.DropTable(
+                name: "QCodes");
+
+            migrationBuilder.DropTable(
                 name: "TemplatePolls");
 
             migrationBuilder.DropTable(
                 name: "Polls");
+
+            migrationBuilder.DropTable(
+                name: "Quiz");
 
             migrationBuilder.DropTable(
                 name: "Templates");

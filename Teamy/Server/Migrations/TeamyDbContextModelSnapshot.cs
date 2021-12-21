@@ -3,19 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Teamy.Server.Data;
 
 #nullable disable
 
-namespace Teamy.Server.Data.Migrations
+namespace Teamy.Server.Migrations
 {
     [DbContext(typeof(TeamyDbContext))]
-    [Migration("20211212183836_002_DateVoteUser")]
-    partial class _002_DateVoteUser
+    partial class TeamyDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -194,15 +192,15 @@ namespace Teamy.Server.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "959c567c-d36c-4c06-bf47-1bc8cb8d4a00",
-                            ConcurrencyStamp = "581be658-b651-4531-97a7-a328e44bc550",
+                            Id = "82247243-c9a6-4017-aa43-a990b195cd9b",
+                            ConcurrencyStamp = "88f25f20-c816-4741-9fd8-29045bf4397f",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "dd978987-44df-439d-aa0f-7cbfaeb9ad80",
-                            ConcurrencyStamp = "f0e01726-77ef-4017-8d8f-e21850d305b6",
+                            Id = "afd7d4fb-6f57-486a-8e91-889c54375c0f",
+                            ConcurrencyStamp = "7a476dfe-4e55-4b69-963e-189e63e5ef46",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -324,6 +322,12 @@ namespace Teamy.Server.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid?>("EventId")
                         .HasColumnType("uniqueidentifier");
 
@@ -352,6 +356,12 @@ namespace Teamy.Server.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
@@ -417,6 +427,12 @@ namespace Teamy.Server.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
 
@@ -446,6 +462,12 @@ namespace Teamy.Server.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("ProposedDateId")
                         .HasColumnType("uniqueidentifier");
@@ -478,8 +500,14 @@ namespace Teamy.Server.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("DateStatus")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -516,6 +544,12 @@ namespace Teamy.Server.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Url")
                         .IsRequired()
                         .HasMaxLength(512)
@@ -533,6 +567,12 @@ namespace Teamy.Server.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid?>("EventId")
                         .IsRequired()
@@ -567,6 +607,12 @@ namespace Teamy.Server.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid?>("EventId")
                         .HasColumnType("uniqueidentifier");
 
@@ -589,11 +635,17 @@ namespace Teamy.Server.Data.Migrations
                     b.ToTable("Participation");
                 });
 
-            modelBuilder.Entity("Teamy.Server.Models.Poll", b =>
+            modelBuilder.Entity("Teamy.Server.Models.Polls.Poll", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
@@ -618,11 +670,17 @@ namespace Teamy.Server.Data.Migrations
                     b.ToTable("Polls");
                 });
 
-            modelBuilder.Entity("Teamy.Server.Models.PollAnswer", b =>
+            modelBuilder.Entity("Teamy.Server.Models.Polls.PollAnswer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("PollChoiceId")
                         .HasColumnType("uniqueidentifier");
@@ -642,7 +700,7 @@ namespace Teamy.Server.Data.Migrations
                     b.ToTable("PollAnswers");
                 });
 
-            modelBuilder.Entity("Teamy.Server.Models.PollChoice", b =>
+            modelBuilder.Entity("Teamy.Server.Models.Polls.PollChoice", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -652,6 +710,12 @@ namespace Teamy.Server.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("PollId")
                         .HasColumnType("uniqueidentifier");
@@ -674,7 +738,13 @@ namespace Teamy.Server.Data.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("DateTo")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("EventId")
@@ -687,7 +757,194 @@ namespace Teamy.Server.Data.Migrations
                     b.ToTable("ProposedDates");
                 });
 
-            modelBuilder.Entity("Teamy.Server.Models.Template", b =>
+            modelBuilder.Entity("Teamy.Server.Models.Quizes.QCode", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("QuizId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("QuizId");
+
+                    b.ToTable("QCodes");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Quizes.Quiz", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ImageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("ImageId");
+
+                    b.ToTable("Quiz");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Quizes.QuizAnswer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Answer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("QuizQuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("QuizQuestionId");
+
+                    b.ToTable("QuizAnswers");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Quizes.QuizChoice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Choice")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("QuizQuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuizQuestionId");
+
+                    b.ToTable("QuizChoices");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Quizes.QuizCompletion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("QCodeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("QCodeId");
+
+                    b.ToTable("QuizCompletions");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Quizes.QuizQuestion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("QuizId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuizId");
+
+                    b.ToTable("QuizQuestions");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Templates.Template", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -722,7 +979,7 @@ namespace Teamy.Server.Data.Migrations
                     b.ToTable("Templates");
                 });
 
-            modelBuilder.Entity("Teamy.Server.Models.TemplateCategory", b =>
+            modelBuilder.Entity("Teamy.Server.Models.Templates.TemplateCategory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -738,7 +995,7 @@ namespace Teamy.Server.Data.Migrations
                     b.ToTable("TemplateCategories");
                 });
 
-            modelBuilder.Entity("Teamy.Server.Models.TemplatePoll", b =>
+            modelBuilder.Entity("Teamy.Server.Models.Templates.TemplatePoll", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -767,7 +1024,7 @@ namespace Teamy.Server.Data.Migrations
                     b.ToTable("TemplatePolls");
                 });
 
-            modelBuilder.Entity("Teamy.Server.Models.TemplatePollChoice", b =>
+            modelBuilder.Entity("Teamy.Server.Models.Templates.TemplatePollChoice", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -861,7 +1118,7 @@ namespace Teamy.Server.Data.Migrations
                     b.HasOne("Teamy.Server.Models.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ProposedDate");
@@ -912,7 +1169,7 @@ namespace Teamy.Server.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Teamy.Server.Models.Poll", b =>
+            modelBuilder.Entity("Teamy.Server.Models.Polls.Poll", b =>
                 {
                     b.HasOne("Teamy.Server.Models.Event", "Event")
                         .WithMany("Polls")
@@ -923,9 +1180,9 @@ namespace Teamy.Server.Data.Migrations
                     b.Navigation("Event");
                 });
 
-            modelBuilder.Entity("Teamy.Server.Models.PollAnswer", b =>
+            modelBuilder.Entity("Teamy.Server.Models.Polls.PollAnswer", b =>
                 {
-                    b.HasOne("Teamy.Server.Models.PollChoice", "PollChoice")
+                    b.HasOne("Teamy.Server.Models.Polls.PollChoice", "PollChoice")
                         .WithMany("Answers")
                         .HasForeignKey("PollChoiceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -934,9 +1191,9 @@ namespace Teamy.Server.Data.Migrations
                     b.Navigation("PollChoice");
                 });
 
-            modelBuilder.Entity("Teamy.Server.Models.PollChoice", b =>
+            modelBuilder.Entity("Teamy.Server.Models.Polls.PollChoice", b =>
                 {
-                    b.HasOne("Teamy.Server.Models.Poll", "Poll")
+                    b.HasOne("Teamy.Server.Models.Polls.Poll", "Poll")
                         .WithMany("Choices")
                         .HasForeignKey("PollId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -956,9 +1213,81 @@ namespace Teamy.Server.Data.Migrations
                     b.Navigation("Event");
                 });
 
-            modelBuilder.Entity("Teamy.Server.Models.Template", b =>
+            modelBuilder.Entity("Teamy.Server.Models.Quizes.QCode", b =>
                 {
-                    b.HasOne("Teamy.Server.Models.TemplateCategory", "Category")
+                    b.HasOne("Teamy.Server.Models.Quizes.Quiz", "Quiz")
+                        .WithMany("QCodes")
+                        .HasForeignKey("QuizId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Quiz");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Quizes.Quiz", b =>
+                {
+                    b.HasOne("Teamy.Server.Models.AppUser", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Teamy.Server.Models.ImageModel", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Image");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Quizes.QuizAnswer", b =>
+                {
+                    b.HasOne("Teamy.Server.Models.Quizes.QuizQuestion", "Question")
+                        .WithMany("Answers")
+                        .HasForeignKey("QuizQuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Quizes.QuizChoice", b =>
+                {
+                    b.HasOne("Teamy.Server.Models.Quizes.QuizQuestion", "Question")
+                        .WithMany("Choices")
+                        .HasForeignKey("QuizQuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Quizes.QuizCompletion", b =>
+                {
+                    b.HasOne("Teamy.Server.Models.Quizes.QCode", "QCode")
+                        .WithMany("Completions")
+                        .HasForeignKey("QCodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("QCode");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Quizes.QuizQuestion", b =>
+                {
+                    b.HasOne("Teamy.Server.Models.Quizes.Quiz", "Quiz")
+                        .WithMany("Questions")
+                        .HasForeignKey("QuizId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Quiz");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Templates.Template", b =>
+                {
+                    b.HasOne("Teamy.Server.Models.Templates.TemplateCategory", "Category")
                         .WithMany("Templates")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -975,9 +1304,9 @@ namespace Teamy.Server.Data.Migrations
                     b.Navigation("CoverImage");
                 });
 
-            modelBuilder.Entity("Teamy.Server.Models.TemplatePoll", b =>
+            modelBuilder.Entity("Teamy.Server.Models.Templates.TemplatePoll", b =>
                 {
-                    b.HasOne("Teamy.Server.Models.Template", "Template")
+                    b.HasOne("Teamy.Server.Models.Templates.Template", "Template")
                         .WithMany("Polls")
                         .HasForeignKey("TemplateId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -986,9 +1315,9 @@ namespace Teamy.Server.Data.Migrations
                     b.Navigation("Template");
                 });
 
-            modelBuilder.Entity("Teamy.Server.Models.TemplatePollChoice", b =>
+            modelBuilder.Entity("Teamy.Server.Models.Templates.TemplatePollChoice", b =>
                 {
-                    b.HasOne("Teamy.Server.Models.TemplatePoll", "Poll")
+                    b.HasOne("Teamy.Server.Models.Templates.TemplatePoll", "Poll")
                         .WithMany("Choices")
                         .HasForeignKey("TemplatePollId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1008,12 +1337,12 @@ namespace Teamy.Server.Data.Migrations
                     b.Navigation("ProposedDates");
                 });
 
-            modelBuilder.Entity("Teamy.Server.Models.Poll", b =>
+            modelBuilder.Entity("Teamy.Server.Models.Polls.Poll", b =>
                 {
                     b.Navigation("Choices");
                 });
 
-            modelBuilder.Entity("Teamy.Server.Models.PollChoice", b =>
+            modelBuilder.Entity("Teamy.Server.Models.Polls.PollChoice", b =>
                 {
                     b.Navigation("Answers");
                 });
@@ -1023,17 +1352,36 @@ namespace Teamy.Server.Data.Migrations
                     b.Navigation("Votes");
                 });
 
-            modelBuilder.Entity("Teamy.Server.Models.Template", b =>
+            modelBuilder.Entity("Teamy.Server.Models.Quizes.QCode", b =>
+                {
+                    b.Navigation("Completions");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Quizes.Quiz", b =>
+                {
+                    b.Navigation("QCodes");
+
+                    b.Navigation("Questions");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Quizes.QuizQuestion", b =>
+                {
+                    b.Navigation("Answers");
+
+                    b.Navigation("Choices");
+                });
+
+            modelBuilder.Entity("Teamy.Server.Models.Templates.Template", b =>
                 {
                     b.Navigation("Polls");
                 });
 
-            modelBuilder.Entity("Teamy.Server.Models.TemplateCategory", b =>
+            modelBuilder.Entity("Teamy.Server.Models.Templates.TemplateCategory", b =>
                 {
                     b.Navigation("Templates");
                 });
 
-            modelBuilder.Entity("Teamy.Server.Models.TemplatePoll", b =>
+            modelBuilder.Entity("Teamy.Server.Models.Templates.TemplatePoll", b =>
                 {
                     b.Navigation("Choices");
                 });

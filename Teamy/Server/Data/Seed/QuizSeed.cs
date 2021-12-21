@@ -37,14 +37,6 @@ namespace Teamy.Server.Data.Seed
                             new QuizChoice() {Choice = "Party"},
                             new QuizChoice() {Choice = "Mob programming"},
                         },
-                        Answers = new List<QuizAnswer>()
-                        {
-                            new QuizAnswer()
-                            {
-                                Answer = "Mob programming",
-                                UserId = garuda.Id,
-                            },
-                        },
                     },
                     new QuizQuestion()
                     {
@@ -57,30 +49,18 @@ namespace Teamy.Server.Data.Seed
                             new QuizChoice() { Choice = "No"},
                             new QuizChoice() { Choice = "Depends"},
                         },
-                        Answers= new List<QuizAnswer>()
-                        {
-                            new QuizAnswer() {Answer = "Depends", UserId = garuda.Id },
-                        }
                     },
                     new QuizQuestion()
                     {
                         Order = 2,
                         Question = "What do you think of this?",
                         Type = QuizElementType.FreeTextQuestion,
-                        Answers= new List<QuizAnswer>()
-                        {
-                            new QuizAnswer() { UserId = garuda.Id, Answer = "Hello, World!" },
-                        }
                     },
                     new QuizQuestion()
                     {
                         Order = 3,
                         Question = "How are you feeling today?",
                         Type = QuizElementType.GradeQuestion,
-                        Answers = new List<QuizAnswer>()
-                        {
-                            new QuizAnswer() { UserId = garuda.Id, Answer = "5"},
-                        }
                     },
                     new QuizQuestion()
                     {
@@ -105,17 +85,9 @@ namespace Teamy.Server.Data.Seed
 
             db.QCodes.Add(new QCode()
             {
-                Id = Guid.NewGuid().ToString().Substring(0, 8),
-                Quiz = quiz.Entity
-            });
-            db.QCodes.Add(new QCode()
-            {
-                Id = Guid.NewGuid().ToString().Substring(0, 8),
-                Quiz = quiz.Entity
-            });
-            db.QCodes.Add(new QCode()
-            {
-                Id = Guid.NewGuid().ToString().Substring(0, 8),
+                Id = "tstetste",
+                Comment = "Dummy testing link",
+                Url = "None",
                 Quiz = quiz.Entity
             });
 
@@ -136,7 +108,7 @@ namespace Teamy.Server.Data.Seed
                     },
                     new QuizQuestion()
                     {
-                        Order= 14,
+                        Order= 1,
                         Type = QuizElementType.SingleSelectQuestion,
                         Question = "Do you agree that doing something together leads to better quality communication?",
                         Choices = new List<QuizChoice>()
@@ -148,20 +120,20 @@ namespace Teamy.Server.Data.Seed
                     },
                     new QuizQuestion()
                     {
-                        Order = 7,
+                        Order = 2,
                         Question = "https://squalldiag.blob.core.windows.net/preload/mountains.jpg",
                         Type = QuizElementType.Picture,
                     },
                     
                     new QuizQuestion()
                     {
-                        Order= 17,
+                        Order= 3,
                         Type = QuizElementType.GradeQuestion,
                         Question = "How difficult it is to find common activities with new people?",
                     },
                     new QuizQuestion()
                     {
-                        Order= 1,
+                        Order= 4,
                         Question = "Do you find it sometimes challenging to plan time together with your family, friends or acquaintances?",
                         Type = QuizElementType.SingleSelectQuestion,
                         Choices = new List<QuizChoice>()
@@ -175,7 +147,7 @@ namespace Teamy.Server.Data.Seed
                     },
                     new QuizQuestion()
                     {
-                        Order= 2,
+                        Order= 5,
                         Question = "What difficulties you might face?",
                         Type = QuizElementType.MultiSelectQuestion,
                         Choices = new List<QuizChoice>()
@@ -191,13 +163,13 @@ namespace Teamy.Server.Data.Seed
                     },
                     new QuizQuestion()
                     {
-                        Order = 3,
+                        Order = 6,
                         Question = "How do you plan? (optional)",
                         Type = QuizElementType.FreeTextQuestion,
                     },
                     new QuizQuestion()
                     {
-                        Order = 4,
+                        Order = 7,
                         Question = "What tools do you use for planning?",
                         Type = QuizElementType.MultiSelectQuestion,
                         Choices = new List<QuizChoice>()
@@ -250,7 +222,7 @@ namespace Teamy.Server.Data.Seed
 
                     new QuizQuestion()
                     {
-                        Order = 13,
+                        Order = 10,
                         Question = "Would you prefer using...",
                         Type = QuizElementType.MultiSelectQuestion,
                         Choices = new List<QuizChoice>()
@@ -268,7 +240,7 @@ namespace Teamy.Server.Data.Seed
                     },
                     new QuizQuestion()
                     {
-                        Order= 15,
+                        Order= 12,
                         Type = QuizElementType.GradeQuestion,
                         Question = "How much has pandemics affected live communication?",
                         Choices = new List<QuizChoice>()
@@ -280,7 +252,7 @@ namespace Teamy.Server.Data.Seed
                     },
                     new QuizQuestion()
                     {
-                        Order= 16,
+                        Order= 13,
                         Type = QuizElementType.SingleSelectQuestion,
                         Question = "Do social networks improve socialization and quality of communication?",
                         Choices = new List<QuizChoice>()
@@ -293,7 +265,7 @@ namespace Teamy.Server.Data.Seed
 
                     new QuizQuestion()
                     {
-                        Order= 18,
+                        Order= 14,
                         Type = QuizElementType.MultiSelectQuestion,
                         Question = "Would you like to get involved into activities with people you don't know yet, if you all love doing the same things?",
                         Choices = new List<QuizChoice>()
@@ -307,7 +279,7 @@ namespace Teamy.Server.Data.Seed
                     },
                     new QuizQuestion()
                     {
-                        Order= 19,
+                        Order= 15,
                         Type = QuizElementType.SingleSelectQuestion,
                         Question = "Would you like to get recommendations on activities within your set of interests?",
                         Choices = new List<QuizChoice>()
@@ -321,13 +293,13 @@ namespace Teamy.Server.Data.Seed
                     
                     new QuizQuestion()
                     {
-                        Order = 10,
+                        Order = 16,
                         Question = "How likely you will use our tool to get people together?",
                         Type = QuizElementType.GradeQuestion,
                     },
                     new QuizQuestion()
                     {
-                        Order= 20,
+                        Order= 17,
                         Type = QuizElementType.FreeTextQuestion,
                         Question = "Any comments for us to make this project really helpful for socializing?",
                     },
@@ -337,51 +309,8 @@ namespace Teamy.Server.Data.Seed
             db.QCodes.Add(new QCode()
             {
                 Id = "afafafaf",
-                Quiz = publicQuiz.Entity
-            });
-            db.QCodes.Add(new QCode()
-            {
-                Id = Guid.NewGuid().ToString().Substring(0, 8),
-                Quiz = publicQuiz.Entity
-            });
-            db.QCodes.Add(new QCode()
-            {
-                Id = Guid.NewGuid().ToString().Substring(0, 8),
-                Quiz = publicQuiz.Entity
-            });
-            db.QCodes.Add(new QCode()
-            {
-                Id = Guid.NewGuid().ToString().Substring(0, 8),
-                Quiz = publicQuiz.Entity
-            });
-            db.QCodes.Add(new QCode()
-            {
-                Id = Guid.NewGuid().ToString().Substring(0, 8),
-                Quiz = publicQuiz.Entity
-            });
-            db.QCodes.Add(new QCode()
-            {
-                Id = Guid.NewGuid().ToString().Substring(0, 8),
-                Quiz = publicQuiz.Entity
-            });
-            db.QCodes.Add(new QCode()
-            {
-                Id = Guid.NewGuid().ToString().Substring(0, 8),
-                Quiz = publicQuiz.Entity
-            });
-            db.QCodes.Add(new QCode()
-            {
-                Id = Guid.NewGuid().ToString().Substring(0, 8),
-                Quiz = publicQuiz.Entity
-            });
-            db.QCodes.Add(new QCode()
-            {
-                Id = Guid.NewGuid().ToString().Substring(0, 8),
-                Quiz = publicQuiz.Entity
-            });
-            db.QCodes.Add(new QCode()
-            {
-                Id = Guid.NewGuid().ToString().Substring(0, 8),
+                Comment = "Testing link",
+                Url = "None",
                 Quiz = publicQuiz.Entity
             });
         }
