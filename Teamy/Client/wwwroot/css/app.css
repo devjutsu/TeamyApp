@@ -618,7 +618,7 @@ textarea:focus {
   font-weight: bold;
 }
 .event-card-date {
-  color: #4C4E52;
+  color: #86888A;
 }
 .template-card {
   margin-bottom: 1rem;
@@ -996,7 +996,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 .mask-text-over-img {
   backdrop-filter: blur(1px);
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.5);
   margin-top: -100px;
   margin: -0.5rem;
   padding: 1rem 2rem 1rem 2rem !important;
