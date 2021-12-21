@@ -158,7 +158,7 @@ else
         CurrentUserId = AppState.UserId ?? await JS.InvokeAsync<string>("ReadCookie.ReadCookie", "userId");
         var request = new QuizCodeVM()
             {
-                QCode = this.QCode,
+                Id = this.QCode,
                 UserId = CurrentUserId,
                 // @! for MAUI, go away from Cookies
             };

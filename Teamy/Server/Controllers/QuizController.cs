@@ -39,6 +39,7 @@ namespace Teamy.Server.Controllers
                                     .ThenInclude(_ => _.Choices)
                                     .Include(_ => _.Image)
                                     .Include(_ => _.QCodes)
+                                    .ThenInclude(_ => _.Completions)
                                     .Where(_ => _.CreatorId == currentUserId)
                                     .ToListAsync();
 
@@ -47,7 +48,7 @@ namespace Teamy.Server.Controllers
         }
 
         [Authorize]
-        [HttpGet("GenerateQCode/{quizId}")]
+        [HttpPost("GenerateQCode")]
         public async Task<QuizVM> GenerateQCode(QuizIdVM vm)
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -57,8 +58,17 @@ namespace Teamy.Server.Controllers
                                     .ThenInclude(_ => _.Choices)
                                     .Include(_ => _.Image)
                                     .Include(_ => _.QCodes)
+                                    .ThenInclude(_ => _.Completions)
                                     .Where(_ => _.CreatorId == currentUserId && _.Id == vm.Id)
                                     .FirstAsync();
+
+            quiz.QCodes.Add(new QCode()
+            {
+                Id = GenQCode(),
+                QuizId = quiz.Id
+            });
+            _db.Update(quiz);
+            await _db.SaveChangesAsync();
 
             var resultVM = _mapper.Map<Quiz, QuizVM>(quiz);
             return resultVM;
@@ -114,7 +124,7 @@ namespace Teamy.Server.Controllers
                 }
             }
 
-            var codeQuiz = await _db.QCodes.FindAsync(request.QCode);
+            var codeQuiz = await _db.QCodes.FindAsync(request.Id);
             var quiz = await _db.Quiz
                                     .Include(_ => _.Questions)
                                     .ThenInclude(_ => _.Choices)
@@ -123,7 +133,8 @@ namespace Teamy.Server.Controllers
                                     .Include(_ => _.Image)
                                     .FirstOrDefaultAsync(o => o.Id == codeQuiz.QuizId);
 
-            var completion = await _db.QuizCompletions.Where(_ => _.QuizId == codeQuiz.QuizId
+            var completion = await _db.QuizCompletions.Include(_ => _.QCode)
+                                    .Where(_ => _.QCode.QuizId == codeQuiz.QuizId
                                 && _.UserId == currentUserId).FirstOrDefaultAsync();
             if (completion == null)
             {
@@ -131,7 +142,7 @@ namespace Teamy.Server.Controllers
                 {
                     Status = QuizCompletionStatus.Entered,
                     UserId = currentUserId,
-                    QuizId = quiz.Id
+                    QCodeId = request.Id
                 });
                 await _db.SaveChangesAsync();
             }
@@ -184,11 +195,13 @@ namespace Teamy.Server.Controllers
         [HttpPost("Submit")]
         public async Task<IActionResult> Submit(QuizCodeVM request)
         {
-            var codeQuiz = await _db.QCodes.FindAsync(request.QCode);
+            var codeQuiz = await _db.QCodes.FindAsync(request.Id);
             if (codeQuiz == null)
                 return BadRequest();
 
-            var completion = await _db.QuizCompletions.Where(_ => _.QuizId == codeQuiz.QuizId
+            var completion = await _db.QuizCompletions
+                                        .Include(_ => _.QCode)
+                                        .Where(_ => _.QCode.QuizId == codeQuiz.QuizId
                                 && _.UserId == request.UserId).FirstOrDefaultAsync();
 
             if (completion != null)
@@ -202,13 +215,25 @@ namespace Teamy.Server.Controllers
                 {
                     UserId = request.UserId,
                     Status = QuizCompletionStatus.Submitted,
-                    QuizId = codeQuiz.QuizId
+                    QCodeId = request.Id,
                 };
                 _db.QuizCompletions.Add(completion);
             }
 
             await _db.SaveChangesAsync();
             return Ok();
+        }
+
+        private string GenQCode()
+        {
+            // use MlkPwgen
+            // PasswordGenerator.Generate(length: 10, allowed: Sets.Alphanumerics);
+            var newQcode = Guid.NewGuid().ToString().Substring(0, 8);
+            while (_db.QCodes.Any(o => o.Id == newQcode))
+            {
+                newQcode = Guid.NewGuid().ToString().Substring(0, 8);
+            }
+            return newQcode;
         }
     }
 }
