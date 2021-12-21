@@ -14,7 +14,7 @@ namespace Teamy.Client.Services
         Task<QuizVM> Get(QuizCodeVM request);
         Task<bool> Post(QuizAnswerVM answer);
         Task<bool> Submit(string qCode, string userId);
-        Task<List<QuizVM>> List();
+        Task<List<QuizVM>> ManageList();
         Task<QuizVM> GenerateQCode(Guid quizId);
     }
 
@@ -51,7 +51,6 @@ namespace Teamy.Client.Services
 
         public async Task<bool> Submit(string qCode, string userId)
         {
-            Console.WriteLine($"Submitting: {qCode}, {userId}");
             var request = new QuizCodeVM()
             {
                 QCode = qCode,
@@ -61,14 +60,20 @@ namespace Teamy.Client.Services
             return result.IsSuccessStatusCode;
         }
 
-        public async Task<List<QuizVM>> List()
+        public async Task<List<QuizVM>> ManageList()
         {
-            return await Http.GetFromJsonAsync<List<QuizVM>>(Nav.BaseUri.ToString() + "Quiz/List");
+            return await Http.GetFromJsonAsync<List<QuizVM>>(Nav.BaseUri.ToString() + "Quiz/ManageList");
         }
 
         public async Task<QuizVM> GenerateQCode(Guid quizId)
         {
-            return new QuizVM();
+            var request = new QuizIdVM() { Id = quizId };
+
+            var uri = Nav.BaseUri + $"Quiz/GenerateQCode";
+            var result = await Http.PostAsJsonAsync(uri, request);
+            var content = await result.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<QuizVM>(content, new JsonSerializerOptions(JsonSerializerDefaults.Web));
         }
     }
 }

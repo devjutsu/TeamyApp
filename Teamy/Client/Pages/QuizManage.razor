@@ -1,49 +1,62 @@
 ﻿@page "/qm"
 @inject IManageQuiz QuizService
 
-<div class="quiz-manage-main" style="">
-    @if (MyQuizes == null)
-    {
-        <div>No quizes</div>
-    }
-    else
-    {
-        <table class="table table-dark table-hover" style="border-collapse: separate;">
-            <thead>
-                <tr>
-                    <th scope="col">Quiz</th>
-                    <th scope="col">Details</th>
-                    <th scope="col">Fills</th>
-                </tr>
-            </thead>
-            @foreach (var quiz in MyQuizes)
+<AuthorizeView>
+    <Authorized>
+        <div class="quiz-manage-main" style="">
+            @if (MyQuizes == null)
             {
-                <tr>
-                    <td>
-                        <button class="btn btn-secondary" style="width:100%;" @onclick="(() => SelectQuiz(quiz))">@quiz.Title</button>
-                    </td>
-                    <td>
-                        @quiz.Details
-                    </td>
-                    <td>
-                        123
-                    </td>
-                </tr>
+                <div>No quizes</div>
             }
-        </table>
+            else
+            {
+                <table class="table table-dark table-hover" style="border-collapse: separate;">
+                    <thead>
+                        <tr>
+                            <th scope="col">Quiz</th>
+                            <th scope="col">Details</th>
+                            <th scope="col">Fills</th>
+                        </tr>
+                    </thead>
+                    @foreach (var quiz in MyQuizes)
+                    {
+                        <tr>
+                            <td>
+                                <button class="btn btn-secondary" style="width:100%;" @onclick="(() => SelectQuiz(quiz))">@quiz.Title</button>
+                            </td>
+                            <td>
+                                @quiz.Details
+                            </td>
+                            <td>
+                                123
+                            </td>
+                        </tr>
+                    }
+                </table>
 
-        @if (SelectedQuiz != null)
-        {
-            <h2>@SelectedQuiz.Title</h2>
-            <div>@SelectedQuiz.Details</div>
-            <p>&nbsp;</p>
-            <button class="btn btn-secondary" @onclick="GenerateQCode">Generate QCode</button>
+                @if (SelectedQuiz != null)
+                {
+                    <h2>@SelectedQuiz.Title</h2>
+                    <div>@SelectedQuiz.Details</div>
+                    <p>&nbsp;</p>
+                    <button class="btn btn-secondary" @onclick="GenerateQCode" style="padding:.5rem; min-width:8rem;">Generate QCode</button>
 
-            @*@foreach(var code in SelectedQuiz.QCodes)*@
 
-        }
-    }
-</div>
+                    // @! table 
+                    //// code
+                    //// copy url
+                    //// comments 
+                    //// completions
+
+                }
+            }
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div>This section is for authorized users only</div>
+    </NotAuthorized>
+</AuthorizeView>
+
 
 @code {
     List<QuizVM> MyQuizes { get; set; }
@@ -51,7 +64,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        MyQuizes = await QuizService.List();
+        MyQuizes = await QuizService.ManageList();
     }
 
     void SelectQuiz(QuizVM quiz)

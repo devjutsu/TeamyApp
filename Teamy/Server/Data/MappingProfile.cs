@@ -75,12 +75,10 @@ namespace Teamy.Server.Data
             CreateMap<Quiz, QuizVM>()
                 .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.Image.Url))
                 .ReverseMap();
-            CreateMap<QuizQuestion, QuizQuestionVM>()
-                .ReverseMap();
-            CreateMap<QuizChoice, QuizChoiceVM>()
-                .ReverseMap();
-            CreateMap<QuizAnswer, QuizAnswerVM>()
-                .ReverseMap();
+            CreateMap<QuizQuestion, QuizQuestionVM>().ReverseMap();
+            CreateMap<QuizChoice, QuizChoiceVM>().ReverseMap();
+            CreateMap<QuizAnswer, QuizAnswerVM>().ReverseMap();
+            CreateMap<QCode, QCodeVM>().ReverseMap();
 
         }
     }
