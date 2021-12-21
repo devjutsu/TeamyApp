@@ -16,8 +16,6 @@ namespace Teamy.Server.Data.Seed
         public void Seed()
         {
             var garuda = db.Users.FirstOrDefault(o => o.UserName == "algarud@gmail.com");
-            //var enemy = db.Users.FirstOrDefault(o => o.UserName == "enemy@teamy.one");
-            //var slim = db.Users.FirstOrDefault(o => o.UserName == "slim@teamy.one");
 
             var quiz = db.Quiz.Add(new Quiz()
             {
@@ -103,14 +101,6 @@ namespace Teamy.Server.Data.Seed
                         Type = QuizElementType.Picture,
                     },
                 },
-                Completions = new List<QuizCompletion>()
-                {
-                    new QuizCompletion()
-                    {
-                        Status = QuizCompletionStatus.Submitted,
-                        UserId = garuda.Id,
-                    },
-                }
             });
 
             db.QCodes.Add(new QCode()

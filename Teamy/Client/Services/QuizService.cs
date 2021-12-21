@@ -53,7 +53,7 @@ namespace Teamy.Client.Services
         {
             var request = new QuizCodeVM()
             {
-                QCode = qCode,
+                Id = qCode,
                 UserId = userId
             };
             var result = await Http.PostAsJsonAsync<QuizCodeVM>($"Quiz/Submit", request);

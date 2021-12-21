@@ -5,6 +5,7 @@ using Teamy.Server.Models.Quizes;
 using Teamy.Server.Models.Polls;
 using Teamy.Server.Models.Templates;
 using Teamy.Shared.ViewModels;
+using Teamy.Shared.Common;
 
 namespace Teamy.Server.Data
 {
@@ -78,7 +79,10 @@ namespace Teamy.Server.Data
             CreateMap<QuizQuestion, QuizQuestionVM>().ReverseMap();
             CreateMap<QuizChoice, QuizChoiceVM>().ReverseMap();
             CreateMap<QuizAnswer, QuizAnswerVM>().ReverseMap();
-            CreateMap<QCode, QCodeVM>().ReverseMap();
+            CreateMap<QCode, QuizCodeVM>()
+                .ForMember(dest => dest.Visited, opt => opt.MapFrom(src => src.Completions.Count()))
+                .ForMember(dest => dest.Submitted, opt => opt.MapFrom(src => src.Completions.Where(c => c.Status == QuizCompletionStatus.Submitted).Count()))
+                .ReverseMap();
 
         }
     }
