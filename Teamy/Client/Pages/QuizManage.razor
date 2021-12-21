@@ -42,9 +42,6 @@
                     <div>@SelectedQuiz.Details</div>
                     <button class="btn btn-secondary" @onclick="GenerateQCode" style="padding:.5rem; min-width:8rem; margin: 1rem 0 1rem 0;">Generate QCode</button>
 
-                    // @! table
-                    //// comments
-                    //// completions
                     <table class="table table-dark">
                         <colgroup>
                         <col span="1" style="width: 50px;">
@@ -66,8 +63,8 @@
                         {
                             <tr>
                                 <td><a class="qcode-manage-link" @onclick="(() => CopyLink(qcode))">@qcode.Id</a></td>
-                                <td><textarea rows=1 class="fullwidth-input" @onchange="((e) => UpdateUrl(qcode, e))" /></td>
-                                <td><textarea rows=1 class="fullwidth-input" @onchange="((e) => UpdateComments(qcode, e))" /></td>
+                                <td><textarea rows=1 class="fullwidth-input" value="@qcode.Url" @onchange="((e) => UpdateUrl(qcode, e))" /></td>
+                                <td><textarea rows=1 class="fullwidth-input" value="@qcode.Comment" @onchange="((e) => UpdateComments(qcode, e))" /></td>
                                 <td>@qcode.Visited</td>
                                 <td>@qcode.Submitted</td>
                             </tr>
@@ -84,6 +81,7 @@
 
 
 @code {
+
     List<QuizVM> MyQuizes { get; set; }
     QuizVM? SelectedQuiz { get; set; }
 
@@ -114,11 +112,13 @@
 
     async Task UpdateComments(QuizCodeVM code, ChangeEventArgs e)
     {
-        Console.WriteLine($"Set comments: {e.Value}");
+        code.Comment = e.Value.ToString();
+        await QuizService.UpdateQCodeInfo(code);
     }
 
     async Task UpdateUrl(QuizCodeVM code, ChangeEventArgs e)
     {
-        Console.WriteLine($"Update url: {e.Value}");
+        code.Url = e.Value.ToString();
+        await QuizService.UpdateQCodeInfo(code);
     }
 }
