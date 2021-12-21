@@ -629,7 +629,8 @@ textarea:focus {
   border-radius: 4px;
 }
 .template-card:hover {
-  background: linear-gradient(0deg, #FF000010, #0000FF15);
+  background: #1B1D22;
+  border: 2px solid #28292D;
 }
 .event-edit-title {
   background-color: #101214;

@@ -74,6 +74,26 @@ namespace Teamy.Server.Controllers
             return resultVM;
         }
 
+        [Authorize]
+        [HttpPost("UpdateQCodeInfo")]
+        public async Task<IActionResult> UpdateQCodeInfo(QuizCodeVM qcodevm)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var qcode = await _db.QCodes
+                                .Include(_ => _.Quiz).Where(o => o.Id == qcodevm.Id && o.Quiz.CreatorId == currentUserId).FirstOrDefaultAsync();
+
+            if(qcode == null)
+                return BadRequest("No qcode for this user");
+
+            qcode.Url = qcodevm.Url;
+            qcode.Comment = qcodevm.Comment;
+            _db.Update(qcode);
+            await _db.SaveChangesAsync();
+
+            return Ok();
+        }
+
         [HttpPost("Create")]
         public async Task<IActionResult> Create(QuizVM quiz)
         {
