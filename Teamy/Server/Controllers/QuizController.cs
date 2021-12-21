@@ -184,7 +184,7 @@ namespace Teamy.Server.Controllers
             {
                 case QuizElementType.MultiSelectQuestion:
                     var myAnswerToDelete = await _db.QuizAnswers
-                                                .Where(o => o.Id == answer.Id && o.UserId == answer.UserId)
+                                                .Where(_ => _.QuizQuestionId == answer.QuizQuestionId && _.UserId == answer.UserId && _.Answer == answer.Answer)
                                                 .FirstOrDefaultAsync();
                     if (myAnswerToDelete != null)
                         _db.QuizAnswers.Remove(myAnswerToDelete);
