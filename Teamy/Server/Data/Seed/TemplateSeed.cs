@@ -34,6 +34,130 @@ namespace Teamy.Server.Data.Seed
             var nighlife = db.TemplateCategories.Add(new TemplateCategory() { Title = "Parties & Nighlife" });
             var games = db.TemplateCategories.Add(new TemplateCategory() { Title = "Play Games" });
 
+            db.Templates.Add(new Template()
+            {
+                Category = enjoyArtsAndCulture.Entity,
+                Title = "X-Mass celebration",
+                Description = "Merry Christmass party",
+                CoverImage = new ImageModel()
+                {
+                    Url = "https://squalldiag.blob.core.windows.net/template-img/christmas-eve.jpg",
+                    Id = Guid.NewGuid()
+                },
+                Polls = new List<TemplatePoll>()
+                {
+                    new TemplatePoll()
+                    {
+                        Question = "Where would you like to go?",
+                        MultiChoice = true,
+                        FreeTextOption = true,
+                        Choices = new List<TemplatePollChoice>()
+                        {
+                            new TemplatePollChoice() { Choice = "Party dinner at home" },
+                            new TemplatePollChoice() { Choice = "Public X-mass event" },
+                            new TemplatePollChoice() { Choice = "Christmas market" },
+                            new TemplatePollChoice() { Choice = "Walk in the town" },
+                            new TemplatePollChoice() { Choice = "Countryhouse" },
+                            new TemplatePollChoice() { Choice = "Skiing/skating" },
+                        }
+                    },
+                    new TemplatePoll()
+                    {
+                        Question = "Any presents?",
+                        Choices = new List<TemplatePollChoice>()
+                        {
+                            new TemplatePollChoice() { Choice = "No, let's avoid hassle" },
+                            new TemplatePollChoice() { Choice = "Let's play secret Santa" },
+                            new TemplatePollChoice() { Choice = "Just bring in something delicious" },
+                        }
+                    }
+                },
+                Where = "To be decided...",
+            });
+
+            db.Templates.Add(new Template()
+            {
+                Category = enjoyArtsAndCulture.Entity,
+                Title = "New Year Eve",
+                Description = "Let's meet New Year together",
+                CoverImage = new ImageModel()
+                {
+                    Url = "https://squalldiag.blob.core.windows.net/template-img/ny-eve.jpg",
+                    Id = Guid.NewGuid()
+                },
+                Polls = new List<TemplatePoll>()
+                {
+                    new TemplatePoll()
+                    {
+                        Question = "Where would you like to go?",
+                        Choices = new List<TemplatePollChoice>()
+                        {
+                            new TemplatePollChoice() { Choice = "Party dinner at home" },
+                            new TemplatePollChoice() { Choice = "Public NY event" },
+                            new TemplatePollChoice() { Choice = "Walk in the town" },
+                            new TemplatePollChoice() { Choice = "Countryhouse" },
+                            new TemplatePollChoice() { Choice = "Skiing/skating" },
+                        }
+                    },
+                    new TemplatePoll()
+                    {
+                        Question = "Are you into drinks?",
+                        MultiChoice = true,
+                        FreeTextOption = true,
+                        Choices = new List<TemplatePollChoice>()
+                        {
+                            new TemplatePollChoice() { Choice = "Hot wine just fine" },
+                            new TemplatePollChoice() { Choice = "Jack Daniels runs the party" },
+                            new TemplatePollChoice() { Choice = "Light beers" },
+                            new TemplatePollChoice() { Choice = "Champagne" },
+                            new TemplatePollChoice() { Choice = "Cocktail variety" },
+                            new TemplatePollChoice() { Choice = "Non alcoholic only" },
+                        }
+                    }
+                },
+                Where = "To be decided...",
+            });
+
+            db.Templates.Add(new Template()
+            {
+                Category = enjoyArtsAndCulture.Entity,
+                Title = "SPA",
+                Description = "Spa relax event",
+                CoverImage = new ImageModel()
+                {
+                    Url = "https://squalldiag.blob.core.windows.net/template-img/spa.jpg",
+                    Id = Guid.NewGuid()
+                },
+                Polls = new List<TemplatePoll>()
+                {
+                    new TemplatePoll()
+                    {
+                        Question = "What would you like?",
+                        MultiChoice = true,
+                        FreeTextOption = true,
+                        Choices = new List<TemplatePollChoice>()
+                        {
+                            new TemplatePollChoice() { Choice = "Aqua party with cocktails" },
+                            new TemplatePollChoice() { Choice = "Calm relax in SPA center" },
+                            new TemplatePollChoice() { Choice = "Rent a house with Sauna" },
+                        }
+                    },
+                    new TemplatePoll()
+                    {
+                        Question = "Are you into drinks?",
+                        Choices = new List<TemplatePollChoice>()
+                        {
+                            new TemplatePollChoice() { Choice = "Hot wine just fine" },
+                            new TemplatePollChoice() { Choice = "Jack Daniels runs the party" },
+                            new TemplatePollChoice() { Choice = "Light beers" },
+                            new TemplatePollChoice() { Choice = "Champagne" },
+                            new TemplatePollChoice() { Choice = "Cocktail variety" },
+                            new TemplatePollChoice() { Choice = "Non alcoholic only" },
+                        }
+                    }
+                },
+                Where = "To be decided...",
+            });
 
             db.Templates.Add(new Template() 
             { 
@@ -384,6 +508,135 @@ namespace Teamy.Server.Data.Seed
                             new TemplatePollChoice() { Choice = "Quizz games" },
                             new TemplatePollChoice() { Choice = "Logic games" },
                             new TemplatePollChoice() { Choice = "Word games" },
+                        }
+                    }
+                },
+                Where = "To be decided...",
+            });
+
+            db.Templates.Add(new Template()
+            {
+                Category = games.Entity,
+                Title = "Poker Night",
+                Description = "The winner takes it all",
+                CoverImage = new ImageModel()
+                {
+                    Url = "https://squalldiag.blob.core.windows.net/template-img/pokah.jpg",
+                    Id = Guid.NewGuid()
+                },
+                Polls = new List<TemplatePoll>()
+                {
+                    new TemplatePoll()
+                    {
+                        Question = "What stakes you would like to play?",
+                        Choices = new List<TemplatePollChoice>()
+                        {
+                            new TemplatePollChoice() { Choice = "Eur 10 buy in" },
+                            new TemplatePollChoice() { Choice = "Eur 20 buy in" },
+                            new TemplatePollChoice() { Choice = "Eur 50 buy in" },
+                            new TemplatePollChoice() { Choice = "Eur 100 buy in" },
+                            
+                        }
+                    },
+                    new TemplatePoll()
+                    {
+                        MultiChoice = true,
+                        FreeTextOption = true,
+                        Question = "What type of poker you'd like to play?",
+                        Choices = new List<TemplatePollChoice>()
+                        {
+                            new TemplatePollChoice() { Choice = "No Limit Texas Holdem" },
+                            new TemplatePollChoice() { Choice = "Limit Texas Holdem" },
+                            new TemplatePollChoice() { Choice = "Pot Limit Texas Holdem" },
+                            new TemplatePollChoice() { Choice = "Cash Game" },
+                            new TemplatePollChoice() { Choice = "Tournament" },
+                        }
+                    }
+                },
+                Where = "To be decided...",
+            });
+
+            db.Templates.Add(new Template()
+            {
+                Category = sports.Entity,
+                Title = "Bicycle ride",
+                Description = "I want to ride my bicycle",
+                CoverImage = new ImageModel()
+                {
+                    Url = "https://squalldiag.blob.core.windows.net/template-img/bicycle.jpg",
+                    Id = Guid.NewGuid()
+                },
+                Polls = new List<TemplatePoll>()
+                {
+                    new TemplatePoll()
+                    {
+                        Question = "How far you want to go?",
+                        Choices = new List<TemplatePollChoice>()
+                        {
+                            new TemplatePollChoice() { Choice = "20 km" },
+                            new TemplatePollChoice() { Choice = "30 km" },
+                            new TemplatePollChoice() { Choice = "50 km" },
+                            new TemplatePollChoice() { Choice = "100 km" },
+                            new TemplatePollChoice() { Choice = "Till I fall" },
+
+                        }
+                    },
+                    new TemplatePoll()
+                    {
+                        MultiChoice = true,
+                        FreeTextOption = true,
+                        Question = "Your preferred riding style?",
+                        Choices = new List<TemplatePollChoice>()
+                        {
+                            new TemplatePollChoice() { Choice = "Lazy rolling" },
+                            new TemplatePollChoice() { Choice = "Sightseeng and chatting" },
+                            new TemplatePollChoice() { Choice = "Speed travel" },
+                            new TemplatePollChoice() { Choice = "Crazy hills workout" },
+                            new TemplatePollChoice() { Choice = "Touring" },
+                        }
+                    }
+                },
+                Where = "To be decided...",
+            });
+
+            db.Templates.Add(new Template()
+            {
+                Category = enjoyArtsAndCulture.Entity,
+                Title = "Hacking night",
+                Description = "Creating gool stuff together",
+                CoverImage = new ImageModel()
+                {
+                    Url = "https://squalldiag.blob.core.windows.net/template-img/hackerman.jpg",
+                    Id = Guid.NewGuid()
+                },
+                Polls = new List<TemplatePoll>()
+                {
+                    new TemplatePoll()
+                    {
+                        MultiChoice = true,
+                        FreeTextOption = true,
+                        Question = "What would you like to focus on?",
+                        Choices = new List<TemplatePollChoice>()
+                        {
+                            new TemplatePollChoice() { Choice = "Clean Architecture and Refactoring" },
+                            new TemplatePollChoice() { Choice = "Infrastructure code and integrations" },
+                            new TemplatePollChoice() { Choice = "Frontend and VX" },
+                            new TemplatePollChoice() { Choice = "Usability and Product Design" },
+                            new TemplatePollChoice() { Choice = "Data analysis" },
+                            new TemplatePollChoice() { Choice = "Low level code" },
+                            new TemplatePollChoice() { Choice = "Hardware prototyping" },
+                        }
+                    },
+                    new TemplatePoll()
+                    {
+                        Question = "Ballmer peak exploration?",
+                        Choices = new List<TemplatePollChoice>()
+                        {
+                            new TemplatePollChoice() { Choice = "Non alcoholic only" },
+                            new TemplatePollChoice() { Choice = "Light beers" },
+                            new TemplatePollChoice() { Choice = "Jack Daniels runs the party" },
+                            new TemplatePollChoice() { Choice = "No Martini no party" },
+                            new TemplatePollChoice() { Choice = "Cocktail variety" },
                         }
                     }
                 },

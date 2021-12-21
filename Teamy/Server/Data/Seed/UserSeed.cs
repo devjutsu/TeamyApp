@@ -63,7 +63,7 @@ namespace Teamy.Server.Data.Seed
                 DateStatus = EventDateStatus.Voting,
                 Where = "Office conference room",
                 Description = "Tournament: The winner takes it all, others just have a good time and some drinks",
-                CoverImage = new ImageModel() { Url = "https://images8.alphacoders.com/642/642626.jpg" }
+                CoverImage = new ImageModel() { Url = "https://squalldiag.blob.core.windows.net/template-img/pokah.jpg" }
             });
 
             db.Participation.Add(new Participation
@@ -124,7 +124,7 @@ namespace Teamy.Server.Data.Seed
                 DateStatus = EventDateStatus.Voting,
                 Description = "I want to ride my bicycle",
                 Where = "Somewhere over the rainbow",
-                CoverImage = new ImageModel() { Url = "https://img3.goodfon.com/wallpaper/nbig/1/47/nebo-velosiped-uniforma.jpg" }
+                CoverImage = new ImageModel() { Url = "https://squalldiag.blob.core.windows.net/template-img/bicycle.jpg" }
             });
 
             db.Participation.Add(new Participation
@@ -146,12 +146,13 @@ namespace Teamy.Server.Data.Seed
             db.Polls.Add(new Poll()
             {
                 EventId = bicycle.Entity.Id,
-                Question = "Where would you like to go?",
+                Question = "How far you want to go?",
                 Choices = new List<PollChoice> {
-                                            new PollChoice() { Choice = "Track to Jurmala" },
-                                            new PollChoice() { Choice = "Ogres Zilie Kalni" },
-                                            new PollChoice() { Choice = "Sigulda" },
-                                            new PollChoice() { Choice = "Ergļi" }
+                                            new PollChoice() { Choice = "20 km" },
+                                            new PollChoice() { Choice = "30 km" },
+                                            new PollChoice() { Choice = "50 km" },
+                                            new PollChoice() { Choice = "100 km" },
+                                            new PollChoice() { Choice = "Till I fall" }
                                         },
                 MultiChoice = true,
                 FreeTextOption = true
@@ -182,7 +183,7 @@ namespace Teamy.Server.Data.Seed
                 DateStatus = EventDateStatus.Locked,
                 Description = "Creating cool stuff and Banja right after",
                 Where = "YogaLab countryside workshop facility",
-                CoverImage = new ImageModel() { Url = "https://i.pinimg.com/originals/71/85/0c/71850c4d6cd020d740e21c0b2b030acb.jpg" }
+                CoverImage = new ImageModel() { Url = "https://squalldiag.blob.core.windows.net/template-img/hackerman.jpg" }
             }); ;
 
             db.Participation.Add(new Participation
