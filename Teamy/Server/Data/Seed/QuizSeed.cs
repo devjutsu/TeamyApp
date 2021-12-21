@@ -167,7 +167,7 @@ namespace Teamy.Server.Data.Seed
                     {
                         Order= 17,
                         Type = QuizElementType.GradeQuestion,
-                        Question = "How difficult it is to find common communication context with new people?",
+                        Question = "How difficult it is to find common activities with new people?",
                     },
                     new QuizQuestion()
                     {
@@ -292,7 +292,7 @@ namespace Teamy.Server.Data.Seed
                     {
                         Order= 16,
                         Type = QuizElementType.SingleSelectQuestion,
-                        Question = "Do social networks improve socialization and communication quality?",
+                        Question = "Do social networks improve socialization and quality of communication?",
                         Choices = new List<QuizChoice>()
                         {
                             new QuizChoice() { Choice = "Yes" },

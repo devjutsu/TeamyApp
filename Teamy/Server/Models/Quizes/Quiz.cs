@@ -12,6 +12,7 @@ namespace Teamy.Server.Models.Quizes
         public virtual List<QuizCompletion> Completions { get; set; }
         public string CreatorId {get; set;}
         public virtual AppUser Creator { get; set; }
+        public virtual List<QCode> QCodes { get; set; }
     }
 
     public class QuizQuestion : BaseEntity

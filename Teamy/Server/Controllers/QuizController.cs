@@ -28,8 +28,9 @@ namespace Teamy.Server.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("List")]
-        public async Task<List<QuizVM>> Quizes()
+        [Authorize]
+        [HttpGet("ManageList")]
+        public async Task<List<QuizVM>> ManageList()
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -37,12 +38,32 @@ namespace Teamy.Server.Controllers
                                     .Include(_ => _.Questions)
                                     .ThenInclude(_ => _.Choices)
                                     .Include(_ => _.Image)
+                                    .Include(_ => _.QCodes)
                                     .Where(_ => _.CreatorId == currentUserId)
                                     .ToListAsync();
 
             var vms = _mapper.Map<List<Quiz>, List<QuizVM>>(quizes);
             return vms;
         }
+
+        [Authorize]
+        [HttpGet("GenerateQCode/{quizId}")]
+        public async Task<QuizVM> GenerateQCode(QuizIdVM vm)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var quiz = await _db.Quiz
+                                    .Include(_ => _.Questions)
+                                    .ThenInclude(_ => _.Choices)
+                                    .Include(_ => _.Image)
+                                    .Include(_ => _.QCodes)
+                                    .Where(_ => _.CreatorId == currentUserId && _.Id == vm.Id)
+                                    .FirstAsync();
+
+            var resultVM = _mapper.Map<Quiz, QuizVM>(quiz);
+            return resultVM;
+        }
+
 
         [HttpPost("Create")]
         public async Task<IActionResult> Create(QuizVM quiz)
