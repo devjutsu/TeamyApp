@@ -1,5 +1,7 @@
 ﻿@page "/qm"
 @inject IManageQuiz QuizService
+@inject IJSRuntime JS
+@inject IToastService Toast
 
 <AuthorizeView>
     <Authorized>
@@ -38,16 +40,30 @@
                 {
                     <h2>@SelectedQuiz.Title</h2>
                     <div>@SelectedQuiz.Details</div>
-                    <p>&nbsp;</p>
-                    <button class="btn btn-secondary" @onclick="GenerateQCode" style="padding:.5rem; min-width:8rem;">Generate QCode</button>
+                    <button class="btn btn-secondary" @onclick="GenerateQCode" style="padding:.5rem; min-width:8rem; margin: 1rem 0 1rem 0;">Generate QCode</button>
 
-
-                    // @! table 
+                    // @! table
                     //// code
                     //// copy url
-                    //// comments 
+                    //// comments
                     //// completions
-
+                    <table class="table table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">Code</th>
+                                <th scope="col">Comments</th>
+                                <th scope="col">Completed</th>
+                            </tr>
+                        </thead>
+                        @foreach (var item in SelectedQuiz.QCodes)
+                        {
+                            <tr>
+                                <td><a class="qcode-manage-link" @onclick="(() => CopyLink(item))">@item.Id</a></td>
+                                <td><textarea rows=1 class="fullwidth-input" /></td>
+                                <td>321</td>
+                            </tr>
+                        }
+                    </table>
                 }
             }
         </div>
@@ -70,6 +86,13 @@
     void SelectQuiz(QuizVM quiz)
     {
         SelectedQuiz = quiz;
+    }
+
+    async Task CopyLink(QCodeVM code)
+    {
+        var url = Nav.BaseUri + $"q/{code.Id.ToString()}";
+        await JS.InvokeVoidAsync("clipboardCopy.copyText", $"{url}");
+        Toast.ShowInfo("Link copied");
     }
 
     async Task GenerateQCode()

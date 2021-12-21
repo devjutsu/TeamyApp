@@ -985,3 +985,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 table > tr > td {
   padding: 0.5rem;
 }
+.qcode-manage-link {
+  cursor: pointer;
+  color: #4AAAE8;
+  background-color: #1B1D22 !important;
+}
