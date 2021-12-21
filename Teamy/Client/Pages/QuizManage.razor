@@ -1,29 +1,69 @@
 ﻿@page "/qm"
 @inject IManageQuiz QuizService
 
-@if(MyQuizes == null)
-{
-    <div>No quizes</div>
-}
-else
-{
-    @foreach(var quiz in MyQuizes)
+<div class="quiz-manage-main" style="">
+    @if (MyQuizes == null)
     {
-        <h4>@quiz.Title</h4>
-        <div>&nbsp;</div>
-        @foreach(var question in quiz.Questions)
-        {
-            <div>@question.Question</div>
-        }
-        <div>&nbsp;</div>
+        <div>No quizes</div>
     }
-}
+    else
+    {
+        <table class="table table-dark table-hover" style="border-collapse: separate;">
+            <thead>
+                <tr>
+                    <th scope="col">Quiz</th>
+                    <th scope="col">Details</th>
+                    <th scope="col">Fills</th>
+                </tr>
+            </thead>
+            @foreach (var quiz in MyQuizes)
+            {
+                <tr>
+                    <td>
+                        <button class="btn btn-secondary" style="width:100%;" @onclick="(() => SelectQuiz(quiz))">@quiz.Title</button>
+                    </td>
+                    <td>
+                        @quiz.Details
+                    </td>
+                    <td>
+                        123
+                    </td>
+                </tr>
+            }
+        </table>
+
+        @if (SelectedQuiz != null)
+        {
+            <h2>@SelectedQuiz.Title</h2>
+            <div>@SelectedQuiz.Details</div>
+            <p>&nbsp;</p>
+            <button class="btn btn-secondary" @onclick="GenerateQCode">Generate QCode</button>
+
+            @*@foreach(var code in SelectedQuiz.QCodes)*@
+
+        }
+    }
+</div>
 
 @code {
     List<QuizVM> MyQuizes { get; set; }
+    QuizVM? SelectedQuiz { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         MyQuizes = await QuizService.List();
+    }
+
+    void SelectQuiz(QuizVM quiz)
+    {
+        SelectedQuiz = quiz;
+    }
+
+    async Task GenerateQCode()
+    {
+        var quiz = await QuizService.GenerateQCode(SelectedQuiz.Id);
+        var i = MyQuizes.IndexOf(SelectedQuiz);
+        MyQuizes[i] = quiz;
+        SelectedQuiz = quiz;
     }
 }

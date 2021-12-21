@@ -978,3 +978,10 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   color: #4AAAE8;
   opacity: 0.35;
 }
+.quiz-manage-main {
+  background-color: #1B1D22;
+  margin: -1rem -2rem -3rem -2rem;
+}
+table > tr > td {
+  padding: 0.5rem;
+}
