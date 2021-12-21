@@ -64,7 +64,6 @@ namespace Teamy.Server.Controllers
             return resultVM;
         }
 
-
         [HttpPost("Create")]
         public async Task<IActionResult> Create(QuizVM quiz)
         {
@@ -91,7 +90,6 @@ namespace Teamy.Server.Controllers
             await _db.SaveChangesAsync();
             return Ok();
         }
-
 
         [AllowAnonymous]
         [HttpPost("Get")]
