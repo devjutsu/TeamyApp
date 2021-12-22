@@ -3,76 +3,127 @@
 @inject IManageEvents EventService
 @implements IDisposable
 
-<PageTitle>My Events</PageTitle>
+<style>
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        opacity: 1;
+    }
+</style>
 
+
+<PageTitle>My Events</PageTitle>
+<div class="d-block d-md-none" style="height:40px;">space</div>
+
+<div class="full-width bg-image"></div>
 <AuthorizeView>
     <NotAuthorized>
-
 
         @if (AppState.Invite != null)
         {
             <h2>You are invited to:</h2>
-            <div @onclick="GoToInvite">
-                <EventCard Evt=AppState.Invite />
+            <div class="mask-text-over-img">
+                <div @onclick="GoToInvite">
+                    <EventCard Evt=AppState.Invite />
+                </div>
             </div>
         }
         else
         {
-            <Intro />
+            <div class="mask-text-over-img">
+                <div class="row">
+                    <div class="col-md-6">
 
-            <div class="index-login-block d-flex justify-content-center">
-                <a href="#" @onclick="NavigateToLogin" class="btn btn-main-login">Login</a>
-                <a href="#" @onclick="NavigateToRegistration" class="btn btn-main-register">Register</a>
+                        <div class="d-flex justify-content-center" >
+                            <div class="d-none d-md-block" style="margin-top: 50px;">
+                                <h2>Do Things Together</h2>
+                            </div>
+                            <div class="d-block d-md-none" style="">
+                                <h2>Do Things Together</h2>
+                            </div>
+                        </div>
+
+
+                        <div class="d-flex justify-content-center">Have new experience with your friends and meet new people</div>
+                        <div class="d-flex justify-content-center">
+                            <a href="#" @onclick="NavigateToLogin" class="btn btn-main-login">Login</a>
+                            <a href="#" @onclick="NavigateToRegistration" class="btn btn-main-register">Register</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <Intro_right />
+                    </div>
+                </div>
             </div>
         }
     </NotAuthorized>
     <Authorized>
-        @if (AppState.Invite != null)
-        {
-            <h2>You are invited to:</h2>
-            <div @onclick="GoToInvite">
-                <EventCard Evt=AppState.Invite />
-            </div>
-        }
-
-        @if (AppState.StoredEvents != null && AppState.StoredEvents.Count > 0)
-        {
-            @if (AppState.FutureEvents.Any())
+        <div class="mask-text-over-img">
+            @if (AppState.Invite != null)
             {
-                <h2>Upcoming events:</h2>
-                <div class="row event-card-container">
-                    @foreach (var evt in AppState.FutureEvents)
-                    {
-                        <div @onclick="() => GoEvent(evt)" class="col-md-6">
-                            <EventCard Evt="@evt" />
-                        </div>
-                    }
+                <h2>You are invited to:</h2>
+                <div @onclick="GoToInvite">
+                    <EventCard Evt=AppState.Invite />
                 </div>
             }
 
-            @if (AppState.PastEvents.Any())
+            @if (AppState.StoredEvents != null && AppState.StoredEvents.Count > 0)
             {
-                <h2>Past events:</h2>
-                <div class="row event-card-container">
-                    @foreach (var evt in AppState.PastEvents)
-                    {
-                        <div @onclick="() => GoEvent(evt)" class="col-md-6">
-                            <EventCard Evt="@evt" />
+
+                @if (AppState.FutureEvents.Any())
+                {
+
+                    <h2>Upcoming events:</h2>
+                    <div class="row event-card-container">
+                        @foreach (var evt in AppState.FutureEvents)
+                        {
+                            <div @onclick="() => GoEvent(evt)" class="col-md-6">
+                                <EventCard Evt="@evt" />
+                            </div>
+                        }
+                    </div>
+                }
+                @if (AppState.PastEvents.Any())
+                {
+                    <h2>Past events:</h2>
+                    <div class="row event-card-container">
+                        @foreach (var evt in AppState.PastEvents)
+                        {
+                            <div @onclick="() => GoEvent(evt)" class="col-md-6">
+                                <EventCard Evt="@evt" />
+                            </div>
+                        }
+                    </div>
+                }
+            }
+
+            else
+            {
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-center" >
+                            <div class="d-none d-md-block" style="margin-top: 50px;">
+                                <h2>Do Things Together</h2>
+                            </div>
+                            <div class="d-block d-md-none" style="">
+                                <h2>Do Things Together</h2>
+                            </div>
                         </div>
-                    }
+                        <div class="d-flex justify-content-center">Have new experience with your friends and meet new people</div>
+                        <div class="d-flex justify-content-center">
+                            <a href="/create" class="btn btn-main"><span class="oi oi-plus" style="font-size:16px;" />&nbsp;&nbsp;&nbsp;Create one</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 shadow-1-strong">
+                        <Intro_right />
+                    </div>
                 </div>
             }
-        }
-        else
-        {
-            <Intro />
-
-            <div class="index-intro">
-                <h2>You currently have no events</h2>
-                <a href="/create" class="btn btn-main"><span class="oi oi-plus" style="font-size:16px;" />&nbsp;&nbsp;&nbsp;Create one</a>
-            </div>
-        }
-        <p>&nbsp;</p>
+            <p>&nbsp;</p>
+        </div>
     </Authorized>
 </AuthorizeView>
 

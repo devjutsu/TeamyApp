@@ -595,8 +595,8 @@ textarea:focus {
   border-radius: 4px;
 }
 .event-card:hover {
-  background: #1B1D22;
-  border: 2px solid #28292D;
+  background: #FFFFFF15;
+  /*border: 1px solid @HalfTransparent;*/
 }
 .event-card-img {
   width: 50%;
@@ -618,7 +618,7 @@ textarea:focus {
   font-weight: bold;
 }
 .event-card-date {
-  color: #4C4E52;
+  color: #86888A;
 }
 .template-card {
   margin-bottom: 1rem;
@@ -978,6 +978,35 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .grade-empty:hover {
   color: #4AAAE8;
   opacity: 0.35;
+}
+.full-width {
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  margin-top: -100px;
+}
+.bg-image {
+  background-image: url("https://squalldiag.blob.core.windows.net/preload/looking_mountains.jpeg");
+  position: fixed;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.mask-text-over-img {
+  backdrop-filter: blur(1px);
+  background-color: rgba(0, 0, 0, 0.5);
+  margin-top: -100px;
+  margin: -0.5rem;
+  padding: 1rem 2rem 1rem 2rem !important;
+  border-radius: 14px;
+}
+.center-buttons {
+  float: right;
+  width: 500px;
+  padding: 10px;
 }
 .quiz-manage-main {
   background-color: #1B1D22;
