@@ -40,6 +40,7 @@
   <ItemGroup>
     <Folder Include="Components\Quiz\" />
     <Folder Include="wwwroot\img\" />
+    <Folder Include="wwwroot\d_files\" />
   </ItemGroup>
 
 </Project>
