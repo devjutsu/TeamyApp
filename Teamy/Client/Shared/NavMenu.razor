@@ -10,13 +10,23 @@
         <div class="d-sm-inline-flex">
             <nav class="d-flex bd-highlight">
                 <div class="nav-item px-3">
+                    <a href="">
+                        <img src="d_files/teamy_logo.png" />
+                    </a>
+                </div>
+                <div class="nav-item px-3 d-none d-md-block">
                     <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                         <span class="oi oi-home" aria-hidden="true"></span> My Events
                     </NavLink>
                 </div>
-                <div class="nav-item px-3">
+                <div class="nav-item px-3 d-none d-sm-block">
                     <NavLink class="nav-link align-middle" href="create">
                         <span class="oi oi-plus" aria-hidden="true"></span> Create
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3 d-block d-sm-none">
+                    <NavLink class="nav-link align-middle" href="create">
+                        <span class="oi oi-plus" aria-hidden="true"></span>
                     </NavLink>
                 </div>
             </nav>
@@ -29,20 +39,21 @@
                 </NavLink>
             </Authorized>
             <NotAuthorized>
-             @*   <div class="d-flex">
+                @*   <div class="d-flex">
                     <navlink class="nav-link p-2" href="authentication/profile">
-                        <a href="authentication/register">register</a>
+                    <a href="authentication/register">register</a>
                     </navlink>
                     <navlink class="nav-link p-2" href="authentication/profile">
-                        <a href="authentication/login">log in</a>
+                    <a href="authentication/login">log in</a>
                     </navlink>
-                </div>*@
+                    </div>*@
             </NotAuthorized>
         </AuthorizeView>
     </div>
 </nav>
 
 @code {
+    string home = "/";
     private async Task BeginSignOut(MouseEventArgs args)
     {
         await SignOutManager.SetSignOutState();
