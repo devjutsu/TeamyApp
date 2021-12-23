@@ -703,6 +703,9 @@ textarea:focus {
 .small {
   font-size: small;
 }
+.large {
+  font-size: large;
+}
 .add-choice-btn {
   margin: 0.5rem 1rem 1rem 2rem;
 }
@@ -1019,4 +1022,7 @@ table > tr > td {
   cursor: pointer;
   color: #4AAAE8;
   background-color: #1B1D22 !important;
+}
+.mobile-nav-blue {
+  color: #4AAAE8 !important;
 }

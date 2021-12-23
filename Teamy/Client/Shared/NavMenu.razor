@@ -20,13 +20,13 @@
                     </NavLink>
                 </div>
                 <div class="nav-item px-3 d-none d-sm-block">
-                    <NavLink class="nav-link align-middle" href="create">
+                    <NavLink class="nav-link" href="create">
                         <span class="oi oi-plus" aria-hidden="true"></span> Create
                     </NavLink>
                 </div>
-                <div class="nav-item px-3 d-block d-sm-none">
-                    <NavLink class="nav-link align-middle" href="create">
-                        <span class="oi oi-plus" aria-hidden="true"></span>
+                <div class="nav-item px-0 d-block d-sm-none" style="width: 1rem; padding-top:1rem;">
+                    <NavLink class="nav-link" href="create" style="padding-top:1rem;">
+                        <span class="oi oi-plus mobile-nav-blue" aria-hidden="true" style="font-size:1.4rem;"></span>
                     </NavLink>
                 </div>
             </nav>
@@ -34,8 +34,8 @@
 
         <AuthorizeView>
             <Authorized>
-                <NavLink class="nav-link p-2" href="authentication/profile">
-                    <span class="oi oi-person" title="Logged in as @context.User.Identity?.Name" />
+                <NavLink class="nav-link px-3" href="authentication/profile" style="padding-top:1rem;">
+                    <span class="oi oi-person" title="Logged in as @context.User.Identity?.Name" style="font-size:1.3rem;" />
                 </NavLink>
             </Authorized>
             <NotAuthorized>
@@ -47,6 +47,11 @@
                     <a href="authentication/login">log in</a>
                     </navlink>
                     </div>*@
+                <div class="nav-item px-0 d-block d-sm-none">
+                    <NavLink class="nav-link align-middle" href="authentication/login" style="padding-top:1rem;">
+                        <span class="oi oi-account-login mobile-nav-blue" aria-hidden="true" style="font-size:1.6rem;"></span>
+                    </NavLink>
+                </div>
             </NotAuthorized>
         </AuthorizeView>
     </div>
