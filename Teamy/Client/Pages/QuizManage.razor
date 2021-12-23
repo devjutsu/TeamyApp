@@ -30,7 +30,7 @@
                                 @quiz.Details
                             </td>
                             <td>
-                                123
+                                
                             </td>
                         </tr>
                     }
@@ -38,9 +38,9 @@
 
                 @if (SelectedQuiz != null)
                 {
-                    <h2>@SelectedQuiz.Title</h2>
+                    <h3>@SelectedQuiz.Title</h3>
                     <div>@SelectedQuiz.Details</div>
-                    <button class="btn btn-secondary" @onclick="GenerateQCode" style="padding:.5rem; min-width:8rem; margin: 1rem 0 1rem 0;">Generate QCode</button>
+                    <button class="btn btn-main" @onclick="GenerateQCode" style="margin-bottom:1rem;">Generate QCode</button>
 
                     <table class="table table-dark">
                         <colgroup>
@@ -51,25 +51,16 @@
                         <col span="1" style="width: 50px;">
                         <col span="1" style="width: 50px;">
                     </colgroup>
-                        <thead>
-                            <tr>
-                                <th scope="col">N</th>
-                                <th scope="col">Code</th>
-                                <th scope="col">Url</th>
-                                <th scope="col">Comment</th>
-                                <th scope="col">Visited</th>
-                                <th scope="col">Submitted</th>
-                            </tr>
-                        </thead>
-                        @foreach (var qcode in SelectedQuiz.QCodes.Select((obj, i) => new {obj,i}))
+                        
+                        @foreach (var qcode in SelectedQuiz.QCodes.OrderByDescending(o => o.DateCreated).Select((obj, i) => new {obj,i}))
                         {
                             <tr>
                                 <td>@qcode.i</td>
                                 <td><a class="qcode-manage-link" @onclick="(() => CopyLink(qcode.obj))">@qcode.obj.Id</a></td>
-                                <td><textarea rows=1 class="fullwidth-input" value="@qcode.obj.Url" @onchange="((e) => UpdateUrl(qcode.obj, e))" /></td>
-                                <td><textarea rows=1 class="fullwidth-input" value="@qcode.obj.Comment" @onchange="((e) => UpdateComments(qcode.obj, e))" /></td>
-                                <td>@qcode.obj.Visited</td>
-                                <td>@qcode.obj.Submitted</td>
+                                <td><input type="text" class="qm-edit" value="@qcode.obj.Url" @onchange="((e) => UpdateUrl(qcode.obj, e))" /></td>
+                                <td><input type="text" class="qm-edit" value="@qcode.obj.Comment" @onchange="((e) => UpdateComments(qcode.obj, e))" /></td>
+                                <td style="text-align:center;">@qcode.obj.Visited</td>
+                                <td style="text-align:center;">@qcode.obj.Submitted</td>
                             </tr>
                         }
                     </table>

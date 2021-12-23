@@ -1024,9 +1024,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   background-color: #1B1D22;
   margin: -1rem -2rem -3rem -2rem;
 }
-table > tr > td {
-  padding: 0.2rem;
-}
 .qcode-manage-link {
   cursor: pointer;
   color: #4AAAE8;
@@ -1034,4 +1031,11 @@ table > tr > td {
 }
 .mobile-nav-blue {
   color: #4AAAE8 !important;
+}
+.qm-edit {
+  color: #86888A;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #4C4E52;
+  background-color: #101214 !important;
 }
