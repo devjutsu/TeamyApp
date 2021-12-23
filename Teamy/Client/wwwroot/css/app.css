@@ -39,6 +39,15 @@ body {
 .nav-item {
   padding: 0.5rem 0.5rem 0.5rem 0.5rem !important;
 }
+a {
+  color: #4AAAE8 !important;
+}
+.nav-link {
+  color: #4AAAE8 !important;
+}
+.mynav {
+  color: #4AAAE8 !important;
+}
 .head-spacer {
   height: 50px;
 }
