@@ -51,6 +51,7 @@ namespace Teamy.Shared.ViewModels
         public string Comment { get; set; } = string.Empty;
         public int Visited { get; set; } = 0;
         public int Submitted { get; set; } = 0;
+        public DateTime DateCreated { get; set; }
     }
 
     public class QuizIdVM
