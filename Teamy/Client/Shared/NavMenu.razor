@@ -9,23 +9,23 @@
 
         <div class="d-sm-inline-flex">
             <nav class="d-flex bd-highlight">
-                <div class="nav-item px-3">
+                <div class="px-3">
                     <a href="">
                         <img src="d_files/teamy_logo.png" />
                     </a>
                 </div>
-                <div class="nav-item px-3 d-none d-md-block">
-                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <div class="px-3 d-none d-md-block" style="margin-top:.2rem;">
+                    <NavLink class="nav-link align-middle mynav" href="" Match="NavLinkMatch.All">
                         <span class="oi oi-home" aria-hidden="true"></span> My Events
                     </NavLink>
                 </div>
-                <div class="nav-item px-3 d-none d-sm-block">
-                    <NavLink class="nav-link" href="create">
+                <div class="px-3 d-none d-sm-block" style="margin-top:.2rem;">
+                    <NavLink class="nav-link align-middle mynav" href="create">
                         <span class="oi oi-plus" aria-hidden="true"></span> Create
                     </NavLink>
                 </div>
-                <div class="nav-item px-0 d-block d-sm-none" style="width: 1rem; padding-top:1rem;">
-                    <NavLink class="nav-link" href="create" style="padding-top:1rem;">
+                <div class="px-0 d-block d-sm-none" style="width: 2rem; margin-top:.2rem;">
+                    <NavLink class="nav-link " href="create">
                         <span class="oi oi-plus mobile-nav-blue" aria-hidden="true" style="font-size:1.4rem;"></span>
                     </NavLink>
                 </div>
@@ -34,21 +34,13 @@
 
         <AuthorizeView>
             <Authorized>
-                <NavLink class="nav-link px-3" href="authentication/profile" style="padding-top:1rem;">
+                <NavLink class="nav-link px-3" href="authentication/profile" style="margin-top:.2rem;">
                     <span class="oi oi-person" title="Logged in as @context.User.Identity?.Name" style="font-size:1.3rem;" />
                 </NavLink>
             </Authorized>
             <NotAuthorized>
-                @*   <div class="d-flex">
-                    <navlink class="nav-link p-2" href="authentication/profile">
-                    <a href="authentication/register">register</a>
-                    </navlink>
-                    <navlink class="nav-link p-2" href="authentication/profile">
-                    <a href="authentication/login">log in</a>
-                    </navlink>
-                    </div>*@
-                <div class="nav-item px-0 d-block d-sm-none">
-                    <NavLink class="nav-link align-middle" href="authentication/login" style="padding-top:1rem;">
+                <div class="nav-item px-0">
+                    <NavLink class="nav-link align-middle" href="authentication/login" style="margin-top:.2rem;">
                         <span class="oi oi-account-login mobile-nav-blue" aria-hidden="true" style="font-size:1.6rem;"></span>
                     </NavLink>
                 </div>
