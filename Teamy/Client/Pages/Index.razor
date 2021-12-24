@@ -37,7 +37,7 @@
                 <div class="row">
                     <div class="col-md-6">
 
-                        <div class="d-flex justify-content-center" >
+                        <div class="d-flex justify-content-center">
                             <div class="d-none d-md-block" style="margin-top: 50px;">
                                 <h2>Do Things Together</h2>
                             </div>
@@ -70,6 +70,11 @@
                 </div>
             }
 
+            @if (IsAdmin())
+            {
+                <div style="position: absolute; top: 3rem; right: 2rem;"><a href="/qm" style="font-size:22px;">Quiz Manage</a></div>
+            }
+
             @if (AppState.StoredEvents != null && AppState.StoredEvents.Count > 0)
             {
 
@@ -99,12 +104,11 @@
                     </div>
                 }
             }
-
             else
             {
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="d-flex justify-content-center" >
+                        <div class="d-flex justify-content-center">
                             <div class="d-none d-md-block" style="margin-top: 50px;">
                                 <h2>Do Things Together</h2>
                             </div>
@@ -129,6 +133,7 @@
 @code {
     void NavigateToRegistration() => Nav.NavigateTo($"Identity/Account/Register?participation={AppState.LatestParticipation?.Id}", forceLoad: true);
     void NavigateToLogin() => Nav.NavigateTo($"Identity/Account/Login?participation={AppState.LatestParticipation?.Id}", forceLoad: true);
+    bool IsAdmin() => AppState.User.Claims.Any(o => o.Value == "algarud@gmail.com");
 
     protected override async Task OnInitializedAsync()
     {
