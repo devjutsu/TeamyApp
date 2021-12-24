@@ -152,6 +152,9 @@ a:hover {
 .btn-secondary {
   background-color: #303137 !important;
 }
+.btn-secondary:hover {
+  background-color: #4C4E52 !important;
+}
 .btn {
   border-radius: 10px;
   border: none;
@@ -1039,4 +1042,12 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   border-radius: 5px;
   border: 1px solid #4C4E52;
   background-color: #101214 !important;
+}
+.qm-edit-submitted {
+  color: #10B665 !important;
+  opacity: 0.7;
+}
+.qm-edit-notsubmitted {
+  color: #F4D35E !important;
+  opacity: 0.7;
 }
