@@ -1,4 +1,9 @@
-﻿function focusLastElementByClass(classname) {
+﻿function scrollTo(elementId) {
+    console.log("scroll to: " + elementId);
+    var item = document.getElementById(elementId).scrollIntoView({ behavior: 'smooth' });
+}
+
+function focusLastElementByClass(classname) {
     var searchQueryTBs = document.getElementsByClassName(classname),
         searchQueryTB = searchQueryTBs && searchQueryTBs[searchQueryTBs.length-1];
 
