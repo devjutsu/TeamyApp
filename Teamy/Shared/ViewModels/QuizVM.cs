@@ -59,4 +59,9 @@ namespace Teamy.Shared.ViewModels
     {
         public Guid Id { get; set; }
     }
+
+    public class QCodeIdRequest
+    {
+        public string Id { get; set; }
+    }
 }

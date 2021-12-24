@@ -126,5 +126,6 @@
     async Task ShowAnswers(QuizCodeVM code)
     {
         Console.WriteLine($"Show answers for {code.Id}");
+        await QuizService.GetAnswers(code.Id);
     }
 }

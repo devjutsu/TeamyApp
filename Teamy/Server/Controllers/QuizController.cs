@@ -35,9 +35,6 @@ namespace Teamy.Server.Controllers
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             var quizes = await _db.Quiz
-                                    .Include(_ => _.Questions)
-                                    .ThenInclude(_ => _.Choices)
-                                    .Include(_ => _.Image)
                                     .Include(_ => _.QCodes)
                                     .ThenInclude(_ => _.Completions)
                                     .Where(_ => _.CreatorId == currentUserId)
@@ -54,9 +51,6 @@ namespace Teamy.Server.Controllers
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             var quiz = await _db.Quiz
-                                    .Include(_ => _.Questions)
-                                    .ThenInclude(_ => _.Choices)
-                                    .Include(_ => _.Image)
                                     .Include(_ => _.QCodes)
                                     .ThenInclude(_ => _.Completions)
                                     .Where(_ => _.CreatorId == currentUserId && _.Id == vm.Id)
@@ -92,6 +86,23 @@ namespace Teamy.Server.Controllers
             await _db.SaveChangesAsync();
 
             return Ok();
+        }
+
+        [Authorize]
+        [HttpPost("GetAnswers")]
+        public async Task<QuizVM> GetAnswers(QCodeIdRequest vm)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var tmp = _db.QCodes
+                        .Include(_ => _.Completions)
+                        .Where(_ => _.Id == vm.Id)
+                        .Select(_ => _.Completions.SelectMany(c => c.UserId))
+                        .ToList();
+
+            
+
+            throw new NotImplementedException();
         }
 
         [HttpPost("Create")]
