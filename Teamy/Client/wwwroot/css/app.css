@@ -41,6 +41,7 @@ body {
 }
 a {
   color: #4AAAE8 !important;
+  cursor: pointer !important;
 }
 .nav-link {
   color: #4AAAE8 !important;

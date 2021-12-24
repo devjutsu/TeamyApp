@@ -52,6 +52,7 @@ namespace Teamy.Shared.ViewModels
         public int Visited { get; set; } = 0;
         public int Submitted { get; set; } = 0;
         public DateTime DateCreated { get; set; }
+        public int TotalAnswers { get; set; } = 0;
     }
 
     public class QuizIdVM
