@@ -90,19 +90,24 @@ namespace Teamy.Server.Controllers
 
         [Authorize]
         [HttpPost("GetAnswers")]
-        public async Task<QuizVM> GetAnswers(QCodeIdRequest vm)
+        public async Task<List<QuizQuestionVM>> GetAnswers(QCodeIdRequest vm)
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            var tmp = _db.QCodes
+            var qcode = await _db.QCodes
+                        .Include(_ => _.Quiz)
                         .Include(_ => _.Completions)
-                        .Where(_ => _.Id == vm.Id)
-                        .Select(_ => _.Completions.SelectMany(c => c.UserId))
-                        .ToList();
-
+                        .Where(_ => _.Id == vm.Id && _.Quiz.CreatorId == currentUserId)
+                        .FirstAsync();
             
+            var userIds = qcode.Completions.Select(c => c.UserId).ToList();
+            var questions = _db.QuizQuestions
+                            .Include(_ => _.Answers.Where(a => userIds.Contains(a.UserId)))
+                            .Where(_ => _.QuizId == qcode.QuizId).ToList();
 
-            throw new NotImplementedException();
+            var questionVMs = _mapper.Map<List<QuizQuestion>, List<QuizQuestionVM>>(questions);
+
+            return questionVMs;
         }
 
         [HttpPost("Create")]

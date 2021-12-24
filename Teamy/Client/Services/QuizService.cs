@@ -17,7 +17,7 @@ namespace Teamy.Client.Services
         Task<List<QuizVM>> ManageList();
         Task<QuizVM> GenerateQCode(Guid quizId);
         Task<bool> UpdateQCodeInfo(QuizCodeVM request);
-        Task<QuizVM> GetAnswers(string qcode);
+        Task<List<QuizQuestionVM>> GetAnswers(string qcode);
     }
 
     public class QuizService : IManageQuiz
@@ -84,14 +84,14 @@ namespace Teamy.Client.Services
             return result.IsSuccessStatusCode;
        }
 
-        public async Task<QuizVM> GetAnswers(string qcode)
+        public async Task<List<QuizQuestionVM>> GetAnswers(string qcode)
         {
             var request = new QCodeIdRequest() { Id = qcode };
 
             var uri = Nav.BaseUri + $"Quiz/GetAnswers";
             var result = await Http.PostAsJsonAsync(uri, request);
             var content = await result.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<QuizVM>(content, new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            return JsonSerializer.Deserialize<List<QuizQuestionVM>>(content, new JsonSerializerOptions(JsonSerializerDefaults.Web));
         }
     }
 }

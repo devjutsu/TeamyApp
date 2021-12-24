@@ -30,7 +30,6 @@
                                 @quiz.Details
                             </td>
                             <td>
-                                
                             </td>
                         </tr>
                     }
@@ -44,16 +43,16 @@
 
                     <table class="table table-dark">
                         <colgroup>
-                        <col span="1" style="width: 20px;">
-                        <col span="1" style="width: 40px;">
-                        <col span="1" style="width: 20%;">
-                        <col span="1" style="">
-                        <col span="1" style="width: 50px;">
-                        <col span="1" style="width: 50px;">
-                        <col span="1" style="width: 50px;">
-                    </colgroup>
-                        
-                        @foreach (var qcode in SelectedQuiz.QCodes.OrderByDescending(o => o.DateCreated).Select((obj, i) => new {obj,i}))
+                            <col span="1" style="width: 20px;">
+                            <col span="1" style="width: 40px;">
+                            <col span="1" style="width: 20%;">
+                            <col span="1" style="">
+                            <col span="1" style="width: 50px;">
+                            <col span="1" style="width: 50px;">
+                            <col span="1" style="width: 50px;">
+                        </colgroup>
+
+                        @foreach (var qcode in SelectedQuiz.QCodes.OrderByDescending(o => o.DateCreated).Select((obj, i) => new { obj, i }))
                         {
                             <tr>
                                 <td>@qcode.i</td>
@@ -69,6 +68,26 @@
                 }
             }
         </div>
+
+        @if (QuizAnswered != null && QuizAnswered.Count > 0)
+        {
+            <p id="quizanswers">&nbsp;</p>
+            <div></div>
+            <p>&nbsp;</p>
+            @foreach(var question in QuizAnswered)
+            {
+                @if(question.Answers.Count > 0)
+                {
+                    <div class="qm-question">@question.Question</div>
+
+                    @foreach(var ans in question.Answers)
+                    {
+                        <div class="qm-answer">@ans.Answer</div>
+                    }
+                }
+            }
+        }
+
     </Authorized>
     <NotAuthorized>
         <div>This section is for authorized users only</div>
@@ -80,6 +99,8 @@
 @code {
     List<QuizVM> MyQuizes { get; set; }
     QuizVM? SelectedQuiz { get; set; }
+    List<QuizQuestionVM>? QuizAnswered { get; set; }
+    string scrollToElement { get; set; }
 
     string QuizCss(QuizCodeVM qcode)
         => qcode.Submitted > 0
@@ -125,7 +146,13 @@
 
     async Task ShowAnswers(QuizCodeVM code)
     {
-        Console.WriteLine($"Show answers for {code.Id}");
-        await QuizService.GetAnswers(code.Id);
+        QuizAnswered = await QuizService.GetAnswers(code.Id);
+        scrollToElement = "quizanswers";
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(!firstRender && !string.IsNullOrEmpty(scrollToElement))
+            await JS.InvokeVoidAsync("scrollTo", scrollToElement);
     }
 }

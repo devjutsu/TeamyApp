@@ -1051,3 +1051,10 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   color: #F4D35E !important;
   opacity: 0.7;
 }
+.qm-question {
+  margin-top: 1rem;
+  color: #F5F5F5;
+}
+.qm-answer {
+  color: #86888A;
+}
