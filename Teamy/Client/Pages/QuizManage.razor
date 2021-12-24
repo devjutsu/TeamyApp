@@ -59,7 +59,7 @@
                                 <td>@qcode.i</td>
                                 <td><a class="qcode-manage-link" @onclick="(() => CopyLink(qcode.obj))">@qcode.obj.Id</a></td>
                                 <td><input type="text" class="qm-edit" value="@qcode.obj.Url" @onchange="((e) => UpdateUrl(qcode.obj, e))" /></td>
-                                <td><input type="text" class="qm-edit" value="@qcode.obj.Comment" @onchange="((e) => UpdateComments(qcode.obj, e))" /></td>
+                                <td><input type="text" class="qm-edit @QuizCss(qcode.obj)" value="@qcode.obj.Comment" @onchange="((e) => UpdateComments(qcode.obj, e))" /></td>
                                 <td style="text-align:center;">@qcode.obj.Visited</td>
                                 <td style="text-align:center;">@qcode.obj.Submitted</td>
                                 <td style="text-align:center;">(<a @onclick="@(() => ShowAnswers(qcode.obj))">@qcode.obj.TotalAnswers</a>)</td>
@@ -78,9 +78,13 @@
 <p>&nbsp;</p>
 
 @code {
-
     List<QuizVM> MyQuizes { get; set; }
     QuizVM? SelectedQuiz { get; set; }
+
+    string QuizCss(QuizCodeVM qcode)
+        => qcode.Submitted > 0
+                ? "qm-edit-submitted"
+                : qcode.Visited > 0 ? "qm-edit-notsubmitted" : "";
 
     protected override async Task OnInitializedAsync()
     {
