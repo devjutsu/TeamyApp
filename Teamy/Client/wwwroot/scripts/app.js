@@ -1,6 +1,8 @@
 ﻿function scrollTo(elementId) {
     console.log("scroll to: " + elementId);
-    var item = document.getElementById(elementId).scrollIntoView({ behavior: 'smooth' });
+    var item = document.getElementById(elementId);
+    if(item != null)
+        item.scrollIntoView({ behavior: 'smooth' });
 }
 
 function focusLastElementByClass(classname) {

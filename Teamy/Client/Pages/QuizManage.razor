@@ -131,6 +131,7 @@
         var i = MyQuizes.IndexOf(SelectedQuiz);
         MyQuizes[i] = quiz;
         SelectedQuiz = quiz;
+        FillTotalAnswers();
     }
 
     async Task UpdateComments(QuizCodeVM code, ChangeEventArgs e)
