@@ -59,7 +59,7 @@ namespace Teamy.Server.Data.Seed
                     new QuizQuestion()
                     {
                         Order = 3,
-                        Question = "How are you feeling today?",
+                        Question = "How are you feeling today? (1 - horrible, 5 - awesome)",
                         Type = QuizElementType.GradeQuestion,
                     },
                     new QuizQuestion()
@@ -103,7 +103,7 @@ namespace Teamy.Server.Data.Seed
                     new QuizQuestion()
                     {
                         Order = 0,
-                        Question = "How are you feeling today?",
+                        Question = "How are you feeling today? (1 - horrible, 5 - awesome)",
                         Type = QuizElementType.GradeQuestion,
                     },
                     new QuizQuestion()
@@ -129,7 +129,7 @@ namespace Teamy.Server.Data.Seed
                     {
                         Order= 3,
                         Type = QuizElementType.GradeQuestion,
-                        Question = "How difficult it is to find common activities with new people?",
+                        Question = "How difficult it is to find common activities with new people? (1 - easy, 5 - very difficult)",
                     },
                     new QuizQuestion()
                     {
@@ -242,7 +242,7 @@ namespace Teamy.Server.Data.Seed
                     {
                         Order= 12,
                         Type = QuizElementType.GradeQuestion,
-                        Question = "How much has pandemics affected live communication?",
+                        Question = "How much has pandemics affected live communication? (1 - nothing changed or positive effect, 5 - affected badly)",
                         Choices = new List<QuizChoice>()
                         {
                             new QuizChoice() { Choice = "A lot" },
@@ -294,7 +294,7 @@ namespace Teamy.Server.Data.Seed
                     new QuizQuestion()
                     {
                         Order = 16,
-                        Question = "How likely you will use our tool to get people together?",
+                        Question = "How likely you will use our tool to get people together? (1 - not likely, 5 - would love to)",
                         Type = QuizElementType.GradeQuestion,
                     },
                     new QuizQuestion()
