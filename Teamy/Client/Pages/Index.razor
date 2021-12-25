@@ -61,26 +61,35 @@
         }
     </NotAuthorized>
     <Authorized>
-        <div class="mask-text-over-img">
-            @if (AppState.Invite != null)
-            {
+
+        @if (AppState.Invite != null)
+        {
+            <div class="mask-text-over-img">
                 <h2>You are invited to:</h2>
                 <div @onclick="GoToInvite">
                     <EventCard Evt=AppState.Invite />
                 </div>
-            }
+            </div>
+        }
 
-            @if (IsAdmin())
-            {
-                <div style="position: absolute; top: 3rem; right: 2rem;"><a href="/qm" style="font-size:22px;">Quiz Manage</a></div>
-            }
+        @if (IsAdmin())
+        {
+            <div style="position: absolute; top: 3rem; right: 2rem;"><a href="/qm" style="font-size:22px;">Quiz Manage</a></div>
+        }
 
-            @if (AppState.StoredEvents != null && AppState.StoredEvents.Count > 0)
-            {
-
+        @if (loading)
+        {
+            <div class="loader">
+                <div class="inner one"></div>
+                <div class="inner two"></div>
+                <div class="inner three"></div>
+            </div>
+        }
+        else if (AppState.StoredEvents != null && AppState.StoredEvents.Count > 0)
+        {
+            <div class="mask-text-over-img">
                 @if (AppState.FutureEvents.Any())
                 {
-
                     <h2>Upcoming events:</h2>
                     <div class="row event-card-container">
                         @foreach (var evt in AppState.FutureEvents)
@@ -103,9 +112,11 @@
                         }
                     </div>
                 }
-            }
-            else
-            {
+            </div>
+        }
+        else
+        {
+            <div class="mask-text-over-img">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="d-flex justify-content-center">
@@ -125,8 +136,9 @@
                         <Intro_right />
                     </div>
                 </div>
-            }
-        </div>
+            </div>
+        }
+
     </Authorized>
 </AuthorizeView>
 
@@ -134,16 +146,27 @@
     void NavigateToRegistration() => Nav.NavigateTo($"Identity/Account/Register?participation={AppState.LatestParticipation?.Id}", forceLoad: true);
     void NavigateToLogin() => Nav.NavigateTo($"Identity/Account/Login?participation={AppState.LatestParticipation?.Id}", forceLoad: true);
     bool IsAdmin() => AppState.User.Claims.Any(o => o.Value == "algarud@gmail.com");
+    bool loading = true;
 
     protected override async Task OnInitializedAsync()
     {
-        //var cookieEventId = await JS.InvokeAsync<string>("ReadCookie.ReadCookie", "participationEventId");
-        //var cookieParticipation = await JS.InvokeAsync<string>("ReadCookie.ReadCookie", "participationStatus");
+        await EventService.LoadUpcoming();
+        loading = false;
     }
+
+    void GoEvent(EventVM e)
+    {
+        Nav.NavigateTo($"/event/{e.Id}");
+    }
+
+    void GoToInvite()
+    {
+        Nav.NavigateTo($"{Nav.BaseUri}i/{AppState.Invite.InviteCode}");
+    }
+
 
     protected override void OnInitialized()
     {
-        EventService.LoadUpcoming();
         AppState.Statechanged += async (Source, Property) => await AppState_StateChanged(Source, Property);
     }
 
@@ -155,15 +178,5 @@
     void IDisposable.Dispose()
     {
         AppState.Statechanged -= async (Source, Property) => await AppState_StateChanged(Source, Property);
-    }
-
-    void GoEvent(EventVM e)
-    {
-        Nav.NavigateTo($"/event/{e.Id}");
-    }
-
-    void GoToInvite()
-    {
-        Nav.NavigateTo($"{Nav.BaseUri}i/{AppState.Invite.InviteCode}");
     }
 }
