@@ -100,7 +100,7 @@
     List<QuizVM> MyQuizes { get; set; }
     QuizVM? SelectedQuiz { get; set; }
     List<QuizQuestionVM>? QuizAnswered { get; set; }
-    string scrollToElement { get; set; }
+    string scrollToElement { get; set; } = "";
 
     string QuizCss(QuizCodeVM qcode)
         => qcode.Submitted > 0
@@ -115,6 +115,7 @@
     void SelectQuiz(QuizVM quiz)
     {
         SelectedQuiz = quiz;
+        FillTotalAnswers();
     }
 
     async Task CopyLink(QuizCodeVM code)
@@ -148,6 +149,18 @@
     {
         QuizAnswered = await QuizService.GetAnswers(code.Id);
         scrollToElement = "quizanswers";
+    }
+
+    async Task FillTotalAnswers()
+    {
+        
+        
+        foreach(var q in SelectedQuiz.QCodes)
+        {
+            q.TotalAnswers = await QuizService.TotalAnswers(q.Id);
+            //Console.WriteLine($"{q.Id}: {q.TotalAnswers}");
+            StateHasChanged();
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

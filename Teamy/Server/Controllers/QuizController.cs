@@ -110,6 +110,29 @@ namespace Teamy.Server.Controllers
             return questionVMs;
         }
 
+        [Authorize]
+        [HttpPost("TotalAnswers")]
+        public async Task<int> TotalAnswers(QCodeIdRequest vm)
+        {
+            var qcode = await _db.QCodes
+                        .Include(_ => _.Quiz)
+                        .Include(_ => _.Completions)
+                        .Where(_ => _.Id == vm.Id)
+                        .FirstAsync();
+            var userIds = qcode.Completions.Select(c => c.UserId).ToList();
+
+            //var questions = _db.QuizQuestions
+            //                .Include(_ => _.Answers.Where(a => userIds.Contains(a.UserId)))
+            //                .Count(_ => _.QuizId == qcode.QuizId && _.Answers.Count > 0);
+
+
+            var totalAnswers = _db.QuizAnswers
+                                .Include(_ => _.Question)
+                                .Count(_ => _.Question.QuizId == qcode.QuizId && userIds.Contains(_.UserId));
+
+            return totalAnswers;
+        }
+
         [HttpPost("Create")]
         public async Task<IActionResult> Create(QuizVM quiz)
         {
