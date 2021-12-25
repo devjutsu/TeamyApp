@@ -153,19 +153,19 @@
 
     async Task FillTotalAnswers()
     {
-        
-        
-        foreach(var q in SelectedQuiz.QCodes)
+        foreach(var q in SelectedQuiz.QCodes.OrderByDescending(c => c.DateCreated))
         {
             q.TotalAnswers = await QuizService.TotalAnswers(q.Id);
-            //Console.WriteLine($"{q.Id}: {q.TotalAnswers}");
             StateHasChanged();
         }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if(!firstRender && !string.IsNullOrEmpty(scrollToElement))
+        if (!firstRender && !string.IsNullOrEmpty(scrollToElement))
+        {
             await JS.InvokeVoidAsync("scrollTo", scrollToElement);
+            scrollToElement = "";
+        }
     }
 }
