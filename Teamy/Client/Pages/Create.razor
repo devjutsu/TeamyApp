@@ -1,4 +1,5 @@
-﻿@page "/create"
+﻿@page "/create/{TemplateCode:guid}"
+@page "/create"
 @using Blazored.Modal.Services
 @inject AppState AppState
 @inject IJSRuntime JS
@@ -58,17 +59,30 @@
 @code {
     [CascadingParameter]
     public IModalService Modal { get; set; }
+    [Parameter]
+    public Guid? TemplateCode { get; set; }
 
     ElementReference titleRef { get; set; }
 
-    List<EventVM> Recommended { get; set; }
+    List<EventVM>? Recommended { get; set; }
 
-    EventVM EditingEvent { get; set; }
+    EventVM? EditingEvent { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         Recommended = await TemplateService.Recommended();
-        //await JS.InvokeVoidAsync("showAlert", "test alert from js");
+
+        if (TemplateCode != null)
+        {
+            if (TemplateCode == Guid.Empty)
+            {
+                DoCreateNew();
+            }
+            else
+            {
+                EditingEvent = await TemplateService.Get(TemplateCode.Value);
+            }
+        }
     }
 
     public async Task DoCreateFromTemplate(EventVM tpl)

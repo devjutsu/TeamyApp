@@ -4,146 +4,158 @@
 @inject IJSRuntime JS;
 @implements IDisposable
 
-@if (CurrentQuiz == null)
-{
-    <div>Incorrect code</div>
-}
-else
-{
-    @if (!string.IsNullOrEmpty(@CurrentQuiz.ImageUrl))
+<div class="container container-black">
+    @if (IsLoading)
     {
-        <div class="img-viewblock d-none d-sm-block" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), #121212FF), url(@CurrentQuiz.ImageUrl);"></div>
-        <div class="img-xs-viewblock d-block d-sm-none" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), #121212FF), url(@CurrentQuiz.ImageUrl);"></div>
+        <div class="loader">
+            <div class="inner one"></div>
+            <div class="inner two"></div>
+            <div class="inner three"></div>
+        </div>
+    }
+    else if (CurrentQuiz == null)
+    {
+        <div>Incorrect code</div>
     }
     else
     {
-        <div class="noimg-viewblock d-none d-sm-block"></div>
-        <div class="noimg-xs-viewblock d-block d-sm-none"></div>
-    }
-
-    <div class="event-titleblock">
-        <div class="">
-            <div class="event-title">@CurrentQuiz.Title</div>
-            <div class="event-details">@CurrentQuiz.Details</div>
-        </div>
-    </div>
-
-    <div class="row">
-        @foreach (var question in CurrentQuiz.Questions)
+        @if (!string.IsNullOrEmpty(@CurrentQuiz.ImageUrl))
         {
-            <div class="col-md-6">
-                @if (question.Type == QuizElementType.SingleSelectQuestion)
-                {
-                    <div class="default-block">
-                        <div>
-                            <h5>
-                                @question.Question
-                            </h5>
-                        </div>
-                        @foreach (var choice in question.Choices)
-                        {
-                            <div @onclick="@(() => SetSingleChoice(question, choice))">
-                                <div class="radio-container" style="margin-top:.7rem; position:relative;">
-                                    <input type="radio" checked="@(VotedChoice(question, choice))">
-                                    <span class="radiomark" />
-                                    <label class="multi-choice-lbl" style="padding-left:.8rem;">@choice.Choice</label>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                }
-                else if (question.Type == QuizElementType.MultiSelectQuestion)
-                {
-                    <div class="default-block">
-                        <div>
-                            <h5>
-                                @question.Question
-                            </h5>
-                        </div>
-                        @foreach (var choice in question.Choices)
-                        {
-                            <div @onclick="@(() => SetMultiChoice(question, choice))">
-                                <div class="check-container" style="margin-top:.7rem; position:relative;">
-                                    <input type="checkbox" checked="@(VotedChoice(question, choice))">
-                                    <span class="checkmark" />
-                                    <label class="multi-choice-lbl" style="padding-left:.8rem;">@choice.Choice</label>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                }
-                else if (question.Type == QuizElementType.FreeTextQuestion)
-                {
-                    <div class="default-block">
-                        <h5>
-                            @question.Question
-                        </h5>
-                        <textarea rows=5 class="fullwidth-input" value="@VotedText(question)" @onchange="((e) => VoteText(e, question))" />
-                    </div>
-                }
-                else if (question.Type == QuizElementType.GradeQuestion)
-                {
+            <div class="img-viewblock d-none d-sm-block" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), #121212FF), url(@CurrentQuiz.ImageUrl);"></div>
+            <div class="img-xs-viewblock d-block d-sm-none" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), #121212FF), url(@CurrentQuiz.ImageUrl);"></div>
+        }
+        else
+        {
+            <div class="noimg-viewblock d-none d-sm-block"></div>
+            <div class="noimg-xs-viewblock d-block d-sm-none"></div>
+        }
 
-                    <div class="default-block">
-                        <div>
-                            <h5>
-                                @question.Question
-                            </h5>
-                        </div>
+        <div class="event-titleblock">
+            <div class="">
+                <div class="event-title">@CurrentQuiz.Title</div>
+                <div class="event-details">@CurrentQuiz.Details</div>
+            </div>
+        </div>
 
-                        <div class="quiz-grade">
-                            @for(int i=1; i<=5; i++)
+        <div class="row">
+            @foreach (var question in CurrentQuiz.Questions)
+            {
+                <div class="col-md-6">
+                    @if (question.Type == QuizElementType.SingleSelectQuestion)
+                    {
+                        <div class="default-block">
+                            <div>
+                                <h5>
+                                    @question.Question
+                                </h5>
+                            </div>
+                            @foreach (var choice in question.Choices)
                             {
-                                var a = i;
-                                <span class="oi oi-star @VotedGradeCssClass(question, a)" @onclick="@(() => SetGrade(question, a))"></span>
+                                <div @onclick="@(() => SetSingleChoice(question, choice))">
+                                    <div class="radio-container" style="margin-top:.7rem; position:relative;">
+                                        <input type="radio" checked="@(VotedChoice(question, choice))">
+                                        <span class="radiomark" />
+                                        <label class="multi-choice-lbl" style="padding-left:.8rem;">@choice.Choice</label>
+                                    </div>
+                                </div>
                             }
                         </div>
-                    </div>
-                }
-                else if (question.Type == QuizElementType.Picture)
-                {
-                    <div class="silent-block d-flex justify-content-center" style="padding:0px;">
-                        <img src=@question.Question class="quiz-picture" />
-                    </div>
-                }
-                else if (question.Type == QuizElementType.InformationOnly)
-                {
-                    <div class="default-block">
-                        <div>
+                    }
+                    else if (question.Type == QuizElementType.MultiSelectQuestion)
+                    {
+                        <div class="default-block">
+                            <div>
+                                <h5>
+                                    @question.Question
+                                </h5>
+                            </div>
+                            @foreach (var choice in question.Choices)
+                            {
+                                <div @onclick="@(() => SetMultiChoice(question, choice))">
+                                    <div class="check-container" style="margin-top:.7rem; position:relative;">
+                                        <input type="checkbox" checked="@(VotedChoice(question, choice))">
+                                        <span class="checkmark" />
+                                        <label class="multi-choice-lbl" style="padding-left:.8rem;">@choice.Choice</label>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else if (question.Type == QuizElementType.FreeTextQuestion)
+                    {
+                        <div class="default-block">
                             <h5>
                                 @question.Question
                             </h5>
+                            <textarea rows=5 class="fullwidth-input" value="@VotedText(question)" @onchange="((e) => VoteText(e, question))" />
                         </div>
-                        @foreach (var choice in question.Choices)
-                        {
-                            <div style="margin-top:.5rem; margin-bottom:.5rem;">@choice.Choice</div>
-                        }
-                    </div>
-                }
-                else
-                {
-                    <div class="default-block">
-                        no option
-                        <div>
-                            <h5>
-                                @question.Question
-                            </h5>
+                    }
+                    else if (question.Type == QuizElementType.GradeQuestion)
+                    {
+
+                        <div class="default-block">
+                            <div>
+                                <h5>
+                                    @question.Question
+                                </h5>
+                            </div>
+
+                            <div class="quiz-grade">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    var a = i;
+                                    <span class="oi oi-star @VotedGradeCssClass(question, a)" @onclick="@(() => SetGrade(question, a))"></span>
+                                }
+                            </div>
                         </div>
-                        @foreach (var choice in question.Choices)
-                        {
-                            <div style="margin-top:.5rem; margin-bottom:.5rem;">@choice.Choice</div>
-                        }
-                    </div>
-                }
+                    }
+                    else if (question.Type == QuizElementType.Picture)
+                    {
+                        <div class="silent-block d-flex justify-content-center" style="padding:0px;">
+                            <img src=@question.Question class="quiz-picture" />
+                        </div>
+                    }
+                    else if (question.Type == QuizElementType.InformationOnly)
+                    {
+                        <div class="default-block">
+                            <div>
+                                <h5>
+                                    @question.Question
+                                </h5>
+                            </div>
+                            @foreach (var choice in question.Choices)
+                            {
+                                <div style="margin-top:.5rem; margin-bottom:.5rem;">@choice.Choice</div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="default-block">
+                            no option
+                            <div>
+                                <h5>
+                                    @question.Question
+                                </h5>
+                            </div>
+                            @foreach (var choice in question.Choices)
+                            {
+                                <div style="margin-top:.5rem; margin-bottom:.5rem;">@choice.Choice</div>
+                            }
+                        </div>
+                    }
 
-            </div>
-        }
-    </div>
+                </div>
+            }
+        </div>
 
-    <div class="d-flex justify-content-center quiz-submit-block">
-        <button class="btn btn-main" @onclick="(() => Submit())">Submit</button>
-    </div>
-}
+        <div class="d-flex justify-content-center quiz-submit-block">
+            <button class="btn btn-main" @onclick="(() => Submit())">Submit</button>
+        </div>
+        <div style="padding-bottom: 1rem;">
+        </div>
+    }
+</div>
 
 @code {
     [Parameter]
@@ -152,9 +164,11 @@ else
     public QuizVM CurrentQuiz { get; set; }
 
     public string CurrentUserId { get; set; }
+    public bool IsLoading { get; set; } = true;
 
     protected override async Task OnInitializedAsync()
     {
+        IsLoading = true;
         CurrentUserId = AppState.UserId ?? await JS.InvokeAsync<string>("ReadCookie.ReadCookie", "userId");
         var request = new QuizCodeVM()
             {
@@ -169,15 +183,16 @@ else
             await JS.InvokeAsync<object>("WriteCookie.WriteCookie", "userId", CurrentQuiz.UserId, DateTime.Now.AddYears(1));
             CurrentUserId = CurrentQuiz.UserId;
         }
+        IsLoading = false;
     }
 
     string VotedGradeCssClass(QuizQuestionVM question, int grade)
     {
         var existingAnswer = question.Answers.FirstOrDefault();
-        if(existingAnswer != null)
+        if (existingAnswer != null)
         {
             int.TryParse(existingAnswer.Answer, out int val);
-            if(grade <= val)
+            if (grade <= val)
                 return "grade-checked";
         }
 

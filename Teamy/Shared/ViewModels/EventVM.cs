@@ -23,6 +23,7 @@ namespace Teamy.Shared.ViewModels
         public EventDateStatus DateStatus { get; set; }
         public DateTime? EventDate { get; set; }
         public DateTime? EventDateTo { get; set; }
+        public Guid? TemplateFromId {get; set; }
 
         public object Clone()
         {
