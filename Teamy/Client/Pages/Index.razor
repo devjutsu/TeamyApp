@@ -66,7 +66,7 @@
     <Authorized>
 
 
-        @if (loading)
+        @if (IsLoading)
         {
             <div class="loader">
                 <div class="inner one"></div>
@@ -170,12 +170,12 @@
     void NavigateToRegistration() => Nav.NavigateTo($"Identity/Account/Register?participation={AppState.LatestParticipation?.Id}", forceLoad: true);
     void NavigateToLogin() => Nav.NavigateTo($"Identity/Account/Login?participation={AppState.LatestParticipation?.Id}", forceLoad: true);
     bool IsAdmin() => AppState.User.Claims.Any(o => o.Value == "algarud@gmail.com");
-    bool loading = true;
+    bool IsLoading = true;
 
     protected override async Task OnInitializedAsync()
     {
         await EventService.LoadUpcoming();
-        loading = false;
+        IsLoading = false;
     }
 
     void GoEvent(EventVM e)

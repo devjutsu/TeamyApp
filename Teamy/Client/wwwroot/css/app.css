@@ -35,6 +35,9 @@ body {
 .container-black {
   background-color: #101214;
 }
+.container-inner-padding {
+  padding: 0 2rem 2rem 2rem;
+}
 .navbar {
   background-color: #101214 !important;
 }

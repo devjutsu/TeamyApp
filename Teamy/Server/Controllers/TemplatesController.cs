@@ -42,6 +42,7 @@ namespace Teamy.Server.Controllers
             var vms = _mapper.Map<List<Event>, List<EventVM>>(events);
             vms.ForEach(v => 
             {
+                v.TemplateFromId = v.Id;
                 v.Id = null;
                 v.EventDate = DateTime.Today.AddDays(1).AddHours(18);
                 v.EventDateTo = DateTime.Today.AddDays(1).AddHours(20);
@@ -57,6 +58,37 @@ namespace Teamy.Server.Controllers
             });
             // @! only this weird mapping works: List<TemplatePollChoice> => List<EventPollChoiceVM> !@
             return vms;
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("Get/{id}")]
+        public async Task<EventVM> Get(Guid id)
+        {
+            var tmpl = await _db.Templates
+                                .Include(_ => _.Polls)
+                                .ThenInclude(p => p.Choices)
+                                .Include(_ => _.CoverImage)
+                                .FirstAsync(_ => _.Id == id);
+
+            var evt = _mapper.Map<Event>(tmpl);
+            var templateVM = _mapper.Map<EventVM>(evt);
+            templateVM.TemplateFromId = templateVM.Id;
+            templateVM.Id = null;
+
+            templateVM.EventDate = DateTime.Today.AddDays(1).AddHours(18);
+            templateVM.EventDateTo = DateTime.Today.AddDays(1).AddHours(20);
+            templateVM.ProposedDates = new List<ProposedDateVM>() {
+                    new ProposedDateVM() { Date = DateTime.Today.AddDays(1).AddHours(18), DateTo = DateTime.Today.AddDays(1).AddHours(20) },
+                    new ProposedDateVM() { Date = DateTime.Today.AddDays(2).AddHours(18), DateTo = DateTime.Today.AddDays(2).AddHours(20) }
+                };
+            templateVM.Polls?.ForEach(p =>
+            {
+                p.Id = null;
+                p.Choices.ForEach(c => c.Id = null);
+            });
+
+            return templateVM;
         }
     }
 }
