@@ -43,30 +43,29 @@
 
                     <table class="table table-dark">
                         <colgroup>
-                            <col span="1" style="width: 20px;">
+                            <col span="1" style="width: 10px;">
                             <col span="1" style="width: 40px;">
-                            <col span="1" style="width: 20%;">
+                            <col span="1" style="width: 10%;">
                             <col span="1" style="">
-                            <col span="1" style="width: 50px;">
-                            <col span="1" style="width: 50px;">
-                            <col span="1" style="width: 50px;">
+                            <col span="1" style="width: 80px;">
+                            @*<col span="1" style="width: 20px;">*@
                         </colgroup>
 
-                        @foreach (var qcode in SelectedQuiz.QCodes.OrderByDescending(o => o.DateCreated).Select((obj, i) => new { obj, i }))
+                        @foreach (var qcode in SelectedQuiz.QCodes.OrderBy(o => o.DateCreated).Select((obj, i) => new { obj, i = i + 1 }).OrderByDescending(z => z.i))
                         {
                             <tr>
                                 <td>@qcode.i</td>
                                 <td><a class="qcode-manage-link" @onclick="(() => CopyLink(qcode.obj))">@qcode.obj.Id</a></td>
                                 <td><input type="text" class="qm-edit" value="@qcode.obj.Url" @onchange="((e) => UpdateUrl(qcode.obj, e))" /></td>
                                 <td><input type="text" class="qm-edit @QuizCss(qcode.obj)" value="@qcode.obj.Comment" @onchange="((e) => UpdateComments(qcode.obj, e))" /></td>
-                                <td style="text-align:center;">@qcode.obj.Visited</td>
-                                <td style="text-align:center;">@qcode.obj.Submitted</td>
-                                <td style="text-align:center;">(<a @onclick="@(() => ShowAnswers(qcode.obj))">@qcode.obj.TotalAnswers</a>)</td>
+                                <td style="text-align:center;"><a @onclick="@(() => ShowAnswers(qcode.obj))">@VisitedSubmittedCounts(qcode.obj) : @qcode.obj.TotalAnswers</a></td>
+                                @*<td style="text-align:center;"></td>*@
                             </tr>
                         }
                     </table>
                 }
             }
+            <p>&nbsp;</p>
         </div>
 
         @if (QuizAnswered != null && QuizAnswered.Count > 0)
@@ -86,6 +85,7 @@
                     }
                 }
             }
+            <p>&nbsp;</p>
         }
 
     </Authorized>
@@ -94,13 +94,15 @@
     </NotAuthorized>
 </AuthorizeView>
 
-<p>&nbsp;</p>
+
 
 @code {
     List<QuizVM> MyQuizes { get; set; }
     QuizVM? SelectedQuiz { get; set; }
     List<QuizQuestionVM>? QuizAnswered { get; set; }
     string scrollToElement { get; set; } = "";
+
+    string VisitedSubmittedCounts(QuizCodeVM qcode) => $"{@qcode.Visited} : {@qcode.Submitted}";
 
     string QuizCss(QuizCodeVM qcode)
         => qcode.Submitted > 0
