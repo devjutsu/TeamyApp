@@ -6,52 +6,54 @@
 @inject IManageTemplates TemplateService
 @implements IDisposable
 
-@if (EditingEvent == null)
-{
-    <h2>Create new event</h2>
-    <div>Or select and customize template</div>
-    <div class="d-flex flex-wrap">
-        @if (Recommended != null)
-        {
-            <div class="row event-card-container">
-                <div class="col-md-4" style="min-width:20rem;">
-                    <div class="d-flex template-card" @onclick="(() => DoCreateNew())">
-                        <div class="event-card-img event-card-data">
-                            <div style="font-weight:bold;">From scratch</div>
-                        </div>
-                        <div class="event-card-img" style="background-image: url(https://squalldiag.blob.core.windows.net/template-img/fromscratch.jpeg);"></div>
-                    </div>
-                </div>
-
-                @foreach (var item in Recommended)
-                {
-                    <div class="col-md-4">
-                        <div class="d-flex template-card" @onclick="(() => DoCreateFromTemplate(item))">
+<div class="container container-black">
+    @if (EditingEvent == null)
+    {
+        <h2>Create new event</h2>
+        <div>Or select and customize template</div>
+        <div class="d-flex flex-wrap">
+            @if (Recommended != null)
+            {
+                <div class="row event-card-container">
+                    <div class="col-md-4" style="min-width:20rem;">
+                        <div class="d-flex template-card" @onclick="(() => DoCreateNew())">
                             <div class="event-card-img event-card-data">
-                                <div style="font-weight:bold;">@item.Title</div>
-                                <div>@item.Description</div>
+                                <div style="font-weight:bold;">From scratch</div>
                             </div>
-                            <div class="event-card-img" style="background-image: url(@item.ImageUrl);"></div>
+                            <div class="event-card-img" style="background-image: url(https://squalldiag.blob.core.windows.net/template-img/fromscratch.jpeg);"></div>
                         </div>
                     </div>
-                }
-            </div>
-        }
-    </div>
-    <p>&nbsp;</p>
-}
-else
-{
-    <button class="btn btn-back d-none d-sm-block" @onclick="() => GoBack()">
-        <span class="oi oi-arrow-left" />
-        &nbsp;Back
-    </button>
-    <button class="btn btn-xs-back d-block d-sm-none" @onclick="() => GoBack()">
-        <span class="oi oi-arrow-left" />
-        &nbsp;Back
-    </button>
-    <EventEdit InitialEvent=@EditingEvent DoneEditing=@CreateFinished></EventEdit>
-}
+
+                    @foreach (var item in Recommended)
+                    {
+                        <div class="col-md-4">
+                            <div class="d-flex template-card" @onclick="(() => DoCreateFromTemplate(item))">
+                                <div class="event-card-img event-card-data">
+                                    <div style="font-weight:bold;">@item.Title</div>
+                                    <div>@item.Description</div>
+                                </div>
+                                <div class="event-card-img" style="background-image: url(@item.ImageUrl);"></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+        <p>&nbsp;</p>
+    }
+    else
+    {
+        <button class="btn btn-back d-none d-sm-block" @onclick="() => GoBack()">
+            <span class="oi oi-arrow-left" />
+            &nbsp;Back
+        </button>
+        <button class="btn btn-xs-back d-block d-sm-none" @onclick="() => GoBack()">
+            <span class="oi oi-arrow-left" />
+            &nbsp;Back
+        </button>
+        <EventEdit InitialEvent=@EditingEvent DoneEditing=@CreateFinished></EventEdit>
+    }
+</div>
 
 @code {
     [CascadingParameter]

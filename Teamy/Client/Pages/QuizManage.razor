@@ -3,97 +3,90 @@
 @inject IJSRuntime JS
 @inject IToastService Toast
 
-<AuthorizeView>
-    <Authorized>
-        <div class="quiz-manage-main" style="">
-            @if (MyQuizes == null)
-            {
-                <div>No quizes</div>
-            }
-            else
-            {
-                <table class="table table-dark table-hover" style="border-collapse: separate;">
-                    <thead>
-                        <tr>
-                            <th scope="col">Quiz</th>
-                            <th scope="col">Details</th>
-                            <th scope="col">Fills</th>
-                        </tr>
-                    </thead>
-                    @foreach (var quiz in MyQuizes)
-                    {
-                        <tr>
-                            <td>
-                                <button class="btn btn-secondary" style="width:100%; padding: 1rem;" @onclick="(() => SelectQuiz(quiz))">@quiz.Title</button>
-                            </td>
-                            <td>
-                                @quiz.Details
-                            </td>
-                            <td>
-                            </td>
-                        </tr>
-                    }
-                </table>
+<style>
+    body {
+        background-color: #101214;
+    }
+</style>
 
-                @if (SelectedQuiz != null)
+<div class="container container-black">
+    <AuthorizeView>
+        <Authorized>
+            <div class="quiz-manage-main" style="">
+                @if (MyQuizes == null)
                 {
-                    <h3>@SelectedQuiz.Title</h3>
-                    <div>@SelectedQuiz.Details</div>
-                    <button class="btn btn-main" @onclick="GenerateQCode" style="margin-bottom:1rem;">Generate QCode</button>
-
-                    <table class="table table-dark">
-                        <colgroup>
-                            <col span="1" style="width: 10px;">
-                            <col span="1" style="width: 40px;">
-                            <col span="1" style="width: 10%;">
-                            <col span="1" style="">
-                            <col span="1" style="width: 80px;">
-                            @*<col span="1" style="width: 20px;">*@
-                        </colgroup>
-
-                        @foreach (var qcode in SelectedQuiz.QCodes.OrderBy(o => o.DateCreated).Select((obj, i) => new { obj, i = i + 1 }).OrderByDescending(z => z.i))
+                    <div>No quizes</div>
+                }
+                else
+                {
+                    <div class="d-flex">
+                        @foreach (var quiz in MyQuizes)
                         {
-                            <tr>
-                                <td>@qcode.i</td>
-                                <td><a class="qcode-manage-link" @onclick="(() => CopyLink(qcode.obj))">@qcode.obj.Id</a></td>
-                                <td><input type="text" class="qm-edit" value="@qcode.obj.Url" @onchange="((e) => UpdateUrl(qcode.obj, e))" /></td>
-                                <td><input type="text" class="qm-edit @QuizCss(qcode.obj)" value="@qcode.obj.Comment" @onchange="((e) => UpdateComments(qcode.obj, e))" /></td>
-                                <td style="text-align:center;"><a @onclick="@(() => ShowAnswers(qcode.obj))">@VisitedSubmittedCounts(qcode.obj) : @qcode.obj.TotalAnswers</a></td>
-                                @*<td style="text-align:center;"></td>*@
-                            </tr>
+                            <div class="quiz-manage-selector">
+                                <button class="btn btn-secondary" style="width:100%; padding: 1rem;" @onclick="(() => SelectQuiz(quiz))">
+                                    @quiz.Title
+                                </button>
+                            </div>
                         }
-                    </table>
-                }
-            }
-            <p>&nbsp;</p>
-        </div>
+                    </div>
 
-        @if (QuizAnswered != null && QuizAnswered.Count > 0)
-        {
-            <p id="quizanswers">&nbsp;</p>
-            <div></div>
-            <p>&nbsp;</p>
-            @foreach(var question in QuizAnswered)
-            {
-                @if(question.Answers.Count > 0)
-                {
-                    <div class="qm-question">@question.Question</div>
-
-                    @foreach(var ans in question.Answers)
+                    @if (SelectedQuiz != null)
                     {
-                        <div class="qm-answer">@ans.Answer</div>
+                        <h3>@SelectedQuiz.Title</h3>
+                        <div>@SelectedQuiz.Details</div>
+                        <button class="btn btn-main" @onclick="GenerateQCode" style="margin-bottom:1rem;">Generate QCode</button>
+
+                        <table class="table table-dark">
+                            <colgroup>
+                                <col span="1" style="width: 10px;">
+                                <col span="1" style="width: 40px;">
+                                <col span="1" style="width: 10%;">
+                                <col span="1" style="">
+                                <col span="1" style="width: 80px;">
+                            </colgroup>
+
+                            @foreach (var qcode in SelectedQuiz.QCodes.OrderBy(o => o.DateCreated).Select((obj, i) => new { obj, i = i + 1 }).OrderByDescending(z => z.i))
+                            {
+                                <tr>
+                                    <td class="qcode-manage-n">@qcode.i</td>
+                                    <td><a class="qcode-manage-link" @onclick="(() => CopyLink(qcode.obj))">@qcode.obj.Id</a></td>
+                                    <td><input type="text" class="qm-edit" value="@qcode.obj.Url" @onchange="((e) => UpdateUrl(qcode.obj, e))" /></td>
+                                    <td><input type="text" class="qm-edit @QuizCss(qcode.obj)" value="@qcode.obj.Comment" @onchange="((e) => UpdateComments(qcode.obj, e))" /></td>
+                                    <td><a class="qcode-manage-link" @onclick="@(() => ShowAnswers(qcode.obj))">@VisitedSubmittedCounts(qcode.obj) : @qcode.obj.TotalAnswers</a></td>
+                                </tr>
+                            }
+                        </table>
                     }
                 }
+                <p>&nbsp;</p>
+            </div>
+
+            @if (QuizAnswered != null && QuizAnswered.Count > 0)
+            {
+                <p id="quizanswers">&nbsp;</p>
+                <div></div>
+                <p>&nbsp;</p>
+                @foreach (var question in QuizAnswered)
+                {
+                    @if (question.Answers.Count > 0)
+                    {
+                        <div class="qm-question">@question.Question</div>
+
+                        @foreach (var ans in question.Answers)
+                        {
+                            <div class="qm-answer">@ans.Answer</div>
+                        }
+                    }
+                }
+                <p>&nbsp;</p>
             }
-            <p>&nbsp;</p>
-        }
 
-    </Authorized>
-    <NotAuthorized>
-        <div>This section is for authorized users only</div>
-    </NotAuthorized>
-</AuthorizeView>
-
+        </Authorized>
+        <NotAuthorized>
+            <div>This section is for authorized users only</div>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
 
 
 @code {
@@ -156,7 +149,7 @@
 
     async Task FillTotalAnswers()
     {
-        foreach(var q in SelectedQuiz.QCodes.OrderByDescending(c => c.DateCreated))
+        foreach (var q in SelectedQuiz.QCodes.OrderByDescending(c => c.DateCreated))
         {
             q.TotalAnswers = await QuizService.TotalAnswers(q.Id);
             StateHasChanged();

@@ -49,12 +49,9 @@ html, body {
 }
 
 body {
-    background-color: @Dark2 !important;
+    background-color: @Dark2;
     color: @LightGrey2;
     padding-top: 70px;
-}
-
-.content {
 }
 
 @media (max-width: 768px) {
@@ -64,9 +61,12 @@ body {
 }
 
 .container {
-    background-color: @Dark1;
     border-radius: 16px;
     height: 100%;
+}
+
+.container-black {
+    background-color: @Dark1;
 }
 
 .navbar {
@@ -89,6 +89,10 @@ a {
 
 .head-spacer {
     height: 50px;
+}
+
+.container-spacer {
+    padding-bottom: 2rem;
 }
 
 .default-block {
@@ -536,8 +540,8 @@ textarea:focus {
 
 .img-viewblock {
     border-radius: 16px;
-    margin-left: -32px;
-    margin-right: -24px;
+    margin-left: -12px;
+    margin-right: -12px;
     margin-top: -17px;
     min-height: 35rem;
     background-repeat: no-repeat;
@@ -1180,8 +1184,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .dropArea:hover {
-    background-color: @LightGrey2;
-    color: #333;
+    background-color: @Dark2;
+    color: @LightGrey2;
 }
 
 .dropArea input[type=file] {
@@ -1234,7 +1238,9 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 .bg-image {
     /*background-image: url("https://squalldiag.blob.core.windows.net/preload/darkcity.jpg");*/
-    background-image: url("https://squalldiag.blob.core.windows.net/preload/looking_mountains.jpeg");
+    /*background-image: url("https://squalldiag.blob.core.windows.net/preload/looking_mountains.jpeg");*/
+
+    background-image: url("https://squalldiag.blob.core.windows.net/preload/people-sunset.jpg");
     position: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -1248,6 +1254,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .mask-text-over-img {
     backdrop-filter: blur(1px);
     background-color: rgba(0, 0, 0, 0.7);
+    background-color: #101214BA;
     margin-top: -100px;
     margin: -0.5rem;
     padding: 1rem 2rem 3rem 3rem !important;
@@ -1260,6 +1267,15 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     }
 }
 
+.mask-text-no-img {
+    backdrop-filter: blur(1px);
+    background-color: @Dark1;
+    margin-top: -100px;
+    margin: -0.5rem;
+    padding: 1rem 2rem 3rem 3rem !important;
+    border-radius: 14px;
+}
+
 .center-buttons {
     float: right;
     width: 500px;
@@ -1267,14 +1283,21 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .quiz-manage-main {
-    background-color: @Dark2;
+    background-color: @Dark1;
     margin: -1rem -2rem -3rem -2rem;
     }
+.quiz-manage-selector {
+    margin: 1rem;
+}
+
+.qcode-manage-n {
+    color: @Dark4;
+}
 
 .qcode-manage-link {
     cursor: pointer;
     color: @BrightBlue;
-    background-color: @Dark2 !important;
+    background-color: @Dark1 !important;
 }
 .mobile-nav-blue {
     color: @BrightBlue !important;
@@ -1393,4 +1416,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     background-color: rgba(0, 0, 0);
     padding: 1rem 2rem 1rem 2rem;
     border-radius: 16px;
+}
+
+table {
+    background-color: @Dark1;
 }

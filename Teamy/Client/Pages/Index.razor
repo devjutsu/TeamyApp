@@ -18,58 +18,53 @@
 <PageTitle>My Events</PageTitle>
 <div class="d-block d-md-none" style="height:20px;"></div>
 
-<div class="full-width bg-image"></div>
+
 
 <AuthorizeView>
     <NotAuthorized>
-        @if (AppState.Invite != null)
-        {
-            <h2>You are invited to:</h2>
-            <div class="mask-text-over-img">
-                <div @onclick="GoToInvite">
-                    <EventCard Evt=AppState.Invite />
-                </div>
-            </div>
-        }
-        else
-        {
-            <div class="mask-text-over-img">
-                <div class="row">
-                    <div class="col-md-6">
-
-                        <div class="d-flex justify-content-center">
-                            <div class="d-none d-md-block" style="margin-top: 50px;">
-                                <h2>Do Things Together</h2>
-                            </div>
-                            <div class="d-block d-md-none" style="">
-                                <h2>Do Things Together</h2>
-                            </div>
-                        </div>
-
-
-                        <div class="d-flex justify-content-center">Have new experience with your friends and meet new people</div>
-                        <div class="d-flex justify-content-center">
-                            <a href="#" @onclick="NavigateToLogin" class="btn btn-main-login">Login</a>
-                            <a href="#" @onclick="NavigateToRegistration" class="btn btn-main-register">Register</a>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <Intro_right />
+        <div class="full-width bg-image"></div>
+        <div class="container">
+            @if (AppState.Invite != null)
+            {
+                <h2>You are invited to:</h2>
+                <div class="mask-text-over-img">
+                    <div @onclick="GoToInvite">
+                        <EventCard Evt=AppState.Invite />
                     </div>
                 </div>
-            </div>
-        }
+            }
+            else
+            {
+                <div class="mask-text-over-img">
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <div class="d-flex justify-content-center">
+                                <div class="d-none d-md-block" style="margin-top: 50px;">
+                                    <h2>Do Things Together</h2>
+                                </div>
+                                <div class="d-block d-md-none" style="">
+                                    <h2>Do Things Together</h2>
+                                </div>
+                            </div>
+
+
+                            <div class="d-flex justify-content-center">Have new experience with your friends and meet new people</div>
+                            <div class="d-flex justify-content-center">
+                                <a href="#" @onclick="NavigateToLogin" class="btn btn-main-login">Login</a>
+                                <a href="#" @onclick="NavigateToRegistration" class="btn btn-main-register">Register</a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <Intro_right />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </NotAuthorized>
     <Authorized>
-        @if (AppState.Invite != null)
-        {
-            <div class="mask-text-over-img">
-                <h2>You are invited to:</h2>
-                <div @onclick="GoToInvite">
-                    <EventCard Evt=AppState.Invite />
-                </div>
-            </div>
-        }
+
 
         @if (loading)
         {
@@ -81,64 +76,95 @@
         }
         else if (AppState.StoredEvents != null && AppState.StoredEvents.Count > 0)
         {
-            <div class="mask-text-over-img">
-                @if (AppState.FutureEvents.Any())
+            <div class="container">
+                <div class="mask-text-no-img">
+
+                    @if (AppState.Invite != null)
+                    {
+                        <h2>You are invited to:</h2>
+                        <div @onclick="GoToInvite">
+                            <EventCard Evt=AppState.Invite />
+                        </div>
+                    }
+
+                    @if (AppState.FutureEvents.Any())
+                    {
+                        <h2>Upcoming events:</h2>
+                        <div class="row event-card-container">
+                            @foreach (var evt in AppState.FutureEvents)
+                            {
+                                <div @onclick="() => GoEvent(evt)" class="col-md-6">
+                                    <EventCard Evt="@evt" />
+                                </div>
+                            }
+                        </div>
+                    }
+                    @if (AppState.PastEvents.Any())
+                    {
+                        <h2>Past events:</h2>
+                        <div class="row event-card-container">
+                            @foreach (var evt in AppState.PastEvents)
+                            {
+                                <div @onclick="() => GoEvent(evt)" class="col-md-6">
+                                    <EventCard Evt="@evt" />
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+
+                @if (IsAdmin())
                 {
-                    <h2>Upcoming events:</h2>
-                    <div class="row event-card-container">
-                        @foreach (var evt in AppState.FutureEvents)
-                        {
-                            <div @onclick="() => GoEvent(evt)" class="col-md-6">
-                                <EventCard Evt="@evt" />
-                            </div>
-                        }
-                    </div>
-                }
-                @if (AppState.PastEvents.Any())
-                {
-                    <h2>Past events:</h2>
-                    <div class="row event-card-container">
-                        @foreach (var evt in AppState.PastEvents)
-                        {
-                            <div @onclick="() => GoEvent(evt)" class="col-md-6">
-                                <EventCard Evt="@evt" />
-                            </div>
-                        }
-                    </div>
+                    <AdminLink />
                 }
             </div>
         }
         else
         {
-            <div class="mask-text-over-img">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="d-flex justify-content-center">
-                            <div class="d-none d-md-block" style="margin-top: 50px;">
-                                <h2>Do Things Together</h2>
+            <div class="full-width bg-image"></div>
+            <div class="container">
+                <div class="mask-text-over-img">
+
+                    @if (AppState.Invite != null)
+                    {
+                        <h2>You are invited to:</h2>
+                        <div @onclick="GoToInvite">
+                            <EventCard Evt=AppState.Invite />
+                        </div>
+                    }
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-center">
+                                <div class="d-none d-md-block" style="margin-top: 50px;">
+                                    <h2>Do Things Together</h2>
+                                </div>
+                                <div class="d-block d-md-none" style="">
+                                    <h2>Do Things Together</h2>
+                                </div>
                             </div>
-                            <div class="d-block d-md-none" style="">
-                                <h2>Do Things Together</h2>
+                            <div class="d-flex justify-content-center">Have new experience with your friends and meet new people</div>
+                            <div class="d-flex justify-content-center">
+                                <a href="/create" class="btn btn-main"><span class="oi oi-plus" style="font-size:16px;" />&nbsp;&nbsp;&nbsp;Create one</a>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-center">Have new experience with your friends and meet new people</div>
-                        <div class="d-flex justify-content-center">
-                            <a href="/create" class="btn btn-main"><span class="oi oi-plus" style="font-size:16px;" />&nbsp;&nbsp;&nbsp;Create one</a>
+                        <div class="col-md-6 shadow-1-strong">
+                            <Intro_right />
                         </div>
-                    </div>
-                    <div class="col-md-6 shadow-1-strong">
-                        <Intro_right />
                     </div>
                 </div>
+
+                @if (IsAdmin())
+                {
+                    <AdminLink />
+                }
             </div>
         }
 
-        @if (IsAdmin())
-        {
-            <AdminLink />
-        }
+
     </Authorized>
 </AuthorizeView>
+<div class="container-spacer"></div>
 
 @code {
     void NavigateToRegistration() => Nav.NavigateTo($"Identity/Account/Register?participation={AppState.LatestParticipation?.Id}", forceLoad: true);
