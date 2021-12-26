@@ -16,12 +16,12 @@
 
 
 <PageTitle>My Events</PageTitle>
-<div class="d-block d-md-none" style="height:40px;">space</div>
+<div class="d-block d-md-none" style="height:20px;"></div>
 
 <div class="full-width bg-image"></div>
+
 <AuthorizeView>
     <NotAuthorized>
-
         @if (AppState.Invite != null)
         {
             <h2>You are invited to:</h2>
@@ -61,7 +61,6 @@
         }
     </NotAuthorized>
     <Authorized>
-
         @if (AppState.Invite != null)
         {
             <div class="mask-text-over-img">
@@ -70,11 +69,6 @@
                     <EventCard Evt=AppState.Invite />
                 </div>
             </div>
-        }
-
-        @if (IsAdmin())
-        {
-            <div style="position: absolute; top: 3rem; right: 2rem; z-index:99;"><a href="/qm" style="font-size:22px;">Quiz Manage</a></div>
         }
 
         @if (loading)
@@ -139,6 +133,10 @@
             </div>
         }
 
+        @if (IsAdmin())
+        {
+            <AdminLink />
+        }
     </Authorized>
 </AuthorizeView>
 

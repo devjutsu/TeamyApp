@@ -73,9 +73,9 @@ body {
     background-color: @Dark1 !important;
 }
 
-.nav-item {
+/*.nav-item {
     padding: .5rem .5rem .5rem .5rem !important;
-}
+}*/
 a {
     color: @BrightBlue !important;
     cursor: pointer !important;
@@ -763,13 +763,15 @@ textarea:focus {
 }
 
 .event-card-title {
-    font-size: 32px;
-    font-weight: bold;
+    font-size: 30px;
+    /*font-weight: bold;*/
+    color: @White;
 }
 
 .event-card-xs-title {
     font-size: 22px;
     font-weight: bold;
+    color: @White;
 }
 
 .event-card-date {
@@ -1381,4 +1383,14 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     100% {
         transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
     }
+}
+
+
+.admin-link {
+    margin: 1rem 0 1rem 0;
+    z-index: 999;
+    opacity: .7;
+    background-color: rgba(0, 0, 0);
+    padding: 1rem 2rem 1rem 2rem;
+    border-radius: 16px;
 }
