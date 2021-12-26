@@ -16,17 +16,17 @@
                 </div>
                 <div class="px-3 d-none d-md-block" style="margin-top:.2rem;">
                     <NavLink class="nav-link align-middle mynav" href="" Match="NavLinkMatch.All">
-                        <span class="oi oi-home" aria-hidden="true" style="margin-top:.1rem;"></span> My Events
+                        <span class="oi oi-home" aria-hidden="true"></span> My Events
                     </NavLink>
                 </div>
                 <div class="px-3 d-none d-sm-block" style="margin-top:.2rem;">
                     <NavLink class="nav-link align-middle mynav" href="create">
-                        <span class="oi oi-plus" aria-hidden="true" style="margin-top:.2rem;"></span> Create
+                        <span class="oi oi-plus" aria-hidden="true" style="margin-top:.1rem;"></span> Create
                     </NavLink>
                 </div>
                 <div class="px-0 d-block d-sm-none" style="width: 2rem; margin-top:.2rem;">
                     <NavLink class="nav-link " href="create">
-                        <span class="oi oi-plus mobile-nav-blue" aria-hidden="true" style="font-size:1.4rem;"></span>
+                        <span class="oi oi-plus mobile-nav-blue" aria-hidden="true"></span>
                     </NavLink>
                 </div>
             </nav>
@@ -35,15 +35,13 @@
         <AuthorizeView>
             <Authorized>
                 <NavLink class="nav-link px-3" href="authentication/profile" style="margin-top:.2rem;">
-                    <span class="oi oi-person" title="Logged in as @context.User.Identity?.Name" style="font-size:1.3rem;" />
+                    <span class="oi oi-person" title="Logged in as @context.User.Identity?.Name" />
                 </NavLink>
             </Authorized>
             <NotAuthorized>
-                <div class="nav-item px-0">
-                    <NavLink class="nav-link align-middle" href="authentication/login" style="margin-top:.2rem;">
-                        <span class="oi oi-account-login mobile-nav-blue" aria-hidden="true" style="font-size:1.6rem;"></span>
-                    </NavLink>
-                </div>
+                <NavLink class="nav-link align-middle" href="authentication/login" style="margin-top:.2rem;">
+                    <span class="oi oi-account-login mobile-nav-blue" aria-hidden="true"></span>
+                </NavLink>
             </NotAuthorized>
         </AuthorizeView>
     </div>
