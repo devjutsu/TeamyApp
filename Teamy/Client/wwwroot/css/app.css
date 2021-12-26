@@ -19,7 +19,7 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 body {
-  background-color: #1B1D22 !important;
+  background-color: #1B1D22;
   color: #D7DADA;
   padding-top: 70px;
 }
@@ -29,9 +29,11 @@ body {
   }
 }
 .container {
-  background-color: #101214;
   border-radius: 16px;
   height: 100%;
+}
+.container-black {
+  background-color: #101214;
 }
 .navbar {
   background-color: #101214 !important;
@@ -51,6 +53,9 @@ a {
 }
 .head-spacer {
   height: 50px;
+}
+.container-spacer {
+  padding-bottom: 2rem;
 }
 .default-block {
   background-color: #1B1D22;
@@ -429,8 +434,8 @@ textarea:focus {
 }
 .img-viewblock {
   border-radius: 16px;
-  margin-left: -32px;
-  margin-right: -24px;
+  margin-left: -12px;
+  margin-right: -12px;
   margin-top: -17px;
   min-height: 35rem;
   background-repeat: no-repeat;
@@ -962,8 +967,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   min-height: 150px;
 }
 .dropArea:hover {
-  background-color: #D7DADA;
-  color: #333;
+  background-color: #1B1D22;
+  color: #D7DADA;
 }
 .dropArea input[type=file] {
   position: absolute;
@@ -1007,7 +1012,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 .bg-image {
   /*background-image: url("https://squalldiag.blob.core.windows.net/preload/darkcity.jpg");*/
-  background-image: url("https://squalldiag.blob.core.windows.net/preload/looking_mountains.jpeg");
+  /*background-image: url("https://squalldiag.blob.core.windows.net/preload/looking_mountains.jpeg");*/
+  background-image: url("https://squalldiag.blob.core.windows.net/preload/people-sunset.jpg");
   position: fixed;
   height: 100%;
   background-repeat: no-repeat;
@@ -1017,6 +1023,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .mask-text-over-img {
   backdrop-filter: blur(1px);
   background-color: rgba(0, 0, 0, 0.7);
+  background-color: #101214BA;
   margin-top: -100px;
   margin: -0.5rem;
   padding: 1rem 2rem 3rem 3rem !important;
@@ -1028,19 +1035,33 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     margin-bottom: 2rem;
   }
 }
+.mask-text-no-img {
+  backdrop-filter: blur(1px);
+  background-color: #101214;
+  margin-top: -100px;
+  margin: -0.5rem;
+  padding: 1rem 2rem 3rem 3rem !important;
+  border-radius: 14px;
+}
 .center-buttons {
   float: right;
   width: 500px;
   padding: 10px;
 }
 .quiz-manage-main {
-  background-color: #1B1D22;
+  background-color: #101214;
   margin: -1rem -2rem -3rem -2rem;
+}
+.quiz-manage-selector {
+  margin: 1rem;
+}
+.qcode-manage-n {
+  color: #303137;
 }
 .qcode-manage-link {
   cursor: pointer;
   color: #4AAAE8;
-  background-color: #1B1D22 !important;
+  background-color: #101214 !important;
 }
 .mobile-nav-blue {
   color: #4AAAE8 !important;
@@ -1143,4 +1164,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   background-color: rgba(0, 0, 0);
   padding: 1rem 2rem 1rem 2rem;
   border-radius: 16px;
+}
+table {
+  background-color: #101214;
 }

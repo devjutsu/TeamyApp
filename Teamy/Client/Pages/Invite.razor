@@ -6,6 +6,7 @@
 @inject IToastService Toast
 @implements IDisposable
 
+<div class="container container-black">
 @if (CurrentEvent != null)
 {
     @if (@CurrentEvent.ImageUrl != null)
@@ -157,6 +158,7 @@
             }
         }
 
+
         <div class="col-md-6 d-block d-sm-none">
             <AuthorizeView>
                 <Authorized>
@@ -167,8 +169,10 @@
                 </NotAuthorized>
             </AuthorizeView>
         </div>
+        <div class="container-spacer"></div>
     </div>
 }
+</div>
 
 @code {
     [Parameter]

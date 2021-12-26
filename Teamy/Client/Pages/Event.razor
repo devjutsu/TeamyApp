@@ -10,25 +10,29 @@
         <RedirectToLogin />
     </NotAuthorized>
     <Authorized>
-        @if (CurrentEvent != null)
-        {
-            @if (Editing)
+        <div class="container container-black">
+            @if (CurrentEvent != null)
             {
-                <button class="btn btn-back d-none d-sm-block" @onclick="() => GoBack()">
-                    <span class="oi oi-arrow-left" />
-                    &nbsp;Back
-                </button>
-                <button class="btn btn-xs-back d-block d-sm-none" @onclick="() => GoBack()">
-                    <span class="oi oi-arrow-left" />
-                    &nbsp;Back
-                </button>
-                <EventEdit InitialEvent=@EditingEvent DoneEditing=@Finished></EventEdit>
+                @if (Editing)
+                {
+                    <button class="btn btn-back d-none d-sm-block" @onclick="() => GoBack()">
+                        <span class="oi oi-arrow-left" />
+                        &nbsp;Back
+                    </button>
+                    <button class="btn btn-xs-back d-block d-sm-none" @onclick="() => GoBack()">
+                        <span class="oi oi-arrow-left" />
+                        &nbsp;Back
+                    </button>
+                    <EventEdit InitialEvent=@EditingEvent DoneEditing=@Finished></EventEdit>
+                }
+                else
+                {
+                    <EventView CurrentEvent=@CurrentEvent SwitchToEdit=@EditEvent />
+                }
+                <div class="container-spacer"></div>
+
             }
-            else
-            {
-                <EventView CurrentEvent=@CurrentEvent SwitchToEdit=@EditEvent />
-            }
-        }
+        </div>
     </Authorized>
 </AuthorizeView>
 <p>&nbsp;</p>
