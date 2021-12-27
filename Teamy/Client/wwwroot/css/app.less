@@ -144,10 +144,6 @@ h2 {
     h2 {
         padding-top: 0 !important;
     }
-    .container {
-        margin-left: 0;
-        margin-right: 0;
-    }
 }
 
 .pagetitle {
@@ -757,7 +753,6 @@ textarea:focus {
 
 @media (max-width: 768px) {
     .event-card-container {
-        border: blue;
     }
 }
 
@@ -816,6 +811,7 @@ textarea:focus {
 
 .event-card-date {
     color: @BrightBlue;
+    opacity: .75;
 }
 
 .template-card {
@@ -1301,13 +1297,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     border-radius: 14px;
 }
 
-@media (max-width: 768px) {
-    .mask-text-over-img {
-        padding: 1rem 1rem 2rem 1rem !important;
-        margin-bottom: 2rem;
-    }
-}
-
 .mask-text-no-img {
     backdrop-filter: blur(1px);
     background-color: @Dark1;
@@ -1315,6 +1304,22 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     margin: -0.5rem;
     padding: 1rem 2rem 3rem 3rem !important;
     border-radius: 14px;
+}
+
+@media (max-width: 768px) {
+    .mask-text-over-img {
+        padding: 0 !important;
+        margin-bottom: 2rem;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .mask-text-no-img {
+        padding: 0 !important;
+        margin-bottom: 2rem;
+        margin-left: 0;
+        margin-right: 0;
+    }
 }
 
 .center-buttons {
