@@ -604,44 +604,53 @@ textarea:focus {
   white-space: nowrap;
 }
 .event-card-container {
-  margin-right: -1rem;
-  margin-top: 3rem !important;
+  margin: 0;
+  padding: 0;
+  border: 1px dotted yellow;
+}
+.event-card-clickarea {
+  margin: 0;
+  padding: 0;
 }
 .event-card {
-  margin-bottom: 1rem;
-  margin-left: -1rem;
+  border: 1px dotted lime;
   width: 100%;
-  height: 200px;
   cursor: pointer;
   border-radius: 4px;
+  height: 300px;
+  /*display: flex;
+    flex-direction: column;*/
+  /*   margin-bottom: 1rem;
+    margin-left: -1rem;*/
 }
 .event-card:hover {
   background: #FFFFFF15;
-  /*border: 1px solid @HalfTransparent;*/
+  border: 1px solid #1012149A;
 }
 .event-card-img {
-  width: 50%;
+  width: 100%;
   border-radius: 4px;
+  height: 50%;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
 }
 .event-card-data {
-  width: 50%;
-  padding: 1rem;
+  /*width: 50%;
+    padding: 1rem;*/
 }
 .event-card-title {
-  font-size: 30px;
+  /*font-size: 30px;*/
   /*font-weight: bold;*/
-  color: #FFFFFF;
+  /*color: @White;*/
 }
 .event-card-xs-title {
-  font-size: 22px;
-  font-weight: bold;
-  color: #FFFFFF;
+  /*font-size: 22px;
+    font-weight: bold;
+    color: @White;*/
 }
 .event-card-date {
-  color: #86888A;
+  /*color: @LightGrey1;*/
 }
 .template-card {
   margin-bottom: 1rem;

@@ -1,5 +1,7 @@
-﻿<div class="d-flex event-card">
-    <div class="event-card-img event-card-data">
+﻿<div class="event-card">
+    <div class="event-card-img" style="background-image: url(@Evt.ImageUrl);"></div>
+
+    <div class="event-card-data">
         <div class="event-card-xs-title d-block d-sm-none">@Evt.Title</div>
         <div class="event-card-title d-none d-sm-block">@Evt.Title</div>
 
@@ -9,7 +11,6 @@
         }
         <div class="d-none d-sm-block">@Evt.Description</div>
     </div> 
-    <div class="event-card-img" style="background-image: url(@Evt.ImageUrl);"></div>
 </div>
 
 @code {
