@@ -98,10 +98,6 @@ h2 {
   h2 {
     padding-top: 0 !important;
   }
-  .container {
-    margin-left: 0;
-    margin-right: 0;
-  }
 }
 .pagetitle {
   margin-top: 1rem;
@@ -616,11 +612,6 @@ textarea:focus {
   margin: 0;
   padding: 0;
 }
-@media (max-width: 768px) {
-  .event-card-container {
-    border: blue;
-  }
-}
 .event-card-clickarea {
   margin: 0;
   padding: 0;
@@ -666,6 +657,7 @@ textarea:focus {
 }
 .event-card-date {
   color: #4AAAE8;
+  opacity: 0.75;
 }
 .template-card {
   margin-bottom: 1rem;
@@ -1056,12 +1048,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   padding: 1rem 2rem 3rem 3rem !important;
   border-radius: 14px;
 }
-@media (max-width: 768px) {
-  .mask-text-over-img {
-    padding: 1rem 1rem 2rem 1rem !important;
-    margin-bottom: 2rem;
-  }
-}
 .mask-text-no-img {
   backdrop-filter: blur(1px);
   background-color: #101214;
@@ -1069,6 +1055,20 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   margin: -0.5rem;
   padding: 1rem 2rem 3rem 3rem !important;
   border-radius: 14px;
+}
+@media (max-width: 768px) {
+  .mask-text-over-img {
+    padding: 0 !important;
+    margin-bottom: 2rem;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .mask-text-no-img {
+    padding: 0 !important;
+    margin-bottom: 2rem;
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 .center-buttons {
   float: right;

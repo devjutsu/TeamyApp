@@ -1,52 +1,60 @@
 ﻿@page "/completed"
 @inject IManageTemplates TemplateService
 
-<div class="container container-black container-inner-padding">
-    <div>
-        <h2>Thank you!</h2>
+<style>
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        opacity: 1;
+    }
+</style>
 
-        <div>Your feedback is very important to us!</div>
-    </div>
-    @if (EditingEvent == null)
-    {
-        <div style="padding-bottom: 1rem;"></div>
-        <div class="d-flex flex-wrap">
+<div class="container container-black">
+    <div class="mask-text-no-img">
+        <div class="row event-card-container">
+            <h2>Thank you!</h2>
+            <div>Your feedback is very important for us!</div>
             @if (Recommended != null)
             {
-                <h2>Would you like to create Your Fun Event?</h2>
+                <div class="d-block d-sm-none" style="height: 1rem;"></div>
+                <h2>Would you like to create Your Next Event?</h2>
 
-                <div class="row event-card-container">
-                    <div class="col-md-4" style="min-width:20rem;">
-                        <div class="d-flex template-card" @onclick="(() => DoCreateNew())">
-                            <div class="event-card-img event-card-data">
-                                <div style="font-weight:bold;">From scratch</div>
+
+                <div class="event-card-clickarea col-sm-12 col-md-6 col-lg-4 col-xl-3" @onclick="(() => DoCreateNew())">
+                    <div class="event-card">
+                        <div class="event-card-img" style="background-image: url(https://squalldiag.blob.core.windows.net/template-img/fromscratch.jpeg);"></div>
+
+                        <div class="event-card-data">
+                            <div class="event-card-title">From scratch</div>
+                        </div>
+                    </div>
+                </div>
+
+
+                @foreach (var item in Recommended)
+                {
+                    <div class="event-card-clickarea col-sm-12 col-md-6 col-lg-4 col-xl-3" @onclick="(() => DoCreateFromTemplate(item))">
+                        <div class="event-card">
+                            <div class="event-card-img" style="background-image: url(@item.ImageUrl);"></div>
+
+                            <div class="event-card-data">
+                                <div class="event-card-title">@item.Title</div>
+                                <div class="event-car-details" style="overflow: hidden;">@item.Description</div>
                             </div>
-                            <div class="event-card-img" style="background-image: url(https://squalldiag.blob.core.windows.net/template-img/fromscratch.jpeg);"></div>
                         </div>
                     </div>
 
-                    @foreach (var item in Recommended)
-                    {
-                        <div class="col-md-4">
-                            <div class="d-flex template-card" @onclick="(() => DoCreateFromTemplate(item))">
-                                <div class="event-card-img event-card-data">
-                                    <div style="font-weight:bold;">@item.Title</div>
-                                    <div>@item.Description</div>
-                                </div>
-                                <div class="event-card-img" style="background-image: url(@item.ImageUrl);"></div>
-                            </div>
-                        </div>
-                    }
-                </div>
+                }
             }
         </div>
-        <p>&nbsp;</p>
-    }
+    </div>
 </div>
 
 @code {
     List<EventVM> Recommended { get; set; }
-    EventVM EditingEvent { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
