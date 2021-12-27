@@ -616,7 +616,7 @@ textarea:focus {
   width: 100%;
   cursor: pointer;
   border-radius: 4px;
-  height: 300px;
+  height: 340px;
   /*   margin-bottom: 1rem;
     margin-left: -1rem;*/
 }
@@ -639,6 +639,16 @@ textarea:focus {
   font-size: 22px;
   font-weight: bold;
   color: #FFFFFF;
+}
+.event-car-details {
+  color: #D7DADA;
+  display: inline-block;
+  /* or  */
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  max-height: 80px;
+  line-height: 1.8em;
 }
 .event-card-date {
   color: #86888A;
