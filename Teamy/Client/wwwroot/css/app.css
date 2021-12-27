@@ -94,6 +94,15 @@ h6 {
 h2 {
   padding-top: 2rem !important;
 }
+@media (max-width: 768px) {
+  h2 {
+    padding-top: 0 !important;
+  }
+  .container {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
 .pagetitle {
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -610,8 +619,6 @@ textarea:focus {
 @media (max-width: 768px) {
   .event-card-container {
     border: blue;
-    margin-left: -3rem;
-    margin-right: -2rem;
   }
 }
 .event-card-clickarea {

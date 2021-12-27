@@ -16,9 +16,7 @@
 
 
 <PageTitle>My Events</PageTitle>
-<div class="d-block d-md-none" style="height:20px;"></div>
-
-
+@*<div class="d-block d-md-none" style="height:20px;"></div>*@
 
 <AuthorizeView>
     <NotAuthorized>
@@ -79,18 +77,10 @@
             <div class="container">
                 <div class="mask-text-no-img">
 
-                    @if (AppState.Invite != null)
-                    {
-                        <h2>You are invited to:</h2>
-                        <div @onclick="GoToInvite">
-                            <EventCard Evt=AppState.Invite />
-                        </div>
-                    }
-
                     @if (AppState.FutureEvents.Any())
                     {
-                        <h2>Upcoming events:</h2>
                         <div class="row event-card-container">
+                            <h2>Upcoming events:</h2>
                             @foreach (var evt in AppState.FutureEvents)
                             {
                                 <div @onclick="() => GoEvent(evt)" class="event-card-clickarea col-sm-12 col-md-6 col-lg-4 col-xl-3">
@@ -101,14 +91,22 @@
                     }
                     @if (AppState.PastEvents.Any())
                     {
-                        <h2>Past events:</h2>
                         <div class="row event-card-container">
+                            <h2>Past events:</h2>
                             @foreach (var evt in AppState.PastEvents)
                             {
                                 <div @onclick="() => GoEvent(evt)" class="event-card-clickarea col-sm-12 col-md-6 col-lg-4 col-xl-3">
                                     <EventCard Evt="@evt" />
                                 </div>
                             }
+                        </div>
+                    }
+
+                    @if (AppState.Invite != null)
+                    {
+                        <h2>You are invited to:</h2>
+                        <div @onclick="GoToInvite">
+                            <EventCard Evt=AppState.Invite />
                         </div>
                     }
                 </div>
