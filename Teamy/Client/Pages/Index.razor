@@ -90,10 +90,10 @@
                     @if (AppState.FutureEvents.Any())
                     {
                         <h2>Upcoming events:</h2>
-                        <div class="card-deck row event-card-container">
+                        <div class="row event-card-container">
                             @foreach (var evt in AppState.FutureEvents)
                             {
-                                <div @onclick="() => GoEvent(evt)" class="event-card-clickarea col-xs-12 col-sm-6 col-md-4 col-xl-3">
+                                <div @onclick="() => GoEvent(evt)" class="event-card-clickarea col-sm-12 col-md-6 col-lg-4 col-xl-3">
                                     <EventCard Evt="@evt" />
                                 </div>
                             }
@@ -105,7 +105,7 @@
                         <div class="row event-card-container">
                             @foreach (var evt in AppState.PastEvents)
                             {
-                                <div @onclick="() => GoEvent(evt)" class="col-md-6">
+                                <div @onclick="() => GoEvent(evt)" class="event-card-clickarea col-sm-12 col-md-6 col-lg-4 col-xl-3">
                                     <EventCard Evt="@evt" />
                                 </div>
                             }

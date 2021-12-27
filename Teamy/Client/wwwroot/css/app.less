@@ -746,6 +746,15 @@ textarea:focus {
     padding: 0;
 }
 
+@media (max-width: 768px) {
+    .event-card-container {
+        border: blue;
+        margin-left: -3rem;
+        margin-right: -2rem;
+    }
+}
+
+
 .event-card-clickarea {
     margin: 0;
     padding: 0;
@@ -778,6 +787,14 @@ textarea:focus {
 
 .event-card-data {
     padding: 1rem;
+
+
+    display: inline-block; /* or  */
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
+    max-height: 130px;
+    line-height: 1.8em;
 }
 
 .event-card-title {
@@ -787,17 +804,11 @@ textarea:focus {
 }
 
 .event-car-details {
-    color: @LightGrey2;
-    display: inline-block; /* or  */
-    text-overflow: ellipsis;
-    word-wrap: break-word;
-    overflow: hidden;
-    max-height: 80px;
-    line-height: 1.8em;
+    color: @LightGrey1;
 }
 
 .event-card-date {
-    color: @LightGrey1;
+    color: @BrightBlue;
 }
 
 .template-card {
