@@ -126,7 +126,7 @@
                     @if (AppState.Invite != null)
                     {
                         <h2>You are invited to:</h2>
-                        <div @onclick="GoToInvite">
+                        <div @onclick="GoToInvite" class="event-card-clickarea col-sm-12 col-md-6 col-lg-4 col-xl-3">
                             <EventCard Evt=AppState.Invite />
                         </div>
                     }
