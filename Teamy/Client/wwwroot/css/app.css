@@ -27,6 +27,9 @@ body {
   body {
     background-color: #101214 !important;
   }
+  .navcontainer {
+    padding: 0;
+  }
 }
 .container {
   border-radius: 16px;
