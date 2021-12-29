@@ -21,11 +21,12 @@
 <AuthorizeView>
     <NotAuthorized>
         <div class="full-width bg-image"></div>
+        <div class="d-block d-md-none" style="padding-bottom:1rem;"></div>
         <div class="container">
             @if (AppState.Invite != null)
             {
-                <h2>You are invited to:</h2>
                 <div class="mask-text-over-img">
+                <h2>You are invited to:</h2>
                     <div @onclick="GoToInvite">
                         <EventCard Evt=AppState.Invite />
                     </div>
@@ -120,6 +121,7 @@
         else
         {
             <div class="full-width bg-image"></div>
+            <div class="d-block d-md-none" style="padding-bottom:1rem;"></div>
             <div class="container">
                 <div class="mask-text-over-img">
 
