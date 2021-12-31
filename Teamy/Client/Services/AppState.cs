@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using Teamy.Shared.ViewModels;
+using Teamy.Shared.Common;
 
 namespace Teamy.Client.Services
 {
@@ -15,8 +16,9 @@ namespace Teamy.Client.Services
         public string UserDisplayName { get; private set; }
         public bool IsLoggedIn => User?.Identity.IsAuthenticated ?? false;
         public List<EventVM> StoredEvents { get; private set; }
-        public List<EventVM> FutureEvents => StoredEvents.Where(e => e.EventDate == null || e.EventDate > DateTime.Now).ToList();
-        public List<EventVM> PastEvents => StoredEvents.Where(e => e.EventDate < DateTime.Now).OrderByDescending(o => o.EventDate).ToList();
+        public List<EventVM> FutureEvents => StoredEvents.Where(e => e.DateStatus != EventDateStatus.Locked || e.EventDate > DateTime.Now).ToList();
+        public List<EventVM> PastEvents => StoredEvents.Where(e => e.DateStatus == EventDateStatus.Locked && e.EventDate < DateTime.Now)
+                                            .OrderByDescending(o => o.EventDate).ToList();
         public ParticipationVM? LatestParticipation { get; private set; }
         public EventVM Invite { get; set; }
 
