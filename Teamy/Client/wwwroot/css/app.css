@@ -1198,3 +1198,14 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 table {
   background-color: #101214;
 }
+.invite-link-input {
+  background-color: #101214 !important;
+  border: 1px solid #28292D;
+  color: #86888A !important;
+  min-width: 13rem !important;
+}
+.invite-link-block {
+  border: 1px solid #4AAAE8;
+  padding: 1rem;
+  border-radius: 16px;
+}

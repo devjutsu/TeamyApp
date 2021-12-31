@@ -1,22 +1,24 @@
 ﻿@inject IJSRuntime JSRuntime
 @inject IToastService Toast
 
-<div class="dark-block">
-    <h5>Invite people by sharing a link:</h5>
-    <div class="d-flex flex-row invite-link-div">
-        <div><input @ref="inviteLink" class="text-input" disabled value="@publicInviteLink" readonly="readonly" size=25 /></div>
-        <div><button class="btn invite-link-copy-btn" @onclick="CopyTextToClipboard">Copy</button></div>
-    </div>
+<div class="dark-block d-flex justify-content-center">
+    <div class="invite-link-block">
+        <h5>Invite people by sharing a link:</h5>
+        <div class="d-flex flex-row invite-link-div">
+            <div><input @ref="inviteLink" class="text-input invite-link-input" disabled value="@publicInviteLink" readonly="readonly" /></div>
+            <div><button class="btn invite-link-copy-btn" @onclick="CopyTextToClipboard">Copy</button></div>
+        </div>
 
-    <div class="d-flex">
-        <div style="margin: .2rem;">
-            <a href="whatsapp://send?text=Let's go? @publicInviteLink" data-action="share/whatsapp/share" class="btn btn-sm btn-outline-secondary sometext-btn" target="_blank">WhatsApp</a>
-        </div>
-        <div style="margin: .2rem;">
-            <a href="https://telegram.me/share/url?url=@publicInviteLink&text=Let's go?" class="btn btn-sm btn-outline-secondary sometext-btn" target="_blank">Telegram</a>
-        </div>
-        <div style="margin: .2rem;">
-            <a href="https://twitter.com/messages/compose?text=Let's%20go? @publicInviteLink" class="btn btn-sm btn-outline-secondary sometext-btn" target="_blank">Twitter</a>
+        <div class="d-flex">
+            <div style="margin: .2rem;">
+                <a href="whatsapp://send?text=Let's go? @publicInviteLink" data-action="share/whatsapp/share" class="btn btn-sm btn-outline-secondary sometext-btn" target="_blank">WhatsApp</a>
+            </div>
+            <div style="margin: .2rem;">
+                <a href="https://telegram.me/share/url?url=@publicInviteLink&text=Let's go?" class="btn btn-sm btn-outline-secondary sometext-btn" target="_blank">Telegram</a>
+            </div>
+            <div style="margin: .2rem;">
+                <a href="https://twitter.com/messages/compose?text=Let's%20go? @publicInviteLink" class="btn btn-sm btn-outline-secondary sometext-btn" target="_blank">Twitter</a>
+            </div>
         </div>
     </div>
 </div>
