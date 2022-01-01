@@ -75,7 +75,9 @@ namespace Teamy.Server.Controllers
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             var qcode = await _db.QCodes
-                                .Include(_ => _.Quiz).Where(o => o.Id == qcodevm.Id && o.Quiz.CreatorId == currentUserId).FirstOrDefaultAsync();
+                                .Include(_ => _.Quiz)
+                                .Where(o => o.Id == qcodevm.Id && o.Quiz.CreatorId == currentUserId)
+                                .FirstOrDefaultAsync();
 
             if(qcode == null)
                 return BadRequest("No qcode for this user");
