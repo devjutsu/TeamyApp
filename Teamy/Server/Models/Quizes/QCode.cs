@@ -18,7 +18,6 @@ namespace Teamy.Server.Models.Quizes
         public void Configure(EntityTypeBuilder<QCode> builder)
         {
             builder.HasIndex(o => o.Id);
-            //builder.HasMany(o => o.Completions).WithOne().OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

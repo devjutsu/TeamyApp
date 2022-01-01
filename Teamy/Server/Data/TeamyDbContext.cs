@@ -77,9 +77,12 @@ namespace Teamy.Server.Data
 
             builder.ApplyConfiguration(new ChatMessageConfiguration());
 
+            builder.ApplyConfiguration(new QuizConfiguration());
             builder.ApplyConfiguration(new QuizCompletionConfiguration());
             builder.ApplyConfiguration(new QCodeConfiguration());
             builder.ApplyConfiguration(new QuizAnswerConfiguration());
+            builder.ApplyConfiguration(new QuizChoiceConfiguration());
+            builder.ApplyConfiguration(new QuizQuestionConfiguration());
         }
 
         public override int SaveChanges()
