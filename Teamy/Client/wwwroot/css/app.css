@@ -1044,7 +1044,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 .mask-text-over-img {
   backdrop-filter: blur(1px);
-  background-color: rgba(0, 0, 0, 0.7);
   background-color: #101214BA;
   margin-top: -100px;
   margin: -0.5rem;

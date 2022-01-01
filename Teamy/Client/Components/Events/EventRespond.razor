@@ -3,6 +3,7 @@
 @if (Participation() == ParticipationStatus.NotSet)
 {
     <div class="default-block invite-participation-block">
+        <div><strong>@CurrentEvent.CreatedByName</strong> invites you</div>
         <h4>Are you coming?</h4>
         <div class="d-flex justify-content-center participate-btns invite-participation-inside">
             <button @onclick="() => Respond(accept:true)" class="btn btn-patcitipate-yes">Yes</button>
