@@ -19,6 +19,8 @@ namespace Teamy.Server.Models.Quizes
         {
             builder.HasIndex(o => o.Id);
 
+            builder.HasIndex(o => o.UserId);
+
             builder.HasOne(y => y.QCode)
                 .WithMany(x => x.Completions)
                 .HasForeignKey(x => x.QCodeId);

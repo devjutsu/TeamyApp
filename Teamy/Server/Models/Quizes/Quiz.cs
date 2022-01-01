@@ -21,6 +21,7 @@ namespace Teamy.Server.Models.Quizes
         public void Configure(EntityTypeBuilder<Quiz> builder)
         {
             builder.HasIndex(o => o.Id);
+            builder.HasIndex(o => o.CreatorId);
         }
     }
 }
