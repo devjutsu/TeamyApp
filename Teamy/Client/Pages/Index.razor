@@ -90,6 +90,20 @@
                             }
                         </div>
                     }
+                    
+                    @if(AppState.NoGoEvents.Any())
+                    {
+                        <div class="row event-card-container">
+                            <h2>Not participating:</h2>
+                            @foreach (var evt in AppState.NoGoEvents)
+                            {
+                                <div @onclick="() => GoEvent(evt)" class="event-card-clickarea col-sm-12 col-md-6 col-lg-4 col-xl-3">
+                                    <EventCard Evt="@evt" />
+                                </div>
+                            }
+                        </div>
+                    }
+
                     @if (AppState.PastEvents.Any())
                     {
                         <div class="row event-card-container">
@@ -175,6 +189,7 @@
     {
         if(AppState.UpcomingEvents != null && AppState.UpcomingEvents.Count > 0)
         {
+            Console.WriteLine("Has loaded");
             EventService.LoadUpcoming();
         }
         else
