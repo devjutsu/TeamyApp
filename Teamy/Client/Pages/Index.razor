@@ -78,11 +78,11 @@
             <div class="container">
                 <div class="mask-text-no-img">
 
-                    @if (AppState.FutureEvents.Any())
+                    @if (AppState.UpcomingEvents.Any())
                     {
                         <div class="row event-card-container">
                             <h2>Upcoming events:</h2>
-                            @foreach (var evt in AppState.FutureEvents)
+                            @foreach (var evt in AppState.UpcomingEvents)
                             {
                                 <div @onclick="() => GoEvent(evt)" class="event-card-clickarea col-sm-12 col-md-6 col-lg-4 col-xl-3">
                                     <EventCard Evt="@evt" />
@@ -173,7 +173,14 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await EventService.LoadUpcoming();
+        if(AppState.UpcomingEvents != null && AppState.UpcomingEvents.Count > 0)
+        {
+            EventService.LoadUpcoming();
+        }
+        else
+        {
+            await EventService.LoadUpcoming();
+        }
         IsLoading = false;
     }
 
