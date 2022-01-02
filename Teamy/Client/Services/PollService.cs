@@ -11,7 +11,7 @@ namespace Teamy.Client.Services
     {
         PollVM NewPoll();
         Task<bool> Vote(PollVM poll, PollChoiceVM choice);
-        Task ResetAnswers(PollVM poll);
+        //Task ResetAnswers(PollVM poll);
         Task<bool> VoteDate(ProposedDateVM date);
         Task<bool> LockDate(ProposedDateVM date);
         Task<bool> UnlockDate(ProposedDateVM date);
@@ -44,12 +44,12 @@ namespace Teamy.Client.Services
             return result.IsSuccessStatusCode;
         }
 
-        public async Task ResetAnswers(PollVM poll)
-        {
-            var resetRequest = (PollVM)poll.Clone();
-            resetRequest.Choices = new List<PollChoiceVM>();
-            await Http.PostAsJsonAsync<PollVM>("Polls/Reset", resetRequest);
-        }
+        //public async Task ResetAnswers(PollVM poll)
+        //{
+        //    var resetRequest = (PollVM)poll.Clone();
+        //    resetRequest.Choices = new List<PollChoiceVM>();
+        //    await Http.PostAsJsonAsync<PollVM>("Polls/Reset", resetRequest);
+        //}
 
         public async Task<bool> VoteDate(ProposedDateVM date)
         {

@@ -72,19 +72,19 @@ namespace Teamy.Server.Controllers
             return Ok();
         }
 
-        [HttpPost("Reset")]
-        public async Task Reset([FromBody] PollVM pollVM)
-        {
-            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        //[HttpPost("Reset")]
+        //public async Task Reset([FromBody] PollVM pollVM)
+        //{
+        //    var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var answers = _db.PollChoices.Include(_ => _.Answers)
-                            .Where(_ => _.PollId == pollVM.Id)
-                            .SelectMany(c => c.Answers.Where(a => a.UserId == currentUserId));
+        //    var answers = _db.PollChoices.Include(_ => _.Answers)
+        //                    .Where(_ => _.PollId == pollVM.Id)
+        //                    .SelectMany(c => c.Answers.Where(a => a.UserId == currentUserId));
 
-            _db.PollAnswers.RemoveRange(answers);
-            await _db.SaveChangesAsync();
-            await _hub.EventUpdated(pollVM.EventId.Value);
-        }
+        //    _db.PollAnswers.RemoveRange(answers);
+        //    await _db.SaveChangesAsync();
+        //    await _hub.EventUpdated(pollVM.EventId.Value);
+        //}
 
         [HttpPost("VoteDate")]
         public async Task<IActionResult> VoteDate([FromBody] ProposedDateVM date)
