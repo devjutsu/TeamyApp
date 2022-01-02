@@ -223,7 +223,10 @@
 
     int Percent(PollVM poll, PollChoiceVM choice)
     {
-        var totalVotes = PollTotalVotes(poll);
+        var votesByUsers = poll.Choices.SelectMany(o => o.Answers).GroupBy(o => o.UserId);
+        var totalVotes = votesByUsers.Count();
+
+        Console.WriteLine($"Counting %: {totalVotes}");
         return totalVotes > 0
                 ? ChoiceTotalVotes(choice) * (100 / totalVotes)
                 : 0;
