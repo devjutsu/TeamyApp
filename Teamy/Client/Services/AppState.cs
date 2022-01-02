@@ -17,11 +17,17 @@ namespace Teamy.Client.Services
         public bool IsLoggedIn => User?.Identity.IsAuthenticated ?? false;
         public List<EventVM> StoredEvents { get; private set; }
         public List<EventVM>? UpcomingEvents => StoredEvents?
-                                            .Where(e => e.DateStatus != EventDateStatus.Locked || e.EventDate > DateTime.Now)
+                                            .Where(e => 
+                                            (e.CreatedById == UserId || e.Participants.Any(o => o.UserId == UserId && (o.Status == ParticipationStatus.Creator || o.Status == ParticipationStatus.Accept)))
+                                            && (e.DateStatus != EventDateStatus.Locked || e.EventDate > DateTime.Now))
                                             .ToList();
         public List<EventVM>? PastEvents => StoredEvents?
                                             .Where(e => e.DateStatus == EventDateStatus.Locked && e.EventDate < DateTime.Now)
                                             .OrderByDescending(o => o.EventDate)
+                                            .ToList();
+
+        public List<EventVM>? NoGoEvents => StoredEvents?
+                                            .Where(e => e.Participants.Any(o => o.UserId == UserId && o.Status == ParticipationStatus.Reject))
                                             .ToList();
         public ParticipationVM? LatestParticipation { get; private set; }
         public EventVM Invite { get; set; }
