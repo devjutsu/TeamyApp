@@ -215,18 +215,12 @@
         await PollService.Vote(poll, choice);
     }
 
-    async Task ResetAnswers(PollVM poll)
-    {
-        await PollService.ResetAnswers(poll);
-        //StateHasChanged();
-    }
-
     int Percent(PollVM poll, PollChoiceVM choice)
     {
-        var votesByUsers = poll.Choices.SelectMany(o => o.Answers).GroupBy(o => o.UserId);
+        var votesByUsers = poll.Choices
+                                .SelectMany(o => o.Answers)
+                                .GroupBy(o => o.UserId);
         var totalVotes = votesByUsers.Count();
-
-        Console.WriteLine($"Counting %: {totalVotes}");
         return totalVotes > 0
                 ? ChoiceTotalVotes(choice) * (100 / totalVotes)
                 : 0;
@@ -237,9 +231,6 @@
         var result = choice.Answers.Any(c => c.UserId == AppState.UserId);
         return result;
     }
-
-    int PollTotalVotes(PollVM poll)
-        => poll.Choices.Sum(o => o.Answers?.Count()) ?? 0;
 
     int ChoiceTotalVotes(PollChoiceVM choice)
         => choice.Answers?.Count() ?? 0;
