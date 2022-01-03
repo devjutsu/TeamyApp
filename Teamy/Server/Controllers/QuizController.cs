@@ -123,11 +123,6 @@ namespace Teamy.Server.Controllers
                         .FirstAsync();
             var userIds = qcode.Completions.Select(c => c.UserId).ToList();
 
-            //var questions = _db.QuizQuestions
-            //                .Include(_ => _.Answers.Where(a => userIds.Contains(a.UserId)))
-            //                .Count(_ => _.QuizId == qcode.QuizId && _.Answers.Count > 0);
-
-
             var totalAnswers = _db.QuizAnswers
                                 .Include(_ => _.Question)
                                 .Count(_ => _.Question.QuizId == qcode.QuizId && userIds.Contains(_.UserId));
