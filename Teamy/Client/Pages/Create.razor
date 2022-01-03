@@ -19,8 +19,15 @@
 </style>
 
 <div class="container container-black">
-    @*container-inner-padding*@
-    @if (EditingEvent == null)
+    @if (IsLoading)
+    {
+        <div class="loader">
+            <div class="inner one"></div>
+            <div class="inner two"></div>
+            <div class="inner three"></div>
+        </div>
+    }
+    else if (EditingEvent == null)
     {
         <div class="mask-text-no-img">
             <div class="row event-card-container">
@@ -81,9 +88,11 @@
     List<EventVM>? Recommended { get; set; }
 
     EventVM? EditingEvent { get; set; }
+    bool IsLoading { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
+        IsLoading = true;
         Recommended = await TemplateService.Recommended();
 
         if (TemplateCode != null)
@@ -97,6 +106,7 @@
                 EditingEvent = await TemplateService.Get(TemplateCode.Value);
             }
         }
+        IsLoading = false;
     }
 
     public async Task DoCreateFromTemplate(EventVM tpl)
