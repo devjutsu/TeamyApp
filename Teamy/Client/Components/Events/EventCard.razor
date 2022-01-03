@@ -6,7 +6,7 @@
 
         @if (@Evt.DateStatus == EventDateStatus.Locked)
         {
-            <div class="event-card-date">@Evt.EventDate.Value.ToLongDateString()</div>
+            <div class="event-card-date">@Evt.EventDate.Value.ToString("ddd, dd MMM") @Evt.EventDate.Value.ToString("HH:mm") - @Evt.EventDateTo.Value.ToString("HH:mm")</div>
         }
         <div class="event-car-details" style="overflow: hidden;">@Evt.Description</div>
     </div> 
