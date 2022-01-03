@@ -1,9 +1,10 @@
 ﻿@page "/my"
+@using Teamy.Client.Components.User
 
 <div class="container">
-    <input type="text" placeholder="Email" class="text-input" />
-    <input type="text" placeholder="Name" class="text-input" />
-    <button class="btn btn-primary">Save</button>
+    <ProfileComponent />
+    <RegisterComponent />
+    <LoginComponent />
 </div>
 
 @code {
