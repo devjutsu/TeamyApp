@@ -22,6 +22,7 @@ namespace Teamy.Server.Models
         public EventDateStatus DateStatus { get; set; }
         public DateTime? EventDate { get; set; }
         public DateTime? EventDateTo { get; set; }
+        public DateRecommendationType DateRecommendationType { get; set; }
     }
 
     public class EventConfiguration : IEntityTypeConfiguration<Event>

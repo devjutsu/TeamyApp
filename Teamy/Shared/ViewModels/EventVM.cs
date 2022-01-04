@@ -24,7 +24,6 @@ namespace Teamy.Shared.ViewModels
         public DateTime? EventDate { get; set; }
         public DateTime? EventDateTo { get; set; }
         public Guid? TemplateFromId {get; set; }
-
         public DateRecommendationType DateRecommendationType { get; set; }
 
         public object Clone()
