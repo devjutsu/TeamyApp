@@ -13,6 +13,7 @@ namespace Teamy.Shared.ViewModels
         public DateTime DateTo { get; set; }
         public Guid? EventId { get; set; }
         public List<DateVoteVM> Votes { get; set; } = new List<DateVoteVM>();
+        public string? CreatedById { get; set; }
 
         public object Clone()
         {
