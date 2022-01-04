@@ -28,6 +28,7 @@ builder.Services.AddScoped<IManageTemplates, TemplateService>();
 builder.Services.AddScoped<IManageUploads, UploadService>();
 builder.Services.AddScoped<IManageChats, ChatService>();
 builder.Services.AddScoped<IManageQuiz, QuizService>();
+builder.Services.AddScoped<IManageAlternatives, AlternativesSerice>();
 
 
 builder.Services.AddBlazoredModal();

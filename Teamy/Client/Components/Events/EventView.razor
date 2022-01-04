@@ -1,6 +1,7 @@
 ﻿@inject AppState AppState
 @inject IManagePolls PollService
 @inject IManageEvents EventService
+@inject IManageAlternatives AlternativeService
 @inject IJSRuntime JS
 @implements IDisposable
 
@@ -323,18 +324,22 @@
             {
                 Date = DateTime.Today.AddDays(1).AddHours(18),
                 DateTo = DateTime.Today.AddDays(1).AddHours(20),
-                CreatedById = AppState.UserId
+                CreatedById = AppState.UserId,
+                EventId = CurrentEvent.Id,
             };
-        
+
         //FocusChoiceInputId = "date-input";
         EditingDate = date;
         EditingDateSaved = (ProposedDateVM)date.Clone();
     }
 
-    void DateEditDone(ProposedDateVM date)
+    async Task DateEditDone(ProposedDateVM date)
     {
-        CurrentEvent.ProposedDates.Add(date);
-        Console.WriteLine("done date editing");
+        if(await AlternativeService.RecommendDate(date))
+        {
+            CurrentEvent.ProposedDates.Add(date);
+        }
+            
         EditingDate = null;
     }
 
