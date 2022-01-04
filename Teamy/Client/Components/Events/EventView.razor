@@ -111,6 +111,16 @@
                             <span class="user-circle user-date-voted" title="@vote.Name">@vote.Name?.First()</span>
                         }
                     }
+
+                    <div class="add-date-btn">
+                        <button class="btn btn-outline-success btn-sm" @onclick="() => AddDate()" tabindex="0">
+                            <span class="oi oi-plus small" /> &nbsp;date and time
+                        </button>
+                    </div>
+                    @if(EditingDate != null)
+                    {
+                        <EditDateComponent Date=EditingDate Done=DateEditDone />
+                    }
                 }
             </div>
 
@@ -199,6 +209,8 @@
     string GoogleCalDetails => $"{CurrentEvent.Description?.CalSlugify()} {Nav.BaseUri}Event/{CurrentEvent.Id}";
     string GoogleCalLocation => $"{CurrentEvent.Where?.CalSlugify()}";
     string CalendarIcsLink => $"{Nav.BaseUri}Events/ClendarFile";
+    ProposedDateVM? EditingDate { get; set; }
+    ProposedDateVM? EditingDateSaved { get; set; }
 
     string DatevoteElementSelected(ProposedDateVM date)
         => date.Votes.Any(o => o.UserId == AppState.UserId)
@@ -303,6 +315,27 @@
             await EventService.Delete(CurrentEvent.Id.Value);
             Nav.NavigateTo("/");
         }
+    }
+
+    async Task AddDate()
+    {
+        var date = new ProposedDateVM()
+            {
+                Date = DateTime.Today.AddDays(1).AddHours(18),
+                DateTo = DateTime.Today.AddDays(1).AddHours(20),
+                CreatedById = AppState.UserId
+            };
+        
+        //FocusChoiceInputId = "date-input";
+        EditingDate = date;
+        EditingDateSaved = (ProposedDateVM)date.Clone();
+    }
+
+    void DateEditDone(ProposedDateVM date)
+    {
+        CurrentEvent.ProposedDates.Add(date);
+        Console.WriteLine("done date editing");
+        EditingDate = null;
     }
 
     protected override void OnInitialized()
