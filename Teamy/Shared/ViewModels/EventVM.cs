@@ -19,7 +19,7 @@ namespace Teamy.Shared.ViewModels
         public string? CreatedByName { get; set; }
         public string? ImageUrl { get; set; }
         public string? InviteCode { get; set; }
-        public List<ProposedDateVM>? ProposedDates { get; set; }
+        public List<ProposedDateVM>? ProposedDates { get; set; } = new List<ProposedDateVM>();
         public EventDateStatus DateStatus { get; set; }
         public DateTime? EventDate { get; set; }
         public DateTime? EventDateTo { get; set; }
