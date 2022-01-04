@@ -122,7 +122,7 @@
                         </div>
                         @if (EditingDate != null)
                         {
-                            <EditDateComponent Date=EditingDate Done=DateEditDone />
+                            <EditDateComponent Date=EditingDate ExistingList=CurrentEvent.ProposedDates Done=DateEditDone CancelEdit=CancelEditDate Remove=RemoveDate />
                         }
                     }
                 }
@@ -338,11 +338,23 @@
 
     async Task DateEditDone(ProposedDateVM date)
     {
+        Console.WriteLine("saving date");
         if(await AlternativeService.RecommendDate(date))
         {
+            Console.WriteLine("finished with date");
             CurrentEvent.ProposedDates.Add(date);
         }
-            
+
+        EditingDate = null;
+    }
+
+    void CancelEditDate(ProposedDateVM date)
+    {
+        EditingDate = null;
+    }
+
+    void RemoveDate(ProposedDateVM date)
+    {
         EditingDate = null;
     }
 
