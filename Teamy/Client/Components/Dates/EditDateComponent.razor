@@ -1,25 +1,119 @@
-﻿<div>
-    <div class="d-flex flex-nowrap justify-content-between">
-    <div class="" style="padding:.8rem 0 .8rem 0;">
-        @Date.Date.ToString("ddd, dd MMM")
-        &nbsp;
-    </div>
-    <div class="" style="padding:.8rem 0 .8rem 0;">
-        @Date.Date.ToString("HH:mm") - @Date.DateTo.ToString("HH:mm")
-    </div>
-</div>
-<button @onclick="Save" class="btn btn-primary">Save</button>
-</div>
+﻿@using System.Globalization
+@inject IToastService Toast
 
+<div class="editdate-element editdate-element-inactive">
+    <div class="d-flex">
+        <div class="d-flex flex-nowrap justify-content-between">
+            <div class="" style="padding:.8rem 0 .8rem 0;">
+                @Date.Date.ToString("ddd, dd MMM")
+                &nbsp;
+            </div>
+            <div class="" style="padding:.8rem 0 .8rem 0;">
+                @Date.Date.ToString("HH:mm") - @Date.DateTo.ToString("HH:mm")
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex">
+        <span class="datepicker-toggle">
+            <span class="datepicker-toggle-button"></span>
+            <input type="date" class="datepicker-input" id="date-input" value="@Date.Date.ToString("yyyy-MM-dd")"
+                   @onchange="@((e) => SetDate(Date, (string)e.Value))">
+        </span>
+
+        <div>
+            <div>
+                <input type="time" id="timeFrom" required class="time-edit" value="@Date.Date.ToString("HH:mm")"
+                       @onchange="@((e) => SetTime(Date, (string)e.Value))" />
+            </div>
+            <div>
+                <input type="time" id="timeTo" required class="time-edit" value="@Date.DateTo.ToString("HH:mm")"
+                       @onchange="@((e) => SetTimeTo(Date, (string)e.Value))" />
+            </div>
+        </div>
+    </div>
+
+    <div class="">
+        <button class="btn btn-datepicker-ok" @onclick="@(() => Save())">
+            <span class="oi oi-check" style="vertical-align:middle;" />
+        </button>
+
+        <button class="btn btn-datepicker-cancel" @onclick="() => CancelEditDate(Date)">
+            <span class="oi oi-x small" />
+        </button>
+        <button class="btn btn-datepicker-delete" @onclick="() => RemoveDate(Date)">
+            <span class="oi oi-trash small" style="vertical-align:middle;" />
+        </button>
+    </div>
+
+</div>
 
 @code {
     [Parameter]
-    public ProposedDateVM Date {   get; set;   }
+    public ProposedDateVM Date { get; set; }
+    [Parameter]
+    public List<ProposedDateVM> ExistingList { get; set; }
     [Parameter]
     public EventCallback<ProposedDateVM> Done { get; set; }
+    [Parameter]
+    public EventCallback<ProposedDateVM> CancelEdit { get; set; }
+    [Parameter]
+    public EventCallback<ProposedDateVM> Remove { get; set; }
 
     async void Save()
     {
-        await Done.InvokeAsync(Date);
+        if(ExistingList?.Any(o => o.Date == Date.Date && o.DateTo == Date.DateTo) ?? false)
+        {
+            Toast.ShowWarning("Such time already exists!");
+        }
+        else
+        {
+            await Done.InvokeAsync(Date);
+        }
+    }
+
+    void SetDate(ProposedDateVM date, string s)
+    {
+        var newDate = DateTime.ParseExact(s, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+        date.Date = newDate.Date.AddHours(date.Date.Hour).AddMinutes(date.Date.Minute);
+    }
+
+    void SetTime(ProposedDateVM date, string s)
+    {
+        var delta = (date.DateTo - date.Date);
+        var newTime = DateTime.ParseExact(s, "HH:mm:ss", CultureInfo.InvariantCulture);
+        date.Date = date.Date.Date.AddHours(newTime.Hour).AddMinutes(newTime.Minute);
+
+        date.DateTo = date.Date + delta;
+    }
+
+    void SetTimeTo(ProposedDateVM date, string s)
+    {
+        var newTime = DateTime.ParseExact(s, "HH:mm:ss", CultureInfo.InvariantCulture);
+        var newFullDate = date.Date.Date.AddHours(newTime.Hour).AddMinutes(newTime.Minute);
+        date.DateTo = date.Date.Date.AddHours(date.DateTo.Hour).AddMinutes(date.DateTo.Minute);
+
+        if (newFullDate > date.DateTo)
+        {
+            Console.WriteLine("good date");
+            Console.WriteLine($"{date.DateTo.ToShortDateString()} {date.DateTo.ToShortTimeString()}");
+            Console.WriteLine($"{newFullDate.ToShortDateString()} {newFullDate.ToShortTimeString()}");
+            date.DateTo = newFullDate;
+        }
+        else
+        {
+            Toast.ShowWarning("Time till not valid.");
+            date.DateTo = date.DateTo.AddHours(1);
+        }
+    }
+
+    async Task CancelEditDate(ProposedDateVM date)
+    {
+        await CancelEdit.InvokeAsync(date);
+    }
+
+    async Task RemoveDate(ProposedDateVM date)
+    {
+        await Remove.InvokeAsync(date);
     }
 }
