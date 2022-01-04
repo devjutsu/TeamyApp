@@ -113,14 +113,17 @@
                         }
                     }
 
-                    <div class="add-date-btn">
-                        <button class="btn btn-outline-success btn-sm" @onclick="() => AddDate()" tabindex="0">
-                            <span class="oi oi-plus small" /> &nbsp;date and time
-                        </button>
-                    </div>
-                    @if(EditingDate != null)
+                    @if (CurrentEvent.DateRecommendationType != DateRecommendationType.NotOffer)
                     {
-                        <EditDateComponent Date=EditingDate Done=DateEditDone />
+                        <div class="add-date-btn">
+                            <button class="btn btn-outline-success btn-sm" @onclick="() => AddDate()" tabindex="0">
+                                <span class="oi oi-plus small" /> &nbsp;date and time
+                            </button>
+                        </div>
+                        @if (EditingDate != null)
+                        {
+                            <EditDateComponent Date=EditingDate Done=DateEditDone />
+                        }
                     }
                 }
             </div>

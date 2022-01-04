@@ -131,9 +131,10 @@
                             <span class="oi oi-plus small" /> &nbsp;date and time
                         </button>
                     </div>
-                    <div class="d-flex"> @*datevote-element*@
+
+                    <div class="d-flex" @onclick="() => InvertAcceptDateRecommendations()"> @*datevote-element*@
                         <div class="check-container" style="position:relative; margin-left: .5rem;">
-                            <input type="checkbox" style="margin-top:.8rem; " />
+                            <input type="checkbox" style="margin-top:.8rem; " checked="@(EditedEvent.DateRecommendationType != DateRecommendationType.NotOffer)" />
                             <span class="checkmark" />
                         </div>
 
@@ -397,6 +398,18 @@
             EditedEvent.EventDateTo = null;
             EditedEvent.DateStatus = EventDateStatus.Voting;
             await PollService.UnlockDate(date);
+        }
+    }
+
+    async Task InvertAcceptDateRecommendations()
+    {
+        if(EditedEvent.DateRecommendationType == DateRecommendationType.NotOffer)
+        {
+            EditedEvent.DateRecommendationType = DateRecommendationType.AutoAccept;
+        }
+        else
+        {
+            EditedEvent.DateRecommendationType = DateRecommendationType.NotOffer;
         }
     }
 
