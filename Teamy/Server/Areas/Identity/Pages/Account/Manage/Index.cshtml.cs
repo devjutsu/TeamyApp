@@ -4,13 +4,16 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Teamy.Server.Data;
 using Teamy.Server.Models;
+using Teamy.Server.Services;
 
 namespace Teamy.Server.Areas.Identity.Pages.Account.Manage
 {
@@ -19,15 +22,19 @@ namespace Teamy.Server.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly TeamyDbContext _db;
+        private readonly IUploadImages _upload;
 
         public IndexModel(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
-            TeamyDbContext db)
+            TeamyDbContext db,
+            IUploadImages upload
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _db = db;
+            _upload = upload;
         }
 
         /// <summary>
@@ -49,6 +56,8 @@ namespace Teamy.Server.Areas.Identity.Pages.Account.Manage
         /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
+        public string ImageId { get; set; }
+
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -66,20 +75,25 @@ namespace Teamy.Server.Areas.Identity.Pages.Account.Manage
 
             [Display(Name = "Name")]
             public string DisplayName { get; set; }
+            [Display(Name = "User Image")]
+            public Guid ImageId { get; set; }
+
         }
 
         private async Task LoadAsync(AppUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            var displayName = _db.Users.Where(o => o.UserName == userName).FirstOrDefault()?.DisplayName ?? "";
+            //var displayName = _db.Users.Where(o => o.UserName == userName).FirstOrDefault()?.DisplayName ?? "";
+            //var imageId = _db.Users.Where(o => o.UserName == userName).FirstOrDefault()?.DisplayName ?? "";
 
             Username = userName;
 
             Input = new InputModel
             {
                 PhoneNumber = phoneNumber,
-                DisplayName = displayName,
+                DisplayName = user.DisplayName,
+
             };
         }
 
@@ -92,10 +106,18 @@ namespace Teamy.Server.Areas.Identity.Pages.Account.Manage
             }
 
             await LoadAsync(user);
+
+            var dbImage = _db.Images.Where(u => u.Id == user.ImageId).FirstOrDefault();
+            if (dbImage != null)
+            {
+                this.ImageId = dbImage.Url;
+
+            }
+
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(IFormFile file)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -122,6 +144,14 @@ namespace Teamy.Server.Areas.Identity.Pages.Account.Manage
             if (Input.DisplayName != user.DisplayName)
             {
                 user.DisplayName = Input.DisplayName;
+                _db.Users.Update(user);
+                await _db.SaveChangesAsync();
+            }
+
+            if (file != null) // Change user image
+            {
+                user.ImageId = await _upload.UploadImageAsync(file);
+
                 _db.Users.Update(user);
                 await _db.SaveChangesAsync();
             }
