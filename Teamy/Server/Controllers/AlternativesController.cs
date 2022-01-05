@@ -46,6 +46,7 @@ namespace Teamy.Server.Controllers
             var newDate = _mapper.Map<ProposedDateVM, ProposedDate>(dateVM);
             var entity = await _db.ProposedDates.AddAsync(newDate);
             await _db.SaveChangesAsync();
+            await _hub.EventUpdated(entity.Entity.EventId);
             return Ok(entity.Entity);
         }
     }
