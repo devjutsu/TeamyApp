@@ -145,7 +145,7 @@ namespace Teamy.Server.Areas.Identity.Pages.Account.Manage
 
             if (file != null) // Change user image
             {
-                user.ImageId = await _upload.UploadImageAsync(file);
+                //user.ImageId = await _upload.UploadImageAsync(file);
                 _db.Users.Update(user);
                 await _db.SaveChangesAsync();
             }
