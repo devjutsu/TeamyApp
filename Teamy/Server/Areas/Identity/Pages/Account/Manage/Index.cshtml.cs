@@ -76,7 +76,7 @@ namespace Teamy.Server.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Name")]
             public string DisplayName { get; set; }
             [Display(Name = "User Image")]
-            public string ImageId { get; set; }
+            public Guid ImageId { get; set; }
 
         }
 
@@ -93,7 +93,6 @@ namespace Teamy.Server.Areas.Identity.Pages.Account.Manage
             {
                 PhoneNumber = phoneNumber,
                 DisplayName = user.DisplayName,
-                ImageId = user.ImageId
 
             };
         }
@@ -107,7 +106,13 @@ namespace Teamy.Server.Areas.Identity.Pages.Account.Manage
             }
 
             await LoadAsync(user);
-            this.ImageId = user.ImageId;
+
+            var dbImage = _db.Images.Where(u => u.Id == user.ImageId).FirstOrDefault();
+            if (dbImage != null)
+            {
+                this.ImageId = dbImage.Url;
+
+            }
 
             return Page();
         }
@@ -145,7 +150,8 @@ namespace Teamy.Server.Areas.Identity.Pages.Account.Manage
 
             if (file != null) // Change user image
             {
-                //user.ImageId = await _upload.UploadImageAsync(file);
+                user.ImageId = await _upload.UploadImageAsync(file);
+
                 _db.Users.Update(user);
                 await _db.SaveChangesAsync();
             }

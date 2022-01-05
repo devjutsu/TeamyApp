@@ -29,7 +29,7 @@ namespace Teamy.Server.Services
             var imageUrl = await _storage.Upload(image.OpenReadStream(), filename + ext);
             var dbAddedModel = await _db.Images.AddAsync(new Models.ImageModel { Url = imageUrl.AbsoluteUri });
 
-
+            await _db.SaveChangesAsync();
             return dbAddedModel.Entity.Id;
         }
     }
