@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Teamy.Server.Data;
 
@@ -11,9 +12,10 @@ using Teamy.Server.Data;
 namespace Teamy.Server.Migrations
 {
     [DbContext(typeof(TeamyDbContext))]
-    partial class TeamyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220105144754_003_ProposedDate_CreatedById")]
+    partial class _003_ProposedDate_CreatedById
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -97,6 +97,10 @@
                                             </div>
                                         </div>
 
+                                        @if(date.CreatedById != null)
+                                        {
+                                            <span>@date.CreatedById</span>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -117,7 +121,7 @@
                     {
                         <div class="add-date-btn">
                             <button class="btn btn-outline-success btn-sm" @onclick="() => AddDate()" tabindex="0">
-                                <span class="oi oi-plus small" /> &nbsp;date and time
+                                <span class="oi oi-plus small" /> &nbsp;alternative time
                             </button>
                         </div>
                         @if (EditingDate != null)
