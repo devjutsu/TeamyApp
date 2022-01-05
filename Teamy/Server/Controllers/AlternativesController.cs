@@ -19,12 +19,12 @@ namespace Teamy.Server.Controllers
         TeamyDbContext _db { get; set; }
         UserManager<AppUser> _userManager { get; set; }
         private readonly IMapper _mapper;
-        IChatHub _hub;
+        IVoteHub _hub;
         public AlternativesController(ILogger<EventsController> logger,
                                     TeamyDbContext db,
                                     UserManager<AppUser> userManager,
                                     IMapper mapper,
-                                    IChatHub hub)
+                                    IVoteHub hub)
         {
             _logger = logger;
             _db = db;
@@ -36,18 +36,17 @@ namespace Teamy.Server.Controllers
         [HttpPost("RecommendDate")]
         public async Task<IActionResult> RecommendDate([FromBody] ProposedDateVM dateVM)
         {
-            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (dateVM.CreatedById != currentUserId)
                 return BadRequest("User doesn't match");
             else if (dateVM.EventId == Guid.Empty)
                 return BadRequest("Bad event id");
 
-            var entity = _mapper.Map<ProposedDateVM, ProposedDate>(dateVM);
-
-            await _db.ProposedDates.AddAsync(entity);
+            var newDate = _mapper.Map<ProposedDateVM, ProposedDate>(dateVM);
+            var entity = await _db.ProposedDates.AddAsync(newDate);
             await _db.SaveChangesAsync();
-            return Ok();
+            return Ok(entity.Entity);
         }
     }
 }
