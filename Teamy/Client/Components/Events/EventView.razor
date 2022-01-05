@@ -355,12 +355,32 @@
 
     async Task DateEditDone(ProposedDateVM date)
     {
-        var newdate = await AlternativeService.RecommendDate(date);
-        if (newdate != null)
+        if (date.Id == Guid.Empty)
         {
-            CurrentEvent.ProposedDates.Add(newdate);
-            CurrentEvent.ProposedDates = CurrentEvent.ProposedDates.OrderBy(o => o.Date).ThenBy(o => o.DateTo).ToList();
-            await VoteDate(newdate);
+            var newdate = await AlternativeService.RecommendDate(date);
+            if (newdate != null)
+            {
+                CurrentEvent.ProposedDates.Add(newdate);
+
+                CurrentEvent.ProposedDates = CurrentEvent.ProposedDates.OrderBy(o => o.Date).ThenBy(o => o.DateTo).ToList();
+                await VoteDate(newdate);
+            }
+        }
+        else
+        {
+            var newdate = await AlternativeService.UpdateRecommendedDate(date);
+            if(newdate == null)
+            {
+                // if error updating, reset it to initial one
+                date = EditingDateSaved;
+                Console.WriteLine($"Undo! Failed updating.");
+            }
+
+            var existing = CurrentEvent.ProposedDates.First(o => o.Id == EditingDateSaved.Id);
+            var index = CurrentEvent.ProposedDates.IndexOf(existing);
+            Console.WriteLine($"Saved: {EditingDateSaved.Date.Day}");
+            Console.WriteLine($"Just edited: {CurrentEvent.ProposedDates[index].Date.Day}");
+            Console.WriteLine($"To {date.Date.Day}");
         }
 
         EditingDate = null;

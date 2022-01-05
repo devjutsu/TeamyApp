@@ -62,7 +62,7 @@
 
     async void Save()
     {
-        if(ExistingList?.Any(o => o.Date == Date.Date && o.DateTo == Date.DateTo) ?? false)
+        if(ExistingList?.Any(o => o.Date == Date.Date && o.DateTo == Date.DateTo && o.Id != Date.Id) ?? false)
         {
             Toast.ShowWarning("Such time already exists!");
         }
