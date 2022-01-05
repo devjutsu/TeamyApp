@@ -110,7 +110,7 @@
                         else
                         {
                             @*own proposed date edit*@
-                            @if (date.CreatedById == AppState.UserId)
+                            @if (AllowOwnDateEdit(date))
                             {
                                 <button class="btn btn-outline-secondary btn-nohover btn-sm" @onclick="() => DoEditDate(date)" style="min-width:.5rem; padding-top:-.5rem">
                                     <span class="oi oi-pencil small" />
@@ -226,6 +226,9 @@
     string CalendarIcsLink => $"{Nav.BaseUri}Events/ClendarFile";
     ProposedDateVM? EditingDate { get; set; }
     ProposedDateVM? EditingDateSaved { get; set; }
+
+    bool AllowOwnDateEdit(ProposedDateVM date)
+        => date.CreatedById == AppState.UserId && !date.Votes.Any(o => o.UserId != AppState.UserId);
 
     string DatevoteElementSelected(ProposedDateVM date)
         => date.Votes.Any(o => o.UserId == AppState.UserId)
@@ -373,14 +376,10 @@
             {
                 // if error updating, reset it to initial one
                 date = EditingDateSaved;
-                Console.WriteLine($"Undo! Failed updating.");
             }
 
             var existing = CurrentEvent.ProposedDates.First(o => o.Id == EditingDateSaved.Id);
             var index = CurrentEvent.ProposedDates.IndexOf(existing);
-            Console.WriteLine($"Saved: {EditingDateSaved.Date.Day}");
-            Console.WriteLine($"Just edited: {CurrentEvent.ProposedDates[index].Date.Day}");
-            Console.WriteLine($"To {date.Date.Day}");
         }
 
         EditingDate = null;
