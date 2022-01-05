@@ -4,7 +4,7 @@ namespace Teamy.Server.Services
 {
     public interface IUploadImages
     {
-        Task<string> UploadImageAsync(IFormFile image);
+        Task<Guid> UploadImageAsync(IFormFile image);
     }
 
     public class DbImgUpload : IUploadImages
@@ -22,13 +22,15 @@ namespace Teamy.Server.Services
             _storage = storage;
         }
 
-        public async Task<string> UploadImageAsync(IFormFile image)
+        public async Task<Guid> UploadImageAsync(IFormFile image)
         {
             var filename = Guid.NewGuid().ToString().Substring(0, 13);
             var ext = Path.GetExtension(image.FileName);
-            var imageId = await _storage.Upload(image.OpenReadStream(), filename + ext);
+            var imageUrl = await _storage.Upload(image.OpenReadStream(), filename + ext);
+            var dbAddedModel = await _db.Images.AddAsync(new Models.ImageModel { Url = imageUrl.AbsoluteUri });
 
-            return imageId.AbsoluteUri;
+
+            return dbAddedModel.Entity.Id;
         }
     }
 }
