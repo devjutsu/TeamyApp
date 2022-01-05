@@ -29,8 +29,8 @@
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-floating">
-                <img src=@Model.ImageId class="img-thumbnail" height="100" width="100" asp-append-version="true" />  
-                <label asp-for="Input.ImageId" class="form-label"></label>
+                <img src=@Model.ImageId class="img-thumbnail" height="330" width="330" asp-append-version="true" />  
+                @*<label asp-for="Input.ImageId" class="form-label"></label>*@
                 <input type="file" name="file" />
                 <span asp-validation-for="Input.ImageId" class="text-danger"></span>
             </div>
