@@ -7,6 +7,7 @@ namespace Teamy.Server.Models
     public class AppUser : IdentityUser, IDateCreated, IDateUpdated
     {
         public string DisplayName { get; set; }
+        public string? ImageId { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
     }
