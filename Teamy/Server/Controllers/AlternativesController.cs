@@ -49,5 +49,36 @@ namespace Teamy.Server.Controllers
             await _hub.EventUpdated(entity.Entity.EventId);
             return Ok(entity.Entity);
         }
+
+        [HttpPost("UpdateRecommendedDate")]
+        public async Task<IActionResult> UpdateRecommendedDate([FromBody] ProposedDateVM dateVM)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+
+            if (dateVM.CreatedById != currentUserId)
+                return BadRequest("User doesn't match");
+            else if (dateVM.EventId == Guid.Empty)
+                return BadRequest("Bad event id");
+
+            var newDate = _mapper.Map<ProposedDateVM, ProposedDate>(dateVM);
+            var existingDate = await _db.ProposedDates
+                                        .Where(o => o.Id == dateVM.Id && o.CreatedById == dateVM.CreatedById)
+                                        .FirstOrDefaultAsync();
+            if (existingDate != null)
+            {
+                existingDate.Date = newDate.Date;
+                existingDate.DateTo = newDate.DateTo;
+                
+                _db.ProposedDates.Update(existingDate);
+
+                await _db.SaveChangesAsync();
+                await _hub.EventUpdated(existingDate.EventId);
+                return Ok(existingDate);
+            }
+            else return BadRequest("No such date");
+
+
+        }
     }
 }

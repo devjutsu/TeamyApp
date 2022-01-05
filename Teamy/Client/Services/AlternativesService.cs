@@ -12,6 +12,7 @@ namespace Teamy.Client.Services
     public interface IManageAlternatives
     {
         Task<ProposedDateVM> RecommendDate(ProposedDateVM date);
+        Task<ProposedDateVM> UpdateRecommendedDate(ProposedDateVM date);
     }
 
     public class AlternativesSerice : IManageAlternatives
@@ -32,6 +33,14 @@ namespace Teamy.Client.Services
         public async Task<ProposedDateVM> RecommendDate(ProposedDateVM date)
         {
             var uri = Nav.BaseUri.ToString() + $"Alternatives/RecommendDate";
+            var response = await Http.PostAsJsonAsync<ProposedDateVM>(uri, date);
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<ProposedDateVM>(content, new JsonSerializerOptions(JsonSerializerDefaults.Web));
+        }
+
+        public async Task<ProposedDateVM> UpdateRecommendedDate(ProposedDateVM date)
+        {
+            var uri = Nav.BaseUri.ToString() + $"Alternatives/UpdateRecommendedDate";
             var response = await Http.PostAsJsonAsync<ProposedDateVM>(uri, date);
             var content = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<ProposedDateVM>(content, new JsonSerializerOptions(JsonSerializerDefaults.Web));
