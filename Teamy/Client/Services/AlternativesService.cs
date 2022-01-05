@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Teamy.Shared.ViewModels;
 
@@ -10,7 +11,7 @@ namespace Teamy.Client.Services
 {
     public interface IManageAlternatives
     {
-        Task<bool> RecommendDate(ProposedDateVM date);
+        Task<ProposedDateVM> RecommendDate(ProposedDateVM date);
     }
 
     public class AlternativesSerice : IManageAlternatives
@@ -28,10 +29,12 @@ namespace Teamy.Client.Services
             Nav = nav;
         }
 
-        public async Task<bool> RecommendDate(ProposedDateVM date)
+        public async Task<ProposedDateVM> RecommendDate(ProposedDateVM date)
         {
-            var result = await Http.PostAsJsonAsync<ProposedDateVM>(Nav.BaseUri.ToString() + $"Alternatives/RecommendDate", date);
-            return result.IsSuccessStatusCode;
+            var uri = Nav.BaseUri.ToString() + $"Alternatives/RecommendDate";
+            var response = await Http.PostAsJsonAsync<ProposedDateVM>(uri, date);
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<ProposedDateVM>(content, new JsonSerializerOptions(JsonSerializerDefaults.Web));
         }
     }
 }

@@ -96,12 +96,8 @@
                                                 @date.Date.ToString("HH:mm") - @date.DateTo.ToString("HH:mm")
                                             </div>
                                         </div>
-
-                                        @if(date.CreatedById != null)
-                                        {
-                                            <span>@date.CreatedById</span>
-                                        }
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -111,13 +107,24 @@
                         {
                             <button class="btn btn-sm btn-outline-secondary datevote-lock-btn" @onclick="(() => LockDate(date))"><span class="oi oi-lock-unlocked" /></button>
                         }
+                        else
+                        {
+                            @*own proposed date edit*@
+                            @if (date.CreatedById == AppState.UserId)
+                            {
+                                <button class="btn btn-outline-secondary btn-nohover btn-sm" @onclick="() => DoEditDate(date)" style="min-width:.5rem; padding-top:-.5rem">
+                                    <span class="oi oi-pencil small" />
+                                </button>
+                            }
+                        }
+
                         @foreach (var vote in date.Votes)
                         {
                             <span class="user-circle user-date-voted" title="@vote.Name">@vote.Name?.First()</span>
                         }
                     }
 
-                    @if (CurrentEvent.DateRecommendationType != DateRecommendationType.NotOffer)
+                    @if ((CurrentEvent.DateRecommendationType != DateRecommendationType.NotOffer) && !UserCanModifyEvent())
                     {
                         <div class="add-date-btn">
                             <button class="btn btn-outline-success btn-sm" @onclick="() => AddDate()" tabindex="0">
@@ -340,13 +347,20 @@
         EditingDateSaved = (ProposedDateVM)date.Clone();
     }
 
+    async Task DoEditDate(ProposedDateVM date)
+    {
+        EditingDate = date;
+        EditingDateSaved = (ProposedDateVM)date.Clone();
+    }
+
     async Task DateEditDone(ProposedDateVM date)
     {
-        Console.WriteLine("saving date");
-        if(await AlternativeService.RecommendDate(date))
+        var newdate = await AlternativeService.RecommendDate(date);
+        if (newdate != null)
         {
-            Console.WriteLine("finished with date");
-            CurrentEvent.ProposedDates.Add(date);
+            CurrentEvent.ProposedDates.Add(newdate);
+            CurrentEvent.ProposedDates = CurrentEvent.ProposedDates.OrderBy(o => o.Date).ThenBy(o => o.DateTo).ToList();
+            await VoteDate(newdate);
         }
 
         EditingDate = null;
