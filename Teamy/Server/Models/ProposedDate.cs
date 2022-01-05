@@ -10,6 +10,7 @@ namespace Teamy.Server.Models
         public DateTime DateTo { get; set; }
         public Guid EventId { get; set; }
         public Event Event { get; set; }
+        public string? CreatedById { get; set; }
         public List<DateVote> Votes { get; set; } = new List<DateVote>();
     }
 
