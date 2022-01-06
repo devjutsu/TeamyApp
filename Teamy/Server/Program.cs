@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO.Compression;
 using Teamy.Server.Data;
+using Teamy.Server.Logic;
 using Teamy.Server.Models;
 using Teamy.Server.Services;
 
@@ -91,6 +92,7 @@ builder.Services.AddSignalR();
 builder.Services.AddSingleton<IChatHub, ChatHub>();
 builder.Services.AddSingleton<IVoteHub, VoteHub>();
 builder.Services.AddTransient<IUploadImages, DbImgUpload>();
+builder.Services.AddTransient<IManageEvents, EventLogic>();
 
 //builder.Configuration.AddUserSecrets<Program>();
 

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Teamy.Server.Data;
+using Teamy.Server.Logic;
 using Teamy.Server.Models;
 using Teamy.Server.Services;
 using Teamy.Shared.ViewModels;
@@ -17,25 +18,26 @@ namespace Teamy.Server.Controllers
     {
         ILogger<EventsController> _logger { get; set; }
         TeamyDbContext _db { get; set; }
-        UserManager<AppUser> _userManager { get; set; }
         private readonly IMapper _mapper;
         IVoteHub _hub;
+        IManageEvents _evt;
         public AlternativesController(ILogger<EventsController> logger,
                                     TeamyDbContext db,
-                                    UserManager<AppUser> userManager,
                                     IMapper mapper,
-                                    IVoteHub hub)
+                                    IVoteHub hub,
+                                    IManageEvents eventLogic)
         {
             _logger = logger;
             _db = db;
-            _userManager = userManager;
             _mapper = mapper;
             _hub = hub;
+            _evt = eventLogic;
         }
 
         [HttpPost("RecommendDate")]
         public async Task<IActionResult> RecommendDate([FromBody] ProposedDateVM dateVM)
         {
+            await _evt.Test();
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (dateVM.CreatedById != currentUserId)
