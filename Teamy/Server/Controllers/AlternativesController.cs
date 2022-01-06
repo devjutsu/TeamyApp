@@ -37,7 +37,6 @@ namespace Teamy.Server.Controllers
         [HttpPost("RecommendDate")]
         public async Task<IActionResult> RecommendDate([FromBody] ProposedDateVM dateVM)
         {
-            await _evt.Test();
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (dateVM.CreatedById != currentUserId)
@@ -79,8 +78,31 @@ namespace Teamy.Server.Controllers
                 return Ok(existingDate);
             }
             else return BadRequest("No such date");
+        }
+
+        [HttpPost("DeleteRecommendedDate")]
+        public async Task<IActionResult> DeleteRecommendedDate([FromBody] ProposedDateVM dateVM)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
 
+            if (dateVM.CreatedById != currentUserId)
+                return BadRequest("User doesn't match");
+            else if (dateVM.EventId == Guid.Empty)
+                return BadRequest("Bad event id");
+
+            var existingDate = await _db.ProposedDates
+                                        .Where(o => o.Id == dateVM.Id && o.CreatedById == dateVM.CreatedById)
+                                        .FirstOrDefaultAsync();
+            if (existingDate != null)
+            {
+                _db.ProposedDates.Remove(existingDate);
+
+                await _db.SaveChangesAsync();
+                await _hub.EventUpdated(dateVM.EventId.Value);
+                return Ok(true);
+            }
+            else return BadRequest("No such date");
         }
     }
 }
