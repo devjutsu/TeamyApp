@@ -390,8 +390,10 @@
         EditingDate = null;
     }
 
-    void RemoveDate(ProposedDateVM date)
+    async Task RemoveDate(ProposedDateVM date)
     {
+        await AlternativeService.DeleteRecommendedDate(date);
+        CurrentEvent.ProposedDates.Remove(date);
         EditingDate = null;
     }
 
