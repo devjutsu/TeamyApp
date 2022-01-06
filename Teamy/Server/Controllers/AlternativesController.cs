@@ -45,6 +45,7 @@ namespace Teamy.Server.Controllers
                 return BadRequest("Bad event id");
 
             var newDate = _mapper.Map<ProposedDateVM, ProposedDate>(dateVM);
+
             var entity = await _db.ProposedDates.AddAsync(newDate);
             await _db.SaveChangesAsync();
             await _hub.EventUpdated(entity.Entity.EventId);
@@ -63,19 +64,12 @@ namespace Teamy.Server.Controllers
                 return BadRequest("Bad event id");
 
             var newDate = _mapper.Map<ProposedDateVM, ProposedDate>(dateVM);
-            var existingDate = await _db.ProposedDates
-                                        .Where(o => o.Id == dateVM.Id && o.CreatedById == dateVM.CreatedById)
-                                        .FirstOrDefaultAsync();
-            if (existingDate != null)
-            {
-                existingDate.Date = newDate.Date;
-                existingDate.DateTo = newDate.DateTo;
-                
-                _db.ProposedDates.Update(existingDate);
 
-                await _db.SaveChangesAsync();
-                await _hub.EventUpdated(existingDate.EventId);
-                return Ok(existingDate);
+            var result = await _evt.UpdateRecommendedDate(newDate);
+            if (result != null)
+            {
+                var responseDate = _mapper.Map<ProposedDate, ProposedDateVM>(result);
+                return Ok(responseDate);
             }
             else return BadRequest("No such date");
         }
@@ -91,18 +85,11 @@ namespace Teamy.Server.Controllers
             else if (dateVM.EventId == Guid.Empty)
                 return BadRequest("Bad event id");
 
-            var existingDate = await _db.ProposedDates
-                                        .Where(o => o.Id == dateVM.Id && o.CreatedById == dateVM.CreatedById)
-                                        .FirstOrDefaultAsync();
-            if (existingDate != null)
-            {
-                _db.ProposedDates.Remove(existingDate);
 
-                await _db.SaveChangesAsync();
-                await _hub.EventUpdated(dateVM.EventId.Value);
+            if (await _evt.DeleteRecommendedDate(dateVM.Id, dateVM.CreatedById))
                 return Ok(true);
-            }
-            else return BadRequest("No such date");
+            else
+                return BadRequest("No such date");
         }
     }
 }

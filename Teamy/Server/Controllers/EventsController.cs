@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.Text;
 using Teamy.Server.Data;
+using Teamy.Server.Logic;
 using Teamy.Server.Models;
 using Teamy.Server.Services;
 using Teamy.Shared.ViewModels;
@@ -21,8 +22,10 @@ namespace Teamy.Server.Controllers
         UserManager<AppUser> _userManager { get; set; }
         private readonly IMapper _mapper;
         IVoteHub _hub;
+        IManageEvents _evt;
         public EventsController(ILogger<EventsController> logger,
                                     TeamyDbContext db,
+                                    IManageEvents eventLogic,
                                     UserManager<AppUser> userManager,
                                     IMapper mapper,
                                     IVoteHub hub)
@@ -32,6 +35,7 @@ namespace Teamy.Server.Controllers
             _userManager = userManager;
             _mapper = mapper;
             _hub = hub;
+            _evt = eventLogic;
         }
 
         [HttpPost("Create")]
