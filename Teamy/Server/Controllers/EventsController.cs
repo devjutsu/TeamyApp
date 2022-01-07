@@ -38,6 +38,41 @@ namespace Teamy.Server.Controllers
             _evt = eventLogic;
         }
 
+        [HttpGet("Upcoming")]
+        public async Task<IActionResult> Upcoming()
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId == null)
+                return BadRequest("Please, authenticate!");
+
+            var events = await _evt.GetUpcoming(currentUserId);
+
+            var vms = _mapper.Map<List<Event>, List<EventVM>>(events);
+            return Ok(vms);
+        }
+
+        [HttpGet("Get/{id}")]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId == null)
+                return BadRequest("Please, authenticate!");
+
+            var evt = await _evt.Get(id, currentUserId);
+
+            if (evt != null)
+            {
+                var vm = _mapper.Map<EventVM>(evt);
+                return Ok(vm);
+            }
+            return BadRequest("Woops...");
+        }
+
+
+
+
+
+
         [HttpPost("Create")]
         public async Task<EventCreatedVM> Create([FromBody] EventVM eventVM)
         {
@@ -125,68 +160,9 @@ namespace Teamy.Server.Controllers
             { throw; }
         }
 
-        [HttpGet("Upcoming")]
-        public async Task<IActionResult> Upcoming()
-        {
-            try
-            {
-                var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                if (currentUserId == null)
-                    return BadRequest("Please, authenticate!");
 
-                var events = _db.Events
-                                .Include(_ => _.Participants)
-                                .ThenInclude(z => z.User)
-                                .Include(_ => _.Polls)
-                                .ThenInclude(_ => _.Choices)
-                                .ThenInclude(_ => _.Answers)
-                                .Include(_ => _.Invites)
-                                .Include(_ => _.CoverImage)
-                                .Include(_ => _.CreatedBy)
-                                .Include(_ => _.ProposedDates.OrderBy(d => d.Date))
-                                .ThenInclude(_ => _.Votes)
-                                .ThenInclude(_ => _.User)
-                                .Where(_ => _.CreatedById == currentUserId || _.Participants.Any(p => p.UserId == currentUserId))
-                                .OrderBy(_ => _.EventDate)
-                                .ToList();
 
-                var vms = _mapper.Map<List<Event>, List<EventVM>>(events);
-                return Ok(vms);
-            }
-            catch (Exception ex)
-            { throw; }
-        }
-
-        [HttpGet("Get/{id}")]
-        public async Task<IActionResult> Get(Guid id)
-        {
-            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (currentUserId == null)
-                return BadRequest("Please, authenticate!");
-
-            try
-            {
-                var evt = await _db.Events
-                                .Include(_ => _.Participants)
-                                .ThenInclude(z => z.User)
-                                .Include(_ => _.Polls)
-                                .ThenInclude(_ => _.Choices)
-                                .ThenInclude(_ => _.Answers)
-                                .Include(_ => _.Invites)
-                                .Include(_ => _.CoverImage)
-                                .Include(_ => _.CreatedBy)
-                                .Include(_ => _.ProposedDates.OrderBy(d => d.Date))
-                                .ThenInclude(_ => _.Votes)
-                                .ThenInclude(_ => _.User)
-                                .Where(_ => _.CreatedById == currentUserId || _.Participants.Any(p => p.UserId == currentUserId))
-                                .FirstAsync(o => o.Id == id);
-
-                var vm = _mapper.Map<EventVM>(evt);
-                return Ok(vm);
-            }
-            catch (Exception ex)
-            { throw; }
-        }
+        
 
         [HttpGet("Invited")]
         public async Task<EventVM> Invited([FromBody] string inviteCode)
