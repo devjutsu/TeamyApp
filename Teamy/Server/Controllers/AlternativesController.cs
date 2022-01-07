@@ -45,11 +45,15 @@ namespace Teamy.Server.Controllers
                 return BadRequest("Bad event id");
 
             var newDate = _mapper.Map<ProposedDateVM, ProposedDate>(dateVM);
+            var result = await _evt.RecommendDate(newDate);
 
-            var entity = await _db.ProposedDates.AddAsync(newDate);
-            await _db.SaveChangesAsync();
-            await _hub.EventUpdated(entity.Entity.EventId);
-            return Ok(entity.Entity);
+            if (result != null)
+            {
+                var vm = _mapper.Map<ProposedDate, ProposedDateVM>(result);
+                return Ok(vm);
+            }
+            else
+                return BadRequest("Woops");
         }
 
         [HttpPost("UpdateRecommendedDate")]

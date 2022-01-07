@@ -8,6 +8,7 @@ namespace Teamy.Server.Logic
 {
     public interface IManageEvents 
     {
+        Task<ProposedDate> RecommendDate(ProposedDate newDate);
         Task<bool> DeleteRecommendedDate(Guid proposedDateId, string createdById);
         Task<ProposedDate> UpdateRecommendedDate(ProposedDate newDate);
     }
@@ -26,6 +27,14 @@ namespace Teamy.Server.Logic
             _db = db;
             _mapper = mapper;
             _hub = hub;
+        }
+
+        public async Task<ProposedDate> RecommendDate(ProposedDate newDate)
+        {
+            var entity = await _db.ProposedDates.AddAsync(newDate);
+            await _db.SaveChangesAsync();
+            await _hub.EventUpdated(entity.Entity.EventId);
+            return entity.Entity;
         }
 
         public async Task<ProposedDate> UpdateRecommendedDate(ProposedDate newDate)
