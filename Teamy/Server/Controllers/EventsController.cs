@@ -98,63 +98,23 @@ namespace Teamy.Server.Controllers
         }
 
 
-
-
-
-
-
-
-
-
         [HttpGet("Invited")]
         public async Task<EventVM> Invited([FromBody] string inviteCode)
         {
-            try
-            {
-                var evt = await _db.Events
-                                .Include(_ => _.Participants)
-                                .ThenInclude(z => z.User)
-                                .Include(_ => _.Polls)
-                                .ThenInclude(_ => _.Choices)
-                                .ThenInclude(_ => _.Answers)
-                                .Include(_ => _.Invites)
-                                .Include(_ => _.CoverImage)
-                                .Include(_ => _.CreatedBy)
-                                .Include(_ => _.Participants)
-                                .Include(_ => _.ProposedDates)
-                                .FirstAsync(o => o.Invites.Any(o => o.InviteCode == inviteCode));
+            var evt = await _evt.GetInvitedEvent(inviteCode);
 
-                var vm = _mapper.Map<EventVM>(evt);
-                return vm;
-            }
-            catch (Exception ex)
-            { throw; }
+            var vm = _mapper.Map<EventVM>(evt);
+            return vm;
         }
 
         [AllowAnonymous]
         [HttpPost("AnonInvited")]
         public async Task<EventVM> AnonInvited([FromBody] string inviteCode)
         {
-            try
-            {
-                var evt = await _db.Events
-                                .Include(_ => _.Participants)
-                                .ThenInclude(z => z.User)
-                                .Include(_ => _.Polls)
-                                .ThenInclude(_ => _.Choices)
-                                .ThenInclude(_ => _.Answers)
-                                .Include(_ => _.Invites)
-                                .Include(_ => _.CoverImage)
-                                .Include(_ => _.CreatedBy)
-                                .Include(_ => _.Participants)
-                                .Include(_ => _.ProposedDates)
-                                .FirstAsync(o => o.Invites.Any(o => o.InviteCode == inviteCode));
+                var evt = _evt.GetInvitedEvent(inviteCode);
 
                 var vm = _mapper.Map<EventVM>(evt);
                 return vm;
-            }
-            catch (Exception ex)
-            { throw; }
         }
 
         [HttpPost("Delete")]

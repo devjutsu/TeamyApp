@@ -12,10 +12,12 @@ namespace Teamy.Server.Logic
         Task<List<Event>> GetUpcoming(string userId);
         Task<Event> CreateEvent(Event evt, string userId, string? imageUrl);
         Task<Event> UpdateEvent(Event evt, string userId, string? imageUrl);
+        Task<Event> GetInvitedEvent(string inviteCode);
         Task<ProposedDate> RecommendDate(ProposedDate newDate);
         Task<bool> DeleteRecommendedDate(Guid proposedDateId, string createdById);
         Task<ProposedDate> UpdateRecommendedDate(ProposedDate newDate);
     }
+
     public class EventLogic : IManageEvents
     {
         ILogger<EventLogic> _logger { get; set; }
@@ -133,6 +135,24 @@ namespace Teamy.Server.Logic
             await _db.SaveChangesAsync();
             await _hub.EventUpdated(e.Entity.Id);
             return e.Entity;
+        }
+
+        public async Task<Event> GetInvitedEvent(string inviteCode)
+        {
+            var evt = await _db.Events
+                            .Include(_ => _.Participants)
+                            .ThenInclude(z => z.User)
+                            .Include(_ => _.Polls)
+                            .ThenInclude(_ => _.Choices)
+                            .ThenInclude(_ => _.Answers)
+                            .Include(_ => _.Invites)
+                            .Include(_ => _.CoverImage)
+                            .Include(_ => _.CreatedBy)
+                            .Include(_ => _.Participants)
+                            .Include(_ => _.ProposedDates)
+                            .FirstAsync(o => o.Invites.Any(o => o.InviteCode == inviteCode));
+
+            return evt;
         }
 
         public async Task<ProposedDate> RecommendDate(ProposedDate newDate)
