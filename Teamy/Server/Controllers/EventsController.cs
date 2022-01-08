@@ -84,71 +84,27 @@ namespace Teamy.Server.Controllers
             };
         }
 
-
-
-
-
-
-
         [HttpPost("Update")]
         public async Task<IActionResult> Update([FromBody] EventVM eventVM)
         {
-            try
-            {
-                var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                var displayName = (await _userManager.FindByIdAsync(currentUserId)).DisplayName;
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var displayName = (await _userManager.FindByIdAsync(currentUserId)).DisplayName;
+            var newEvent = _mapper.Map<Event>(eventVM);
 
-                var existingEvent = _db.Events
-                                    .Include(_ => _.Polls)
-                                    .ThenInclude(_ => _.Choices)
-                                    .ThenInclude(_ => _.Answers)
-                                    .Include(_ => _.CoverImage)
-                                    .Include(_ => _.ProposedDates)
-                                    .First(_ => _.Id == eventVM.Id);
 
-                var newEvent = _mapper.Map<Event>(eventVM);
-                if (existingEvent.CoverImage?.Url != eventVM.ImageUrl)
-                {
-                    if (eventVM.ImageUrl == null)
-                        existingEvent.CoverImageId = null;
-                    else
-                        existingEvent.CoverImage = new ImageModel() { Url = eventVM.ImageUrl };
-                }
-                existingEvent.Polls = newEvent.Polls;
+            var result = await _evt.UpdateEvent(newEvent, currentUserId, eventVM.ImageUrl);
 
-                foreach (var date in newEvent.ProposedDates)
-                {
-                    foreach (var vote in date.Votes)
-                    {
-                        vote.User = null;
-                    }
-                }
-                existingEvent.ProposedDates = newEvent.ProposedDates;
-
-                existingEvent.Title = eventVM.Title;
-                existingEvent.Description = eventVM.Description;
-                existingEvent.EventDate = eventVM.EventDate;
-                existingEvent.EventDateTo = eventVM.EventDateTo;
-                existingEvent.Where = eventVM.Where;
-                existingEvent.DateStatus = eventVM.DateStatus;
-                existingEvent.DateRecommendationType = eventVM.DateRecommendationType;
-
-                var existingProposedDates = _db.ProposedDates.Where(o => o.EventId == existingEvent.Id);
-                _db.ProposedDates.RemoveRange(existingProposedDates);
-
-                var e = _db.Events.Update(existingEvent);
-                //_db.ChangeTracker.Entries<AppUser>().ToList().ForEach(p => p.State = EntityState.Unchanged);
-                await _db.SaveChangesAsync();
-                await _hub.EventUpdated(e.Entity.Id);
-                return Ok($"{e.Entity.Id}");
-            }
-            catch (Exception ex)
-            { throw; }
+            return Ok($"{result.Id}");
         }
 
 
 
-        
+
+
+
+
+
+
 
         [HttpGet("Invited")]
         public async Task<EventVM> Invited([FromBody] string inviteCode)
@@ -227,6 +183,6 @@ namespace Teamy.Server.Controllers
             }
         }
 
-        
+
     }
 }

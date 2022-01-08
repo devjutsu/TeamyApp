@@ -11,6 +11,7 @@ namespace Teamy.Server.Logic
         Task<Event> Get(Guid id, string userId);
         Task<List<Event>> GetUpcoming(string userId);
         Task<Event> CreateEvent(Event evt, string userId, string? imageUrl);
+        Task<Event> UpdateEvent(Event evt, string userId, string? imageUrl);
         Task<ProposedDate> RecommendDate(ProposedDate newDate);
         Task<bool> DeleteRecommendedDate(Guid proposedDateId, string createdById);
         Task<ProposedDate> UpdateRecommendedDate(ProposedDate newDate);
@@ -87,6 +88,51 @@ namespace Teamy.Server.Logic
             var addedEvt = _db.Events.Add(evt);
             await _db.SaveChangesAsync();
             return addedEvt.Entity;
+        }
+
+        public async Task<Event> UpdateEvent(Event evt, string userId, string? imageUrl)
+        {
+            var existingEvent = _db.Events
+                                    .Include(_ => _.Polls)
+                                    .ThenInclude(_ => _.Choices)
+                                    .ThenInclude(_ => _.Answers)
+                                    .Include(_ => _.CoverImage)
+                                    .Include(_ => _.ProposedDates)
+                                    .First(_ => _.Id == evt.Id);
+
+            if (existingEvent.CoverImage?.Url != imageUrl)
+            {
+                if (imageUrl == null)
+                    existingEvent.CoverImageId = null;
+                else
+                    existingEvent.CoverImage = new ImageModel() { Url = imageUrl };
+            }
+            existingEvent.Polls = evt.Polls;
+
+            foreach (var date in evt.ProposedDates)
+            {
+                foreach (var vote in date.Votes)
+                {
+                    vote.User = null;
+                }
+            }
+            existingEvent.ProposedDates = evt.ProposedDates;
+
+            existingEvent.Title = evt.Title;
+            existingEvent.Description = evt.Description;
+            existingEvent.EventDate = evt.EventDate;
+            existingEvent.EventDateTo = evt.EventDateTo;
+            existingEvent.Where = evt.Where;
+            existingEvent.DateStatus = evt.DateStatus;
+            existingEvent.DateRecommendationType = evt.DateRecommendationType;
+
+            var existingProposedDates = _db.ProposedDates.Where(o => o.EventId == existingEvent.Id);
+            _db.ProposedDates.RemoveRange(existingProposedDates);
+            var e = _db.Events.Update(existingEvent);
+
+            await _db.SaveChangesAsync();
+            await _hub.EventUpdated(e.Entity.Id);
+            return e.Entity;
         }
 
         public async Task<ProposedDate> RecommendDate(ProposedDate newDate)
