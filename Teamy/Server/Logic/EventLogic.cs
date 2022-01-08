@@ -10,6 +10,7 @@ namespace Teamy.Server.Logic
     {
         Task<Event> Get(Guid id, string userId);
         Task<List<Event>> GetUpcoming(string userId);
+        Task<Event> CreateEvent(Event evt, string userId, string? imageUrl);
         Task<ProposedDate> RecommendDate(ProposedDate newDate);
         Task<bool> DeleteRecommendedDate(Guid proposedDateId, string createdById);
         Task<ProposedDate> UpdateRecommendedDate(ProposedDate newDate);
@@ -64,6 +65,29 @@ namespace Teamy.Server.Logic
                                 .OrderBy(_ => _.EventDate)
                                 .ToListAsync();
         }
+        
+        public async Task<Event> CreateEvent(Event evt, string userId, string? imageUrl)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                var user = await _db.Users.AddAsync(new AppUser()
+                {
+                    DisplayName = "anonymous"
+                });
+                userId = user.Entity.Id;
+                await _db.SaveChangesAsync();
+            }
+
+            evt.CreatedById = userId;
+            evt.CreatedBy = null;
+            evt.Invites = new List<Invite>() { new Invite() { InviteCode = GenerateInvite(), InvitedById = userId, Public = true } };
+            if (string.IsNullOrEmpty(imageUrl))
+                evt.CoverImage = null;
+
+            var addedEvt = _db.Events.Add(evt);
+            await _db.SaveChangesAsync();
+            return addedEvt.Entity;
+        }
 
         public async Task<ProposedDate> RecommendDate(ProposedDate newDate)
         {
@@ -106,6 +130,18 @@ namespace Teamy.Server.Logic
                 return true;
             }
             else return false;
+        }
+
+        private string GenerateInvite()
+        {
+            // use MlkPwgen
+            // PasswordGenerator.Generate(length: 10, allowed: Sets.Alphanumerics);
+            var newInvite = Guid.NewGuid().ToString().Substring(0, 8);
+            while (_db.Invites.Any(o => o.InviteCode == newInvite))
+            {
+                newInvite = Guid.NewGuid().ToString().Substring(0, 8);
+            }
+            return newInvite;
         }
     }
 

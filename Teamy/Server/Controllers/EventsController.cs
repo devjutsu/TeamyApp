@@ -68,41 +68,27 @@ namespace Teamy.Server.Controllers
             return BadRequest("Woops...");
         }
 
-
-
-
-
-
         [HttpPost("Create")]
         public async Task<EventCreatedVM> Create([FromBody] EventVM eventVM)
         {
             //var displayName = (await _userManager.FindByIdAsync(currentUserId)).DisplayName;
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? eventVM.CreatedById;
-            if (string.IsNullOrEmpty(currentUserId))
-            {
-                var user = await _db.Users.AddAsync(new AppUser()
-                {
-                    DisplayName = "anonymous"
-                });
-                currentUserId = user.Entity.Id;
-                await _db.SaveChangesAsync();
-            }
-
             var evt = _mapper.Map<Event>(eventVM);
-            evt.CreatedById = currentUserId;
-            evt.CreatedBy = null;
-            evt.Invites = new List<Invite>() { new Invite() { InviteCode = GenerateInvite(), InvitedById = currentUserId, Public = true } };
-            if (string.IsNullOrEmpty(eventVM.ImageUrl))
-                evt.CoverImage = null;
 
-            var addedEvt = _db.Events.Add(evt);
-            await _db.SaveChangesAsync();
+            var result = await _evt.CreateEvent(evt, currentUserId, eventVM.ImageUrl);
+
             return new EventCreatedVM()
             {
-                EventId = addedEvt.Entity.Id,
-                UserId = currentUserId,
+                EventId = result.Id,
+                UserId = result.CreatedById,
             };
         }
+
+
+
+
+
+
 
         [HttpPost("Update")]
         public async Task<IActionResult> Update([FromBody] EventVM eventVM)
@@ -241,16 +227,6 @@ namespace Teamy.Server.Controllers
             }
         }
 
-        private string GenerateInvite()
-        {
-            // use MlkPwgen
-            // PasswordGenerator.Generate(length: 10, allowed: Sets.Alphanumerics);
-            var newInvite = Guid.NewGuid().ToString().Substring(0, 8);
-            while (_db.Invites.Any(o => o.InviteCode == newInvite))
-            {
-                newInvite = Guid.NewGuid().ToString().Substring(0, 8);
-            }
-            return newInvite;
-        }
+        
     }
 }
