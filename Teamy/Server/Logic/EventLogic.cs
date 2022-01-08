@@ -13,6 +13,7 @@ namespace Teamy.Server.Logic
         Task<Event> CreateEvent(Event evt, string userId, string? imageUrl);
         Task<Event> UpdateEvent(Event evt, string userId, string? imageUrl);
         Task<Event> GetInvitedEvent(string inviteCode);
+        Task<int> DeleteEvent(Guid id, string userId);
         Task<ProposedDate> RecommendDate(ProposedDate newDate);
         Task<bool> DeleteRecommendedDate(Guid proposedDateId, string createdById);
         Task<ProposedDate> UpdateRecommendedDate(ProposedDate newDate);
@@ -153,6 +154,18 @@ namespace Teamy.Server.Logic
                             .FirstAsync(o => o.Invites.Any(o => o.InviteCode == inviteCode));
 
             return evt;
+        }
+
+        public async Task<int> DeleteEvent(Guid id, string userId)
+        {
+            var evt = await _db.Events
+                                    .Include(o => o.Participants)
+                                    .Where(o => o.Id == id && o.CreatedById == userId).FirstAsync();
+            _db.Participation.RemoveRange(evt.Participants);
+            _db.Events.Remove(evt);
+            var result = await _db.SaveChangesAsync();
+            await _hub.EventDeleted(id);
+            return result;
         }
 
         public async Task<ProposedDate> RecommendDate(ProposedDate newDate)

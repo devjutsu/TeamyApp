@@ -111,38 +111,23 @@ namespace Teamy.Server.Controllers
         [HttpPost("AnonInvited")]
         public async Task<EventVM> AnonInvited([FromBody] string inviteCode)
         {
-                var evt = _evt.GetInvitedEvent(inviteCode);
+            var evt = _evt.GetInvitedEvent(inviteCode);
 
-                var vm = _mapper.Map<EventVM>(evt);
-                return vm;
+            var vm = _mapper.Map<EventVM>(evt);
+            return vm;
         }
 
         [HttpPost("Delete")]
         public async Task<IActionResult> Delete([FromBody] Guid id)
         {
-            try
-            {
-                var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-                var evt = await _db.Events
-                                    .Include(o => o.Participants)
-                                    .Where(o => o.Id == id && o.CreatedById == currentUserId).FirstAsync();
-                _db.Participation.RemoveRange(evt.Participants);
-                _db.Events.Remove(evt);
-                var result = await _db.SaveChangesAsync();
-                await _hub.EventDeleted(id);
+            var result = await _evt.DeleteEvent(id, currentUserId);
 
-                if (result > 0)
-                    return Ok();
-                else
-                    return BadRequest();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            if (result > 0)
+                return Ok();
+            else
+                return BadRequest();
         }
-
-
     }
 }
